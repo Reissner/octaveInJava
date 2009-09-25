@@ -1,6 +1,12 @@
 syntax: glob
-java/*/build/
+
+# Eclipse
 java/*/eclipse-build/
-java/*/javaoctave.jar
 java/.metadata/
 java/eclipse/eclipse.log
+
+# Build
+java/*/build/
+java/javaoctave/javaoctave.jar
+java/jars/javaoctave/*.jar
+

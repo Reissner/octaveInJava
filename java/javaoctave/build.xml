@@ -1,92 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
- * Copyright 2007, 2008 Ange Optimization ApS
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
--->
+<project default="install" name="javaoctave">
 
-<project default="usage">
+  <!-- Named files -->
+  <property name="jar.name" value="javaoctave.jar"/>
 
-  <path id="classpath">
-    <fileset dir="lib">
-      <include name="*.jar"/>
-    </fileset>
-  </path>
-
-  <!-- Usage -->
-  <target name="usage" description="--> This help">
-    <java classname="org.apache.tools.ant.Main">
-      <arg value="-projecthelp" />
-      <arg value="-buildfile" />
-      <arg value="${ant.file}" />
-    </java>
-  </target>
-
-  <!-- Clean build directories -->
-  <target name="clean" description="--> Clean output dirs">
-    <delete dir="build" />
-    <delete file="javaoctave.jar" />
-  </target>
-
-  <!-- Build -->
-  <target name="build" description="--> Compile classes">
-    <mkdir dir="build" />
-    <mkdir dir="build/classes" />
-    <javac destdir="build/classes" debug="true" classpathref="classpath" >
-      <src path="src" />
-    </javac>
-  </target>
-
-  <!-- Install source -->
-  <target name="install.src">
-    <copy todir="build/classes">
-      <fileset dir="src" />
-    </copy>
-  </target>
-
-  <!-- JAR -->
-  <target name="jar" depends="build,install.src" description="--> Assemble jar">
-    <jar destfile="javaoctave.jar" basedir="build/classes"/>
-  </target>
-
-  <!-- Test -->
-  <target name="test" depends="jar" description="--> Run unit tests">
-    <mkdir dir="build/test" />
-    <javac destdir="build/test" debug="true" classpathref="classpath" >
-      <classpath location="javaoctave.jar" />
-      <src path="test" />
-    </javac>
-    <copy todir="build/test">
-      <fileset dir="test" />
-    </copy>
-    <junit>
-      <assertions> <enable/> </assertions>
-      <classpath>
-        <path refid="classpath"/>
-        <pathelement location="build/test" />
-        <pathelement location="javaoctave.jar" />
-        <pathelement location="." />
-      </classpath>
-      <batchtest fork="no" errorproperty="testbroken" failureproperty="testbroken">
-        <fileset dir="build/test">
-          <include name="**/*Test*.class"/>
-          <exclude name="**/*TestCase.class"/>
-          <exclude name="**/*$*.class"/>
-        </fileset>
-      </batchtest>
-      <formatter type="brief" usefile="false"/>
-    </junit>
-    <fail if="testbroken" message="Some tests are broken."/>
-  </target>
+  <!-- Common build instructions -->
+  <property name="jo.basedir" value="${basedir}/.."/>
+  <import file="${jo.basedir}/ant/jo-common.xml"/>
 
 </project>
