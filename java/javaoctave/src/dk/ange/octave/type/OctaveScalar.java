@@ -23,48 +23,24 @@ package dk.ange.octave.type;
  */
 public class OctaveScalar extends OctaveNdMatrix {
 
-    private double value;
-
     /**
      * @param value
      */
     public OctaveScalar(final double value) {
         super(1, 1);
-        this.value = value;
+        this.data[0] = value;
     }
 
     /**
      * @return Returns the value of this object
      */
     public double getDouble() {
-        return value;
-    }
-
-    @Override
-    public double get(final int... pos) {
-        if (pos2ind(pos) != 0) {
-            throw new IllegalArgumentException("Can only access pos 0 for OctaveScalar");
-        }
-        return value;
-    }
-
-    @Override
-    public void set(final double value, final int... pos) {
-        if (pos2ind(pos) != 0) {
-            throw new IllegalArgumentException("Can only access pos 0 for OctaveScalar");
-        }
-        this.value = value;
-    }
-
-    @Override
-    public double[] getData() {
-        // FIXME change value to use double[1] data
-        throw new UnsupportedOperationException("Not possible for OctaveScalar");
+        return data[0];
     }
 
     @Override
     public OctaveScalar makecopy() {
-        return new OctaveScalar(value);
+        return new OctaveScalar(data[0]);
     }
 
     /**
@@ -73,37 +49,13 @@ public class OctaveScalar extends OctaveNdMatrix {
      * @param value
      */
     public void set(final double value) {
-        this.value = value;
-    }
-
-    @Override
-    public int hashCode() {
-        final long temp = Double.doubleToLongBits(value);
-        return (int) (temp ^ (temp >>> 32));
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!super.equals(obj)) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final OctaveScalar other = (OctaveScalar) obj;
-        if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
-            return false;
-        }
-        return true;
+        this.data[0] = value;
     }
 
     @Override
     public String toString() {
         final String retValue = "OctaveScalar(" //
-                + this.value //
+                + this.data[0] //
                 + ")";
         return retValue;
     }
