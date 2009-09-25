@@ -1,3 +1,4 @@
+syntax: glob
 java/*/build/
 java/*/eclipse-build/
 java/*/javaoctave.jar
