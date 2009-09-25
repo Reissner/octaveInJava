@@ -23,7 +23,7 @@ import java.io.BufferedReader;
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.io.spi.OctaveDataReader;
-import dk.ange.octave.type.OctaveNdMatrix;
+import dk.ange.octave.type.OctaveMatrix;
 
 /**
  * The reader of matrix
@@ -36,7 +36,7 @@ public final class MatrixReader extends OctaveDataReader {
     }
 
     @Override
-    public OctaveNdMatrix read(final BufferedReader reader) {
+    public OctaveMatrix read(final BufferedReader reader) {
         String line;
         // 2d or 2d+?
         line = OctaveIO.readerReadLine(reader);
@@ -49,7 +49,7 @@ public final class MatrixReader extends OctaveDataReader {
         }
     }
 
-    private OctaveNdMatrix readVectorizedMatrix(final BufferedReader reader, final String ndimsLine) {
+    private OctaveMatrix readVectorizedMatrix(final BufferedReader reader, final String ndimsLine) {
         String line;
         final String NDIMS = "# ndims: ";
         line = ndimsLine;
@@ -72,10 +72,10 @@ public final class MatrixReader extends OctaveDataReader {
             line = OctaveIO.readerReadLine(reader);
             data[idx] = ScalarReader.parseDouble(line);
         }
-        return new OctaveNdMatrix(data, size);
+        return new OctaveMatrix(data, size);
     }
 
-    private OctaveNdMatrix read2dmatrix(final BufferedReader reader, final String rowsLine) {
+    private OctaveMatrix read2dmatrix(final BufferedReader reader, final String rowsLine) {
         String line;
         // # rows: 1
         line = rowsLine;
@@ -104,7 +104,7 @@ public final class MatrixReader extends OctaveDataReader {
                 data[(r - 1) + (c - 1) * rows] = ScalarReader.parseDouble(split[c]);
             }
         }
-        return new OctaveNdMatrix(data, size);
+        return new OctaveMatrix(data, size);
     }
 
     /**

@@ -15,7 +15,7 @@
  */
 package dk.ange.octave;
 
-import dk.ange.octave.type.OctaveNdMatrix;
+import dk.ange.octave.type.OctaveMatrix;
 import dk.ange.octave.type.OctaveScalar;
 
 /**
@@ -47,7 +47,7 @@ public class RunOctave {
 
     private static void test2() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final OctaveNdMatrix a = new OctaveNdMatrix(new double[] { 1, 2, 3, 4 }, 2, 2);
+        final OctaveMatrix a = new OctaveMatrix(new double[] { 1, 2, 3, 4 }, 2, 2);
         octave.put("a", a);
         final String func = "" //
                 + "function res = my_func(a)\n" //
@@ -56,7 +56,7 @@ public class RunOctave {
                 + "";
         octave.eval(func);
         octave.eval("b = my_func(a);");
-        final OctaveNdMatrix b = octave.get("b");
+        final OctaveMatrix b = octave.get("b");
         octave.close();
 
         System.out.println("Java: b(1,1) = " + b.get(1,1));

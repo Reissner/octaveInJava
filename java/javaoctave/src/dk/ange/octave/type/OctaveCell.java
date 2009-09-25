@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class OctaveCell extends OctaveType {
 
-    private static final OctaveType EMPTY_CELL = new OctaveNdMatrix(0, 0);
+    private static final OctaveType EMPTY_CELL = new OctaveMatrix(0, 0);
 
     private final ArrayList<ArrayList<OctaveType>> data;
 

@@ -20,7 +20,7 @@ import java.util.Arrays;
 /**
  * @author Kim Hansen
  */
-public class OctaveNdMatrix extends OctaveType {
+public class OctaveMatrix extends OctaveType {
 
     /**
      * The dimensions, rows x columns x depth x ....
@@ -49,7 +49,7 @@ public class OctaveNdMatrix extends OctaveType {
     /**
      * @param size
      */
-    public OctaveNdMatrix(final int... size) {
+    public OctaveMatrix(final int... size) {
         init(size);
         data = new double[product(size)];
     }
@@ -85,7 +85,7 @@ public class OctaveNdMatrix extends OctaveType {
      * @param data
      * @param size
      */
-    public OctaveNdMatrix(final double[] data, final int... size) {
+    public OctaveMatrix(final double[] data, final int... size) {
         init(size);
         if (product(size) > data.length) {
             final StringBuilder text = new StringBuilder();
@@ -120,8 +120,8 @@ public class OctaveNdMatrix extends OctaveType {
     }
 
     @Override
-    public OctaveNdMatrix makecopy() {
-        return new OctaveNdMatrix(data, size);
+    public OctaveMatrix makecopy() {
+        return new OctaveMatrix(data, size);
     }
 
     /**
@@ -255,7 +255,7 @@ public class OctaveNdMatrix extends OctaveType {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final OctaveNdMatrix other = (OctaveNdMatrix) obj;
+        final OctaveMatrix other = (OctaveMatrix) obj;
         if (!Arrays.equals(size, other.size)) {
             return false;
         }

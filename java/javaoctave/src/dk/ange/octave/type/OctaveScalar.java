@@ -21,7 +21,7 @@ package dk.ange.octave.type;
 /**
  * Scalar that inherits from 1x1 matrix
  */
-public class OctaveScalar extends OctaveNdMatrix {
+public class OctaveScalar extends OctaveMatrix {
 
     /**
      * @param value

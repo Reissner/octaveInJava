@@ -22,33 +22,33 @@ import java.io.IOException;
 import java.io.Writer;
 
 import dk.ange.octave.io.spi.OctaveDataWriter;
-import dk.ange.octave.type.OctaveNdMatrix;
+import dk.ange.octave.type.OctaveMatrix;
 import dk.ange.octave.type.OctaveType;
 
 /**
- * The writer of OctaveNdMatrix
+ * The writer of OctaveMatrix
  */
 public final class MatrixWriter extends OctaveDataWriter {
 
     @Override
     public Class<? extends OctaveType> javaType() {
-        return OctaveNdMatrix.class;
+        return OctaveMatrix.class;
     }
 
     @Override
     public void write(final Writer writer, final OctaveType octaveType) throws IOException {
-        final OctaveNdMatrix octaveNdMatrix = (OctaveNdMatrix) octaveType;
+        final OctaveMatrix octaveMatrix = (OctaveMatrix) octaveType;
         writer.write("# type: matrix\n");
-        if (octaveNdMatrix.getSize().length > 2) {
-            saveDataVectorized(writer, octaveNdMatrix);
+        if (octaveMatrix.getSize().length > 2) {
+            saveDataVectorized(writer, octaveMatrix);
         } else {
-            saveData2d(writer, octaveNdMatrix);
+            saveData2d(writer, octaveMatrix);
         }
     }
 
-    private void saveData2d(final Writer writer, final OctaveNdMatrix octaveNdMatrix) throws IOException {
-        final int[] size = octaveNdMatrix.getSize();
-        final double[] data = octaveNdMatrix.getData();
+    private void saveData2d(final Writer writer, final OctaveMatrix octaveMatrix) throws IOException {
+        final int[] size = octaveMatrix.getSize();
+        final double[] data = octaveMatrix.getData();
         final int nrows = size[0];
         final int ncols = size.length > 1 ? size[1] : 1;
         writer.write("# rows: " + nrows + "\n# columns: " + ncols + "\n");
@@ -61,9 +61,9 @@ public final class MatrixWriter extends OctaveDataWriter {
         writer.write("\n");
     }
 
-    private void saveDataVectorized(final Writer writer, final OctaveNdMatrix octaveNdMatrix) throws IOException {
-        final int[] size = octaveNdMatrix.getSize();
-        final double[] data = octaveNdMatrix.getData();
+    private void saveDataVectorized(final Writer writer, final OctaveMatrix octaveMatrix) throws IOException {
+        final int[] size = octaveMatrix.getSize();
+        final double[] data = octaveMatrix.getData();
         writer.write("# ndims: " + size.length + "\n");
         for (final int sdim : size) {
             writer.write(" " + sdim);

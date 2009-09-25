@@ -16,14 +16,16 @@
 package dk.ange.octave.io.impl;
 
 import java.io.StringWriter;
+import java.util.TreeMap;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.type.OctaveNdMatrix;
+import dk.ange.octave.type.OctaveMatrix;
 import dk.ange.octave.type.OctaveScalar;
+import dk.ange.octave.type.OctaveType;
 
 /**
  * @author Kim Hansen
@@ -34,7 +36,7 @@ public class TestOctaveMatrix extends TestCase {
      * @throws Exception
      */
     public void testConstructor() throws Exception {
-        final OctaveNdMatrix matrix = new OctaveNdMatrix(0, 0);
+        final OctaveMatrix matrix = new OctaveMatrix(0, 0);
         Assert.assertEquals(0, matrix.rows());
         Assert.assertEquals(0, matrix.columns());
         Assert.assertEquals("" + //
@@ -51,7 +53,7 @@ public class TestOctaveMatrix extends TestCase {
      */
     public void testConstructorMatrix() throws Exception {
         final double[] numbers = { 1, 2, 3, 4, 5, 6 };
-        final OctaveNdMatrix matrix = new OctaveNdMatrix(numbers, 2, 3);
+        final OctaveMatrix matrix = new OctaveMatrix(numbers, 2, 3);
         Assert.assertEquals(2, matrix.rows());
         Assert.assertEquals(3, matrix.columns());
         Assert.assertEquals("" + //
@@ -68,7 +70,7 @@ public class TestOctaveMatrix extends TestCase {
      * @throws Exception
      */
     public void testConstructorIntInt() throws Exception {
-        final OctaveNdMatrix matrix = new OctaveNdMatrix(2, 3);
+        final OctaveMatrix matrix = new OctaveMatrix(2, 3);
         Assert.assertEquals(2, matrix.rows());
         Assert.assertEquals(3, matrix.columns());
         Assert.assertEquals("" + //
@@ -112,7 +114,7 @@ public class TestOctaveMatrix extends TestCase {
      * @throws Exception
      */
     public void testGrowth() throws Exception {
-        final OctaveNdMatrix matrix = new OctaveNdMatrix(0, 0);
+        final OctaveMatrix matrix = new OctaveMatrix(0, 0);
         Assert.assertEquals(0, matrix.rows());
         Assert.assertEquals(0, matrix.columns());
         Assert.assertEquals("" + //
@@ -144,7 +146,7 @@ public class TestOctaveMatrix extends TestCase {
                 " 3.0\n\n" //
         , OctaveIO.toText(matrix, "matrix"));
 
-        final OctaveNdMatrix matrix2 = new OctaveNdMatrix(0, 0);
+        final OctaveMatrix matrix2 = new OctaveMatrix(0, 0);
         matrix2.set(3.0, 1, 3);
         Assert.assertEquals("" + //
                 "# name: matrix\n" + //
@@ -162,7 +164,7 @@ public class TestOctaveMatrix extends TestCase {
     public void testOctaveGet() throws Exception {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("m=[1 2;3 4];");
-        final OctaveNdMatrix m = octave.get("m");
+        final OctaveMatrix m = octave.get("m");
         Assert.assertEquals("" + //
                 "# name: m\n" + //
                 "# type: matrix\n" + //
@@ -181,14 +183,14 @@ public class TestOctaveMatrix extends TestCase {
     public void testOctaveSetExecGet() throws Exception {
         final double[] numbers = { 1, 2, 3, 4, 5, 6 };
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final OctaveNdMatrix in = new OctaveNdMatrix(numbers, 2, 3);
+        final OctaveMatrix in = new OctaveMatrix(numbers, 2, 3);
         octave.put("in", in);
         octave.eval("out=in;");
-        final OctaveNdMatrix out = octave.get("out");
+        final OctaveMatrix out = octave.get("out");
         Assert.assertEquals(OctaveIO.toText(in), OctaveIO.toText(out));
         octave.eval("slicerow=in(2,:); slicecol=in(:,2);");
-        final OctaveNdMatrix slicerow = octave.get("slicerow");
-        final OctaveNdMatrix slicecol = octave.get("slicecol");
+        final OctaveMatrix slicerow = octave.get("slicerow");
+        final OctaveMatrix slicecol = octave.get("slicecol");
         assertEquals(2.0, slicerow.get(1, 1));
         assertEquals(4.0, slicerow.get(1, 2));
         assertEquals(6.0, slicerow.get(1, 3));
@@ -214,7 +216,7 @@ public class TestOctaveMatrix extends TestCase {
         octave.eval("xnan=[NaN 0];");
         ok = octave.get("ok");
         assertEquals(okOne, ok);
-        final OctaveNdMatrix xnan = octave.get("xnan");
+        final OctaveMatrix xnan = octave.get("xnan");
         assertEquals(Double.NaN, xnan.get(1, 1));
         assertEquals(Double.valueOf(0), xnan.get(1, 2));
         ok = octave.get("ok");
@@ -223,7 +225,7 @@ public class TestOctaveMatrix extends TestCase {
         octave.eval("xinf=[Inf -Inf];");
         ok = octave.get("ok");
         assertEquals(okOne, ok);
-        final OctaveNdMatrix xinf = octave.get("xinf");
+        final OctaveMatrix xinf = octave.get("xinf");
         assertEquals(Double.POSITIVE_INFINITY, xinf.get(1, 1));
         assertEquals(Double.NEGATIVE_INFINITY, xinf.get(1, 2));
         ok = octave.get("ok");
@@ -232,6 +234,123 @@ public class TestOctaveMatrix extends TestCase {
         octave.close();
         stderr.close();
         assertEquals("", stderr.toString()); // No warning when saving matrix with NaN/Inf
+    }
+
+    /**
+     * Test
+     */
+    public void test3dMatrix() {
+        final OctaveMatrix matrix3d = new OctaveMatrix(3, 4, 2);
+        matrix3d.set(42.0, 1, 3, 2);
+        matrix3d.set(-1.0, 3, 1, 1);
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        octave.put("matrix3d", matrix3d);
+        octave.eval("x1 = matrix3d(:,:,1);");
+        octave.eval("x2 = matrix3d(:,:,2);");
+        octave.eval("x3 = matrix3d(:,3,:);");
+        octave.eval("x4 = matrix3d(3,:,:);");
+        final OctaveMatrix x1 = octave.get("x1");
+        final OctaveMatrix x2 = octave.get("x2");
+        final OctaveMatrix x3 = octave.get("x3");
+        final OctaveMatrix x4 = octave.get("x4");
+        octave.close();
+        assertEquals(0.0, x1.get(1, 3));
+        assertEquals(-1.0, x1.get(3, 1));
+        assertEquals(42.0, x2.get(1, 3));
+        assertEquals(0.0, x2.get(3, 1));
+        assertEquals(42.0, x3.get(1, 1, 2));
+        assertEquals(-1.0, x4.get(1, 1, 1));
+    }
+
+    /** Test */
+    public void testNdMatrix() {
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        final TreeMap<String, OctaveType> vars = new TreeMap<String, OctaveType>();
+        final double[] bigdata = new double[2 * 3 * 4];
+        for (int idx = 0; idx < bigdata.length; idx++) {
+            bigdata[idx] = idx + 1.0;
+        }
+        final double[] data2d = { 1.0, 2.0, 3.0, 5.0, 8.0, 13.0 };
+        final double[] datascalar = { 42.0 };
+        vars.put("bigmatrix", new OctaveMatrix(bigdata, 1, 2, 3, 4));
+        vars.put("matrix2d", new OctaveMatrix(data2d, 2, 3));
+        vars.put("matrixscalar", new OctaveMatrix(datascalar, 1, 1));
+        vars.put("matrixzero", new OctaveMatrix(0, 0, 0, 0));
+        vars.put("matrixzero2d", new OctaveMatrix(0, 0));
+        octave.putAll(vars);
+        final OctaveMatrix matrixzero = octave.get("matrixzero");
+        final OctaveMatrix matrix2d = octave.get("matrix2d");
+        final OctaveMatrix bigmatrix = octave.get("bigmatrix");
+        final OctaveMatrix matrixzero2d = octave.get("matrixzero2d");
+        final OctaveMatrix matrixscalar = octave.get("matrixscalar");
+        assertEquals(matrixzero, vars.get("matrixzero"));
+        assertEquals(matrixzero2d, vars.get("matrixzero2d"));
+        assertEquals(matrixscalar, vars.get("matrixscalar"));
+        assertEquals(matrix2d, vars.get("matrix2d"));
+        assertEquals(bigmatrix, vars.get("bigmatrix"));
+        octave.close();
+
+        assertEquals("" + //
+                "# name: matrixzero2d\n" + //
+                "# type: matrix\n" + //
+                "# rows: 0\n" + //
+                "# columns: 0\n\n" //
+        , OctaveIO.toText(matrixzero2d, "matrixzero2d"));
+
+        assertEquals("" + //
+                "# name: matrixzero\n" + //
+                "# type: matrix\n" + //
+                "# ndims: 4\n" + //
+                " 0 0 0 0\n\n" // 
+        , OctaveIO.toText(matrixzero, "matrixzero"));
+
+        assertEquals("" + //
+                "# name: matrixscalar\n" + //
+                "# type: matrix\n" + //
+                "# rows: 1\n" + //
+                "# columns: 1\n" + //
+                " 42.0\n\n" //
+        , OctaveIO.toText(matrixscalar, "matrixscalar"));
+
+        assertEquals("" + //
+                "# name: matrix2d\n" + //
+                "# type: matrix\n" + //
+                "# rows: 2\n" + //
+                "# columns: 3\n" + //
+                " 1.0 3.0 8.0\n" + //
+                " 2.0 5.0 13.0\n\n" //
+        , OctaveIO.toText(matrix2d, "matrix2d"));
+
+        assertEquals("" + //
+                "# name: bigmatrix\n" + //
+                "# type: matrix\n" + //
+                "# ndims: 4\n" + //
+                " 1 2 3 4\n" + //
+                " 1.0\n" + //
+                " 2.0\n" + //
+                " 3.0\n" + //
+                " 4.0\n" + //
+                " 5.0\n" + //
+                " 6.0\n" + //
+                " 7.0\n" + //
+                " 8.0\n" + //
+                " 9.0\n" + //
+                " 10.0\n" + //
+                " 11.0\n" + //
+                " 12.0\n" + //
+                " 13.0\n" + //
+                " 14.0\n" + //
+                " 15.0\n" + //
+                " 16.0\n" + //
+                " 17.0\n" + //
+                " 18.0\n" + //
+                " 19.0\n" + //
+                " 20.0\n" + //
+                " 21.0\n" + //
+                " 22.0\n" + //
+                " 23.0\n" + //
+                " 24.0\n\n" //
+        , OctaveIO.toText(bigmatrix, "bigmatrix"));
     }
 
 }
