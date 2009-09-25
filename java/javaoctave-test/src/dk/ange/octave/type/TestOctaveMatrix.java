@@ -15,59 +15,12 @@
  */
 package dk.ange.octave.type;
 
-import dk.ange.octave.io.OctaveIO;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
  * @author Kim Hansen
  */
 public class TestOctaveMatrix extends TestCase {
-
-    /**
-     * Test
-     */
-    public void testConstructor() {
-        final OctaveMatrix matrix = new OctaveMatrix(0, 0, 0);
-        Assert.assertEquals("# name: matrix3d\n# type: matrix\n# ndims: 3\n 0 0 0\n\n", OctaveIO.toText(matrix,
-                "matrix3d"));
-    }
-
-    /**
-     * Test
-     */
-    public void testConstructorIntIntInt() {
-        final OctaveMatrix matrix = new OctaveMatrix(3, 4, 2);
-        Assert.assertEquals("" //
-                + "# name: matrix3d\n" //
-                + "# type: matrix\n" //
-                + "# ndims: 3\n" //
-                + " 3 4 2\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + "\n", OctaveIO.toText(matrix, "matrix3d"));
-        matrix.set(42.0, 1, 3, 2);
-        Assert.assertEquals("" //
-                + "# name: matrix3d\n" //
-                + "# type: matrix\n" //
-                + "# ndims: 3\n" //
-                + " 3 4 2\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 42.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + "\n", OctaveIO.toText(matrix, "matrix3d"));
-    }
 
     /**
      */
