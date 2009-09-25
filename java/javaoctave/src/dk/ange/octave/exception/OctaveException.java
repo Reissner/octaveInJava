@@ -21,9 +21,8 @@ package dk.ange.octave.exception;
 /**
  * Base exception for the JavaOctave project
  */
+@SuppressWarnings("serial")
 public abstract class OctaveException extends RuntimeException {
-
-    private static final long serialVersionUID = 1L;
 
     /**
      * Constructor inherited from RuntimeException

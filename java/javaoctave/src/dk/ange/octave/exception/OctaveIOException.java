@@ -21,9 +21,8 @@ package dk.ange.octave.exception;
 /**
  * Exception thrown when IO errors happen, this will most likely be cause by the octave process dieng
  */
+@SuppressWarnings("serial")
 public class OctaveIOException extends OctaveException {
-
-    private static final long serialVersionUID = -8820726973792999539L;
 
     /**
      * Constructor inherited from OctaveException

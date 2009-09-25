@@ -22,8 +22,6 @@ import java.util.Arrays;
  */
 public class OctaveNdMatrix extends OctaveType {
 
-    private static final long serialVersionUID = 4697636627793706177L;
-
     /**
      * The dimensions, rows x columns x depth x ....
      */

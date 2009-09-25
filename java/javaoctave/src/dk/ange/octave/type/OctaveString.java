@@ -24,8 +24,6 @@ package dk.ange.octave.type;
  */
 public class OctaveString extends OctaveType {
 
-    private static final long serialVersionUID = 7228885699924118810L;
-
     private String value;
 
     /**

@@ -21,9 +21,8 @@ package dk.ange.octave.exception;
 /**
  * Exception thrown when parsing of the output from octave fails
  */
+@SuppressWarnings("serial")
 public class OctaveParseException extends OctaveException {
-
-    private static final long serialVersionUID = 427942027484712828L;
 
     /**
      * Constructor inherited from OctaveException

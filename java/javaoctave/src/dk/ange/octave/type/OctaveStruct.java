@@ -27,8 +27,6 @@ import java.util.Map;
  */
 public class OctaveStruct extends OctaveType {
 
-    private static final long serialVersionUID = 430390185317050230L;
-
     private final Map<String, OctaveType> data;
 
     /**

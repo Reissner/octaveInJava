@@ -21,9 +21,8 @@ package dk.ange.octave.exception;
 /**
  * Exception thrown when the internal state of the Octave object is broken
  */
+@SuppressWarnings("serial")
 public class OctaveStateException extends OctaveException {
-
-    private static final long serialVersionUID = 3900418745562546024L;
 
     /**
      * Constructor inherited from OctaveException

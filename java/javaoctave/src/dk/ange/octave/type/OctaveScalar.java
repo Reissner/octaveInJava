@@ -23,8 +23,6 @@ package dk.ange.octave.type;
  */
 public class OctaveScalar extends OctaveNdMatrix {
 
-    private static final long serialVersionUID = 2221234552189760358L;
-
     private double value;
 
     /**

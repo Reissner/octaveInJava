@@ -21,9 +21,8 @@ package dk.ange.octave.exception;
 /**
  * Exception thrown when a cast fails inside the Octave object
  */
+@SuppressWarnings("serial")
 public class OctaveClassCastException extends OctaveException {
-
-    private static final long serialVersionUID = -3220354511039186384L;
 
     /**
      * Constructor inherited from OctaveException
