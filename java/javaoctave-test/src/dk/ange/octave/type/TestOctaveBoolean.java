@@ -15,6 +15,7 @@
  */
 package dk.ange.octave.type;
 
+import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
 import junit.framework.TestCase;
 
 /**
@@ -140,16 +141,15 @@ public class TestOctaveBoolean extends TestCase {
         assertTrue(matrix.getData().length >= 4);
     }
 
-    /**
-     */
+    /** Test Performance of Resize */
     public void testPerformance() {
-        /*
-         * TODO Make allowedTime depended on Cobertura
-         * 
-         * If Cobertura is enabled we need 1500ms, if not we can finish in 500ms.
-         */
-        long allowedTime = 1500;
         OctaveBoolean matrix = new OctaveBoolean(30, 0);
+        final long allowedTime;
+        if (matrix instanceof HasBeenInstrumented) {
+            allowedTime = 1800;
+        } else {
+            allowedTime = 300;
+        }
         long t = System.currentTimeMillis();
         // 4125 was the number of containers in a real job.
         for (int pos = 1; pos <= 4125; ++pos) {
@@ -158,13 +158,13 @@ public class TestOctaveBoolean extends TestCase {
         }
         long timeused = System.currentTimeMillis() - t;
         if (timeused > allowedTime) {
-            fail("Performance test didn't finish in " + allowedTime + "s (used " + timeused + "ms)");
+            fail("Performance test didn't finish in " + allowedTime + "ms (used " + timeused + "ms)");
         }
 
         matrix = new OctaveBoolean(0, 30);
         t = System.currentTimeMillis();
-        // 700 is just some random number
-        for (int pos = 1; pos <= 700; ++pos) {
+        // 1000 is just some random number
+        for (int pos = 1; pos <= 1000; ++pos) {
             matrix.set(true, pos, 1);
             matrix.set(true, pos, 30);
         }

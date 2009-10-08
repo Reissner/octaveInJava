@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="src" path="/javaoctave"/>
+	<classpathentry kind="lib" path="lib/cobertura/cobertura.jar"/>
 	<classpathentry kind="output" path="eclipse-build/classes"/>
 </classpath>
