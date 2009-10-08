@@ -139,13 +139,11 @@ public class TestOctave extends TestCase {
     /**
      * Test advanced Constructor to Octave()
      * 
-     * TODO Detect path instead of having it hardcoded
-     * 
      * @throws Exception
      */
     public void testConstructor() throws Exception {
         final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
-        octaveEngineFactory.setOctaveProgram(new File("/usr/bin/octave"));
+        octaveEngineFactory.setOctaveProgram(new File("octave"));
         final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
         octave.setWriter(null);
         octave.eval("disp('testConstructor');");
