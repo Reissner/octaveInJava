@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,50 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @author Kim Hansen
- */
 package dk.ange.octave.exception;
+
+import dk.ange.octave.type.OctaveType;
 
 /**
  * Exception thrown when a cast fails inside the Octave object
  */
-@SuppressWarnings("serial")
-public class OctaveClassCastException extends OctaveException {
+public class OctaveClassCastException extends OctaveRecoverableException {
+
+    private final OctaveType octaveType;
 
     /**
-     * Constructor inherited from OctaveException
+     * @param cause 
+     * @param octaveType 
      */
-    public OctaveClassCastException() {
-        // Do nothing
-    }
-
-    /**
-     * Constructor inherited from OctaveException
-     * 
-     * @param message
-     */
-    public OctaveClassCastException(final String message) {
-        super(message);
-    }
-
-    /**
-     * Constructor inherited from OctaveException
-     * 
-     * @param cause
-     */
-    public OctaveClassCastException(final Throwable cause) {
+    public OctaveClassCastException(ClassCastException cause, OctaveType octaveType) {
         super(cause);
+        this.octaveType =octaveType;
     }
 
     /**
-     * Constructor inherited from OctaveException
-     * 
-     * @param message
-     * @param cause
+     * @return the octaveType
      */
-    public OctaveClassCastException(final String message, final Throwable cause) {
-        super(message, cause);
+    public OctaveType getOctaveType() {
+        return octaveType;
     }
 
 }

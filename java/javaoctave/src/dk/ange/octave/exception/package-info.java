@@ -16,3 +16,13 @@ package dk.ange.octave.exception;
  * The reason that it could be nice to distinguish between the different types 
  * of error is that the user error could be recoverable in some cases.
  */
+/*-
+ * OctaveException
+ *   OctaveRecoverableException
+ *     OctaveClassCastException
+ *     OctaveParseException
+ *     OctaveVarNotFoundException TODO (returns null now)
+ *     OctaveUnknownVarTypeException TODO (use parse exception for now)
+ *   OctaveNonrecoverableException
+ *     OctaveIOException
+ */

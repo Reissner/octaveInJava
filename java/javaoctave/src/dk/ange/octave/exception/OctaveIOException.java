@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,47 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @author Kim Hansen
- */
 package dk.ange.octave.exception;
 
 /**
- * Exception thrown when IO errors happen, this will most likely be cause by the octave process dieng
+ * Exception thrown when IO errors happen, this will most likely be cause by the octave process dying
  */
-@SuppressWarnings("serial")
-public class OctaveIOException extends OctaveException {
+public class OctaveIOException extends OctaveNonrecoverableException {
 
     /**
-     * Constructor inherited from OctaveException
+     * Constructor
+     * 
+     * @see Throwable
      */
     public OctaveIOException() {
         // Do nothing
     }
 
     /**
-     * Constructor inherited from OctaveException
+     * Constructor
      * 
      * @param message
+     * @see Throwable
      */
     public OctaveIOException(final String message) {
         super(message);
     }
 
     /**
-     * Constructor inherited from OctaveException
+     * Constructor
      * 
      * @param cause
+     * @see Throwable
      */
     public OctaveIOException(final Throwable cause) {
         super(cause);
     }
 
     /**
-     * Constructor inherited from OctaveException
+     * Constructor
      * 
      * @param message
      * @param cause
+     * @see Throwable
      */
     public OctaveIOException(final String message, final Throwable cause) {
         super(message, cause);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007, 2008 Ange Optimization ApS
+ * Copyright 2007, 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 import dk.ange.octave.exception.OctaveException;
 
 /**
- * @author Kim Hansen
+ * Test
  */
 public class TestOctaveErrors extends TestCase {
 

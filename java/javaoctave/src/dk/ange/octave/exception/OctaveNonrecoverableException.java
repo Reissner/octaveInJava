@@ -13,49 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @author Kim Hansen
- */
 package dk.ange.octave.exception;
 
 /**
- * Exception thrown when the internal state of the Octave object is broken
+ * An exception in the Octave engine that did broke the octave process, any action on the Octave object now will cause a
+ * new OctaveNonrecoverableException.
  */
-@SuppressWarnings("serial")
-public class OctaveStateException extends OctaveException {
+public abstract class OctaveNonrecoverableException extends OctaveException {
 
     /**
-     * Constructor inherited from OctaveException
+     * Constructor
+     * 
+     * @see Throwable
      */
-    public OctaveStateException() {
+    public OctaveNonrecoverableException() {
         // Do nothing
     }
 
     /**
-     * Constructor inherited from OctaveException
+     * Constructor
      * 
      * @param message
+     * @see Throwable
      */
-    public OctaveStateException(final String message) {
+    public OctaveNonrecoverableException(final String message) {
         super(message);
     }
 
     /**
-     * Constructor inherited from OctaveException
+     * Constructor
      * 
      * @param cause
+     * @see Throwable
      */
-    public OctaveStateException(final Throwable cause) {
+    public OctaveNonrecoverableException(final Throwable cause) {
         super(cause);
     }
 
     /**
-     * Constructor inherited from OctaveException
+     * Constructor
      * 
      * @param message
      * @param cause
+     * @see Throwable
      */
-    public OctaveStateException(final String message, final Throwable cause) {
+    public OctaveNonrecoverableException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

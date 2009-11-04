@@ -1,5 +1,5 @@
 /*
- * Copyright 2008, 2009 Ange Optimization ApS
+ * Copyright 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,16 @@
 package dk.ange.octave.exception;
 
 /**
- * Exception thrown when parsing of the output from octave fails
+ * An exception in the Octave engine that did not break the octave process.
  */
-public class OctaveParseException extends OctaveRecoverableException {
+public abstract class OctaveRecoverableException extends OctaveException {
 
     /**
      * Constructor
      * 
      * @see Throwable
      */
-    public OctaveParseException() {
+    public OctaveRecoverableException() {
         // Do nothing
     }
 
@@ -35,7 +35,7 @@ public class OctaveParseException extends OctaveRecoverableException {
      * @param message
      * @see Throwable
      */
-    public OctaveParseException(final String message) {
+    public OctaveRecoverableException(final String message) {
         super(message);
     }
 
@@ -45,7 +45,7 @@ public class OctaveParseException extends OctaveRecoverableException {
      * @param cause
      * @see Throwable
      */
-    public OctaveParseException(final Throwable cause) {
+    public OctaveRecoverableException(final Throwable cause) {
         super(cause);
     }
 
@@ -56,7 +56,7 @@ public class OctaveParseException extends OctaveRecoverableException {
      * @param cause
      * @see Throwable
      */
-    public OctaveParseException(final String message, final Throwable cause) {
+    public OctaveRecoverableException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

@@ -77,7 +77,7 @@ Common targets:
     </depend>
     <javac destdir="${classes.dir}" debug="true" includeAntRuntime="false" source="1.5" target="1.5">
       <compilerarg value="-Xlint"/>
-      <compilerarg value="-Xlint:-path"/>
+      <compilerarg value="-Xlint:-path,-serial"/>
       <src path="${src.dir}"/>
       <classpath refid="pathid.lib.jars"/>
     </javac>

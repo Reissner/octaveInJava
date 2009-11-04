@@ -138,7 +138,7 @@ public final class OctaveExec {
             throw writerException;
         }
         if (readerException != null) {
-            // Only gets here when writerException==null, and in that case we don't expect the reader to be canceled 
+            // Only gets here when writerException==null, and in that case we don't expect the reader to be cancelled
             if (readerException instanceof CancellationException) {
                 log.error("Did not expect reader to be canceled", writerException);
             }

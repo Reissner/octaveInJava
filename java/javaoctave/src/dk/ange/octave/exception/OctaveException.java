@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,47 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @author Kim Hansen
- */
 package dk.ange.octave.exception;
 
 /**
- * Base exception for the JavaOctave project
+ * Base exception for the JavaOctave project. Handles the destroyed marker.
  */
-@SuppressWarnings("serial")
 public abstract class OctaveException extends RuntimeException {
 
     /**
-     * Constructor inherited from RuntimeException
+     * Constructor
+     * 
+     * @see Throwable
      */
     public OctaveException() {
         // Do nothing
     }
 
     /**
-     * Constructor inherited from RuntimeException
+     * Constructor
      * 
      * @param message
+     * @see Throwable
      */
     public OctaveException(final String message) {
         super(message);
     }
 
     /**
-     * Constructor inherited from RuntimeException
+     * Constructor
      * 
      * @param cause
+     * @see Throwable
      */
     public OctaveException(final Throwable cause) {
         super(cause);
     }
 
     /**
-     * Constructor inherited from RuntimeException
+     * Constructor
      * 
      * @param message
      * @param cause
+     * @see Throwable
      */
     public OctaveException(final String message, final Throwable cause) {
         super(message, cause);
