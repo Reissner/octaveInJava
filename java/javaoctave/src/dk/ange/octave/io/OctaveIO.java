@@ -61,11 +61,11 @@ public final class OctaveIO {
 
     /**
      * @param <T>
-     *                Type of return value
+     *            Type of return value
      * @param name
      * @return Returns the value of the variable from octave or null if the variable does not exist
      * @throws OctaveClassCastException
-     *                 if the value can not be cast to T
+     *             if the value can not be cast to T
      */
     @SuppressWarnings("unchecked")
     public <T extends OctaveType> T get(final String name) {
@@ -90,8 +90,14 @@ public final class OctaveIO {
         final StringWriter existResult = new StringWriter();
         octaveExec.eval(new ReaderWriteFunctor(new StringReader("printf(\"%d\", exist(\"" + name + "\",\"var\"));")),
                 new WriterReadFunctor(existResult));
-        final boolean varExists = "1".equals(existResult.toString());
-        return varExists;
+        final String s = existResult.toString();
+        if ("1".equals(s)) {
+            return true;
+        } else if ("0".equals(s)) {
+            return false;
+        } else {
+            throw new RuntimeException("Unexpected output '" + s + "'");
+        }
     }
 
     /**
