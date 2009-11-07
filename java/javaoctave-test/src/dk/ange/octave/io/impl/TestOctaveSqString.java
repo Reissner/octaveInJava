@@ -18,8 +18,9 @@ package dk.ange.octave.io.impl;
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
-import dk.ange.octave.exception.OctaveIOException;
 import dk.ange.octave.exception.OctaveParseException;
+import dk.ange.octave.exception.OctaveRecoverableException;
+import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
 import dk.ange.octave.type.OctaveType;
 
@@ -38,24 +39,22 @@ public class TestOctaveSqString extends TestCase {
         octave.close();
     }
 
-    /** Test */
+    /**
+     * Test that getting a string containing \ will throw a parse exception but that octave still will work after that
+     */
     public void testUnimplementedEscapeChar() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        octave.put("x", new OctaveScalar(1));
         octave.eval("st='\\\\';");
+        assertEquals(1, octave.<OctaveScalar> get("x").getDouble(), 0);
         try {
             octave.get("st");
             fail();
-        } catch (Exception e) {
-            // Expect exception
-            assertEquals(OctaveParseException.class, e.getClass());
+        } catch (final OctaveParseException e) {
+            assertTrue(OctaveRecoverableException.class.isInstance(e));
         }
-        try {
-            octave.close();
-            fail();
-        } catch (Exception e) {
-            // Expect exception
-            assertEquals(OctaveIOException.class, e.getClass());
-        }
+        assertEquals(1, octave.<OctaveScalar> get("x").getDouble(), 0);
+        octave.close();
     }
 
 }

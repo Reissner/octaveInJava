@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,9 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-/**
- * @author Kim Hansen
  */
 package dk.ange.octave.exec;
 
@@ -58,13 +55,14 @@ final class OctaveReaderCallable implements Callable<Void> {
             final String message = "IOException from ReadFunctor";
             log.debug(message, e);
             throw new OctaveIOException(message, e);
-        }
-        try {
-            reader.close();
-        } catch (final IOException e) {
-            final String message = "IOException during close";
-            log.debug(message, e);
-            throw new OctaveIOException(message, e);
+        } finally {
+            try {
+                reader.close();
+            } catch (final IOException e) {
+                final String message = "IOException during close";
+                log.debug(message, e);
+                throw new OctaveIOException(message, e);
+            }
         }
         return null;
     }

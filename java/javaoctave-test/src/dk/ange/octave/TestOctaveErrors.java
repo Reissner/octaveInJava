@@ -15,10 +15,14 @@
  */
 package dk.ange.octave;
 
+import java.io.IOException;
 import java.io.StringWriter;
 
 import junit.framework.TestCase;
 import dk.ange.octave.exception.OctaveException;
+import dk.ange.octave.exception.OctaveParseException;
+import dk.ange.octave.exception.OctaveRecoverableException;
+import dk.ange.octave.type.OctaveScalar;
 
 /**
  * Test
@@ -26,9 +30,9 @@ import dk.ange.octave.exception.OctaveException;
 public class TestOctaveErrors extends TestCase {
 
     /**
-     * @throws Exception
+     * @throws IOException
      */
-    public void testError() throws Exception {
+    public void testError() throws IOException {
         final StringWriter stdout = new StringWriter();
         final StringWriter stderr = new StringWriter();
         try {
@@ -50,12 +54,28 @@ public class TestOctaveErrors extends TestCase {
                 + "from octave to Java when there is an error in octave.", "error: testError()\n", stderr.toString());
     }
 
-    /**
-     * @throws Exception
-     */
-    public void testOk() throws Exception {
+    /** Test */
+    public void testOk() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("ok=1;");
+        octave.close();
+    }
+
+    /**
+     * Test that when an unknown type is read the OctaveParseException is thrown and the system will still work
+     */
+    public void testParseException() {
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        octave.put("x", new OctaveScalar(1));
+        octave.eval("y = 1+i;");
+        assertEquals(1, octave.<OctaveScalar> get("x").getDouble(), 0);
+        try {
+            octave.get("y");
+            fail();
+        } catch (final OctaveParseException e) {
+            assertTrue(OctaveRecoverableException.class.isInstance(e));
+        }
+        assertEquals(1, octave.<OctaveScalar> get("x").getDouble(), 0);
         octave.close();
     }
 
