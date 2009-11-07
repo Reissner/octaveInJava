@@ -36,8 +36,6 @@ package dk.ange.octave.exception;
  *   OctaveRecoverableException
  *     OctaveClassCastException
  *     OctaveParseException
- *     OctaveVarNotFoundException TODO (returns null now)
- *     OctaveUnknownVarTypeException TODO (use parse exception for now)
  *   OctaveNonrecoverableException
  *     OctaveIOException
  */
