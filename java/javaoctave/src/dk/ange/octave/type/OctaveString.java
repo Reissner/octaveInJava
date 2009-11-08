@@ -22,7 +22,7 @@ package dk.ange.octave.type;
  * http://www.octave.org/mailing-lists/octave-maintainers/2005/258
  * http://www.octave.org/octave-lists/archive/octave-maintainers.2005/msg00280.html
  */
-public class OctaveString extends OctaveType {
+public class OctaveString implements OctaveType {
 
     private String value;
 

@@ -20,7 +20,7 @@ import java.util.Arrays;
 /**
  * @author Kim Hansen
  */
-public class OctaveMatrix extends OctaveType {
+public class OctaveMatrix implements OctaveType {
 
     /**
      * The dimensions, rows x columns x depth x ....

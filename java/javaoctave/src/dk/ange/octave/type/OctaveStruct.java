@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * 1x1 struct
  */
-public class OctaveStruct extends OctaveType {
+public class OctaveStruct implements OctaveType {
 
     private final Map<String, OctaveType> data;
 
@@ -59,7 +59,15 @@ public class OctaveStruct extends OctaveType {
      * @return (shallow copy of) value for this key, or null if key isn't there.
      */
     public OctaveType get(final String key) {
-        return OctaveType.copy(data.get(key));
+        return copy(data.get(key));
+    }
+
+    /**
+     * @param type
+     * @return a (shallow) copy of type, or null or type is null
+     */
+    public static OctaveType copy(final OctaveType type) {
+        return (type != null) ? type.makecopy() : null;
     }
 
     /**

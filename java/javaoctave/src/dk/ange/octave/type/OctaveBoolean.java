@@ -20,7 +20,7 @@ import java.util.Arrays;
 /**
  * A Boolean matrix
  */
-public class OctaveBoolean extends OctaveType {
+public class OctaveBoolean implements OctaveType {
 
     /**
      * The dimensions, rows x columns x depth x ....

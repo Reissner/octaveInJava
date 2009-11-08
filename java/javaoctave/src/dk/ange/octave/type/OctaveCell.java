@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * 2d cells
  */
-public class OctaveCell extends OctaveType {
+public class OctaveCell implements OctaveType {
 
     private static final OctaveType EMPTY_CELL = new OctaveMatrix(0, 0);
 
@@ -90,7 +90,7 @@ public class OctaveCell extends OctaveType {
         if (column < 1 || column > columns) {
             throw new IndexOutOfBoundsException("column was " + column + " and must be between 1 and " + columns);
         }
-        return OctaveType.copy(data.get(row - 1).get(column - 1));
+        return OctaveStruct.copy(data.get(row - 1).get(column - 1));
     }
 
     /**

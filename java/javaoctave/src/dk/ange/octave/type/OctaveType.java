@@ -21,15 +21,7 @@ package dk.ange.octave.type;
 /**
  * Common interface for the octave types.
  */
-public abstract class OctaveType {
-
-    /**
-     * @param type
-     * @return a (shallow) copy of type, or null or type is null
-     */
-    public static OctaveType copy(final OctaveType type) {
-        return (type != null) ? type.makecopy() : null;
-    }
+public interface OctaveType {
 
     /**
      * @return a copy of this.
