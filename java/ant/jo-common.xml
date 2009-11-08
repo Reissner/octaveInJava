@@ -158,14 +158,16 @@ Common targets:
       <then>
         <!-- Run all junit tests using the instrumented source classes -->
         <junit fork="yes" forkmode="once">
+          <assertions> <enable/> </assertions>
           <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.ser.file}"/>
           <classpath>
             <fileset dir="${cobertura.instrument.dir}" includes="*.jar"/>
             <pathelement location="${classes.dir}"/>
+            <pathelement location="${src.dir}"/>
             <path refid="pathid.lib.jars"/>
             <fileset dir="${jo.lib.dir}/cobertura" includes="*.jar"/>
           </classpath>
-          <batchtest haltonfailure="on">
+          <batchtest errorproperty="testbroken" failureproperty="testbroken">
             <fileset dir="${classes.dir}">
               <include name="**/Test*.class"/>
               <exclude name="**/*$*.class"/>
@@ -173,6 +175,7 @@ Common targets:
           </batchtest>
           <formatter type="brief" usefile="false"/>
         </junit>
+        <fail if="testbroken" message="Tests failed"/>
         <touch file="${build.dir}/_test_run.stamp"/>
       </then>
     </if>
