@@ -126,7 +126,8 @@ Common targets:
   </target>
   <target name="_test_instrument" depends="_test_init">
     <dependset>
-      <srcfilelist    dir="${lib.dir}/javaoctave"       files="${test.jar.name}"/> <!-- TODO fixme??? -->
+      <!-- ${lib.dir}/javaoctave is where we install project jars -->
+      <srcfilelist    dir="${lib.dir}/javaoctave"       files="${test.jar.name}"/>
       <targetfilelist dir="${cobertura.instrument.dir}" files="${test.jar.name}"/>
     </dependset>
     <if>
@@ -137,7 +138,7 @@ Common targets:
         <!-- Create instrumented classes that report coverage to the file cobertura.ser -->
         <mkdir dir="${cobertura.instrument.dir}"/>
         <cobertura-instrument todir="${cobertura.instrument.dir}" datafile="${cobertura.ser.file}">
-          <fileset dir="${lib.dir}/javaoctave" includes="${test.jar.name}"/> <!-- TODO fixme??? -->
+          <fileset dir="${lib.dir}/javaoctave" includes="${test.jar.name}"/>
         </cobertura-instrument>
       </then>
     </if>
