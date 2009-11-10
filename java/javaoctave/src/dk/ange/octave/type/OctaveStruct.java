@@ -51,6 +51,9 @@ public class OctaveStruct implements OctaveType {
      * @param value
      */
     public void set(final String name, final OctaveType value) {
+        if (value == null) {
+            throw new NullPointerException("Can not set field to null");
+        }
         data.put(name, value);
     }
 
@@ -59,15 +62,7 @@ public class OctaveStruct implements OctaveType {
      * @return (shallow copy of) value for this key, or null if key isn't there.
      */
     public OctaveType get(final String key) {
-        return copy(data.get(key));
-    }
-
-    /**
-     * @param type
-     * @return a (shallow) copy of type, or null or type is null
-     */
-    public static OctaveType copy(final OctaveType type) {
-        return (type != null) ? type.shallowCopy() : null;
+        return data.get(key).shallowCopy();
     }
 
     /**
