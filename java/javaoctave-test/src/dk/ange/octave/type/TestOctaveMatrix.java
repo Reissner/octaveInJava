@@ -119,7 +119,7 @@ public class TestOctaveMatrix extends TestCase {
         for (int idx = 0; idx < data.length; idx++) {
             data[idx] = idx + 1.0;
         }
-        final OctaveMatrix matrix = (new OctaveMatrix(data, 2, 3, 4)).makecopy();
+        final OctaveMatrix matrix = (new OctaveMatrix(data, 2, 3, 4)).shallowCopy();
         double d = 1.0;
         for (int depth = 1; depth <= 4; depth++) {
             for (int column = 1; column <= 3; column++) {

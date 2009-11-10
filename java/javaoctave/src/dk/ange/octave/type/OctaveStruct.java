@@ -67,7 +67,7 @@ public class OctaveStruct implements OctaveType {
      * @return a (shallow) copy of type, or null or type is null
      */
     public static OctaveType copy(final OctaveType type) {
-        return (type != null) ? type.makecopy() : null;
+        return (type != null) ? type.shallowCopy() : null;
     }
 
     /**
@@ -78,7 +78,7 @@ public class OctaveStruct implements OctaveType {
     }
 
     @Override
-    public OctaveStruct makecopy() {
+    public OctaveStruct shallowCopy() {
         return new OctaveStruct(data);
     }
 

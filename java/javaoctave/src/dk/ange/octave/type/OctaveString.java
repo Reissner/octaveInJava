@@ -79,7 +79,7 @@ public class OctaveString implements OctaveType {
     }
 
     @Override
-    public OctaveString makecopy() {
+    public OctaveString shallowCopy() {
         return new OctaveString(value);
     }
 

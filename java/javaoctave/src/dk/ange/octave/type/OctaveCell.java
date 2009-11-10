@@ -68,14 +68,14 @@ public class OctaveCell extends GenericMatrix<OctaveType> implements OctaveType 
     public OctaveType get(final int... pos) {
         final OctaveType get = super.get(pos);
         if (get == null) {
-            return DEFAULT_VALUE.makecopy();
+            return DEFAULT_VALUE.shallowCopy();
         } else {
-            return get.makecopy();
+            return get.shallowCopy();
         }
     }
 
     @Override
-    public OctaveType makecopy() {
+    public OctaveType shallowCopy() {
         return new OctaveCell(data, size);
     }
 

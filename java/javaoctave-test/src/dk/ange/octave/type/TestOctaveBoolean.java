@@ -85,7 +85,7 @@ public class TestOctaveBoolean extends TestCase {
         for (int idx = 0; idx < data.length; idx++) {
             data[idx] = idx % 2 == 0;
         }
-        final OctaveBoolean matrix = (new OctaveBoolean(data, 2, 3, 4)).makecopy();
+        final OctaveBoolean matrix = (new OctaveBoolean(data, 2, 3, 4)).shallowCopy();
         boolean b = true;
         for (int depth = 1; depth <= 4; depth++) {
             for (int column = 1; column <= 3; column++) {

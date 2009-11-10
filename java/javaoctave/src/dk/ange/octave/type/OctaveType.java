@@ -16,24 +16,27 @@
 package dk.ange.octave.type;
 
 /**
- * Common interface for the octave types.
- * 
- * FIXME document how the shallow copying works
+ * Common interface for the octave objects.
  * 
  * FIXME auto cast on get in struct and cell
  * 
  * FIXME rename OctaveType to OctaveObject
  * 
- * FIXME create OctaveType that is the type of an OctaveObject
+ * FIXME create OctaveObjectType that is the type of an OctaveObject
  * 
- * FIXME Create a function that will return all known OctaveTypes
+ * FIXME Create a function that will return all known OctaveObjectTypes
  */
 public interface OctaveType {
 
     /**
-     * @return a copy of this.
+     * Make a shallow copy of this object.
+     * 
+     * In general when an {@link OctaveType} is returned from a getter, e.g. on {@link OctaveStruct} or
+     * {@link OctaveStruct}, a shallow copy is returned in order to follow the way octave behaves. This method is used
+     * to make that copy.
+     * 
+     * @return a shallow copy of this
      */
-    // FIXME Rename function to tell that it is a shallow copy
-    public abstract OctaveType makecopy();
+    public abstract OctaveType shallowCopy();
 
 }

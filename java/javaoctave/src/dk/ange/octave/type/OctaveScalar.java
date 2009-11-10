@@ -39,7 +39,7 @@ public class OctaveScalar extends OctaveMatrix {
     }
 
     @Override
-    public OctaveScalar makecopy() {
+    public OctaveScalar shallowCopy() {
         return new OctaveScalar(data[0]);
     }
 

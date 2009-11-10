@@ -42,7 +42,7 @@ public class OctaveMatrix extends DoubleMatrix implements OctaveType {
     }
 
     @Override
-    public OctaveMatrix makecopy() {
+    public OctaveMatrix shallowCopy() {
         return new OctaveMatrix(data, size);
     }
 
