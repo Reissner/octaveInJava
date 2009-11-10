@@ -1,5 +1,5 @@
 /*
- * Copyright 2007, 2008 Ange Optimization ApS
+ * Copyright 2007, 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import dk.ange.octave.type.OctaveStruct;
 import dk.ange.octave.type.OctaveType;
 
 /**
- * @author Kim Hansen
+ * Test
  */
 public class TestOctaveStruct extends TestCase {
 
@@ -56,8 +56,8 @@ public class TestOctaveStruct extends TestCase {
                 "42.0\n\n" // 
         , OctaveIO.toText(struct1, "mystruct"));
         final OctaveStruct struct2 = new OctaveStruct();
-        final OctaveCell octaveCell = new OctaveCell();
-        octaveCell.set(1, 1, new OctaveScalar(42));
+        final OctaveCell octaveCell = new OctaveCell(0, 0);
+        octaveCell.set(new OctaveScalar(42), 1, 1);
         struct2.set("mycell", octaveCell);
         Assert.assertEquals("" + //
                 "# name: mystruct\n" + //

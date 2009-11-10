@@ -17,13 +17,23 @@ package dk.ange.octave.type;
 
 /**
  * Common interface for the octave types.
+ * 
+ * FIXME document how the shallow copying works
+ * 
+ * FIXME auto cast on get in struct and cell
+ * 
+ * FIXME rename OctaveType to OctaveObject
+ * 
+ * FIXME create OctaveType that is the type of an OctaveObject
+ * 
+ * FIXME Create a function that will return all known OctaveTypes
  */
 public interface OctaveType {
 
     /**
      * @return a copy of this.
      */
-    // FIXME Use Cloneable, check why we had a shallow copy method
+    // FIXME Rename function to tell that it is a shallow copy
     public abstract OctaveType makecopy();
 
 }

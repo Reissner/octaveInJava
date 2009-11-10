@@ -18,153 +18,65 @@
  */
 package dk.ange.octave.type;
 
-import java.util.ArrayList;
+import dk.ange.octave.type.matrix.GenericMatrix;
 
 /**
- * 2d cells
+ * Nd cells
  */
-public class OctaveCell implements OctaveType {
+public class OctaveCell extends GenericMatrix<OctaveType> implements OctaveType {
 
-    private static final OctaveType EMPTY_CELL = new OctaveMatrix(0, 0);
-
-    private final ArrayList<ArrayList<OctaveType>> data;
-
-    private int rows;
-
-    private int columns;
+    private static final OctaveType DEFAULT_VALUE = new OctaveMatrix(0, 0);
 
     /**
-     * Create empty cell
-     */
-    public OctaveCell() {
-        data = new ArrayList<ArrayList<OctaveType>>();
-        rows = 0;
-        columns = 0;
-    }
-
-    /**
-     * Create cell of size rows x columns with empty cells
+     * Warn about usage of old constructor
      * 
-     * @param rows
-     * @param columns
+     * @deprecated use: new OctaveCell(0, 0)
      */
-    public OctaveCell(final int rows, final int columns) {
-        data = new ArrayList<ArrayList<OctaveType>>();
-        this.rows = 0;
-        this.columns = 0;
-        resize(rows, columns);
-    }
-
-    private OctaveCell(final int rows, final int columns, final ArrayList<ArrayList<OctaveType>> data) {
-        this.rows = rows;
-        this.columns = columns;
-        this.data = data;
-    }
-
-    private void resize(final int newRows, final int newColumns) {
-        while (newRows > rows) {
-            final ArrayList<OctaveType> newrow = new ArrayList<OctaveType>();
-            data.add(newrow);
-            for (int i = 0; i < columns; i++) {
-                newrow.add(EMPTY_CELL);
-            }
-            rows++;
-        }
-        while (newColumns > columns) {
-            for (final ArrayList<OctaveType> rowData : data) {
-                rowData.add(EMPTY_CELL);
-            }
-            columns++;
-        }
+    @Deprecated
+    public OctaveCell() {
+        super();
     }
 
     /**
-     * @param row
-     * @param column
-     * @return (shallow copyof ) value for row and column. Empty cells are 0x0 matrixes.
+     * @param size
      */
-    public OctaveType get(final int row, final int column) {
-        if (row < 1 || row > rows) {
-            throw new IndexOutOfBoundsException("row was " + row + " and must be between 1 and " + rows);
-        }
-        if (column < 1 || column > columns) {
-            throw new IndexOutOfBoundsException("column was " + column + " and must be between 1 and " + columns);
-        }
-        return OctaveStruct.copy(data.get(row - 1).get(column - 1));
+    public OctaveCell(final int... size) {
+        super(size);
     }
 
     /**
-     * @param row
-     * @param column
-     * @param value
+     * @param data
+     * @param size
      */
-    public void set(final int row, final int column, final OctaveType value) {
-        if (row < 1) {
-            throw new IllegalArgumentException("row cannot be less or equal to 0");
-        }
-        if (column < 1) {
-            throw new IllegalArgumentException("column cannot be less or equal to 0");
-        }
-
-        // Expand if needed
-        resize(Math.max(row, rows), Math.max(column, columns));
-
-        // Finally, set value
-        data.get(row - 1).set(column - 1, value);
-    }
-
-    /**
-     * @return Returns number or rows.
-     */
-    public int getRowDimension() {
-        return rows;
-    }
-
-    /**
-     * @return Returns number of columns
-     */
-    public int getColumnDimension() {
-        return columns;
+    private OctaveCell(final Object[] data, final int... size) {
+        super(data, size);
     }
 
     @Override
-    public OctaveCell makecopy() {
-        return new OctaveCell(rows, columns, data);
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj instanceof OctaveCell) {
-            final OctaveCell cell = (OctaveCell) obj;
-            if (cell.rows != rows || cell.columns != columns) {
-                return false;
-            }
-            for (int row = 0; row < rows; row++) {
-                final ArrayList<OctaveType> cellrow = cell.data.get(row);
-                final ArrayList<OctaveType> thisrow = data.get(row);
-                for (int col = 0; col < columns; col++) {
-                    final OctaveType thisvalue = thisrow.get(col);
-                    final OctaveType cellvalue = cellrow.get(col);
-                    if (thisvalue != null) {
-                        if (!thisvalue.equals(cellvalue)) {
-                            return false;
-                        }
-                    } else {
-                        if (cellvalue != null) {
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
+    public void set(final OctaveType value, final int... pos) {
+        if (value == null) {
+            throw new NullPointerException("Can not put null into OctaveCell");
+        }
+        if (DEFAULT_VALUE.equals(value)) {
+            super.set(null, pos);
         } else {
-            return false;
+            super.set(value, pos);
         }
     }
 
     @Override
-    public int hashCode() {
-        throw new UnsupportedOperationException("Not implemented");
+    public OctaveType get(final int... pos) {
+        final OctaveType get = super.get(pos);
+        if (get == null) {
+            return DEFAULT_VALUE.makecopy();
+        } else {
+            return get.makecopy();
+        }
+    }
+
+    @Override
+    public OctaveType makecopy() {
+        return new OctaveCell(data, size);
     }
 
 }

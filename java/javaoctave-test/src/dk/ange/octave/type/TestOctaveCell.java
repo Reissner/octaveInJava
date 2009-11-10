@@ -18,20 +18,32 @@ package dk.ange.octave.type;
 import junit.framework.TestCase;
 
 /**
- * @author Kim Hansen
+ * Test
  */
 public class TestOctaveCell extends TestCase {
 
     /**
      * Tests that the get methods returns a copy
+     * 
+     * FIXME check that the same test is in OctaveStruct
      */
     public void testReturnCopy() {
-        final OctaveCell cell = new OctaveCell();
-        cell.set(1, 1, new OctaveScalar(2));
+        final OctaveCell cell = new OctaveCell(0, 0);
+        cell.set(new OctaveScalar(2), 1, 1);
         final OctaveScalar scalar = (OctaveScalar) cell.get(1, 1);
         scalar.set(10.0);
         assertEquals(scalar.getDouble(), 10.0);
         assertEquals(((OctaveScalar) cell.get(1, 1)).getDouble(), 2.0);
+    }
+
+    /**
+     * Test that equality of the 1x1 empty cell works
+     */
+    public void testEquality() {
+        final OctaveCell cell1 = new OctaveCell(1, 1);
+        final OctaveCell cell2 = new OctaveCell(1, 1);
+        cell2.set(cell1.get(1, 1), 1, 1);
+        assertEquals(cell1, cell2);
     }
 
 }
