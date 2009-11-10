@@ -15,10 +15,14 @@
  */
 package dk.ange.octave.io.impl;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
+import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveScalar;
@@ -139,6 +143,35 @@ public class TestOctaveStruct extends TestCase {
         }
         b.append("))/1000;");
         return b.toString();
+    }
+
+    /**
+     * Test that the reader does not understand 1x2 cells
+     */
+    public void testMatrixStruct() {
+        final String input = "" //
+                + "# type: struct\n" //
+                + "# length: 1\n" //
+                + "# name: y\n" //
+                + "# type: cell\n" //
+                + "# rows: 1\n" //
+                + "# columns: 2\n" //
+                + "# name: <cell-element>\n" //
+                + "# type: scalar\n" //
+                + "1\n" //
+                + "\n" //
+                + "# name: <cell-element>\n" //
+                + "# type: scalar\n" //
+                + "2\n" //
+                + "\n" //
+                + "\n" //
+                + "";
+        try {
+            OctaveIO.read(new BufferedReader(new StringReader(input)));
+            fail();
+        } catch (final RuntimeException e) {
+            assertEquals(OctaveParseException.class, e.getClass());
+        }
     }
 
 }

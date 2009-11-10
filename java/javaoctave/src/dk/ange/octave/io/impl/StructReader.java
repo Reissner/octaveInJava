@@ -16,6 +16,7 @@
 package dk.ange.octave.io.impl;
 
 import java.io.BufferedReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,13 +69,12 @@ public final class StructReader extends OctaveDataReader {
             }
 
             final OctaveCell cell = cellReader.read(reader);
-            // If the cell is a 1x1, move up the value
             if (cell.size(1) == 1 && cell.size(2) == 1) {
                 final OctaveType value = cell.get(1, 1);
                 data.put(subname, value);
             } else {
-                // XXX do we support this ?
-                data.put(subname, cell);
+                throw new OctaveParseException("JavaOctave does not support matrix structs, size="
+                        + Arrays.toString(cell.getSize()));
             }
         }
 
