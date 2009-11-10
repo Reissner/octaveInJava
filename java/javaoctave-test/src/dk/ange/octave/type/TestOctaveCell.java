@@ -1,5 +1,5 @@
 /*
- * Copyright 2007, 2008 Ange Optimization ApS
+ * Copyright 2007, 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,12 @@ package dk.ange.octave.type;
 import junit.framework.TestCase;
 
 /**
- * Test
+ * Test OctaveCell
  */
 public class TestOctaveCell extends TestCase {
 
     /**
      * Tests that the get methods returns a copy
-     * 
-     * FIXME check that the same test is in OctaveStruct
      */
     public void testReturnCopy() {
         final OctaveCell cell = new OctaveCell(0, 0);
