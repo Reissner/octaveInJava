@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,9 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-/**
- * @author Kim Hansen
  */
 package dk.ange.octave.io.impl;
 
@@ -39,8 +36,8 @@ public final class CellWriter extends OctaveDataWriter {
     @Override
     public void write(final Writer writer, final OctaveType octaveType) throws IOException {
         final OctaveCell octaveCell = (OctaveCell) octaveType;
-        final int rows = octaveCell.rows();
-        final int columns = octaveCell.columns();
+        final int rows = octaveCell.size(1);
+        final int columns = octaveCell.size(2);
         writer.write("# type: cell\n# rows: " + rows + "\n# columns: " + columns + "\n");
         for (int c = 1; c <= columns; ++c) {
             for (int r = 1; r <= rows; ++r) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007, 2008 Ange Optimization ApS
+ * Copyright 2007, 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import dk.ange.octave.type.OctaveStruct;
 import dk.ange.octave.type.OctaveType;
 
 /**
- * @author Kim Hansen
+ * Test read/write of OctaveScalar
  */
 public class TestOctaveScalar extends TestCase {
 
@@ -127,14 +127,14 @@ public class TestOctaveScalar extends TestCase {
         final OctaveStruct cell = octave.get("s");
 
         final OctaveMatrix two = (OctaveMatrix) cell.get("two");
-        assertEquals(1, two.rows());
-        assertEquals(2, two.columns());
+        assertEquals(1, two.size(1));
+        assertEquals(2, two.size(2));
         assertEquals(2d, two.get(1, 1));
         assertEquals(3d, two.get(1, 2));
 
         final OctaveMatrix one = (OctaveMatrix) cell.get("one");
-        assertEquals(1, one.rows());
-        assertEquals(1, one.columns());
+        assertEquals(1, one.size(1));
+        assertEquals(1, one.size(2));
         assertEquals(1d, one.get(1, 1));
 
         octave.close();

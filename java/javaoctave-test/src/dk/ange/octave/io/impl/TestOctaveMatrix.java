@@ -1,5 +1,5 @@
 /*
- * Copyright 2007, 2008 Ange Optimization ApS
+ * Copyright 2007, 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveType;
 
 /**
- * @author Kim Hansen
+ * Test read/write of OctaveMatrix
  */
 public class TestOctaveMatrix extends TestCase {
 
@@ -80,8 +80,8 @@ public class TestOctaveMatrix extends TestCase {
      */
     public void testConstructor2() throws Exception {
         final OctaveMatrix matrix = new OctaveMatrix(0, 0);
-        assertEquals(0, matrix.rows());
-        assertEquals(0, matrix.columns());
+        assertEquals(0, matrix.size(1));
+        assertEquals(0, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
                 "# type: matrix\n" + //
@@ -97,8 +97,8 @@ public class TestOctaveMatrix extends TestCase {
     public void testConstructorMatrix() throws Exception {
         final double[] numbers = { 1, 2, 3, 4, 5, 6 };
         final OctaveMatrix matrix = new OctaveMatrix(numbers, 2, 3);
-        assertEquals(2, matrix.rows());
-        assertEquals(3, matrix.columns());
+        assertEquals(2, matrix.size(1));
+        assertEquals(3, matrix.size(2));
         assertEquals("" + //
                 "# name: mymatrix\n" + //
                 "# type: matrix\n" + //
@@ -114,8 +114,8 @@ public class TestOctaveMatrix extends TestCase {
      */
     public void testConstructorIntInt() throws Exception {
         final OctaveMatrix matrix = new OctaveMatrix(2, 3);
-        assertEquals(2, matrix.rows());
-        assertEquals(3, matrix.columns());
+        assertEquals(2, matrix.size(1));
+        assertEquals(3, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
                 "# type: matrix\n" + //
@@ -158,8 +158,8 @@ public class TestOctaveMatrix extends TestCase {
      */
     public void testGrowth() throws Exception {
         final OctaveMatrix matrix = new OctaveMatrix(0, 0);
-        assertEquals(0, matrix.rows());
-        assertEquals(0, matrix.columns());
+        assertEquals(0, matrix.size(1));
+        assertEquals(0, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
                 "# type: matrix\n" + //
@@ -167,8 +167,8 @@ public class TestOctaveMatrix extends TestCase {
                 "# columns: 0\n\n" //
         , OctaveIO.toText(matrix, "matrix"));
         matrix.set(1, 1, 1);
-        assertEquals(1, matrix.rows());
-        assertEquals(1, matrix.columns());
+        assertEquals(1, matrix.size(1));
+        assertEquals(1, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
                 "# type: matrix\n" + //
@@ -177,8 +177,8 @@ public class TestOctaveMatrix extends TestCase {
                 " 1.0\n\n" //
         , OctaveIO.toText(matrix, "matrix"));
         matrix.set(3, 3, 1);
-        assertEquals(3, matrix.rows());
-        assertEquals(1, matrix.columns());
+        assertEquals(3, matrix.size(1));
+        assertEquals(1, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
                 "# type: matrix\n" + //

@@ -256,22 +256,6 @@ abstract public class AbstractGenericMatrix<D> {
         return size[i - 1];
     }
 
-    // FIXME delete
-    /**
-     * @return columns in matrix
-     */
-    public int columns() {
-        return size[1];
-    }
-
-    // FIXME delete
-    /**
-     * @return rows in matrix
-     */
-    public int rows() {
-        return size[0];
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;

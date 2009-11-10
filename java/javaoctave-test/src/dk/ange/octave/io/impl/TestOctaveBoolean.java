@@ -1,5 +1,5 @@
 /*
- * Copyright 2007, 2008 Ange Optimization ApS
+ * Copyright 2007, 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,8 +79,8 @@ public class TestOctaveBoolean extends TestCase {
      */
     public void testConstructor2() throws Exception {
         final OctaveBoolean matrix = new OctaveBoolean(0, 0);
-        assertEquals(0, matrix.rows());
-        assertEquals(0, matrix.columns());
+        assertEquals(0, matrix.size(1));
+        assertEquals(0, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
                 "# type: bool matrix\n" + //
@@ -96,8 +96,8 @@ public class TestOctaveBoolean extends TestCase {
     public void testConstructorMatrix() throws Exception {
         final boolean[] numbers = { true, true, false, false, true, true };
         final OctaveBoolean matrix = new OctaveBoolean(numbers, 2, 3);
-        assertEquals(2, matrix.rows());
-        assertEquals(3, matrix.columns());
+        assertEquals(2, matrix.size(1));
+        assertEquals(3, matrix.size(2));
         assertEquals("" + //
                 "# name: mymatrix\n" + //
                 "# type: bool matrix\n" + //
@@ -113,8 +113,8 @@ public class TestOctaveBoolean extends TestCase {
      */
     public void testConstructorIntInt() throws Exception {
         final OctaveBoolean matrix = new OctaveBoolean(2, 3);
-        assertEquals(2, matrix.rows());
-        assertEquals(3, matrix.columns());
+        assertEquals(2, matrix.size(1));
+        assertEquals(3, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
                 "# type: bool matrix\n" + //
@@ -157,8 +157,8 @@ public class TestOctaveBoolean extends TestCase {
      */
     public void testGrowth() throws Exception {
         final OctaveBoolean matrix = new OctaveBoolean(0, 0);
-        assertEquals(0, matrix.rows());
-        assertEquals(0, matrix.columns());
+        assertEquals(0, matrix.size(1));
+        assertEquals(0, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
                 "# type: bool matrix\n" + //
@@ -166,8 +166,8 @@ public class TestOctaveBoolean extends TestCase {
                 "# columns: 0\n\n" //
         , OctaveIO.toText(matrix, "matrix"));
         matrix.set(true, 1, 1);
-        assertEquals(1, matrix.rows());
-        assertEquals(1, matrix.columns());
+        assertEquals(1, matrix.size(1));
+        assertEquals(1, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
                 "# type: bool matrix\n" + //
@@ -176,8 +176,8 @@ public class TestOctaveBoolean extends TestCase {
                 " 1\n\n" //
         , OctaveIO.toText(matrix, "matrix"));
         matrix.set(true, 3, 1);
-        assertEquals(3, matrix.rows());
-        assertEquals(1, matrix.columns());
+        assertEquals(3, matrix.size(1));
+        assertEquals(1, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
                 "# type: bool matrix\n" + //
@@ -207,8 +207,8 @@ public class TestOctaveBoolean extends TestCase {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("m=[true false;false true];");
         final OctaveBoolean m = octave.get("m");
-        assertEquals(2, m.rows());
-        assertEquals(2, m.columns());
+        assertEquals(2, m.size(1));
+        assertEquals(2, m.size(2));
         assertEquals(true, m.get(1, 1));
         assertEquals(false, m.get(1, 2));
         assertEquals(false, m.get(2, 1));
