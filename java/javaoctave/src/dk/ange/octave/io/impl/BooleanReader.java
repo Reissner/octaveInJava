@@ -75,7 +75,7 @@ public final class BooleanReader extends OctaveDataReader {
         return new OctaveBoolean(data, size);
     }
 
-    private boolean parseBoolean(String line) {
+    private boolean parseBoolean(final String line) {
         if ("0".equals(line)) {
             return false;
         } else if ("1".equals(line)) {

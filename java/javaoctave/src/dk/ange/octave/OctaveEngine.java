@@ -61,7 +61,7 @@ public final class OctaveEngine {
 
     /**
      * @param script
-     *                the script to execute
+     *            the script to execute
      */
     public void eval(final String script) {
         octaveExec.eval(new WriteFunctor() {
@@ -90,7 +90,7 @@ public final class OctaveEngine {
 
     /**
      * @param script
-     *                the script to execute
+     *            the script to execute
      */
     public void eval(final Reader script) {
         octaveExec.eval(new ReaderWriteFunctor(script), getReadFunctor());
@@ -100,9 +100,9 @@ public final class OctaveEngine {
      * Sets a value in octave.
      * 
      * @param key
-     *                the name of the variable
+     *            the name of the variable
      * @param value
-     *                the value to set
+     *            the value to set
      */
     public void put(final String key, final OctaveType value) {
         octaveIO.set(Collections.singletonMap(key, value));
@@ -113,7 +113,7 @@ public final class OctaveEngine {
      * octave had for any of the keys currently in the specified map.
      * 
      * @param vars
-     *                the variables to be stored in octave
+     *            the variables to be stored in octave
      */
     public void putAll(final Map<String, OctaveType> vars) {
         octaveIO.set(vars);
@@ -121,12 +121,12 @@ public final class OctaveEngine {
 
     /**
      * @param <T>
-     *                the type of the return value
+     *            the type of the return value
      * @param key
-     *                the name of the variable
+     *            the name of the variable
      * @return the value from octave or null if the variable does not exist
      * @throws OctaveClassCastException
-     *                 If the value can not be cast to T
+     *             If the value can not be cast to T
      */
     @SuppressWarnings("unchecked")
     public <T extends OctaveType> T get(final String key) {
@@ -146,7 +146,7 @@ public final class OctaveEngine {
      * This method is usually placed in ScriptContext.
      * 
      * @param writer
-     *                the writer to set
+     *            the writer to set
      */
     public void setWriter(final Writer writer) {
         this.writer = writer;
@@ -158,7 +158,7 @@ public final class OctaveEngine {
      * This method is usually placed in ScriptContext.
      * 
      * @param errorWriter
-     *                the errorWriter to set
+     *            the errorWriter to set
      */
     public void setErrorWriter(final Writer errorWriter) {
         octaveExec.setErrorWriter(errorWriter);

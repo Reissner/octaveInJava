@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class NamedThreadFactory implements ThreadFactory {
 
     private static final AtomicInteger poolNumber = new AtomicInteger(1);
-    
+
     private final ThreadGroup group;
 
     private final AtomicInteger threadNumber = new AtomicInteger(1);
@@ -50,10 +50,12 @@ public final class NamedThreadFactory implements ThreadFactory {
 
     public Thread newThread(final Runnable runnable) {
         final Thread thread = new Thread(group, runnable, namePrefix + threadNumber.getAndIncrement());
-        if (thread.isDaemon())
+        if (thread.isDaemon()) {
             thread.setDaemon(false);
-        if (thread.getPriority() != Thread.NORM_PRIORITY)
+        }
+        if (thread.getPriority() != Thread.NORM_PRIORITY) {
             thread.setPriority(Thread.NORM_PRIORITY);
+        }
         return thread;
     }
 

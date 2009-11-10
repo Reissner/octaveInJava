@@ -15,8 +15,8 @@
  */
 package dk.ange.octave.type;
 
-import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
 import junit.framework.TestCase;
+import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
 
 /**
  * @author Kim Hansen

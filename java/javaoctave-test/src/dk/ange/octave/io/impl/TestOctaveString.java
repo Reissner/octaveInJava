@@ -30,15 +30,14 @@ public class TestOctaveString extends TestCase {
     /** Test */
     public void testToString() {
         final OctaveType string = new OctaveString("tekst");
-        assertEquals("# name: ans\n# type: string\n# elements: 1\n# length: 5\ntekst\n\n", OctaveIO
-                .toText(string));
+        assertEquals("# name: ans\n# type: string\n# elements: 1\n# length: 5\ntekst\n\n", OctaveIO.toText(string));
     }
 
     /** Test */
     public void testToOctave() {
         final OctaveType string = new OctaveString("mytekst");
-        assertEquals("# name: tre\n# type: string\n# elements: 1\n# length: 7\nmytekst\n\n", OctaveIO.toText(
-                string, "tre"));
+        assertEquals("# name: tre\n# type: string\n# elements: 1\n# length: 7\nmytekst\n\n", OctaveIO.toText(string,
+                "tre"));
     }
 
     /** Test */

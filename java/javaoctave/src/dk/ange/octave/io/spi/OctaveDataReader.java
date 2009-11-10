@@ -63,7 +63,7 @@ public abstract class OctaveDataReader {
 
     /**
      * @param reader
-     *                the Reader to read from, will not close reader
+     *            the Reader to read from, will not close reader
      * @return the value read
      */
     public abstract OctaveType read(BufferedReader reader);

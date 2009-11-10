@@ -87,7 +87,7 @@ public class ReaderWriterPipeThread extends Thread {
 
     /**
      * @param writer
-     *                the writer to set
+     *            the writer to set
      */
     public void setWriter(final Writer writer) {
         synchronized (this) {

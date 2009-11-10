@@ -25,12 +25,12 @@ public class OctaveClassCastException extends OctaveRecoverableException {
     private final OctaveType octaveType;
 
     /**
-     * @param cause 
-     * @param octaveType 
+     * @param cause
+     * @param octaveType
      */
-    public OctaveClassCastException(ClassCastException cause, OctaveType octaveType) {
+    public OctaveClassCastException(final ClassCastException cause, final OctaveType octaveType) {
         super(cause);
-        this.octaveType =octaveType;
+        this.octaveType = octaveType;
     }
 
     /**

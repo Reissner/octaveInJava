@@ -64,9 +64,9 @@ public abstract class OctaveDataWriter {
 
     /**
      * @param writer
-     *                the Writer to write to
+     *            the Writer to write to
      * @param octaveType
-     *                the value to write
+     *            the value to write
      * @throws IOException
      */
     public abstract void write(Writer writer, OctaveType octaveType) throws IOException;

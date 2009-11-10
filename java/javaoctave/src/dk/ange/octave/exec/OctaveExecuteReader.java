@@ -96,7 +96,7 @@ final class OctaveExecuteReader extends Reader {
      */
     @Override
     public void close() throws IOException {
-        char[] buffer1 = new char[4096];
+        final char[] buffer1 = new char[4096];
         while (read(buffer1) != -1) {
             // Do nothing
         }

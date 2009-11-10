@@ -40,7 +40,7 @@ public class OctaveStruct implements OctaveType {
      * Create struct from data
      * 
      * @param data
-     *                this data will be referenced, not copied
+     *            this data will be referenced, not copied
      */
     public OctaveStruct(final Map<String, OctaveType> data) {
         this.data = data;

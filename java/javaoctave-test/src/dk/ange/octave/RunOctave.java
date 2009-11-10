@@ -59,10 +59,10 @@ public class RunOctave {
         final OctaveMatrix b = octave.get("b");
         octave.close();
 
-        System.out.println("Java: b(1,1) = " + b.get(1,1));
-        System.out.println("Java: b(1,2) = " + b.get(1,2));
-        System.out.println("Java: b(2,1) = " + b.get(2,1));
-        System.out.println("Java: b(2,2) = " + b.get(2,2));
+        System.out.println("Java: b(1,1) = " + b.get(1, 1));
+        System.out.println("Java: b(1,2) = " + b.get(1, 2));
+        System.out.println("Java: b(2,1) = " + b.get(2, 1));
+        System.out.println("Java: b(2,2) = " + b.get(2, 2));
     }
 
 }

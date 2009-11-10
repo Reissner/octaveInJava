@@ -47,7 +47,7 @@ public class TeeWriter extends Writer {
      * Create a single writer that writes to multiple writers.
      * 
      * @param writers
-     *                the list of writers that should be written to.
+     *            the list of writers that should be written to.
      */
     public TeeWriter(final Writer... writers) {
         this.writers = writers;

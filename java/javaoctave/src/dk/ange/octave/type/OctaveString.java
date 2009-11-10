@@ -42,7 +42,7 @@ public class OctaveString implements OctaveType {
 
     /**
      * @param string
-     *                the string to set
+     *            the string to set
      */
     public void setString(final String string) {
         this.value = string;
