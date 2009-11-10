@@ -26,7 +26,7 @@ import dk.ange.octave.util.StringUtil;
 
 /**
  * Reader that passes the reading on to the output from the octave process until the spacer reached, then it returns
- * EOF.
+ * EOF. When this reader is closed the underlying reader is slurped up to the spacer.
  */
 final class OctaveExecuteReader extends Reader {
 
@@ -89,19 +89,12 @@ final class OctaveExecuteReader extends Reader {
         return charsRead;
     }
 
-    /*
-     * Slurp the rest of the wrapped input
-     * 
-     * @see java.io.Reader#close()
-     */
     @Override
     public void close() throws IOException {
         final char[] buffer1 = new char[4096];
+        // Slurp the rest of the wrapped input
         while (read(buffer1) != -1) {
             // Do nothing
-        }
-        if (read() != -1) { // FIXME KIM delete this if
-            throw new IOException("read hasn't finished");
         }
         if (octaveReader.ready()) {
             throw new IOException("octaveReader is ready()");
