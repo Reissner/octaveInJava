@@ -23,7 +23,7 @@ import java.io.Writer;
 
 import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveScalar;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * The writer of OctaveScalar
@@ -31,12 +31,12 @@ import dk.ange.octave.type.OctaveType;
 public final class ScalarWriter extends OctaveDataWriter {
 
     @Override
-    public Class<? extends OctaveType> javaType() {
+    public Class<? extends OctaveObject> javaType() {
         return OctaveScalar.class;
     }
 
     @Override
-    public void write(final Writer writer, final OctaveType octaveType) throws IOException {
+    public void write(final Writer writer, final OctaveObject octaveType) throws IOException {
         final OctaveScalar octaveScalar = (OctaveScalar) octaveType;
         writer.write("# type: scalar\n" + octaveScalar.getDouble() + "\n\n");
     }

@@ -23,9 +23,9 @@ import dk.ange.octave.type.matrix.GenericMatrix;
 /**
  * Nd cells
  */
-public class OctaveCell extends GenericMatrix<OctaveType> implements OctaveType {
+public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObject {
 
-    private static final OctaveType DEFAULT_VALUE = new OctaveMatrix(0, 0);
+    private static final OctaveObject DEFAULT_VALUE = new OctaveMatrix(0, 0);
 
     /**
      * Warn about usage of old constructor
@@ -53,7 +53,7 @@ public class OctaveCell extends GenericMatrix<OctaveType> implements OctaveType 
     }
 
     @Override
-    public void set(final OctaveType value, final int... pos) {
+    public void set(final OctaveObject value, final int... pos) {
         if (value == null) {
             throw new NullPointerException("Can not put null into OctaveCell");
         }
@@ -65,8 +65,8 @@ public class OctaveCell extends GenericMatrix<OctaveType> implements OctaveType 
     }
 
     @Override
-    public OctaveType get(final int... pos) {
-        final OctaveType get = super.get(pos);
+    public OctaveObject get(final int... pos) {
+        final OctaveObject get = super.get(pos);
         if (get == null) {
             return DEFAULT_VALUE.shallowCopy();
         } else {
@@ -75,7 +75,7 @@ public class OctaveCell extends GenericMatrix<OctaveType> implements OctaveType 
     }
 
     @Override
-    public OctaveType shallowCopy() {
+    public OctaveObject shallowCopy() {
         return new OctaveCell(data, size);
     }
 

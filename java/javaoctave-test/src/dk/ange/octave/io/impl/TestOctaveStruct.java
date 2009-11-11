@@ -28,7 +28,7 @@ import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
 import dk.ange.octave.type.OctaveStruct;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * Test
@@ -38,7 +38,7 @@ public class TestOctaveStruct extends TestCase {
     /**
      */
     public void testConstructor() {
-        final OctaveType struct = new OctaveStruct();
+        final OctaveObject struct = new OctaveStruct();
         Assert.assertEquals("# name: mystruct\n# type: struct\n# length: 0\n", OctaveIO.toText(struct, "mystruct"));
     }
 

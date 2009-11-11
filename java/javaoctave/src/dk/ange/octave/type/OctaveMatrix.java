@@ -20,7 +20,7 @@ import dk.ange.octave.type.matrix.DoubleMatrix;
 /**
  * A matrix of doubles
  */
-public class OctaveMatrix extends DoubleMatrix implements OctaveType {
+public class OctaveMatrix extends DoubleMatrix implements OctaveObject {
 
     /**
      * Create new matrix

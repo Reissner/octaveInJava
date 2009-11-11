@@ -25,10 +25,10 @@ import java.util.Map;
 
 import javax.imageio.spi.ServiceRegistry;
 
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
- * Interface for the IO handler that can read and write OctaveTypes
+ * Interface for the IO handler that can read and write {@link OctaveObject}
  */
 public abstract class OctaveDataReader {
 
@@ -57,7 +57,7 @@ public abstract class OctaveDataReader {
     /**
      * Could be "scalar" or "string"
      * 
-     * @return the OctaveType that this IO handler loads and saves
+     * @return the {@link Class} of the {@link OctaveObject} that this IO handler loads and saves
      */
     public abstract String octaveType();
 
@@ -66,6 +66,6 @@ public abstract class OctaveDataReader {
      *            the Reader to read from, will not close reader
      * @return the value read
      */
-    public abstract OctaveType read(BufferedReader reader);
+    public abstract OctaveObject read(BufferedReader reader);
 
 }

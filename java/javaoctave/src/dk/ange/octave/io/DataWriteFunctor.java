@@ -24,22 +24,22 @@ import java.util.Map;
 
 import dk.ange.octave.exception.OctaveIOException;
 import dk.ange.octave.exec.WriteFunctor;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
- * Write data from OctaveType in a Map
+ * Write data from {@link OctaveObject}s in a {@link Map}
  */
 final class DataWriteFunctor implements WriteFunctor {
 
     private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
             .getLog(DataWriteFunctor.class);
 
-    final Map<String, OctaveType> octaveTypes;
+    final Map<String, OctaveObject> octaveTypes;
 
     /**
      * @param octaveTypes
      */
-    public DataWriteFunctor(final Map<String, OctaveType> octaveTypes) {
+    public DataWriteFunctor(final Map<String, OctaveObject> octaveTypes) {
         this.octaveTypes = octaveTypes;
     }
 
@@ -48,7 +48,7 @@ final class DataWriteFunctor implements WriteFunctor {
             // Enter octave in "read data from input mode"
             writer.write("load(\"-text\", \"-\")\n");
             // Push the data into octave
-            for (final Map.Entry<String, OctaveType> entry : octaveTypes.entrySet()) {
+            for (final Map.Entry<String, OctaveObject> entry : octaveTypes.entrySet()) {
                 final String name = entry.getKey();
                 OctaveIO.write(writer, name, entry.getValue());
             }

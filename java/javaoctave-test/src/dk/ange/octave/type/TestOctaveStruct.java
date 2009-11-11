@@ -47,7 +47,7 @@ public class TestOctaveStruct extends TestCase {
             final OctaveCell cell = struct.get("scalar");
             fail(cell.toString());
         } catch (final OctaveClassCastException e) {
-            assertEquals(scalar, e.getOctaveType());
+            assertEquals(scalar, e.getOctaveObject());
         }
     }
 

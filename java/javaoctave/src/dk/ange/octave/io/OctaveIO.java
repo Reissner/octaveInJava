@@ -31,7 +31,7 @@ import dk.ange.octave.exec.WriteFunctor;
 import dk.ange.octave.exec.WriterReadFunctor;
 import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.io.spi.OctaveDataWriter;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * The object controlling IO of Octave data
@@ -50,7 +50,7 @@ public final class OctaveIO {
     /**
      * @param values
      */
-    public void set(final Map<String, OctaveType> values) {
+    public void set(final Map<String, OctaveObject> values) {
         final StringWriter outputWriter = new StringWriter();
         octaveExec.eval(new DataWriteFunctor(values), new WriterReadFunctor(outputWriter));
         final String output = outputWriter.toString();
@@ -68,14 +68,14 @@ public final class OctaveIO {
      *             if the value can not be cast to T
      */
     @SuppressWarnings("unchecked")
-    public <T extends OctaveType> T get(final String name) {
+    public <T extends OctaveObject> T get(final String name) {
         if (!checkIfVarExists(name)) {
             return null;
         }
         final WriteFunctor writeFunctor = new ReaderWriteFunctor(new StringReader("save -text - " + name));
         final DataReadFunctor readFunctor = new DataReadFunctor(name);
         octaveExec.eval(writeFunctor, readFunctor);
-        final OctaveType ot = readFunctor.getData();
+        final OctaveObject ot = readFunctor.getData();
         final T t;
         try {
             // This is the "unchecked" cast
@@ -118,7 +118,7 @@ public final class OctaveIO {
      * @param reader
      * @return octavetype read from reader
      */
-    public static OctaveType read(final BufferedReader reader) {
+    public static OctaveObject read(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
         final String TYPE = "# type: ";
         if (!line.startsWith(TYPE)) {
@@ -145,7 +145,7 @@ public final class OctaveIO {
      * @param octaveType
      * @throws IOException
      */
-    public static void write(final Writer writer, final OctaveType octaveType) throws IOException {
+    public static void write(final Writer writer, final OctaveObject octaveType) throws IOException {
         final OctaveDataWriter dataWriter = OctaveDataWriter.getOctaveDataWriter(octaveType.getClass());
         if (dataWriter == null) {
             throw new OctaveParseException("Unknown type, " + octaveType.getClass());
@@ -159,7 +159,7 @@ public final class OctaveIO {
      * @param octaveType
      * @throws IOException
      */
-    public static void write(final Writer writer, final String name, final OctaveType octaveType) throws IOException {
+    public static void write(final Writer writer, final String name, final OctaveObject octaveType) throws IOException {
         writer.write("# name: " + name + "\n");
         write(writer, octaveType);
     }
@@ -169,7 +169,7 @@ public final class OctaveIO {
      * @param name
      * @return The result from saving the value octaveType in octave -text format
      */
-    public static String toText(final OctaveType octaveType, final String name) {
+    public static String toText(final OctaveObject octaveType, final String name) {
         try {
             final Writer writer = new java.io.StringWriter();
             write(writer, name, octaveType);
@@ -183,7 +183,7 @@ public final class OctaveIO {
      * @param octaveType
      * @return toText(octaveType, "ans")
      */
-    public static String toText(final OctaveType octaveType) {
+    public static String toText(final OctaveObject octaveType) {
         return toText(octaveType, "ans");
     }
 

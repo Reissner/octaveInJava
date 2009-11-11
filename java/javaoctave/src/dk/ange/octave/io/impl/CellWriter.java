@@ -21,7 +21,7 @@ import java.io.Writer;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveCell;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * The writer of OctaveCell
@@ -29,19 +29,19 @@ import dk.ange.octave.type.OctaveType;
 public final class CellWriter extends OctaveDataWriter {
 
     @Override
-    public Class<? extends OctaveType> javaType() {
+    public Class<? extends OctaveObject> javaType() {
         return OctaveCell.class;
     }
 
     @Override
-    public void write(final Writer writer, final OctaveType octaveType) throws IOException {
+    public void write(final Writer writer, final OctaveObject octaveType) throws IOException {
         final OctaveCell octaveCell = (OctaveCell) octaveType;
         final int rows = octaveCell.size(1);
         final int columns = octaveCell.size(2);
         writer.write("# type: cell\n# rows: " + rows + "\n# columns: " + columns + "\n");
         for (int c = 1; c <= columns; ++c) {
             for (int r = 1; r <= rows; ++r) {
-                final OctaveType value = octaveCell.get(r, c);
+                final OctaveObject value = octaveCell.get(r, c);
                 OctaveIO.write(writer, "<cell-element>", value);
             }
             writer.write("\n");

@@ -20,7 +20,7 @@ import dk.ange.octave.type.matrix.BooleanMatrix;
 /**
  * A Boolean matrix
  */
-public class OctaveBoolean extends BooleanMatrix implements OctaveType {
+public class OctaveBoolean extends BooleanMatrix implements OctaveObject {
 
     /**
      * @param size

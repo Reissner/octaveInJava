@@ -33,7 +33,7 @@ import dk.ange.octave.exec.ReaderWriteFunctor;
 import dk.ange.octave.exec.WriteFunctor;
 import dk.ange.octave.exec.WriterReadFunctor;
 import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * The connection to an octave process.
@@ -104,7 +104,7 @@ public final class OctaveEngine {
      * @param value
      *            the value to set
      */
-    public void put(final String key, final OctaveType value) {
+    public void put(final String key, final OctaveObject value) {
         octaveIO.set(Collections.singletonMap(key, value));
     }
 
@@ -115,7 +115,7 @@ public final class OctaveEngine {
      * @param vars
      *            the variables to be stored in octave
      */
-    public void putAll(final Map<String, OctaveType> vars) {
+    public void putAll(final Map<String, OctaveObject> vars) {
         octaveIO.set(vars);
     }
 
@@ -129,7 +129,7 @@ public final class OctaveEngine {
      *             If the value can not be cast to T
      */
     @SuppressWarnings("unchecked")
-    public <T extends OctaveType> T get(final String key) {
+    public <T extends OctaveObject> T get(final String key) {
         return (T) octaveIO.get(key);
     }
 

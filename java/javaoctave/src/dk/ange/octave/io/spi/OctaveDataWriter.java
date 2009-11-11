@@ -26,27 +26,27 @@ import java.util.Map;
 
 import javax.imageio.spi.ServiceRegistry;
 
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
- * Interface for the IO handler that can read and write OctaveTypes
+ * Interface for the IO handler that can read and write {@link OctaveObject}s
  */
 public abstract class OctaveDataWriter {
 
-    private static Map<Class<? extends OctaveType>, OctaveDataWriter> writers;
+    private static Map<Class<? extends OctaveObject>, OctaveDataWriter> writers;
 
     /**
      * @param clazz
      * @return The OctaveDataWriter or null if it does not exist
      */
-    public static OctaveDataWriter getOctaveDataWriter(final Class<? extends OctaveType> clazz) {
+    public static OctaveDataWriter getOctaveDataWriter(final Class<? extends OctaveObject> clazz) {
         initIfNecessary();
         return writers.get(clazz);
     }
 
     private static synchronized void initIfNecessary() {
         if (writers == null) {
-            writers = new HashMap<Class<? extends OctaveType>, OctaveDataWriter>();
+            writers = new HashMap<Class<? extends OctaveObject>, OctaveDataWriter>();
             final Iterator<OctaveDataWriter> sp = ServiceRegistry.lookupProviders(OctaveDataWriter.class);
             while (sp.hasNext()) {
                 final OctaveDataWriter odw = sp.next();
@@ -58,9 +58,9 @@ public abstract class OctaveDataWriter {
     /**
      * Could be OctaveScalar or OctaveMatrix
      * 
-     * @return the OctaveType that this IO handler loads and saves
+     * @return the {@link Class} of the {@link OctaveObject} that this IO handler loads and saves
      */
-    public abstract Class<? extends OctaveType> javaType();
+    public abstract Class<? extends OctaveObject> javaType();
 
     /**
      * @param writer
@@ -69,6 +69,6 @@ public abstract class OctaveDataWriter {
      *            the value to write
      * @throws IOException
      */
-    public abstract void write(Writer writer, OctaveType octaveType) throws IOException;
+    public abstract void write(Writer writer, OctaveObject octaveType) throws IOException;
 
 }

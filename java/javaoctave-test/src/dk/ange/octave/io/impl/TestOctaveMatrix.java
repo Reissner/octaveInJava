@@ -24,7 +24,7 @@ import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveMatrix;
 import dk.ange.octave.type.OctaveScalar;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * Test read/write of OctaveMatrix
@@ -308,7 +308,7 @@ public class TestOctaveMatrix extends TestCase {
     /** Test */
     public void testNdMatrix() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final TreeMap<String, OctaveType> vars = new TreeMap<String, OctaveType>();
+        final TreeMap<String, OctaveObject> vars = new TreeMap<String, OctaveObject>();
         final double[] bigdata = new double[2 * 3 * 4];
         for (int idx = 0; idx < bigdata.length; idx++) {
             bigdata[idx] = idx + 1.0;

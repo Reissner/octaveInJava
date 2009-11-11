@@ -22,7 +22,7 @@ import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.exception.OctaveRecoverableException;
 import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * Test reading of sq_string (can not be written)
@@ -33,8 +33,8 @@ public class TestOctaveSqString extends TestCase {
     public void testEquals() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("st='tekst';");
-        final OctaveType s2 = octave.get("st");
-        final OctaveType s1 = new OctaveString("tekst");
+        final OctaveObject s2 = octave.get("st");
+        final OctaveObject s1 = new OctaveString("tekst");
         assertEquals(s1, s2);
         octave.close();
     }

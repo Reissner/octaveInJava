@@ -24,7 +24,7 @@ import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveCell;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * The reader of cell
@@ -64,7 +64,7 @@ public final class CellReader extends OctaveDataReader {
                 if (!line.equals(token)) {
                     throw new OctaveParseException("Expected <" + token + ">, but got <" + line + ">");
                 }
-                final OctaveType octaveType = OctaveIO.read(reader);
+                final OctaveObject octaveType = OctaveIO.read(reader);
                 octaveCell.set(octaveType, row, col);
             }
             line = OctaveIO.readerReadLine(reader);

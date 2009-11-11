@@ -22,7 +22,7 @@ import java.io.Reader;
 
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.exec.ReadFunctor;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * Functor that reads a single variable
@@ -31,7 +31,7 @@ final class DataReadFunctor implements ReadFunctor {
 
     private final String name;
 
-    private OctaveType data;
+    private OctaveObject data;
 
     /**
      * @param name
@@ -65,7 +65,7 @@ final class DataReadFunctor implements ReadFunctor {
     /**
      * @return the data
      */
-    public OctaveType getData() {
+    public OctaveObject getData() {
         return data;
     }
 

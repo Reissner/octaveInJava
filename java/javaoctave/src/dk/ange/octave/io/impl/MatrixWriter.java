@@ -23,7 +23,7 @@ import java.io.Writer;
 
 import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveMatrix;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * The writer of OctaveMatrix
@@ -31,12 +31,12 @@ import dk.ange.octave.type.OctaveType;
 public final class MatrixWriter extends OctaveDataWriter {
 
     @Override
-    public Class<? extends OctaveType> javaType() {
+    public Class<? extends OctaveObject> javaType() {
         return OctaveMatrix.class;
     }
 
     @Override
-    public void write(final Writer writer, final OctaveType octaveType) throws IOException {
+    public void write(final Writer writer, final OctaveObject octaveType) throws IOException {
         final OctaveMatrix octaveMatrix = (OctaveMatrix) octaveType;
         writer.write("# type: matrix\n");
         if (octaveMatrix.getSize().length > 2) {

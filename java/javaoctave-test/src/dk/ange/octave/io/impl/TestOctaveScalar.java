@@ -25,7 +25,7 @@ import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveMatrix;
 import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveStruct;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * Test read/write of OctaveScalar
@@ -36,7 +36,7 @@ public class TestOctaveScalar extends TestCase {
      * @throws Exception
      */
     public void testToString() throws Exception {
-        final OctaveType integer = new OctaveScalar(42);
+        final OctaveObject integer = new OctaveScalar(42);
         Assert.assertEquals("# name: ans\n# type: scalar\n42.0\n\n", OctaveIO.toText(integer));
     }
 
@@ -44,7 +44,7 @@ public class TestOctaveScalar extends TestCase {
      * @throws Exception
      */
     public void testToOctave() throws Exception {
-        final OctaveType integer = new OctaveScalar(43);
+        final OctaveObject integer = new OctaveScalar(43);
         Assert.assertEquals("# name: tre\n# type: scalar\n43.0\n\n", OctaveIO.toText(integer, "tre"));
     }
 
@@ -52,7 +52,7 @@ public class TestOctaveScalar extends TestCase {
      * @throws Exception
      */
     public void testOctaveConnection() throws Exception {
-        final OctaveType i1 = new OctaveScalar(42);
+        final OctaveObject i1 = new OctaveScalar(42);
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("i", i1);
         final OctaveScalar i2 = octave.get("i");

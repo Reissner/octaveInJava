@@ -20,7 +20,7 @@ import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveString;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * Test OctaveString
@@ -29,20 +29,20 @@ public class TestOctaveString extends TestCase {
 
     /** Test */
     public void testToString() {
-        final OctaveType string = new OctaveString("tekst");
+        final OctaveObject string = new OctaveString("tekst");
         assertEquals("# name: ans\n# type: string\n# elements: 1\n# length: 5\ntekst\n\n", OctaveIO.toText(string));
     }
 
     /** Test */
     public void testToOctave() {
-        final OctaveType string = new OctaveString("mytekst");
+        final OctaveObject string = new OctaveString("mytekst");
         assertEquals("# name: tre\n# type: string\n# elements: 1\n# length: 7\nmytekst\n\n", OctaveIO.toText(string,
                 "tre"));
     }
 
     /** Test */
     public void testOctaveConnection() {
-        final OctaveType s1 = new OctaveString("tekst");
+        final OctaveObject s1 = new OctaveString("tekst");
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("st", s1);
         final OctaveString s2 = octave.get("st");

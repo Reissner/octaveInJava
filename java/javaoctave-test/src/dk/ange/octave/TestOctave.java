@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 import dk.ange.octave.exception.OctaveException;
 import dk.ange.octave.exception.OctaveIOException;
 import dk.ange.octave.type.OctaveScalar;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * Tests dk.ange.octave.Octave.*
@@ -68,11 +68,11 @@ public class TestOctave extends TestCase {
     public void testExecute() throws Exception {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
-        final OctaveType Y = new OctaveScalar(2);
+        final OctaveObject Y = new OctaveScalar(2);
         octave.put("y", Y);
-        final OctaveType X = new OctaveScalar(42);
+        final OctaveObject X = new OctaveScalar(42);
         octave.put("x", X);
-        final OctaveType Z = new OctaveScalar(4);
+        final OctaveObject Z = new OctaveScalar(4);
         octave.put("z", Z);
 
         OctaveScalar x = octave.get("x");

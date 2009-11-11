@@ -15,29 +15,29 @@
  */
 package dk.ange.octave.exception;
 
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * Exception thrown when a cast fails inside the Octave object
  */
 public class OctaveClassCastException extends OctaveRecoverableException {
 
-    private final OctaveType octaveType;
+    private final OctaveObject octaveObject;
 
     /**
      * @param cause
-     * @param octaveType
+     * @param octaveObject
      */
-    public OctaveClassCastException(final ClassCastException cause, final OctaveType octaveType) {
+    public OctaveClassCastException(final ClassCastException cause, final OctaveObject octaveObject) {
         super(cause);
-        this.octaveType = octaveType;
+        this.octaveObject = octaveObject;
     }
 
     /**
-     * @return the octaveType
+     * @return the octaveObject
      */
-    public OctaveType getOctaveType() {
-        return octaveType;
+    public OctaveObject getOctaveObject() {
+        return octaveObject;
     }
 
 }

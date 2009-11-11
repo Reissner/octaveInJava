@@ -27,15 +27,15 @@ import dk.ange.octave.exception.OctaveClassCastException;
 /**
  * 1x1 struct
  */
-public class OctaveStruct implements OctaveType {
+public class OctaveStruct implements OctaveObject {
 
-    private final Map<String, OctaveType> data;
+    private final Map<String, OctaveObject> data;
 
     /**
      * Create empty struct
      */
     public OctaveStruct() {
-        data = new HashMap<String, OctaveType>();
+        data = new HashMap<String, OctaveObject>();
     }
 
     /**
@@ -44,7 +44,7 @@ public class OctaveStruct implements OctaveType {
      * @param data
      *            this data will be referenced, not copied
      */
-    public OctaveStruct(final Map<String, OctaveType> data) {
+    public OctaveStruct(final Map<String, OctaveObject> data) {
         this.data = data;
     }
 
@@ -52,7 +52,7 @@ public class OctaveStruct implements OctaveType {
      * @param name
      * @param value
      */
-    public void set(final String name, final OctaveType value) {
+    public void set(final String name, final OctaveObject value) {
         if (value == null) {
             throw new NullPointerException("Can not set field to null");
         }
@@ -66,7 +66,7 @@ public class OctaveStruct implements OctaveType {
      */
     @SuppressWarnings("unchecked")
     public <T> T get(final String key) {
-        final OctaveType ot = data.get(key).shallowCopy();
+        final OctaveObject ot = data.get(key).shallowCopy();
         try {
             return (T) ot;
         } catch (final ClassCastException e) {
@@ -77,7 +77,7 @@ public class OctaveStruct implements OctaveType {
     /**
      * @return reference to internal map
      */
-    public Map<String, OctaveType> getData() {
+    public Map<String, OctaveObject> getData() {
         return data;
     }
 

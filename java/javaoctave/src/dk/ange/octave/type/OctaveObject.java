@@ -20,23 +20,21 @@ package dk.ange.octave.type;
  * 
  * FIXME auto cast on get in struct and cell
  * 
- * FIXME rename OctaveType to OctaveObject
- * 
  * FIXME create OctaveObjectType that is the type of an OctaveObject
  * 
  * FIXME Create a function that will return all known OctaveObjectTypes
  */
-public interface OctaveType {
+public interface OctaveObject {
 
     /**
      * Make a shallow copy of this object.
      * 
-     * In general when an {@link OctaveType} is returned from a getter, e.g. on {@link OctaveStruct} or
+     * In general when an {@link OctaveObject} is returned from a getter, e.g. on {@link OctaveStruct} or
      * {@link OctaveStruct}, a shallow copy is returned in order to follow the way octave behaves. This method is used
      * to make that copy.
      * 
      * @return a shallow copy of this
      */
-    public abstract OctaveType shallowCopy();
+    public abstract OctaveObject shallowCopy();
 
 }

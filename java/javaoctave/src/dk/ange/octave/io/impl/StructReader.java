@@ -25,7 +25,7 @@ import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveStruct;
-import dk.ange.octave.type.OctaveType;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * The reader of struct
@@ -51,7 +51,7 @@ public final class StructReader extends OctaveDataReader {
         }
         final int length = Integer.valueOf(line.substring(LENGTH.length())); // only used during conversion
 
-        final Map<String, OctaveType> data = new HashMap<String, OctaveType>();
+        final Map<String, OctaveObject> data = new HashMap<String, OctaveObject>();
 
         for (int i = 0; i < length; i++) {
             // # name: elemmatrix
@@ -70,7 +70,7 @@ public final class StructReader extends OctaveDataReader {
 
             final OctaveCell cell = cellReader.read(reader);
             if (cell.size(1) == 1 && cell.size(2) == 1) {
-                final OctaveType value = cell.get(1, 1);
+                final OctaveObject value = cell.get(1, 1);
                 data.put(subname, value);
             } else {
                 throw new OctaveParseException("JavaOctave does not support matrix structs, size="
