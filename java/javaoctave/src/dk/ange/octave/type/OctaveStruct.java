@@ -22,6 +22,8 @@ package dk.ange.octave.type;
 import java.util.HashMap;
 import java.util.Map;
 
+import dk.ange.octave.exception.OctaveClassCastException;
+
 /**
  * 1x1 struct
  */
@@ -58,11 +60,18 @@ public class OctaveStruct implements OctaveType {
     }
 
     /**
+     * @param <T>
      * @param key
      * @return (shallow copy of) value for this key, or null if key isn't there.
      */
-    public OctaveType get(final String key) {
-        return data.get(key).shallowCopy();
+    @SuppressWarnings("unchecked")
+    public <T> T get(final String key) {
+        final OctaveType ot = data.get(key).shallowCopy();
+        try {
+            return (T) ot;
+        } catch (final ClassCastException e) {
+            throw new OctaveClassCastException(e, ot);
+        }
     }
 
     /**
