@@ -25,15 +25,15 @@ import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveCell;
+import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
 import dk.ange.octave.type.OctaveStruct;
-import dk.ange.octave.type.OctaveObject;
 
 /**
- * Test
+ * Test I/O on OctaveStruct
  */
-public class TestOctaveStruct extends TestCase {
+public class TestIoOctaveStruct extends TestCase {
 
     /**
      */

@@ -26,9 +26,9 @@ import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
 
 /**
- * Test
+ * Test read/write of {@link OctaveCell}
  */
-public class TestOctaveCell extends TestCase {
+public class TestIoOctaveCell extends TestCase {
 
     /**
      */

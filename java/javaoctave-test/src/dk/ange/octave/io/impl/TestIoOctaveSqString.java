@@ -20,14 +20,14 @@ import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.exception.OctaveRecoverableException;
+import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
-import dk.ange.octave.type.OctaveObject;
 
 /**
  * Test reading of sq_string (can not be written)
  */
-public class TestOctaveSqString extends TestCase {
+public class TestIoOctaveSqString extends TestCase {
 
     /** Test */
     public void testEquals() {

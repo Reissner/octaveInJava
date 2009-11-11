@@ -25,9 +25,9 @@ import dk.ange.octave.type.OctaveBoolean;
 import dk.ange.octave.type.OctaveObject;
 
 /**
- * Test I/O on OctaveBoolean
+ * Test read/write of {@link OctaveBoolean}
  */
-public class TestOctaveBoolean extends TestCase {
+public class TestIoOctaveBoolean extends TestCase {
 
     /**
      * Test

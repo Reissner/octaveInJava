@@ -23,14 +23,14 @@ import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveMatrix;
+import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveStruct;
-import dk.ange.octave.type.OctaveObject;
 
 /**
- * Test read/write of OctaveScalar
+ * Test read/write of {@link OctaveScalar}
  */
-public class TestOctaveScalar extends TestCase {
+public class TestIoOctaveScalar extends TestCase {
 
     /**
      * @throws Exception

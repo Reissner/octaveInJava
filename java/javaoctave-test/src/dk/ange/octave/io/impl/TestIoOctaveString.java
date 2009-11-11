@@ -19,13 +19,13 @@ import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.type.OctaveString;
 import dk.ange.octave.type.OctaveObject;
+import dk.ange.octave.type.OctaveString;
 
 /**
- * Test OctaveString
+ * Test read/write of {@link OctaveString}
  */
-public class TestOctaveString extends TestCase {
+public class TestIoOctaveString extends TestCase {
 
     /** Test */
     public void testToString() {
