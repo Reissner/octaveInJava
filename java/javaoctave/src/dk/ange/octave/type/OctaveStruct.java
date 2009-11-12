@@ -74,18 +74,18 @@ public class OctaveStruct implements OctaveObject {
     /**
      * @param <T>
      * @param key
-     * @param clazz
+     * @param castClass
      *            Class to cast to
      * @return shallow copy of value for this key, or null if key isn't there.
      * @throws OctaveClassCastException
-     *             if the object can not be cast to a clazz
+     *             if the object can not be cast to a castClass
      */
-    public <T extends OctaveObject> T get(final String key, final Class<T> clazz) {
+    public <T extends OctaveObject> T get(final String key, final Class<T> castClass) {
         final OctaveObject ot = get(key);
         try {
-            return clazz.cast(get(key));
+            return castClass.cast(get(key));
         } catch (final ClassCastException e) {
-            throw new OctaveClassCastException(e, ot, clazz);
+            throw new OctaveClassCastException(e, ot, castClass);
         }
     }
 

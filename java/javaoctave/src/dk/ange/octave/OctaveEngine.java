@@ -120,6 +120,7 @@ public final class OctaveEngine {
     }
 
     /**
+     * FIXME no auto cast here
      * @param <T>
      *            the type of the return value
      * @param key
@@ -131,6 +132,24 @@ public final class OctaveEngine {
     @SuppressWarnings("unchecked")
     public <T extends OctaveObject> T get(final String key) {
         return (T) octaveIO.get(key);
+    }
+
+    /**
+     * @param <T>
+     * @param key
+     * @param castClass
+     *            Class to cast to
+     * @return shallow copy of value for this key, or null if key isn't there.
+     * @throws OctaveClassCastException
+     *             if the object can not be cast to a castClass
+     */
+    public <T extends OctaveObject> T get(final String key, final Class<T> castClass) {
+        final OctaveObject ot = get(key);
+        try {
+            return castClass.cast(get(key));
+        } catch (final ClassCastException e) {
+            throw new OctaveClassCastException(e, ot, castClass);
+        }
     }
 
     /**
