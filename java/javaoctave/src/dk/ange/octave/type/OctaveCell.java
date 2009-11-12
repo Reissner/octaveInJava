@@ -22,6 +22,8 @@ import dk.ange.octave.type.matrix.GenericMatrix;
 
 /**
  * Nd cells
+ * 
+ * FIXME auto cast on get in cell
  */
 public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObject {
 

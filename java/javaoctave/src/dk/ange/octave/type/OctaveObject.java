@@ -17,12 +17,6 @@ package dk.ange.octave.type;
 
 /**
  * Common interface for the octave objects.
- * 
- * FIXME auto cast on get in struct and cell
- * 
- * FIXME create OctaveObjectType that is the type of an OctaveObject
- * 
- * FIXME Create a function that will return all known OctaveObjectTypes
  */
 public interface OctaveObject {
 

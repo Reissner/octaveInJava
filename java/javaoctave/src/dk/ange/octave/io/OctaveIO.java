@@ -81,7 +81,7 @@ public final class OctaveIO {
             // This is the "unchecked" cast
             t = (T) ot;
         } catch (final ClassCastException e) {
-            throw new OctaveClassCastException(e, ot, null); // TODO use Class object
+            throw new OctaveClassCastException(e, ot, null); // FIXME use Class object
         }
         return t;
     }
