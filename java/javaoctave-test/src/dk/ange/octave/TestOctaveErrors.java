@@ -67,7 +67,7 @@ public class TestOctaveErrors extends TestCase {
     public void testParseException() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("x", new OctaveScalar(1));
-        octave.eval("y = 1+i;");
+        octave.eval("y = uint16(42);");
         assertEquals(1, octave.<OctaveScalar> get("x").getDouble(), 0);
         try {
             octave.get("y");

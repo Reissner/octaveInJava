@@ -25,7 +25,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     /**
      * @param size
      */
-    protected DoubleMatrix(final int... size) {
+    public DoubleMatrix(final int... size) {
         super(size);
     }
 
@@ -33,7 +33,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
      * @param data
      * @param size
      */
-    protected DoubleMatrix(final double[] data, final int... size) {
+    public DoubleMatrix(final double[] data, final int... size) {
         super(data, size);
     }
 
