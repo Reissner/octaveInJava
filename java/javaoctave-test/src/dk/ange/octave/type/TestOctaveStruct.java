@@ -29,26 +29,33 @@ public class TestOctaveStruct extends TestCase {
     public void testOctaveGetCopy() {
         final OctaveStruct struct = new OctaveStruct();
         struct.set("scalar", new OctaveScalar(42));
-        final OctaveScalar scalar = struct.get("scalar");
+        final OctaveScalar scalar = struct.get("scalar", OctaveScalar.class);
         scalar.set(10);
         assertEquals(scalar.getDouble(), 10.0);
-        assertEquals(struct.<OctaveScalar> get("scalar").getDouble(), 42.0);
+        assertEquals(struct.get("scalar", OctaveScalar.class).getDouble(), 42.0);
     }
 
     /**
      * Test that the correct exception is thrown from OctaveStruct.get()
      */
-    // FIXME test is disabled
-    public void XtestClassCast() {
+    public void testClassCast() {
         final OctaveStruct struct = new OctaveStruct();
         final OctaveScalar scalar = new OctaveScalar(42);
         struct.set("scalar", scalar);
         try {
-            final OctaveCell cell = struct.get("scalar");
+            final OctaveCell cell = struct.get("scalar", OctaveCell.class);
             fail(cell.toString());
         } catch (final OctaveClassCastException e) {
             assertEquals(scalar, e.getOctaveObject());
         }
+    }
+
+    /**
+     * Test that we can get unknown values
+     */
+    public void testGetUnknown() {
+        final OctaveStruct struct = new OctaveStruct();
+        assertNull(struct.get("unknown"));
     }
 
 }

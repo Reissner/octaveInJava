@@ -1,5 +1,5 @@
 /*
- * Copyright 2007, 2008 Ange Optimization ApS
+ * Copyright 2007, 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @author Kim Hansen
- * @author Esben Mose Hansen
- */
 package dk.ange.octave.type;
 
 import java.util.HashMap;
@@ -25,7 +21,7 @@ import java.util.Map;
 import dk.ange.octave.exception.OctaveClassCastException;
 
 /**
- * 1x1 struct
+ * 1x1 struct. JavaOctave does not support the multidimensional structs that octave has.
  */
 public class OctaveStruct implements OctaveObject {
 
@@ -60,17 +56,36 @@ public class OctaveStruct implements OctaveObject {
     }
 
     /**
+     * Get object from struct as plain OctaveObject. If you want to cast the object to a special type use
+     * {@link OctaveStruct#get(String, Class)}.
+     * 
+     * @param key
+     * @return shallow copy of value for this key, or null if key isn't there.
+     */
+    public OctaveObject get(final String key) {
+        final OctaveObject value = data.get(key);
+        if (value == null) {
+            return null;
+        } else {
+            return value.shallowCopy();
+        }
+    }
+
+    /**
      * @param <T>
      * @param key
-     * @return (shallow copy of) value for this key, or null if key isn't there.
+     * @param clazz
+     *            Class to cast to
+     * @return shallow copy of value for this key, or null if key isn't there.
+     * @throws OctaveClassCastException
+     *             if the object can not be cast to a clazz
      */
-    @SuppressWarnings("unchecked")
-    public <T> T get(final String key) {
-        final OctaveObject ot = data.get(key).shallowCopy();
+    public <T extends OctaveObject> T get(final String key, final Class<T> clazz) {
+        final OctaveObject ot = get(key);
         try {
-            return (T) ot;
+            return clazz.cast(get(key));
         } catch (final ClassCastException e) {
-            throw new OctaveClassCastException(e, ot);
+            throw new OctaveClassCastException(e, ot, clazz);
         }
     }
 

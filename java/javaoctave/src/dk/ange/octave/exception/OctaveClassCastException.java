@@ -18,26 +18,41 @@ package dk.ange.octave.exception;
 import dk.ange.octave.type.OctaveObject;
 
 /**
- * Exception thrown when a cast fails inside the Octave object
+ * Exception thrown when a cast fails inside JavaOctave
  */
 public class OctaveClassCastException extends OctaveRecoverableException {
 
     private final OctaveObject octaveObject;
 
+    private final Class<? extends OctaveObject> castClass;
+
     /**
      * @param cause
+     *            ClassCastException that we are rethrowing
      * @param octaveObject
+     *            OctaveObject that couldn't be casted
+     * @param castClass
+     *            The class octaveObject couldn't be casted to
      */
-    public OctaveClassCastException(final ClassCastException cause, final OctaveObject octaveObject) {
+    public OctaveClassCastException(final ClassCastException cause, final OctaveObject octaveObject,
+            final Class<? extends OctaveObject> castClass) {
         super(cause);
         this.octaveObject = octaveObject;
+        this.castClass = castClass;
     }
 
     /**
-     * @return the octaveObject
+     * @return the OctaveObject that couldn't be casted
      */
     public OctaveObject getOctaveObject() {
         return octaveObject;
+    }
+
+    /**
+     * @return the class octaveObject couldn't be casted to
+     */
+    public Class<? extends OctaveObject> getCastClass() {
+        return castClass;
     }
 
 }
