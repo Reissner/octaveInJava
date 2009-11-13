@@ -36,13 +36,18 @@ public class TestIoOctaveComplex extends TestCase {
     }
 
     /** Test */
-    // FIXME disabled test, implement complex 2d reader
-    public void XtestGet2dMatrix() {
+    public void testGet2dMatrix() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("y = [ 1.1 1.1i ; 2.2 2.2i ];");
         final OctaveComplex c = octave.get("y", OctaveComplex.class);
-        assertEquals(1.2, c.getReal(1, 1), 1e-10);
-        assertEquals(3.4, c.getImag(1, 1), 1e-10);
+        assertEquals(1.1, c.getReal(1, 1), 1e-10);
+        assertEquals(0.0, c.getImag(1, 1), 1e-10);
+        assertEquals(0.0, c.getReal(1, 2), 1e-10);
+        assertEquals(1.1, c.getImag(1, 2), 1e-10);
+        assertEquals(2.2, c.getReal(2, 1), 1e-10);
+        assertEquals(0.0, c.getImag(2, 1), 1e-10);
+        assertEquals(0.0, c.getReal(2, 2), 1e-10);
+        assertEquals(2.2, c.getImag(2, 2), 1e-10);
         octave.close();
     }
 
