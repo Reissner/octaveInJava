@@ -21,7 +21,7 @@ import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveCell;
-import dk.ange.octave.type.OctaveMatrix;
+import dk.ange.octave.type.OctaveDouble;
 import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
 
@@ -135,7 +135,7 @@ public class TestIoOctaveCell extends TestCase {
     /**
      */
     public void testMatrixInCell() {
-        final OctaveMatrix octaveMatrix = new OctaveMatrix(2, 3);
+        final OctaveDouble octaveMatrix = new OctaveDouble(2, 3);
         octaveMatrix.set(42, 1, 1);
         final OctaveCell cell = new OctaveCell(2, 2);
         cell.set(new OctaveScalar(42), 1, 1);

@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import dk.ange.octave.io.spi.OctaveDataWriter;
-import dk.ange.octave.type.OctaveMatrix;
+import dk.ange.octave.type.OctaveDouble;
 import dk.ange.octave.type.OctaveObject;
 
 /**
@@ -32,12 +32,12 @@ public final class MatrixWriter extends OctaveDataWriter {
 
     @Override
     public Class<? extends OctaveObject> javaType() {
-        return OctaveMatrix.class;
+        return OctaveDouble.class;
     }
 
     @Override
     public void write(final Writer writer, final OctaveObject octaveType) throws IOException {
-        final OctaveMatrix octaveMatrix = (OctaveMatrix) octaveType;
+        final OctaveDouble octaveMatrix = (OctaveDouble) octaveType;
         writer.write("# type: matrix\n");
         if (octaveMatrix.getSize().length > 2) {
             saveDataVectorized(writer, octaveMatrix);
@@ -46,7 +46,7 @@ public final class MatrixWriter extends OctaveDataWriter {
         }
     }
 
-    private void saveData2d(final Writer writer, final OctaveMatrix octaveMatrix) throws IOException {
+    private void saveData2d(final Writer writer, final OctaveDouble octaveMatrix) throws IOException {
         final int[] size = octaveMatrix.getSize();
         final double[] data = octaveMatrix.getData();
         final int nrows = size[0];
@@ -61,7 +61,7 @@ public final class MatrixWriter extends OctaveDataWriter {
         writer.write("\n");
     }
 
-    private void saveDataVectorized(final Writer writer, final OctaveMatrix octaveMatrix) throws IOException {
+    private void saveDataVectorized(final Writer writer, final OctaveDouble octaveMatrix) throws IOException {
         final int[] size = octaveMatrix.getSize();
         final double[] data = octaveMatrix.getData();
         writer.write("# ndims: " + size.length + "\n");

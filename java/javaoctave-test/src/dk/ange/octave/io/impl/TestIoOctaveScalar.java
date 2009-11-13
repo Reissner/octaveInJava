@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.type.OctaveMatrix;
+import dk.ange.octave.type.OctaveDouble;
 import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveStruct;
@@ -126,13 +126,13 @@ public class TestIoOctaveScalar extends TestCase {
 
         final OctaveStruct cell = octave.get("s");
 
-        final OctaveMatrix two = cell.get("two", OctaveMatrix.class);
+        final OctaveDouble two = cell.get("two", OctaveDouble.class);
         assertEquals(1, two.size(1));
         assertEquals(2, two.size(2));
         assertEquals(2d, two.get(1, 1));
         assertEquals(3d, two.get(1, 2));
 
-        final OctaveMatrix one = cell.get("one", OctaveMatrix.class);
+        final OctaveDouble one = cell.get("one", OctaveDouble.class);
         assertEquals(1, one.size(1));
         assertEquals(1, one.size(2));
         assertEquals(1d, one.get(1, 1));

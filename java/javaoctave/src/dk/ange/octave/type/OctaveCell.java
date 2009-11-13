@@ -27,7 +27,7 @@ import dk.ange.octave.type.matrix.GenericMatrix;
  */
 public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObject {
 
-    private static final OctaveObject DEFAULT_VALUE = new OctaveMatrix(0, 0);
+    private static final OctaveObject DEFAULT_VALUE = new OctaveDouble(0, 0);
 
     /**
      * Warn about usage of old constructor

@@ -18,7 +18,7 @@ package dk.ange.octave.examples;
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
-import dk.ange.octave.type.OctaveMatrix;
+import dk.ange.octave.type.OctaveDouble;
 
 /**
  * http://kenai.com/projects/javaoctave/pages/SimpleExampleOfSolvingAnODE
@@ -31,7 +31,7 @@ public class OdeExampleTest extends TestCase {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("x = 0:0.01:1;");
         octave.eval("t = lsode('x**2+t**2', 0, x);");
-        final OctaveMatrix t = octave.get("t");
+        final OctaveDouble t = octave.get("t");
         octave.close();
         final double[] result = t.getData();
         // End web text

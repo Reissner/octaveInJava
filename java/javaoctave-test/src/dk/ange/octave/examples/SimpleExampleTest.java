@@ -18,7 +18,7 @@ package dk.ange.octave.examples;
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
-import dk.ange.octave.type.OctaveMatrix;
+import dk.ange.octave.type.OctaveDouble;
 
 /**
  * http://kenai.com/projects/javaoctave/pages/SimpleExampleOfJavaOctaveUsage
@@ -29,7 +29,7 @@ public class SimpleExampleTest extends TestCase {
     public void test() {
         // Begin web text
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final OctaveMatrix a = new OctaveMatrix(new double[] { 1, 2, 3, 4 }, 2, 2);
+        final OctaveDouble a = new OctaveDouble(new double[] { 1, 2, 3, 4 }, 2, 2);
         octave.put("a", a);
         final String func = "" //
                 + "function res = my_func(a)\n" //
@@ -38,7 +38,7 @@ public class SimpleExampleTest extends TestCase {
                 + "";
         octave.eval(func);
         octave.eval("b = my_func(a);");
-        final OctaveMatrix b = octave.get("b");
+        final OctaveDouble b = octave.get("b");
         octave.close();
         // End web text
         assertEquals(8.0, b.get(2, 2));

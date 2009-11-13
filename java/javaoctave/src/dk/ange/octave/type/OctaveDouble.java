@@ -20,14 +20,14 @@ import dk.ange.octave.type.matrix.DoubleMatrix;
 /**
  * A matrix of doubles
  */
-public class OctaveMatrix extends DoubleMatrix implements OctaveObject {
+public class OctaveDouble extends DoubleMatrix implements OctaveObject {
 
     /**
      * Create new matrix
      * 
      * @param size
      */
-    public OctaveMatrix(final int... size) {
+    public OctaveDouble(final int... size) {
         super(size);
     }
 
@@ -37,13 +37,13 @@ public class OctaveMatrix extends DoubleMatrix implements OctaveObject {
      * @param data
      * @param size
      */
-    public OctaveMatrix(final double[] data, final int... size) {
+    public OctaveDouble(final double[] data, final int... size) {
         super(data, size);
     }
 
     @Override
-    public OctaveMatrix shallowCopy() {
-        return new OctaveMatrix(data, size);
+    public OctaveDouble shallowCopy() {
+        return new OctaveDouble(data, size);
     }
 
 }
