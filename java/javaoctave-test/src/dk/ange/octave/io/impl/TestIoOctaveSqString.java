@@ -46,14 +46,14 @@ public class TestIoOctaveSqString extends TestCase {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("x", new OctaveScalar(1));
         octave.eval("st='\\\\';");
-        assertEquals(1, octave.<OctaveScalar> get("x").getDouble(), 0);
+        assertEquals(1, octave.get("x", OctaveScalar.class).getDouble(), 0);
         try {
             octave.get("st");
             fail();
         } catch (final OctaveParseException e) {
             assertTrue(OctaveRecoverableException.class.isInstance(e));
         }
-        assertEquals(1, octave.<OctaveScalar> get("x").getDouble(), 0);
+        assertEquals(1, octave.get("x", OctaveScalar.class).getDouble(), 0);
         octave.close();
     }
 

@@ -60,31 +60,19 @@ public final class OctaveIO {
     }
 
     /**
-     * FIXME no auto cast here
-     * @param <T>
-     *            Type of return value
      * @param name
      * @return Returns the value of the variable from octave or null if the variable does not exist
      * @throws OctaveClassCastException
      *             if the value can not be cast to T
      */
-    @SuppressWarnings("unchecked")
-    public <T extends OctaveObject> T get(final String name) {
+    public OctaveObject get(final String name) {
         if (!checkIfVarExists(name)) {
             return null;
         }
         final WriteFunctor writeFunctor = new ReaderWriteFunctor(new StringReader("save -text - " + name));
         final DataReadFunctor readFunctor = new DataReadFunctor(name);
         octaveExec.eval(writeFunctor, readFunctor);
-        final OctaveObject ot = readFunctor.getData();
-        final T t;
-        try {
-            // This is the "unchecked" cast
-            t = (T) ot;
-        } catch (final ClassCastException e) {
-            throw new OctaveClassCastException(e, ot, null); // FIXME use Class object
-        }
-        return t;
+        return readFunctor.getData();
     }
 
     private boolean checkIfVarExists(final String name) {

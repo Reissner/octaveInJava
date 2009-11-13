@@ -137,6 +137,7 @@ public final class OctaveEngine {
     /**
      * @param <T>
      * @param key
+     *            the name of the variable
      * @param castClass
      *            Class to cast to
      * @return shallow copy of value for this key, or null if key isn't there.

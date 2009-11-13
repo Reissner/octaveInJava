@@ -206,7 +206,7 @@ public class TestIoOctaveBoolean extends TestCase {
     public void testOctaveGet() throws Exception {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("m=[true false;false true];");
-        final OctaveBoolean m = octave.get("m");
+        final OctaveBoolean m = octave.get("m", OctaveBoolean.class);
         assertEquals(2, m.size(1));
         assertEquals(2, m.size(2));
         assertEquals(true, m.get(1, 1));
@@ -225,11 +225,11 @@ public class TestIoOctaveBoolean extends TestCase {
         final OctaveBoolean in = new OctaveBoolean(numbers, 2, 3);
         octave.put("in", in);
         octave.eval("out=in;");
-        final OctaveBoolean out = octave.get("out");
+        final OctaveBoolean out = octave.get("out", OctaveBoolean.class);
         assertEquals(OctaveIO.toText(in), OctaveIO.toText(out));
         octave.eval("slicerow=in(2,:); slicecol=in(:,2);");
-        final OctaveBoolean slicerow = octave.get("slicerow");
-        final OctaveBoolean slicecol = octave.get("slicecol");
+        final OctaveBoolean slicerow = octave.get("slicerow", OctaveBoolean.class);
+        final OctaveBoolean slicecol = octave.get("slicecol", OctaveBoolean.class);
         assertEquals(false, slicerow.get(1, 1));
         assertEquals(false, slicerow.get(1, 2));
         assertEquals(false, slicerow.get(1, 3));
@@ -251,10 +251,10 @@ public class TestIoOctaveBoolean extends TestCase {
         octave.eval("x2 = matrix3d(:,:,2);");
         octave.eval("x3 = matrix3d(:,3,:);");
         octave.eval("x4 = matrix3d(3,:,:);");
-        final OctaveBoolean x1 = octave.get("x1");
-        final OctaveBoolean x2 = octave.get("x2");
-        final OctaveBoolean x3 = octave.get("x3");
-        final OctaveBoolean x4 = octave.get("x4");
+        final OctaveBoolean x1 = octave.get("x1", OctaveBoolean.class);
+        final OctaveBoolean x2 = octave.get("x2", OctaveBoolean.class);
+        final OctaveBoolean x3 = octave.get("x3", OctaveBoolean.class);
+        final OctaveBoolean x4 = octave.get("x4", OctaveBoolean.class);
         octave.close();
         assertEquals(false, x1.get(1, 3));
         assertEquals(true, x1.get(3, 1));
@@ -280,11 +280,11 @@ public class TestIoOctaveBoolean extends TestCase {
         vars.put("matrixzero", new OctaveBoolean(0, 0, 0, 0));
         vars.put("matrixzero2d", new OctaveBoolean(0, 0));
         octave.putAll(vars);
-        final OctaveBoolean matrixzero = octave.get("matrixzero");
-        final OctaveBoolean matrix2d = octave.get("matrix2d");
-        final OctaveBoolean bigmatrix = octave.get("bigmatrix");
-        final OctaveBoolean matrixzero2d = octave.get("matrixzero2d");
-        final OctaveBoolean matrixscalar = octave.get("matrixscalar");
+        final OctaveBoolean matrixzero = octave.get("matrixzero", OctaveBoolean.class);
+        final OctaveBoolean matrix2d = octave.get("matrix2d", OctaveBoolean.class);
+        final OctaveBoolean bigmatrix = octave.get("bigmatrix", OctaveBoolean.class);
+        final OctaveBoolean matrixzero2d = octave.get("matrixzero2d", OctaveBoolean.class);
+        final OctaveBoolean matrixscalar = octave.get("matrixscalar", OctaveBoolean.class);
         assertEquals(matrixzero, vars.get("matrixzero"));
         assertEquals(matrixzero2d, vars.get("matrixzero2d"));
         assertEquals(matrixscalar, vars.get("matrixscalar"));
