@@ -29,10 +29,10 @@ public class TestOctaveStruct extends TestCase {
     public void testOctaveGetCopy() {
         final OctaveStruct struct = new OctaveStruct();
         struct.set("scalar", Octave.scalar(42));
-        final OctaveDouble scalar = struct.get("scalar", OctaveDouble.class);
+        final OctaveDouble scalar = struct.get(OctaveDouble.class, "scalar");
         scalar.set(10, 1, 1);
         assertEquals(scalar.get(1, 1), 10.0);
-        assertEquals(struct.get("scalar", OctaveDouble.class).get(1, 1), 42.0);
+        assertEquals(struct.get(OctaveDouble.class, "scalar").get(1, 1), 42.0);
     }
 
     /**
@@ -43,7 +43,7 @@ public class TestOctaveStruct extends TestCase {
         final OctaveDouble scalar = Octave.scalar(42);
         struct.set("scalar", scalar);
         try {
-            final OctaveCell cell = struct.get("scalar", OctaveCell.class);
+            final OctaveCell cell = struct.get(OctaveCell.class, "scalar");
             fail(cell.toString());
         } catch (final OctaveClassCastException e) {
             assertEquals(scalar, e.getOctaveObject());

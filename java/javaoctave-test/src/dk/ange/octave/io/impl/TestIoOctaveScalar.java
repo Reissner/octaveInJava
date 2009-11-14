@@ -128,13 +128,13 @@ public class TestIoOctaveScalar extends TestCase {
 
         final OctaveStruct cell = octave.get(OctaveStruct.class, "s");
 
-        final OctaveDouble two = cell.get("two", OctaveDouble.class);
+        final OctaveDouble two = cell.get(OctaveDouble.class, "two");
         assertEquals(1, two.size(1));
         assertEquals(2, two.size(2));
         assertEquals(2d, two.get(1, 1));
         assertEquals(3d, two.get(1, 2));
 
-        final OctaveDouble one = cell.get("one", OctaveDouble.class);
+        final OctaveDouble one = cell.get(OctaveDouble.class, "one");
         assertEquals(1, one.size(1));
         assertEquals(1, one.size(2));
         assertEquals(1d, one.get(1, 1));

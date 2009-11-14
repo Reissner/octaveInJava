@@ -57,7 +57,7 @@ public class OctaveStruct implements OctaveObject {
 
     /**
      * Get object from struct as plain OctaveObject. If you want to cast the object to a special type use
-     * {@link OctaveStruct#get(String, Class)}.
+     * {@link OctaveStruct#get(Class, String)}.
      * 
      * @param key
      * @return shallow copy of value for this key, or null if key isn't there.
@@ -72,15 +72,15 @@ public class OctaveStruct implements OctaveObject {
     }
 
     /**
-     * @param <T>
-     * @param key
      * @param castClass
      *            Class to cast to
+     * @param key
+     * @param <T>
      * @return shallow copy of value for this key, or null if key isn't there.
      * @throws OctaveClassCastException
      *             if the object can not be cast to a castClass
      */
-    public <T extends OctaveObject> T get(final String key, final Class<T> castClass) {
+    public <T extends OctaveObject> T get(final Class<T> castClass, final String key) {
         final OctaveObject ot = get(key);
         try {
             return castClass.cast(ot);
