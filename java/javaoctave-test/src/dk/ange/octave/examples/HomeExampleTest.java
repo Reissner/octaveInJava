@@ -36,7 +36,7 @@ public class HomeExampleTest extends TestCase {
         octave.put("t1", Octave.scalar(0));
         octave.put("t2", Octave.scalar(1));
         octave.eval("result = lsode(fun, 0, [t1 t2])(2);");
-        final OctaveDouble result = octave.get("result");
+        final OctaveDouble result = octave.get(OctaveDouble.class, "result");
         octave.close();
         final double integral = result.get(1);
         assertEquals(Math.PI / 4, integral, 1e-5);

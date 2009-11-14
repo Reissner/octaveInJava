@@ -107,7 +107,7 @@ public class TestIoOctaveCell extends TestCase {
 
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("mycell", cell);
-        final OctaveCell mycell_copy = octave.get("mycell");
+        final OctaveCell mycell_copy = octave.get(OctaveCell.class, "mycell");
         assertEquals(cell, mycell_copy);
         octave.close();
     }

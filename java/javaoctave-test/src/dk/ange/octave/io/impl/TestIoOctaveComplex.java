@@ -29,7 +29,7 @@ public class TestIoOctaveComplex extends TestCase {
     public void testGetScalar() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("y = 1.2 + 3.4i;");
-        final OctaveComplex c = octave.get("y", OctaveComplex.class);
+        final OctaveComplex c = octave.get(OctaveComplex.class, "y");
         assertEquals(1.2, c.getReal(1, 1), 1e-10);
         assertEquals(3.4, c.getImag(1, 1), 1e-10);
         octave.close();
@@ -39,7 +39,7 @@ public class TestIoOctaveComplex extends TestCase {
     public void testGet2dMatrix() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("y = [ 1.1 1.1i ; 2.2 2.2i ];");
-        final OctaveComplex c = octave.get("y", OctaveComplex.class);
+        final OctaveComplex c = octave.get(OctaveComplex.class, "y");
         assertEquals(1.1, c.getReal(1, 1), 1e-10);
         assertEquals(0.0, c.getImag(1, 1), 1e-10);
         assertEquals(0.0, c.getReal(1, 2), 1e-10);
@@ -56,7 +56,7 @@ public class TestIoOctaveComplex extends TestCase {
     public void XtestGetReal() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("y = 1.2;");
-        final OctaveComplex c = octave.get("y", OctaveComplex.class);
+        final OctaveComplex c = octave.get(OctaveComplex.class, "y");
         assertEquals(1.2, c.getReal(1, 1), 1e-10);
         assertEquals(0, c.getImag(1, 1), 1e-10);
         octave.close();

@@ -205,7 +205,7 @@ public class TestIoOctaveMatrix extends TestCase {
     public void testOctaveGet() throws Exception {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("m=[1 2;3 4];");
-        final OctaveDouble m = octave.get("m");
+        final OctaveDouble m = octave.get(OctaveDouble.class, "m");
         assertEquals("" + //
                 "# name: m\n" + //
                 "# type: matrix\n" + //
@@ -227,11 +227,11 @@ public class TestIoOctaveMatrix extends TestCase {
         final OctaveDouble in = new OctaveDouble(numbers, 2, 3);
         octave.put("in", in);
         octave.eval("out=in;");
-        final OctaveDouble out = octave.get("out");
+        final OctaveDouble out = octave.get(OctaveDouble.class, "out");
         assertEquals(OctaveIO.toText(in), OctaveIO.toText(out));
         octave.eval("slicerow=in(2,:); slicecol=in(:,2);");
-        final OctaveDouble slicerow = octave.get("slicerow");
-        final OctaveDouble slicecol = octave.get("slicecol");
+        final OctaveDouble slicerow = octave.get(OctaveDouble.class, "slicerow");
+        final OctaveDouble slicecol = octave.get(OctaveDouble.class, "slicecol");
         assertEquals(2.0, slicerow.get(1, 1));
         assertEquals(4.0, slicerow.get(1, 2));
         assertEquals(6.0, slicerow.get(1, 3));
@@ -255,21 +255,21 @@ public class TestIoOctaveMatrix extends TestCase {
         OctaveDouble ok;
 
         octave.eval("xnan=[NaN 0];");
-        ok = octave.get("ok");
+        ok = octave.get(OctaveDouble.class, "ok");
         assertEquals(okOne, ok);
-        final OctaveDouble xnan = octave.get("xnan");
+        final OctaveDouble xnan = octave.get(OctaveDouble.class, "xnan");
         assertEquals(Double.NaN, xnan.get(1, 1));
         assertEquals(Double.valueOf(0), xnan.get(1, 2));
-        ok = octave.get("ok");
+        ok = octave.get(OctaveDouble.class, "ok");
         assertEquals(okOne, ok);
 
         octave.eval("xinf=[Inf -Inf];");
-        ok = octave.get("ok");
+        ok = octave.get(OctaveDouble.class, "ok");
         assertEquals(okOne, ok);
-        final OctaveDouble xinf = octave.get("xinf");
+        final OctaveDouble xinf = octave.get(OctaveDouble.class, "xinf");
         assertEquals(Double.POSITIVE_INFINITY, xinf.get(1, 1));
         assertEquals(Double.NEGATIVE_INFINITY, xinf.get(1, 2));
-        ok = octave.get("ok");
+        ok = octave.get(OctaveDouble.class, "ok");
         assertEquals(okOne, ok);
 
         octave.close();
@@ -290,10 +290,10 @@ public class TestIoOctaveMatrix extends TestCase {
         octave.eval("x2 = matrix3d(:,:,2);");
         octave.eval("x3 = matrix3d(:,3,:);");
         octave.eval("x4 = matrix3d(3,:,:);");
-        final OctaveDouble x1 = octave.get("x1");
-        final OctaveDouble x2 = octave.get("x2");
-        final OctaveDouble x3 = octave.get("x3");
-        final OctaveDouble x4 = octave.get("x4");
+        final OctaveDouble x1 = octave.get(OctaveDouble.class, "x1");
+        final OctaveDouble x2 = octave.get(OctaveDouble.class, "x2");
+        final OctaveDouble x3 = octave.get(OctaveDouble.class, "x3");
+        final OctaveDouble x4 = octave.get(OctaveDouble.class, "x4");
         octave.close();
         assertEquals(0.0, x1.get(1, 3));
         assertEquals(-1.0, x1.get(3, 1));
@@ -319,11 +319,11 @@ public class TestIoOctaveMatrix extends TestCase {
         vars.put("matrixzero", new OctaveDouble(0, 0, 0, 0));
         vars.put("matrixzero2d", new OctaveDouble(0, 0));
         octave.putAll(vars);
-        final OctaveDouble matrixzero = octave.get("matrixzero");
-        final OctaveDouble matrix2d = octave.get("matrix2d");
-        final OctaveDouble bigmatrix = octave.get("bigmatrix");
-        final OctaveDouble matrixzero2d = octave.get("matrixzero2d");
-        final OctaveDouble matrixscalar = octave.get("matrixscalar");
+        final OctaveDouble matrixzero = octave.get(OctaveDouble.class, "matrixzero");
+        final OctaveDouble matrix2d = octave.get(OctaveDouble.class, "matrix2d");
+        final OctaveDouble bigmatrix = octave.get(OctaveDouble.class, "bigmatrix");
+        final OctaveDouble matrixzero2d = octave.get(OctaveDouble.class, "matrixzero2d");
+        final OctaveDouble matrixscalar = octave.get(OctaveDouble.class, "matrixscalar");
         assertEquals(matrixzero, vars.get("matrixzero"));
         assertEquals(matrixzero2d, vars.get("matrixzero2d"));
         assertEquals(matrixscalar, vars.get("matrixscalar"));

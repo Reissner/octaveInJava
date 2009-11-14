@@ -93,7 +93,7 @@ public class TestIoOctaveStruct extends TestCase {
 
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("mystruct", struct);
-        final OctaveStruct mystruct_copy = octave.get("mystruct");
+        final OctaveStruct mystruct_copy = octave.get(OctaveStruct.class, "mystruct");
         Assert.assertEquals(struct, mystruct_copy);
     }
 
@@ -116,12 +116,12 @@ public class TestIoOctaveStruct extends TestCase {
                 }
             }
         }
-        final OctaveStruct s1 = octave.get("s");
+        final OctaveStruct s1 = octave.get(OctaveStruct.class, "s");
         octave.put("s1", s1);
         octave.eval("t = 1.0*isequal(s, s1);"); // "1.0*" is a typecast from bool to scalar
-        final OctaveDouble t = octave.get("t");
+        final OctaveDouble t = octave.get(OctaveDouble.class, "t");
         assertEquals(1.0, t.get(1, 1));
-        final OctaveStruct s2 = octave.get("s1");
+        final OctaveStruct s2 = octave.get(OctaveStruct.class, "s1");
         assertEquals(s1, s2);
         octave.close();
     }

@@ -57,7 +57,7 @@ public class TestIoOctaveScalar extends TestCase {
         final OctaveObject i1 = Octave.scalar(42);
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("i", i1);
-        final OctaveDouble i2 = octave.get("i");
+        final OctaveDouble i2 = octave.get(OctaveDouble.class, "i");
         Assert.assertEquals(i1, i2);
         octave.close();
     }
@@ -77,27 +77,27 @@ public class TestIoOctaveScalar extends TestCase {
         OctaveDouble ok;
 
         octave.eval("xnan=NaN;");
-        ok = octave.get("ok");
+        ok = octave.get(OctaveDouble.class, "ok");
         assertEquals(okOne, ok);
-        final OctaveDouble xnan = octave.get("xnan");
+        final OctaveDouble xnan = octave.get(OctaveDouble.class, "xnan");
         assertEquals(Double.NaN, xnan.get(1, 1));
-        ok = octave.get("ok");
+        ok = octave.get(OctaveDouble.class, "ok");
         assertEquals(okOne, ok);
 
         octave.eval("xinf=Inf;");
-        ok = octave.get("ok");
+        ok = octave.get(OctaveDouble.class, "ok");
         assertEquals(okOne, ok);
-        final OctaveDouble xinf = octave.get("xinf");
+        final OctaveDouble xinf = octave.get(OctaveDouble.class, "xinf");
         assertEquals(Double.POSITIVE_INFINITY, xinf.get(1, 1));
-        ok = octave.get("ok");
+        ok = octave.get(OctaveDouble.class, "ok");
         assertEquals(okOne, ok);
 
         octave.eval("xninf=-Inf;");
-        ok = octave.get("ok");
+        ok = octave.get(OctaveDouble.class, "ok");
         assertEquals(okOne, ok);
-        final OctaveDouble xninf = octave.get("xninf");
+        final OctaveDouble xninf = octave.get(OctaveDouble.class, "xninf");
         assertEquals(Double.NEGATIVE_INFINITY, xninf.get(1, 1));
-        ok = octave.get("ok");
+        ok = octave.get(OctaveDouble.class, "ok");
         assertEquals(okOne, ok);
 
         octave.close();
@@ -112,7 +112,7 @@ public class TestIoOctaveScalar extends TestCase {
         octave.eval("global x");
         octave.put("x", Octave.scalar(42.0));
 
-        final OctaveDouble x = octave.get("x");
+        final OctaveDouble x = octave.get(OctaveDouble.class, "x");
         assertEquals(42.0, x.get(1));
 
         octave.close();
@@ -126,7 +126,7 @@ public class TestIoOctaveScalar extends TestCase {
         octave.eval("s.one=1;");
         octave.eval("s.two=[2 3];");
 
-        final OctaveStruct cell = octave.get("s");
+        final OctaveStruct cell = octave.get(OctaveStruct.class, "s");
 
         final OctaveDouble two = cell.get("two", OctaveDouble.class);
         assertEquals(1, two.size(1));

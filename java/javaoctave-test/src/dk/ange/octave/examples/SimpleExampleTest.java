@@ -38,7 +38,7 @@ public class SimpleExampleTest extends TestCase {
                 + "";
         octave.eval(func);
         octave.eval("b = my_func(a);");
-        final OctaveDouble b = octave.get("b");
+        final OctaveDouble b = octave.get(OctaveDouble.class, "b");
         octave.close();
         // End web text
         assertEquals(8.0, b.get(2, 2));

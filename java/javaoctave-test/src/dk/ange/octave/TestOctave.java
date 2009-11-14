@@ -76,11 +76,11 @@ public class TestOctave extends TestCase {
         final OctaveObject Z = Octave.scalar(4);
         octave.put("z", Z);
 
-        OctaveDouble x = octave.get("x");
+        OctaveDouble x = octave.get(OctaveDouble.class, "x");
         Assert.assertEquals(42.0, x.get(1, 1), 0.0);
 
         octave.eval("x = x + 10;");
-        x = octave.get("x");
+        x = octave.get(OctaveDouble.class, "x");
         Assert.assertEquals(52.0, x.get(1, 1), 0.0);
         octave.close();
     }
@@ -94,7 +94,7 @@ public class TestOctave extends TestCase {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("x", Octave.scalar(42));
         octave.eval(new StringReader("x=x+10;"));
-        final OctaveDouble octaveScalar = octave.get("x");
+        final OctaveDouble octaveScalar = octave.get(OctaveDouble.class, "x");
         final double x = octaveScalar.get(1, 1);
         assertEquals(52.0, x, 0.0);
         octave.close();

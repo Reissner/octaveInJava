@@ -32,11 +32,11 @@ public class TestUnknownVar extends TestCase {
      */
     public void testGetUnknownVar() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final OctaveDouble x1 = octave.get("x");
+        final OctaveDouble x1 = octave.get(OctaveDouble.class, "x");
         assertNull(x1);
         final OctaveDouble x = Octave.scalar(42);
         octave.put("x", x);
-        final OctaveDouble x2 = octave.get("x");
+        final OctaveDouble x2 = octave.get(OctaveDouble.class, "x");
         assertEquals(x, x2);
         octave.close();
     }

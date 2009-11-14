@@ -120,35 +120,29 @@ public final class OctaveEngine {
     }
 
     /**
-     * FIXME no auto cast here
-     * 
-     * @param <T>
-     *            the type of the return value
      * @param key
      *            the name of the variable
      * @return the value from octave or null if the variable does not exist
-     * @throws OctaveClassCastException
-     *             If the value can not be cast to T
      */
-    @SuppressWarnings("unchecked")
-    public <T extends OctaveObject> T get(final String key) {
-        return (T) octaveIO.get(key);
+    public OctaveObject get(final String key) {
+        return octaveIO.get(key);
     }
 
     /**
-     * @param <T>
-     * @param key
-     *            the name of the variable
      * @param castClass
      *            Class to cast to
+     * @param key
+     *            the name of the variable
+     * @param <T>
+     *            the class of the return value
      * @return shallow copy of value for this key, or null if key isn't there.
      * @throws OctaveClassCastException
      *             if the object can not be cast to a castClass
      */
-    public <T extends OctaveObject> T get(final String key, final Class<T> castClass) {
+    public <T extends OctaveObject> T get(final Class<T> castClass, final String key) {
         final OctaveObject ot = get(key);
         try {
-            return castClass.cast(get(key));
+            return castClass.cast(ot);
         } catch (final ClassCastException e) {
             throw new OctaveClassCastException(e, ot, castClass);
         }

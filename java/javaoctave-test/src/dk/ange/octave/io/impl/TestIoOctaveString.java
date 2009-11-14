@@ -45,7 +45,7 @@ public class TestIoOctaveString extends TestCase {
         final OctaveObject s1 = new OctaveString("tekst");
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("st", s1);
-        final OctaveString s2 = octave.get("st");
+        final OctaveString s2 = octave.get(OctaveString.class, "st");
         assertEquals(s1, s2);
     }
 

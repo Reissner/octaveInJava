@@ -56,7 +56,7 @@ public class RunOctave {
                 + "";
         octave.eval(func);
         octave.eval("b = my_func(a);");
-        final OctaveDouble b = octave.get("b");
+        final OctaveDouble b = octave.get(OctaveDouble.class, "b");
         octave.close();
 
         System.out.println("Java: b(1,1) = " + b.get(1, 1));
