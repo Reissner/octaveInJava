@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,9 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-/**
- * @author Kim Hansen
  */
 package dk.ange.octave.io.spi;
 
@@ -31,24 +28,27 @@ import dk.ange.octave.type.OctaveObject;
 /**
  * Interface for the IO handler that can read and write {@link OctaveObject}s
  * 
- * FIXME can this be a generic?
+ * @param <T>
  */
-public abstract class OctaveDataWriter {
+public abstract class OctaveDataWriter<T extends OctaveObject> {
 
-    private static Map<Class<? extends OctaveObject>, OctaveDataWriter> writers;
+    private static Map<Class<? extends OctaveObject>, OctaveDataWriter<?>> writers;
 
     /**
-     * @param clazz
+     * @param <T>
+     * @param example
      * @return The OctaveDataWriter or null if it does not exist
      */
-    public static OctaveDataWriter getOctaveDataWriter(final Class<? extends OctaveObject> clazz) {
+    @SuppressWarnings("unchecked")
+    public static <T extends OctaveObject> OctaveDataWriter<T> getOctaveDataWriter(final T example) {
         initIfNecessary();
-        return writers.get(clazz);
+        return (OctaveDataWriter<T>) writers.get(example.getClass());
     }
 
+    @SuppressWarnings("unchecked")
     private static synchronized void initIfNecessary() {
         if (writers == null) {
-            writers = new HashMap<Class<? extends OctaveObject>, OctaveDataWriter>();
+            writers = new HashMap<Class<? extends OctaveObject>, OctaveDataWriter<?>>();
             final Iterator<OctaveDataWriter> sp = ServiceRegistry.lookupProviders(OctaveDataWriter.class);
             while (sp.hasNext()) {
                 final OctaveDataWriter odw = sp.next();
@@ -62,7 +62,7 @@ public abstract class OctaveDataWriter {
      * 
      * @return the {@link Class} of the {@link OctaveObject} that this IO handler loads and saves
      */
-    public abstract Class<? extends OctaveObject> javaType();
+    public abstract Class<T> javaType();
 
     /**
      * @param writer
@@ -71,6 +71,6 @@ public abstract class OctaveDataWriter {
      *            the value to write
      * @throws IOException
      */
-    public abstract void write(Writer writer, OctaveObject octaveType) throws IOException;
+    public abstract void write(Writer writer, T octaveType) throws IOException;
 
 }

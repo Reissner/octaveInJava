@@ -23,21 +23,19 @@ import java.io.Writer;
 
 import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveDouble;
-import dk.ange.octave.type.OctaveObject;
 
 /**
  * The writer of OctaveMatrix
  */
-public final class MatrixWriter extends OctaveDataWriter {
+public final class MatrixWriter extends OctaveDataWriter<OctaveDouble> {
 
     @Override
-    public Class<? extends OctaveObject> javaType() {
+    public Class<OctaveDouble> javaType() {
         return OctaveDouble.class;
     }
 
     @Override
-    public void write(final Writer writer, final OctaveObject octaveType) throws IOException {
-        final OctaveDouble octaveMatrix = (OctaveDouble) octaveType;
+    public void write(final Writer writer, final OctaveDouble octaveMatrix) throws IOException {
         if (octaveMatrix.getSize().length <= 2) {
             if (octaveMatrix.getSize().length == 2 && octaveMatrix.size(1) == 1 && octaveMatrix.size(2) == 1) {
                 writer.write("# type: scalar\n");

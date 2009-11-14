@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,9 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-/**
- * @author Kim Hansen
  */
 package dk.ange.octave.io.impl;
 
@@ -30,16 +27,15 @@ import dk.ange.octave.type.OctaveStruct;
 /**
  * The writer of OctaveStruct
  */
-public final class StructWriter extends OctaveDataWriter {
+public final class StructWriter extends OctaveDataWriter<OctaveStruct> {
 
     @Override
-    public Class<? extends OctaveObject> javaType() {
+    public Class<OctaveStruct> javaType() {
         return OctaveStruct.class;
     }
 
     @Override
-    public void write(final Writer writer, final OctaveObject octaveType) throws IOException {
-        final OctaveStruct octaveStruct = (OctaveStruct) octaveType;
+    public void write(final Writer writer, final OctaveStruct octaveStruct) throws IOException {
         final Map<String, OctaveObject> data = octaveStruct.getData();
         writer.write("# type: struct\n# length: " + data.size() + "\n");
         for (final Map.Entry<String, OctaveObject> entry : data.entrySet()) {

@@ -33,7 +33,7 @@ public class OctaveComplex implements OctaveObject {
 
     /**
      * @param pos
-     * @return
+     * @return FIXME
      */
     public double getReal(final int... pos) {
         return real.get(pos);
@@ -49,7 +49,7 @@ public class OctaveComplex implements OctaveObject {
 
     /**
      * @param pos
-     * @return
+     * @return FIXME
      */
     public double getImag(final int... pos) {
         return imag.get(pos);

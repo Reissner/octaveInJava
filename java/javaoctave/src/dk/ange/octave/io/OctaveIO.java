@@ -130,12 +130,13 @@ public final class OctaveIO {
     }
 
     /**
+     * @param <T>
      * @param writer
      * @param octaveType
      * @throws IOException
      */
-    public static void write(final Writer writer, final OctaveObject octaveType) throws IOException {
-        final OctaveDataWriter dataWriter = OctaveDataWriter.getOctaveDataWriter(octaveType.getClass());
+    public static <T extends OctaveObject> void write(final Writer writer, final T octaveType) throws IOException {
+        final OctaveDataWriter<T> dataWriter = OctaveDataWriter.getOctaveDataWriter(octaveType);
         if (dataWriter == null) {
             throw new OctaveParseException("Unknown type, " + octaveType.getClass());
         }

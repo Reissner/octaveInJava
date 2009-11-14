@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2009 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * @author Kim Hansen
- */
 package dk.ange.octave.io.impl;
 
 import java.io.IOException;
@@ -23,32 +20,30 @@ import java.io.Writer;
 
 import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveBoolean;
-import dk.ange.octave.type.OctaveObject;
 
 /**
  * The writer of OctaveBoolean
  */
-public final class BooleanWriter extends OctaveDataWriter {
+public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
 
     @Override
-    public Class<? extends OctaveObject> javaType() {
+    public Class<OctaveBoolean> javaType() {
         return OctaveBoolean.class;
     }
 
     @Override
-    public void write(final Writer writer, final OctaveObject octaveType) throws IOException {
-        final OctaveBoolean octaveMatrix = (OctaveBoolean) octaveType;
+    public void write(final Writer writer, final OctaveBoolean octaveBoolean) throws IOException {
         writer.write("# type: bool matrix\n");
-        if (octaveMatrix.getSize().length > 2) {
-            saveDataVectorized(writer, octaveMatrix);
+        if (octaveBoolean.getSize().length > 2) {
+            saveDataVectorized(writer, octaveBoolean);
         } else {
-            saveData2d(writer, octaveMatrix);
+            saveData2d(writer, octaveBoolean);
         }
     }
 
-    private void saveData2d(final Writer writer, final OctaveBoolean octaveMatrix) throws IOException {
-        final int[] size = octaveMatrix.getSize();
-        final boolean[] data = octaveMatrix.getData();
+    private void saveData2d(final Writer writer, final OctaveBoolean octaveBoolean) throws IOException {
+        final int[] size = octaveBoolean.getSize();
+        final boolean[] data = octaveBoolean.getData();
         final int nrows = size[0];
         final int ncols = size.length > 1 ? size[1] : 1;
         writer.write("# rows: " + nrows + "\n# columns: " + ncols + "\n");

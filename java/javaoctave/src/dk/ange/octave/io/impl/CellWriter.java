@@ -26,16 +26,15 @@ import dk.ange.octave.type.OctaveObject;
 /**
  * The writer of OctaveCell
  */
-public final class CellWriter extends OctaveDataWriter {
+public final class CellWriter extends OctaveDataWriter<OctaveCell> {
 
     @Override
-    public Class<? extends OctaveObject> javaType() {
+    public Class<OctaveCell> javaType() {
         return OctaveCell.class;
     }
 
     @Override
-    public void write(final Writer writer, final OctaveObject octaveType) throws IOException {
-        final OctaveCell octaveCell = (OctaveCell) octaveType;
+    public void write(final Writer writer, final OctaveCell octaveCell) throws IOException {
         final int rows = octaveCell.size(1);
         final int columns = octaveCell.size(2);
         writer.write("# type: cell\n# rows: " + rows + "\n# columns: " + columns + "\n");
