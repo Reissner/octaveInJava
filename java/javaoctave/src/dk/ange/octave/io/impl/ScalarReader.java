@@ -22,7 +22,8 @@ import java.io.BufferedReader;
 
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.io.spi.OctaveDataReader;
-import dk.ange.octave.type.OctaveScalar;
+import dk.ange.octave.type.Octave;
+import dk.ange.octave.type.OctaveDouble;
 
 /**
  * The reader of scalar
@@ -35,11 +36,11 @@ public final class ScalarReader extends OctaveDataReader {
     }
 
     @Override
-    public OctaveScalar read(final BufferedReader reader) {
+    public OctaveDouble read(final BufferedReader reader) {
         String line;
         line = OctaveIO.readerReadLine(reader);
         final double value = ScalarReader.parseDouble(line);
-        return new OctaveScalar(value);
+        return Octave.scalar(value);
     }
 
     /**

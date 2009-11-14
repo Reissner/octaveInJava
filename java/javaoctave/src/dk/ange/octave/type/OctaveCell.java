@@ -18,6 +18,7 @@
  */
 package dk.ange.octave.type;
 
+import dk.ange.octave.type.matrix.AbstractGenericMatrix;
 import dk.ange.octave.type.matrix.GenericMatrix;
 
 /**
@@ -46,12 +47,8 @@ public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObj
         super(size);
     }
 
-    /**
-     * @param data
-     * @param size
-     */
-    private OctaveCell(final Object[] data, final int... size) {
-        super(data, size);
+    private OctaveCell(final AbstractGenericMatrix<OctaveObject[]> o) {
+        super(o);
     }
 
     @Override
@@ -77,8 +74,8 @@ public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObj
     }
 
     @Override
-    public OctaveObject shallowCopy() {
-        return new OctaveCell(data, size);
+    public OctaveCell shallowCopy() {
+        return new OctaveCell(this);
     }
 
 }

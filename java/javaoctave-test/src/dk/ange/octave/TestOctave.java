@@ -28,7 +28,8 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 import dk.ange.octave.exception.OctaveException;
 import dk.ange.octave.exception.OctaveIOException;
-import dk.ange.octave.type.OctaveScalar;
+import dk.ange.octave.type.Octave;
+import dk.ange.octave.type.OctaveDouble;
 import dk.ange.octave.type.OctaveObject;
 
 /**
@@ -68,19 +69,19 @@ public class TestOctave extends TestCase {
     public void testExecute() throws Exception {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
-        final OctaveObject Y = new OctaveScalar(2);
+        final OctaveObject Y = Octave.scalar(2);
         octave.put("y", Y);
-        final OctaveObject X = new OctaveScalar(42);
+        final OctaveObject X = Octave.scalar(42);
         octave.put("x", X);
-        final OctaveObject Z = new OctaveScalar(4);
+        final OctaveObject Z = Octave.scalar(4);
         octave.put("z", Z);
 
-        OctaveScalar x = octave.get("x");
-        Assert.assertEquals(42.0, x.getDouble(), 0.0);
+        OctaveDouble x = octave.get("x");
+        Assert.assertEquals(42.0, x.get(1, 1), 0.0);
 
         octave.eval("x = x + 10;");
         x = octave.get("x");
-        Assert.assertEquals(52.0, x.getDouble(), 0.0);
+        Assert.assertEquals(52.0, x.get(1, 1), 0.0);
         octave.close();
     }
 
@@ -91,10 +92,10 @@ public class TestOctave extends TestCase {
      */
     public void testExec() throws Exception {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        octave.put("x", new OctaveScalar(42));
+        octave.put("x", Octave.scalar(42));
         octave.eval(new StringReader("x=x+10;"));
-        final OctaveScalar octaveScalar = octave.get("x");
-        final double x = octaveScalar.getDouble();
+        final OctaveDouble octaveScalar = octave.get("x");
+        final double x = octaveScalar.get(1, 1);
         assertEquals(52.0, x, 0.0);
         octave.close();
     }

@@ -18,8 +18,8 @@ package dk.ange.octave.examples;
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
+import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveDouble;
-import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
 
 /**
@@ -33,8 +33,8 @@ public class HomeExampleTest extends TestCase {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("warning off"); // not web text: needed to silence warnings from lsode
         octave.put("fun", new OctaveString("sqrt(1-t**2)"));
-        octave.put("t1", new OctaveScalar(0));
-        octave.put("t2", new OctaveScalar(1));
+        octave.put("t1", Octave.scalar(0));
+        octave.put("t2", Octave.scalar(1));
         octave.eval("result = lsode(fun, 0, [t1 t2])(2);");
         final OctaveDouble result = octave.get("result");
         octave.close();

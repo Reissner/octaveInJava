@@ -41,6 +41,15 @@ abstract public class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
         super((T[]) data, size);
     }
 
+    /**
+     * Copy constructor
+     * 
+     * @param o
+     */
+    protected GenericMatrix(final AbstractGenericMatrix<T[]> o) {
+        super(o);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     protected T[] newD(final int size_) {

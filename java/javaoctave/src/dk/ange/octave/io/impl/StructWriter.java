@@ -24,8 +24,8 @@ import java.util.Map;
 
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.io.spi.OctaveDataWriter;
-import dk.ange.octave.type.OctaveStruct;
 import dk.ange.octave.type.OctaveObject;
+import dk.ange.octave.type.OctaveStruct;
 
 /**
  * The writer of OctaveStruct

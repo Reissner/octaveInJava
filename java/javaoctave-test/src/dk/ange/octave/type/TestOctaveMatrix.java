@@ -66,7 +66,7 @@ public class TestOctaveMatrix extends TestCase {
      * Test that the Matrix is not modified when the size matrix is changed.
      */
     public void testSizeConstructorModify() {
-        int[] size = new int[] { 2, 2 };
+        final int[] size = new int[] { 2, 2 };
         final OctaveDouble matrix = new OctaveDouble(size);
         assertEquals(2, matrix.size(1));
         assertEquals(2, matrix.size(2));

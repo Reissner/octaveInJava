@@ -38,11 +38,17 @@ public final class MatrixWriter extends OctaveDataWriter {
     @Override
     public void write(final Writer writer, final OctaveObject octaveType) throws IOException {
         final OctaveDouble octaveMatrix = (OctaveDouble) octaveType;
-        writer.write("# type: matrix\n");
-        if (octaveMatrix.getSize().length > 2) {
-            saveDataVectorized(writer, octaveMatrix);
+        if (octaveMatrix.getSize().length <= 2) {
+            if (octaveMatrix.getSize().length == 2 && octaveMatrix.size(1) == 1 && octaveMatrix.size(2) == 1) {
+                writer.write("# type: scalar\n");
+                writer.write(octaveMatrix.get(1, 1) + "\n\n");
+            } else {
+                writer.write("# type: matrix\n");
+                saveData2d(writer, octaveMatrix);
+            }
         } else {
-            saveData2d(writer, octaveMatrix);
+            writer.write("# type: matrix\n");
+            saveDataVectorized(writer, octaveMatrix);
         }
     }
 

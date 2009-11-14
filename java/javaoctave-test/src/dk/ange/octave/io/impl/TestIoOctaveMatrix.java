@@ -22,9 +22,9 @@ import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
+import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveDouble;
 import dk.ange.octave.type.OctaveObject;
-import dk.ange.octave.type.OctaveScalar;
 
 /**
  * Test read/write of {@link OctaveDouble}
@@ -171,10 +171,8 @@ public class TestIoOctaveMatrix extends TestCase {
         assertEquals(1, matrix.size(2));
         assertEquals("" + //
                 "# name: matrix\n" + //
-                "# type: matrix\n" + //
-                "# rows: 1\n" + //
-                "# columns: 1\n" + //
-                " 1.0\n\n" //
+                "# type: scalar\n" + //
+                "1.0\n\n" //
         , OctaveIO.toText(matrix, "matrix"));
         matrix.set(3, 3, 1);
         assertEquals(3, matrix.size(1));
@@ -253,8 +251,8 @@ public class TestIoOctaveMatrix extends TestCase {
         octave.setErrorWriter(stderr);
 
         octave.eval("ok=1;");
-        final OctaveScalar okOne = new OctaveScalar(1);
-        OctaveScalar ok;
+        final OctaveDouble okOne = Octave.scalar(1);
+        OctaveDouble ok;
 
         octave.eval("xnan=[NaN 0];");
         ok = octave.get("ok");
@@ -349,10 +347,8 @@ public class TestIoOctaveMatrix extends TestCase {
 
         assertEquals("" + //
                 "# name: matrixscalar\n" + //
-                "# type: matrix\n" + //
-                "# rows: 1\n" + //
-                "# columns: 1\n" + //
-                " 42.0\n\n" //
+                "# type: scalar\n" + //
+                "42.0\n\n" //
         , OctaveIO.toText(matrixscalar, "matrixscalar"));
 
         assertEquals("" + //

@@ -20,9 +20,9 @@ import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
+import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveDouble;
-import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
 
 /**
@@ -43,7 +43,7 @@ public class TestIoOctaveCell extends TestCase {
      */
     public void testConstructorValue() {
         final OctaveCell cell = new OctaveCell(0, 0);
-        cell.set(new OctaveScalar(42), 1, 1);
+        cell.set(Octave.scalar(42), 1, 1);
         Assert.assertEquals(1, cell.size(1));
         Assert.assertEquals(1, cell.size(2));
         Assert.assertEquals("# name: mycell2\n# type: cell\n# rows: 1\n# columns: 1\n"
@@ -73,7 +73,7 @@ public class TestIoOctaveCell extends TestCase {
         final OctaveCell cell = new OctaveCell(0, 0);
         Assert.assertEquals(0, cell.size(1));
         Assert.assertEquals(0, cell.size(2));
-        cell.set(new OctaveScalar(42), 3, 4);
+        cell.set(Octave.scalar(42), 3, 4);
         Assert.assertEquals(3, cell.size(1));
         Assert.assertEquals(4, cell.size(2));
         Assert.assertEquals("# name: mycell\n# type: cell\n# rows: 3\n# columns: 4\n" + //
@@ -100,7 +100,7 @@ public class TestIoOctaveCell extends TestCase {
      */
     public void testOctaveConnection() throws Exception {
         final OctaveCell cell = new OctaveCell(0, 0);
-        cell.set(new OctaveScalar(42), 1, 1);
+        cell.set(Octave.scalar(42), 1, 1);
         final OctaveCell cell2 = new OctaveCell(0, 0);
         cell2.set(new OctaveString("mystring"), 1, 1);
         cell.set(cell2, 3, 2);
@@ -119,7 +119,7 @@ public class TestIoOctaveCell extends TestCase {
         final OctaveCell cell = new OctaveCell(2, 3);
         for (int r = 1; r <= 2; ++r) {
             for (int c = 1; c <= 3; ++c) {
-                cell.set(new OctaveScalar(r + 0.1 * c), r, c);
+                cell.set(Octave.scalar(r + 0.1 * c), r, c);
             }
         }
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
@@ -138,7 +138,7 @@ public class TestIoOctaveCell extends TestCase {
         final OctaveDouble octaveMatrix = new OctaveDouble(2, 3);
         octaveMatrix.set(42, 1, 1);
         final OctaveCell cell = new OctaveCell(2, 2);
-        cell.set(new OctaveScalar(42), 1, 1);
+        cell.set(Octave.scalar(42), 1, 1);
         cell.set(octaveMatrix, 1, 2);
         Assert.assertEquals(2, cell.size(1));
         Assert.assertEquals(2, cell.size(2));

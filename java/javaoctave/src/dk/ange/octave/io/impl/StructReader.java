@@ -24,8 +24,8 @@ import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveCell;
-import dk.ange.octave.type.OctaveStruct;
 import dk.ange.octave.type.OctaveObject;
+import dk.ange.octave.type.OctaveStruct;
 
 /**
  * The reader of struct

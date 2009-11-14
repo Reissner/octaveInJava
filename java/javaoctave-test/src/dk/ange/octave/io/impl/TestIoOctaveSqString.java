@@ -20,8 +20,9 @@ import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.exception.OctaveRecoverableException;
+import dk.ange.octave.type.Octave;
+import dk.ange.octave.type.OctaveDouble;
 import dk.ange.octave.type.OctaveObject;
-import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
 
 /**
@@ -44,16 +45,16 @@ public class TestIoOctaveSqString extends TestCase {
      */
     public void testUnimplementedEscapeChar() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        octave.put("x", new OctaveScalar(1));
+        octave.put("x", Octave.scalar(1));
         octave.eval("st='\\\\';");
-        assertEquals(1, octave.get("x", OctaveScalar.class).getDouble(), 0);
+        assertEquals(1, octave.get("x", OctaveDouble.class).get(1, 1), 0);
         try {
             octave.get("st");
             fail();
         } catch (final OctaveParseException e) {
             assertTrue(OctaveRecoverableException.class.isInstance(e));
         }
-        assertEquals(1, octave.get("x", OctaveScalar.class).getDouble(), 0);
+        assertEquals(1, octave.get("x", OctaveDouble.class).get(1, 1), 0);
         octave.close();
     }
 

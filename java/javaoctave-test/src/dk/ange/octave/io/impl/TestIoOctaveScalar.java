@@ -22,13 +22,15 @@ import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
+import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveDouble;
 import dk.ange.octave.type.OctaveObject;
-import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveStruct;
 
 /**
- * Test read/write of {@link OctaveScalar}
+ * Test read/write of {@link OctaveDouble}
+ * 
+ * FIXME merge with TestIoOctaveDouble
  */
 public class TestIoOctaveScalar extends TestCase {
 
@@ -36,7 +38,7 @@ public class TestIoOctaveScalar extends TestCase {
      * @throws Exception
      */
     public void testToString() throws Exception {
-        final OctaveObject integer = new OctaveScalar(42);
+        final OctaveObject integer = Octave.scalar(42);
         Assert.assertEquals("# name: ans\n# type: scalar\n42.0\n\n", OctaveIO.toText(integer));
     }
 
@@ -44,7 +46,7 @@ public class TestIoOctaveScalar extends TestCase {
      * @throws Exception
      */
     public void testToOctave() throws Exception {
-        final OctaveObject integer = new OctaveScalar(43);
+        final OctaveObject integer = Octave.scalar(43);
         Assert.assertEquals("# name: tre\n# type: scalar\n43.0\n\n", OctaveIO.toText(integer, "tre"));
     }
 
@@ -52,10 +54,10 @@ public class TestIoOctaveScalar extends TestCase {
      * @throws Exception
      */
     public void testOctaveConnection() throws Exception {
-        final OctaveObject i1 = new OctaveScalar(42);
+        final OctaveObject i1 = Octave.scalar(42);
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("i", i1);
-        final OctaveScalar i2 = octave.get("i");
+        final OctaveDouble i2 = octave.get("i");
         Assert.assertEquals(i1, i2);
         octave.close();
     }
@@ -71,30 +73,30 @@ public class TestIoOctaveScalar extends TestCase {
         octave.setErrorWriter(stderr);
 
         octave.eval("ok=1;");
-        final OctaveScalar okOne = new OctaveScalar(1);
-        OctaveScalar ok;
+        final OctaveDouble okOne = Octave.scalar(1);
+        OctaveDouble ok;
 
         octave.eval("xnan=NaN;");
         ok = octave.get("ok");
         assertEquals(okOne, ok);
-        final OctaveScalar xnan = octave.get("xnan");
-        assertEquals(Double.NaN, xnan.getDouble());
+        final OctaveDouble xnan = octave.get("xnan");
+        assertEquals(Double.NaN, xnan.get(1, 1));
         ok = octave.get("ok");
         assertEquals(okOne, ok);
 
         octave.eval("xinf=Inf;");
         ok = octave.get("ok");
         assertEquals(okOne, ok);
-        final OctaveScalar xinf = octave.get("xinf");
-        assertEquals(Double.POSITIVE_INFINITY, xinf.getDouble());
+        final OctaveDouble xinf = octave.get("xinf");
+        assertEquals(Double.POSITIVE_INFINITY, xinf.get(1, 1));
         ok = octave.get("ok");
         assertEquals(okOne, ok);
 
         octave.eval("xninf=-Inf;");
         ok = octave.get("ok");
         assertEquals(okOne, ok);
-        final OctaveScalar xninf = octave.get("xninf");
-        assertEquals(Double.NEGATIVE_INFINITY, xninf.getDouble());
+        final OctaveDouble xninf = octave.get("xninf");
+        assertEquals(Double.NEGATIVE_INFINITY, xninf.get(1, 1));
         ok = octave.get("ok");
         assertEquals(okOne, ok);
 
@@ -108,9 +110,9 @@ public class TestIoOctaveScalar extends TestCase {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
         octave.eval("global x");
-        octave.put("x", new OctaveScalar(42.0));
+        octave.put("x", Octave.scalar(42.0));
 
-        final OctaveScalar x = octave.get("x");
+        final OctaveDouble x = octave.get("x");
         assertEquals(42.0, x.get(1));
 
         octave.close();

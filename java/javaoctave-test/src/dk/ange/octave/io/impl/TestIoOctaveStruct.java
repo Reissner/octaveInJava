@@ -24,9 +24,10 @@ import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.io.OctaveIO;
+import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveCell;
+import dk.ange.octave.type.OctaveDouble;
 import dk.ange.octave.type.OctaveObject;
-import dk.ange.octave.type.OctaveScalar;
 import dk.ange.octave.type.OctaveString;
 import dk.ange.octave.type.OctaveStruct;
 
@@ -46,7 +47,7 @@ public class TestIoOctaveStruct extends TestCase {
      */
     public void testSet() {
         final OctaveStruct struct1 = new OctaveStruct();
-        struct1.set("a", new OctaveScalar(42));
+        struct1.set("a", Octave.scalar(42));
         Assert.assertEquals("" + //
                 "# name: mystruct\n" + //
                 "# type: struct\n" + //
@@ -61,7 +62,7 @@ public class TestIoOctaveStruct extends TestCase {
         , OctaveIO.toText(struct1, "mystruct"));
         final OctaveStruct struct2 = new OctaveStruct();
         final OctaveCell octaveCell = new OctaveCell(0, 0);
-        octaveCell.set(new OctaveScalar(42), 1, 1);
+        octaveCell.set(Octave.scalar(42), 1, 1);
         struct2.set("mycell", octaveCell);
         Assert.assertEquals("" + //
                 "# name: mystruct\n" + //
@@ -85,7 +86,7 @@ public class TestIoOctaveStruct extends TestCase {
      */
     public void testOctaveConnection() {
         final OctaveStruct struct = new OctaveStruct();
-        struct.set("scalar", new OctaveScalar(42));
+        struct.set("scalar", Octave.scalar(42));
         final OctaveStruct nested_struct = new OctaveStruct();
         nested_struct.set("string", new OctaveString("a cheese called Horace"));
         struct.set("mynestedstruct", nested_struct);
@@ -118,8 +119,8 @@ public class TestIoOctaveStruct extends TestCase {
         final OctaveStruct s1 = octave.get("s");
         octave.put("s1", s1);
         octave.eval("t = 1.0*isequal(s, s1);"); // "1.0*" is a typecast from bool to scalar
-        final OctaveScalar t = octave.get("t");
-        assertEquals(1.0, t.getDouble());
+        final OctaveDouble t = octave.get("t");
+        assertEquals(1.0, t.get(1, 1));
         final OctaveStruct s2 = octave.get("s1");
         assertEquals(s1, s2);
         octave.close();

@@ -37,6 +37,7 @@ public class OctaveDouble extends DoubleMatrix implements OctaveObject {
      * @param data
      * @param size
      */
+    // FIXME used in MatrixReader, but should be private
     public OctaveDouble(final double[] data, final int... size) {
         super(data, size);
     }

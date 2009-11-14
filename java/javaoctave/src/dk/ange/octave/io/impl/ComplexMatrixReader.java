@@ -48,7 +48,7 @@ public final class ComplexMatrixReader extends OctaveDataReader {
         final int columns = parseColumns(reader);
         final OctaveComplex complex = new OctaveComplex(rows, columns);
         for (int r = 1; r <= rows; ++r) {
-            String line = OctaveIO.readerReadLine(reader);
+            final String line = OctaveIO.readerReadLine(reader);
             final String[] split = line.split(" ");
             if (split.length != columns + 1) {
                 throw new OctaveParseException("Error in complex matrix-format: '" + line + "'");

@@ -30,6 +30,8 @@ import dk.ange.octave.type.OctaveObject;
 
 /**
  * Interface for the IO handler that can read and write {@link OctaveObject}s
+ * 
+ * FIXME can this be a generic?
  */
 public abstract class OctaveDataWriter {
 

@@ -18,7 +18,7 @@ package dk.ange.octave.type;
 import junit.framework.TestCase;
 
 /**
- * @author Kim Hansen
+ * Test
  */
 public class TestOctaveScalar extends TestCase {
 
@@ -26,10 +26,10 @@ public class TestOctaveScalar extends TestCase {
      * Test
      */
     public void testValues() {
-        final OctaveScalar s1a = new OctaveScalar(1);
-        final OctaveScalar s1b = new OctaveScalar(1);
-        final OctaveScalar s1c = new OctaveScalar(0);
-        s1c.set(1);
+        final OctaveDouble s1a = Octave.scalar(1);
+        final OctaveDouble s1b = Octave.scalar(1);
+        final OctaveDouble s1c = Octave.scalar(0);
+        s1c.set(1, 1, 1);
 
         assertEquals(s1a, s1b);
         assertEquals(s1a, s1c);
@@ -38,8 +38,8 @@ public class TestOctaveScalar extends TestCase {
         assertNotSame(s1a, s1c);
         assertNotSame(s1b, s1c);
 
-        final OctaveScalar s0 = new OctaveScalar(0);
-        final OctaveScalar s2 = new OctaveScalar(2);
+        final OctaveDouble s0 = Octave.scalar(0);
+        final OctaveDouble s2 = Octave.scalar(2);
 
         assertFalse(s1a.equals(s0));
         assertFalse(s1a.equals(s2));

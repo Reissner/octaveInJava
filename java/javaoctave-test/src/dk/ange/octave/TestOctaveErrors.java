@@ -22,7 +22,8 @@ import junit.framework.TestCase;
 import dk.ange.octave.exception.OctaveException;
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.exception.OctaveRecoverableException;
-import dk.ange.octave.type.OctaveScalar;
+import dk.ange.octave.type.Octave;
+import dk.ange.octave.type.OctaveDouble;
 
 /**
  * Test
@@ -66,16 +67,16 @@ public class TestOctaveErrors extends TestCase {
      */
     public void testParseException() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        octave.put("x", new OctaveScalar(1));
+        octave.put("x", Octave.scalar(1));
         octave.eval("y = uint16(42);");
-        assertEquals(1, octave.get("x", OctaveScalar.class).getDouble(), 0);
+        assertEquals(1, octave.get("x", OctaveDouble.class).get(1, 1), 0);
         try {
             octave.get("y");
             fail();
         } catch (final OctaveParseException e) {
             assertTrue(OctaveRecoverableException.class.isInstance(e));
         }
-        assertEquals(1, octave.get("x", OctaveScalar.class).getDouble(), 0);
+        assertEquals(1, octave.get("x", OctaveDouble.class).get(1, 1), 0);
         octave.close();
     }
 

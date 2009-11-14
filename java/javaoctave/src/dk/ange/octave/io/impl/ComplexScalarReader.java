@@ -44,7 +44,7 @@ public final class ComplexScalarReader extends OctaveDataReader {
         final int commaIndex = line.indexOf(',');
         final double real = ScalarReader.parseDouble(line.substring(1, commaIndex));
         final double imag = ScalarReader.parseDouble(line.substring(commaIndex + 1, line.length() - 1));
-        OctaveComplex complex = new OctaveComplex(1, 1);
+        final OctaveComplex complex = new OctaveComplex(1, 1);
         complex.setReal(real, 1, 1);
         complex.setImag(imag, 1, 1);
         return complex;

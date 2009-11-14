@@ -15,8 +15,8 @@
  */
 package dk.ange.octave;
 
+import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveDouble;
-import dk.ange.octave.type.OctaveScalar;
 
 /**
  * @author Kim Hansen
@@ -36,7 +36,7 @@ public class RunOctave {
     private static void test1() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
-        octave.put("a", new OctaveScalar(42));
+        octave.put("a", Octave.scalar(42));
         octave.eval("a");
         System.out.println("Java: a = " + octave.get("a"));
         octave.eval("a=a+10");

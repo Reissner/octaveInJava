@@ -21,7 +21,8 @@ package dk.ange.octave.io;
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
-import dk.ange.octave.type.OctaveScalar;
+import dk.ange.octave.type.Octave;
+import dk.ange.octave.type.OctaveDouble;
 
 /** Tests */
 public class TestUnknownVar extends TestCase {
@@ -31,11 +32,11 @@ public class TestUnknownVar extends TestCase {
      */
     public void testGetUnknownVar() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final OctaveScalar x1 = octave.get("x");
+        final OctaveDouble x1 = octave.get("x");
         assertNull(x1);
-        final OctaveScalar x = new OctaveScalar(42);
+        final OctaveDouble x = Octave.scalar(42);
         octave.put("x", x);
-        final OctaveScalar x2 = octave.get("x");
+        final OctaveDouble x2 = octave.get("x");
         assertEquals(x, x2);
         octave.close();
     }

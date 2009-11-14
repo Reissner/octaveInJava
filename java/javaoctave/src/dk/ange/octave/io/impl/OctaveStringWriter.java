@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.io.Writer;
 
 import dk.ange.octave.io.spi.OctaveDataWriter;
-import dk.ange.octave.type.OctaveString;
 import dk.ange.octave.type.OctaveObject;
+import dk.ange.octave.type.OctaveString;
 
 /**
  * The writer of OctaveString
