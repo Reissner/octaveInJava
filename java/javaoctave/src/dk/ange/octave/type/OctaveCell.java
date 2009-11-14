@@ -18,13 +18,12 @@
  */
 package dk.ange.octave.type;
 
+import dk.ange.octave.exception.OctaveClassCastException;
 import dk.ange.octave.type.matrix.AbstractGenericMatrix;
 import dk.ange.octave.type.matrix.GenericMatrix;
 
 /**
  * Nd cells
- * 
- * FIXME auto cast on get in cell
  */
 public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObject {
 
@@ -70,6 +69,24 @@ public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObj
             return DEFAULT_VALUE.shallowCopy();
         } else {
             return get.shallowCopy();
+        }
+    }
+
+    /**
+     * @param <T>
+     * @param pos
+     * @param castClass
+     *            Class to cast to
+     * @return shallow copy of value for this key.
+     * @throws OctaveClassCastException
+     *             if the object can not be cast to a castClass
+     */
+    public <T extends OctaveObject> T get(final Class<T> castClass, final int... pos) {
+        final OctaveObject oo = get(pos);
+        try {
+            return castClass.cast(oo);
+        } catch (final ClassCastException e) {
+            throw new OctaveClassCastException(e, oo, castClass);
         }
     }
 

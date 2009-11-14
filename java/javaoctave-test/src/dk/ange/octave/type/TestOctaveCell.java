@@ -28,10 +28,10 @@ public class TestOctaveCell extends TestCase {
     public void testReturnCopy() {
         final OctaveCell cell = new OctaveCell(0, 0);
         cell.set(Octave.scalar(2), 1, 1);
-        final OctaveDouble scalar = (OctaveDouble) cell.get(1, 1);
+        final OctaveDouble scalar = cell.get(OctaveDouble.class, 1, 1);
         scalar.set(10.0, 1, 1);
         assertEquals(scalar.get(1, 1), 10.0);
-        assertEquals(((OctaveDouble) cell.get(1, 1)).get(1, 1), 2.0);
+        assertEquals(cell.get(OctaveDouble.class, 1, 1).get(1, 1), 2.0);
     }
 
     /**

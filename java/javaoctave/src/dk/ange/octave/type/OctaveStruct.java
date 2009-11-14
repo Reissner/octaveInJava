@@ -83,7 +83,7 @@ public class OctaveStruct implements OctaveObject {
     public <T extends OctaveObject> T get(final String key, final Class<T> castClass) {
         final OctaveObject ot = get(key);
         try {
-            return castClass.cast(get(key));
+            return castClass.cast(ot);
         } catch (final ClassCastException e) {
             throw new OctaveClassCastException(e, ot, castClass);
         }
