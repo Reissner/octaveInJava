@@ -40,8 +40,8 @@ abstract public class AbstractGenericMatrix<D> {
      * 
      * @param size
      */
-    public AbstractGenericMatrix(final int... size) {
-        this.size = size;
+    protected AbstractGenericMatrix(final int... size) {
+        this.size = size.clone();
         checkSize();
         this.data = newD(product(size));
     }
@@ -52,11 +52,22 @@ abstract public class AbstractGenericMatrix<D> {
      * @param data
      * @param size
      */
-    public AbstractGenericMatrix(final D data, final int... size) {
+    protected AbstractGenericMatrix(final D data, final int... size) {
         this.size = size;
         checkSize();
         this.data = data;
         checkDataSize();
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param o
+     */
+    protected AbstractGenericMatrix(final AbstractGenericMatrix<D> o) {
+        this.size = o.size.clone();
+        this.data = newD(product(size));
+        System.arraycopy(o.data, 0, data, 0, product(size));
     }
 
     private void checkSize() throws IllegalArgumentException {
@@ -97,7 +108,7 @@ abstract public class AbstractGenericMatrix<D> {
 
     /**
      * @param size_
-     * @return new D[size]
+     * @return new D[size_]
      */
     abstract protected D newD(int size_);
 
@@ -146,8 +157,7 @@ abstract public class AbstractGenericMatrix<D> {
         }
         // Resize from the smallest dimension. This is not the optimal way to do it, but it works.
         int smallest_dim = 0;
-        final int[] newsize = new int[size.length];
-        System.arraycopy(size, 0, newsize, 0, size.length);
+        final int[] newsize = size.clone();
         for (; smallest_dim < size.length; smallest_dim++) {
             if (pos[smallest_dim] > size[smallest_dim]) {
                 newsize[smallest_dim] = pos[smallest_dim];

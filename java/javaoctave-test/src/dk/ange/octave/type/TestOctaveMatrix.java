@@ -63,6 +63,19 @@ public class TestOctaveMatrix extends TestCase {
     }
 
     /**
+     * Test that the Matrix is not modified when the size matrix is changed.
+     */
+    public void testSizeConstructorModify() {
+        int[] size = new int[] { 2, 2 };
+        final OctaveDouble matrix = new OctaveDouble(size);
+        assertEquals(2, matrix.size(1));
+        assertEquals(2, matrix.size(2));
+        size[1] = 3;
+        assertEquals(2, matrix.size(1));
+        assertEquals(2, matrix.size(2));
+    }
+
+    /**
      */
     public void testSizeConstructor() {
         final OctaveDouble matrix = new OctaveDouble(3, 6, 5, 4);
@@ -110,6 +123,47 @@ public class TestOctaveMatrix extends TestCase {
         } catch (final IllegalArgumentException e) {
             assertEquals("length of data(24) is smaller than size([2, 4, 4])", e.getMessage());
         }
+    }
+
+    /**
+     * Test that shallowCopy makes an identical copy that does not change when the original is changed.
+     */
+    public void testShallowCopy() {
+        final OctaveDouble a = new OctaveDouble(1, 1);
+        a.set(22, 1, 1);
+        final OctaveDouble b = a.shallowCopy();
+        assertEquals(a, b);
+        assertEquals(22.0, a.get(1, 1));
+        assertEquals(22.0, b.get(1, 1));
+        a.set(33, 1, 1);
+        assertEquals(33.0, a.get(1, 1));
+        assertEquals(22.0, b.get(1, 1));
+        b.set(44, 1, 1);
+        assertEquals(33.0, a.get(1, 1));
+        assertEquals(44.0, b.get(1, 1));
+    }
+
+    /**
+     * Test that shallowCopy makes an identical copy that does not change size when the original is changed.
+     */
+    public void testShallowCopySize() {
+        final OctaveDouble a = new OctaveDouble(2, 2);
+        final OctaveDouble b = a.shallowCopy();
+        assertEquals(a, b);
+        assertEquals(2, a.size(1));
+        assertEquals(2, a.size(2));
+        assertEquals(2, b.size(1));
+        assertEquals(2, b.size(2));
+        a.set(33, 2, 3);
+        assertEquals(2, a.size(1));
+        assertEquals(3, a.size(2));
+        assertEquals(2, b.size(1));
+        assertEquals(2, b.size(2));
+        b.set(44, 3, 2);
+        assertEquals(2, a.size(1));
+        assertEquals(3, a.size(2));
+        assertEquals(3, b.size(1));
+        assertEquals(2, b.size(2));
     }
 
     /**

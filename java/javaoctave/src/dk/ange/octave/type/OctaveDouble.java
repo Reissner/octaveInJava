@@ -41,9 +41,18 @@ public class OctaveDouble extends DoubleMatrix implements OctaveObject {
         super(data, size);
     }
 
+    /**
+     * Copy constructor
+     * 
+     * @param o
+     */
+    public OctaveDouble(final OctaveDouble o) {
+        super(o);
+    }
+
     @Override
     public OctaveDouble shallowCopy() {
-        return new OctaveDouble(data, size);
+        return new OctaveDouble(this);
     }
 
 }

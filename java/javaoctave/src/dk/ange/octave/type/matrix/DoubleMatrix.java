@@ -37,6 +37,15 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
         super(data, size);
     }
 
+    /**
+     * Copy constructor
+     * 
+     * @param o
+     */
+    public DoubleMatrix(final DoubleMatrix o) {
+        super(o);
+    }
+
     @Override
     protected double[] newD(final int size_) {
         return new double[size_];
