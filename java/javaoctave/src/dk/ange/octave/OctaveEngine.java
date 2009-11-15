@@ -34,6 +34,7 @@ import dk.ange.octave.exec.WriteFunctor;
 import dk.ange.octave.exec.WriterReadFunctor;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveObject;
+import dk.ange.octave.type.cast.Cast;
 
 /**
  * The connection to an octave process.
@@ -140,12 +141,7 @@ public final class OctaveEngine {
      *             if the object can not be cast to a castClass
      */
     public <T extends OctaveObject> T get(final Class<T> castClass, final String key) {
-        final OctaveObject ot = get(key);
-        try {
-            return castClass.cast(ot);
-        } catch (final ClassCastException e) {
-            throw new OctaveClassCastException(e, ot, castClass);
-        }
+        return Cast.cast(castClass, get(key));
     }
 
     /**

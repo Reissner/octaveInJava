@@ -19,6 +19,7 @@
 package dk.ange.octave.type;
 
 import dk.ange.octave.exception.OctaveClassCastException;
+import dk.ange.octave.type.cast.Cast;
 import dk.ange.octave.type.matrix.AbstractGenericMatrix;
 import dk.ange.octave.type.matrix.GenericMatrix;
 
@@ -82,12 +83,7 @@ public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObj
      *             if the object can not be cast to a castClass
      */
     public <T extends OctaveObject> T get(final Class<T> castClass, final int... pos) {
-        final OctaveObject oo = get(pos);
-        try {
-            return castClass.cast(oo);
-        } catch (final ClassCastException e) {
-            throw new OctaveClassCastException(e, oo, castClass);
-        }
+        return Cast.cast(castClass, get(pos));
     }
 
     @Override

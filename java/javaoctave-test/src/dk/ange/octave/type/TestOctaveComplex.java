@@ -15,24 +15,19 @@
  */
 package dk.ange.octave.type;
 
+import dk.ange.octave.type.cast.Cast;
+import junit.framework.TestCase;
 
 /**
- * Place holder for factory methods
+ * Test OctaveComplex
  */
-public final class Octave {
-
-    private Octave() {
-        throw new UnsupportedOperationException("Do not instantiate");
-    }
+public class TestOctaveComplex extends TestCase {
 
     /**
-     * @param d
-     * @return New OctaveDouble with a single value
+     * Test that an OctaveDouble can be viewed as an OctaveComplex
      */
-    public static OctaveDouble scalar(final double d) {
-        final OctaveDouble od = new OctaveDouble(1, 1);
-        od.set(d, 1, 1);
-        return od;
+    public void testCast() {
+        Cast.cast(OctaveComplex.class, new OctaveDouble(1, 1));
     }
 
 }

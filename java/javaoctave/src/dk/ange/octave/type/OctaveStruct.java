@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dk.ange.octave.exception.OctaveClassCastException;
+import dk.ange.octave.type.cast.Cast;
 
 /**
  * 1x1 struct. JavaOctave does not support the multidimensional structs that octave has.
@@ -81,12 +82,7 @@ public class OctaveStruct implements OctaveObject {
      *             if the object can not be cast to a castClass
      */
     public <T extends OctaveObject> T get(final Class<T> castClass, final String key) {
-        final OctaveObject ot = get(key);
-        try {
-            return castClass.cast(ot);
-        } catch (final ClassCastException e) {
-            throw new OctaveClassCastException(e, ot, castClass);
-        }
+        return Cast.cast(castClass, get(key));
     }
 
     /**

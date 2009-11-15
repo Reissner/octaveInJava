@@ -13,26 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.type;
-
+package dk.ange.octave.type.cast;
 
 /**
- * Place holder for factory methods
+ * Interface for a caster that transforms objects from type F to T
+ * 
+ * @param <F>
+ * @param <T>
  */
-public final class Octave {
-
-    private Octave() {
-        throw new UnsupportedOperationException("Do not instantiate");
-    }
+public interface Caster<F, T> {
 
     /**
-     * @param d
-     * @return New OctaveDouble with a single value
+     * @param from
+     *            object to convert
+     * @return Converted object
      */
-    public static OctaveDouble scalar(final double d) {
-        final OctaveDouble od = new OctaveDouble(1, 1);
-        od.set(d, 1, 1);
-        return od;
-    }
+    public T cast(F from);
+
+    /**
+     * @return Class to cast from
+     */
+    public Class<F> from();
+
+    /**
+     * @return Class to cast to
+     */
+    public Class<T> to();
 
 }

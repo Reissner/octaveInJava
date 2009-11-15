@@ -30,7 +30,7 @@ import dk.ange.octave.type.OctaveStruct;
 /**
  * Test read/write of {@link OctaveDouble}
  * 
- * FIXME merge with TestIoOctaveDouble
+ * TODO merge with TestIoOctaveDouble
  */
 public class TestIoOctaveScalar extends TestCase {
 

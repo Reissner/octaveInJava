@@ -52,8 +52,7 @@ public class TestIoOctaveComplex extends TestCase {
     }
 
     /** Test that a real number also works in the complex code */
-    // FIXME test is disabled
-    public void XtestGetReal() {
+    public void testGetReal() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("y = 1.2;");
         final OctaveComplex c = octave.get(OctaveComplex.class, "y");

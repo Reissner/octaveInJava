@@ -55,4 +55,11 @@ public class OctaveClassCastException extends OctaveRecoverableException {
         return castClass;
     }
 
+    @Override
+    public String getMessage() {
+        final String m1 = "Failed cast of " + octaveObject + " to " + castClass;
+        final String m2 = super.getMessage();
+        return m1 + (m2 == null ? "" : ", " + m2);
+    }
+
 }
