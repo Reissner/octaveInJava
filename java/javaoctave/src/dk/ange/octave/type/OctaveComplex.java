@@ -18,7 +18,7 @@ package dk.ange.octave.type;
 import dk.ange.octave.type.matrix.DoubleMatrix;
 
 /**
- * FIXME todo
+ * A complex matrix
  * 
  * FIXME resize sync
  */
@@ -34,6 +34,16 @@ public class OctaveComplex implements OctaveObject {
     public OctaveComplex(final int... size) {
         real = new DoubleMatrix(size);
         imag = new DoubleMatrix(size);
+    }
+
+    /**
+     * Copy constructor
+     * 
+     * @param o
+     */
+    public OctaveComplex(final OctaveComplex o) {
+        real = new DoubleMatrix(o.real);
+        imag = new DoubleMatrix(o.imag);
     }
 
     /**
@@ -57,7 +67,7 @@ public class OctaveComplex implements OctaveObject {
 
     /**
      * @param pos
-     * @return FIXME
+     * @return the real value stored at pos
      */
     public double getReal(final int... pos) {
         return real.get(pos);
@@ -73,16 +83,15 @@ public class OctaveComplex implements OctaveObject {
 
     /**
      * @param pos
-     * @return FIXME
+     * @return the imaginary value stored at pos
      */
     public double getImag(final int... pos) {
         return imag.get(pos);
     }
 
     @Override
-    public OctaveObject shallowCopy() {
-        // FIXME Not implemented yet
-        throw new UnsupportedOperationException("Not implemented yet");
+    public OctaveComplex shallowCopy() {
+        return new OctaveComplex(this);
     }
 
 }

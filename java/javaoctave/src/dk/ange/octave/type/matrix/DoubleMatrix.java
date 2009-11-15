@@ -30,6 +30,8 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     }
 
     /**
+     * Constructor that reuses the input data
+     * 
      * @param data
      * @param size
      */
