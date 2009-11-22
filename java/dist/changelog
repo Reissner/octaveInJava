@@ -1,0 +1,42 @@
+JavaOctave (0.5.0) 2009-11-22
+
+  * Create OctaveComplex as wrapper type for complex matrices.
+  * Create an auto cast functionality in JavaOctave that is similar to one in
+    C++.  It is used to transform OctaveDouble to OctaveComplex when that is
+    needed.
+  * Make OctaveEngine.get(), OctaveCell.get() and OctaveStruct.get() take Class
+    objects as input and use the autocast to transform the type if that is
+    needed.
+  * Group the exceptions thrown by JavaOctave into the ones that will break the
+    octave process, and the ones that will not. Make the data reading more
+    robust such that getting data of an unknown type will throw an exception
+    that will not break the process.
+  * Delete OctaveScalar, use 1x1 OctaveMatrix and create then using the factory
+    function Octave.scalar().
+  * Rename OctaveType to OctaveObject.
+  * Rename OctaveMatrix to OctaveDouble.
+  * Document how OctaveObject.shallowCopy is used.
+
+ -- Kim Hansen <kim@i9.dk>  Sun, 22 Nov 2009 23:24:17 +0100
+
+JavaOctave (0.4.0) 2009-10-08
+
+  * OctaveNdMatrix is renamed to OctaveMatrix
+  * OctaveScalar now behaves more like OctaveMatrix
+  * OctaveBoolean added to reflect the logical type in Octave
+  * Better build system and unit tests split from the main project
+  * Unit test coverage added, we are using Cobertura
+  * Switched from git to Mercurial
+  * Examples from Wiki is tested in unit tests
+  * The many fragmented OctaveMatrix tests collected into a single test of the
+    type and an other test of io.
+
+ -- Kim Hansen <kim@i9.dk>  Thu, 8 Oct 2009 22:30:34 +0000 (GMT)
+
+JavaOctave (0.3.2) 2009-09-17
+
+  * This release reads sq_strings.
+  * Project has moved from Launchpad+bzr to Kenai+git.
+  * Release has been tagged in the git repo as "release-0.3.2"
+
+ -- Kim Hansen <kim@i9.dk>  Thu, 17 Sep 2009 21:31:06 +0000 (GMT)
