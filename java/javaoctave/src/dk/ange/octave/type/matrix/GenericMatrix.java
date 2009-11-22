@@ -85,7 +85,7 @@ abstract public class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
      * @param pos
      */
     public void set(final T value, final int... pos) {
-        resize(pos);
+        resizeUp(pos);
         data[pos2ind(pos)] = value;
     }
 

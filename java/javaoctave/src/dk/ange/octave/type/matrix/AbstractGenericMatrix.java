@@ -28,7 +28,7 @@ abstract public class AbstractGenericMatrix<D> {
     /**
      * The dimensions, rows x columns x depth x ....
      */
-    protected int[] size;
+    protected final int[] size;
 
     /**
      * The data, vectorized.
@@ -138,7 +138,7 @@ abstract public class AbstractGenericMatrix<D> {
      * @param ns
      * @return product of ns
      */
-    protected static int product(final int... ns) {
+    private static int product(final int... ns) {
         int p = 1;
         for (final int n : ns) {
             p *= n;
@@ -147,82 +147,71 @@ abstract public class AbstractGenericMatrix<D> {
     }
 
     /**
-     * Resize data to size pos
+     * Resize matrix up to include pos
      * 
      * @param pos
      */
-    protected void resize(final int... pos) {
+    public void resizeUp(final int... pos) {
         if (size.length != pos.length) {
             throw new UnsupportedOperationException("Change in number of dimenstions not supported");
         }
-        // Resize from the smallest dimension. This is not the optimal way to do it, but it works.
-        int smallest_dim = 0;
-        final int[] newsize = size.clone();
-        for (; smallest_dim < size.length; smallest_dim++) {
-            if (pos[smallest_dim] > size[smallest_dim]) {
-                newsize[smallest_dim] = pos[smallest_dim];
-                resizework(smallest_dim, newsize);
+        // Resize by each dimension. This is not the optimal way to do it, but it works.
+        for (int dim = 0; dim < size.length; ++dim) {
+            if (pos[dim] > size[dim]) {
+                resizeAlongOneDimension(dim, pos[dim]);
             }
         }
     }
 
     /**
-     * Do the resizing, this is a little magic...
+     * Do the resizing along a single dimension
      * 
-     * @param smallest_dim
-     * @param pos
+     * @param dim
+     * @param newSizeDim
      */
-    private void resizework(final int smallest_dim, final int[] pos) {
-        // Calculate blocksize
-        int blocksize = 1;
-        for (int dim = 0; dim < smallest_dim + 1; dim++) {
-            blocksize *= size[dim];
+    private void resizeAlongOneDimension(final int dim, final int newSizeDim) {
+        // Calculate block size and used length of old and new array
+        int oldBlockSize = size[dim];
+        int newBlockSize = newSizeDim;
+        for (int d = 0; d < dim; ++d) {
+            oldBlockSize *= size[d];
+            newBlockSize *= size[d];
+        }
+        int oldLength = oldBlockSize;
+        int newLength = newBlockSize;
+        for (int d = dim + 1; d < size.length; ++d) {
+            oldLength *= size[d];
+            newLength *= size[d];
         }
 
-        // Calculate new dimensions
-        final int[] newsize = new int[size.length];
-        for (int dim = 0; dim < newsize.length; dim++) {
-            newsize[dim] = Math.max(pos[dim], size[dim]);
+        // Set size
+        size[dim] = newSizeDim;
+
+        // Do nothing when resizing to yet another zero element matrix
+        if (newLength == 0) {
+            return;
         }
 
-        // Calculate target stride
-        int stride = 1;
-        for (int dim = 0; dim < smallest_dim + 1; dim++) {
-            stride *= newsize[dim];
-        }
-
-        // Allocate new data array if necessary
-        final int neededSize = product(newsize);
-        if (dataLength() < neededSize) {
-            final D newdata = newD(neededSize * 2);
-            // Move data into new array
-            int src_offset = 0;
-            for (int dest_offset = 0; dest_offset < neededSize; dest_offset += stride) {
-                System.arraycopy(data, src_offset, newdata, dest_offset, blocksize);
-                src_offset += blocksize;
+        // Move data around
+        if (dataLength() < newLength) {
+            // Create new array and copy data into it
+            final D newData = newD(newLength * 2);
+            int newOffset = 0;
+            for (int oldOffset = 0; oldOffset < oldLength; oldOffset += oldBlockSize) {
+                System.arraycopy(data, oldOffset, newData, newOffset, oldBlockSize);
+                newOffset += newBlockSize;
             }
-
-            // Sanity check
-            if (src_offset != product(size)) {
-                throw new IllegalStateException("Failed to copy all data in resize");
-            }
-
-            // Set data
-            data = newdata;
+            data = newData;
         } else {
-            // Move around the data
-            int src_offset = product(size) - blocksize;
-            int dest_offset = neededSize - stride;
-            while (src_offset > 0) {
-                System.arraycopy(data, src_offset, data, dest_offset, blocksize);
-                dataFillInit(dest_offset + blocksize, dest_offset + stride);
-                src_offset -= blocksize;
-                dest_offset -= stride;
+            // Move around the data in the old array
+            int newOffset = newLength - newBlockSize;
+            for (int oldOffset = oldLength - oldBlockSize; oldOffset > 0; oldOffset -= oldBlockSize) {
+                System.arraycopy(data, oldOffset, data, newOffset, oldBlockSize);
+                newOffset -= newBlockSize;
             }
+            // Don't need to move block 0 around, but has to init the new part of it
+            dataFillInit(oldBlockSize, newBlockSize);
         }
-
-        // set new size
-        size = newsize;
     }
 
     /**

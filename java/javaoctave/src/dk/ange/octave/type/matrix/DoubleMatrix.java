@@ -80,7 +80,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
      * @param pos
      */
     public void set(final double value, final int... pos) {
-        resize(pos);
+        resizeUp(pos);
         data[pos2ind(pos)] = value;
     }
 

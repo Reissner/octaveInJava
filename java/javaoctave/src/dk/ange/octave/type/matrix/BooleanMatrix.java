@@ -69,7 +69,7 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
      * @param pos
      */
     public void set(final boolean value, final int... pos) {
-        resize(pos);
+        resizeUp(pos);
         data[pos2ind(pos)] = value;
     }
 

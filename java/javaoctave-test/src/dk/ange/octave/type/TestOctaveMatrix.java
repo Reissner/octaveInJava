@@ -186,9 +186,7 @@ public class TestOctaveMatrix extends TestCase {
 
     }
 
-    /**
-     * matrixzero doesn't work because of bug in octave
-     */
+    /** */
     public void testGrowth() {
         final OctaveDouble matrix = new OctaveDouble(3, 3, 3, 3);
         matrix.set(42.0, 2, 2, 2, 2);
@@ -260,6 +258,19 @@ public class TestOctaveMatrix extends TestCase {
         if (timeused > allowedTime) {
             fail("Performance test didn't finish in " + allowedTime + "ms (used " + timeused + "ms)");
         }
+    }
+
+    /**
+     * Test {@link OctaveComplex} resizes correctly
+     */
+    public void testResize2() {
+        final OctaveDouble d = new OctaveDouble(1, 1);
+        d.set(22, 1, 2);
+        d.set(33, 2, 2);
+        assertEquals(0.0, d.get(1, 1));
+        assertEquals(22.0, d.get(1, 2));
+        assertEquals(0.0, d.get(2, 1));
+        assertEquals(33.0, d.get(2, 2));
     }
 
 }
