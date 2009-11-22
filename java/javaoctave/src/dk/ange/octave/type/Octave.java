@@ -15,7 +15,6 @@
  */
 package dk.ange.octave.type;
 
-
 /**
  * Place holder for factory methods
  */

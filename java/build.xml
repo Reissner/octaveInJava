@@ -5,6 +5,7 @@
   <import file="${jo.basedir}/ant/jo-common.xml"/>
 
   <target name="clean" description="Clean all">
+    <ant inheritAll="false" target="clean" antfile="${jo.basedir}/dist/build.xml"/>
     <ant inheritAll="false" target="clean" antfile="${jo.basedir}/jars/build.xml"/>
     <ant inheritAll="false" target="clean" antfile="${jo.basedir}/javaoctave/build.xml"/>
     <ant inheritAll="false" target="clean" antfile="${jo.basedir}/javaoctave-test/build.xml"/>
