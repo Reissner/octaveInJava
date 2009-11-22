@@ -20,7 +20,7 @@ Error: dist variable is not set, run ant like this:
     <mkdir dir="build"/>
     <!-- Recreate jar with better manifest and right name -->
     <copy file="${install.dir}/javaoctave.jar" tofile="build/javaoctave-${dist}.jar"/>
-    <jar destfile="build/javaoctave-${dist}.jar">
+    <jar destfile="build/javaoctave-${dist}.jar" update="true">
       <manifest>
         <attribute name="Version" value="${dist}"/>
         <attribute name="Project-Url" value="http://kenai.com/projects/javaoctave/"/>
