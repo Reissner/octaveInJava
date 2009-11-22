@@ -19,8 +19,6 @@ import dk.ange.octave.type.matrix.DoubleMatrix;
 
 /**
  * A complex matrix
- * 
- * FIXME resize sync
  */
 public class OctaveComplex implements OctaveObject {
 
@@ -63,6 +61,7 @@ public class OctaveComplex implements OctaveObject {
      */
     public void setReal(final double value, final int... pos) {
         real.set(value, pos);
+        imag.resizeUp(pos);
     }
 
     /**
@@ -78,6 +77,7 @@ public class OctaveComplex implements OctaveObject {
      * @param pos
      */
     public void setImag(final double value, final int... pos) {
+        real.resizeUp(pos);
         imag.set(value, pos);
     }
 
