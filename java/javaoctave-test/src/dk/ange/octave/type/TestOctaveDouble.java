@@ -19,9 +19,32 @@ import junit.framework.TestCase;
 import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
 
 /**
- * @author Kim Hansen
+ * Test {@link OctaveDouble}
  */
-public class TestOctaveMatrix extends TestCase {
+public class TestOctaveDouble extends TestCase {
+
+    /**
+     * Test
+     */
+    public void testScalar() {
+        final OctaveDouble s1a = Octave.scalar(1);
+        final OctaveDouble s1b = Octave.scalar(1);
+        final OctaveDouble s1c = Octave.scalar(0);
+        s1c.set(1, 1, 1);
+
+        assertEquals(s1a, s1b);
+        assertEquals(s1a, s1c);
+        assertEquals(s1b, s1c);
+        assertNotSame(s1a, s1b);
+        assertNotSame(s1a, s1c);
+        assertNotSame(s1b, s1c);
+
+        final OctaveDouble s0 = Octave.scalar(0);
+        final OctaveDouble s2 = Octave.scalar(2);
+
+        assertFalse(s1a.equals(s0));
+        assertFalse(s1a.equals(s2));
+    }
 
     /**
      */
