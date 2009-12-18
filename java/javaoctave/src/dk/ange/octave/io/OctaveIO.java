@@ -85,7 +85,7 @@ public final class OctaveIO {
         } else if ("0".equals(s)) {
             return false;
         } else {
-            throw new RuntimeException("Unexpected output '" + s + "'");
+            throw new OctaveParseException("Unexpected output '" + s + "'");
         }
     }
 
@@ -111,7 +111,7 @@ public final class OctaveIO {
         final String line = OctaveIO.readerReadLine(reader);
         final String TYPE = "# type: ";
         if (!line.startsWith(TYPE)) {
-            throw new OctaveParseException("Expected <" + TYPE + "> got <" + line + ">");
+            throw new OctaveParseException("Expected '" + TYPE + "' got '" + line + "'");
         }
         final String typeGlobal = line.substring(TYPE.length());
         // Ignore "global " prefix to type (it is not really a type)
