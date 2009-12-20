@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.Map;
@@ -185,6 +187,18 @@ public final class OctaveEngine {
      */
     public void destroy() {
         octaveExec.destroy();
+    }
+
+    /**
+     * Return the version of the octave implementation. E.g. a string like "3.0.5" or "3.2.3".
+     * 
+     * @return Version of octave
+     */
+    public String getVersion() {
+        final StringWriter version = new StringWriter();
+        octaveExec.eval(new ReaderWriteFunctor(new StringReader("printf(\"%s\", OCTAVE_VERSION());")),
+                new WriterReadFunctor(version));
+        return version.toString();
     }
 
 }
