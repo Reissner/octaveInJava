@@ -20,6 +20,7 @@ import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveDouble;
+import dk.ange.octave.type.OctaveFunctionHandle;
 import dk.ange.octave.type.OctaveString;
 
 /**
@@ -27,24 +28,35 @@ import dk.ange.octave.type.OctaveString;
  */
 public class HomeExampleTest extends TestCase {
 
-    /** Test */
+    /** Test used on web page */
     public void test() {
-        // FIXME create function handle version of test for 3.2
-        // Skip test on octave 3.2.x
-        final OctaveEngine octave1 = new OctaveEngineFactory().getScriptEngine();
-        try {
-            if (octave1.getVersion().startsWith("3.2.")) {
-                return;
-            }
-        } finally {
-            octave1.close();
-        }
         // Begin web text
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("warning off"); // not web text: needed to silence warnings from lsode
-        octave.put("fun", new OctaveString("sqrt(1-t**2)"));
         octave.put("t1", Octave.scalar(0));
         octave.put("t2", Octave.scalar(1));
+        octave.eval("result = lsode(@(x, t) sqrt(1 - t^2), 0, [t1 t2])(2);");
+        final OctaveDouble result = octave.get(OctaveDouble.class, "result");
+        octave.close();
+        final double integral = result.get(1);
+        assertEquals(Math.PI / 4, integral, 1e-5);
+        // End web text
+    }
+
+    /**
+     * Test that is too complicated because of bugs in both 3.0 and 3.2
+     */
+    public void testWithFunctionInVariable() {
+        // Begin web text
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        octave.eval("warning off"); // not web text: needed to silence warnings from lsode
+        octave.put("t1", Octave.scalar(0));
+        octave.put("t2", Octave.scalar(1));
+        if (octave.getVersion().startsWith("3.0.")) {
+            octave.put("fun", new OctaveString("sqrt(1-t**2)"));
+        } else {
+            octave.put("fun", new OctaveFunctionHandle("@(x, t) sqrt (1 - t ^ 2)"));
+        }
         octave.eval("result = lsode(fun, 0, [t1 t2])(2);");
         final OctaveDouble result = octave.get(OctaveDouble.class, "result");
         octave.close();
