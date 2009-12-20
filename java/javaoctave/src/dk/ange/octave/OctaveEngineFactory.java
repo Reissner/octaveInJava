@@ -24,8 +24,6 @@ import java.io.Writer;
 
 /**
  * Factory that creates OctaveEngines
- * 
- * @author Kim Hansen
  */
 public final class OctaveEngineFactory {
 

@@ -40,8 +40,6 @@ import dk.ange.octave.type.cast.Cast;
  * The connection to an octave process.
  * 
  * This is inspired by the javax.script.ScriptEngine interface.
- * 
- * @author Kim Hansen
  */
 public final class OctaveEngine {
 
@@ -176,7 +174,7 @@ public final class OctaveEngine {
     }
 
     /**
-     * Close the octave process in an orderly fasion.
+     * Close the octave process in an orderly fashion.
      */
     public void close() {
         octaveExec.close();

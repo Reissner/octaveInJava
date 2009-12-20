@@ -76,7 +76,7 @@ public final class OctaveExec {
      *            the PATH.
      * @param environment
      *            The environment for the octave process, if null the process will inherit the environment for the
-     *            virtual mashine.
+     *            virtual machine.
      * @param workingDir
      *            This will be the working dir for the octave process, if null the process will inherit the working dir
      *            of the current process.
@@ -213,7 +213,7 @@ public final class OctaveExec {
      */
     public void close() {
         try {
-            // it is not worth it to rewrite this to use eval() and some specialiced Functors
+            // it is not worth it to rewrite this to use eval() and some specialised Functors
             processWriter.write("exit\n");
             processWriter.close();
             final String read = processReader.readLine();
