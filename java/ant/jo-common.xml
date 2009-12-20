@@ -157,24 +157,32 @@ Common targets:
       </not>
       <then>
         <!-- Run all junit tests using the instrumented source classes -->
-        <junit fork="yes" forkmode="once">
-          <assertions> <enable/> </assertions>
-          <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.ser.file}"/>
-          <classpath>
-            <fileset dir="${cobertura.instrument.dir}" includes="*.jar"/>
-            <pathelement location="${classes.dir}"/>
-            <pathelement location="${src.dir}"/>
-            <path refid="pathid.lib.jars"/>
-            <fileset dir="${jo.lib.dir}/cobertura" includes="*.jar"/>
-          </classpath>
-          <batchtest errorproperty="testbroken" failureproperty="testbroken">
-            <fileset dir="${classes.dir}">
-              <include name="**/Test*.class"/>
-              <exclude name="**/*$*.class"/>
-            </fileset>
-          </batchtest>
-          <formatter type="brief" usefile="false"/>
-        </junit>
+        <macrodef name="_test_run_macro">
+          <attribute name="executable"/>
+          <sequential>
+            <junit fork="yes" forkmode="once">
+              <sysproperty key="dk.ange.octave.executable" value="@{executable}"/>
+              <assertions> <enable/> </assertions>
+              <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.ser.file}"/>
+              <classpath>
+                <fileset dir="${cobertura.instrument.dir}" includes="*.jar"/>
+                <pathelement location="${classes.dir}"/>
+                <pathelement location="${src.dir}"/>
+                <path refid="pathid.lib.jars"/>
+                <fileset dir="${jo.lib.dir}/cobertura" includes="*.jar"/>
+              </classpath>
+              <batchtest errorproperty="testbroken" failureproperty="testbroken">
+                <fileset dir="${classes.dir}">
+                  <include name="**/Test*.class"/>
+                  <exclude name="**/*$*.class"/>
+                </fileset>
+              </batchtest>
+              <formatter type="brief" usefile="false"/>
+            </junit>
+          </sequential>
+        </macrodef>
+        <_test_run_macro executable="octave3.0"/>
+        <_test_run_macro executable="octave3.2"/>
         <fail if="testbroken" message="Tests failed"/>
         <touch file="${build.dir}/_test_run.stamp"/>
       </then>
