@@ -43,10 +43,15 @@ import dk.ange.octave.util.TeeWriter;
  */
 public final class OctaveExec {
 
+    /**
+     * System property where the executable is found
+     */
+    public static final String PROPERTY_EXECUTABLE = "dk.ange.octave.executable";
+
     private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
             .getLog(OctaveExec.class);
 
-    private static final String[] CMD_ARRAY = { "octave", "--no-history", "--no-init-file", "--no-line-editing",
+    private static final String[] CMD_ARRAY = { null, "--no-history", "--no-init-file", "--no-line-editing",
             "--no-site-file", "--silent" };
 
     private final Process process;
@@ -72,8 +77,9 @@ public final class OctaveExec {
      *            This writer will capture all that is written from the octave process on stderr, if null the data will
      *            not be captured.
      * @param octaveProgram
-     *            This is the path to the octave program, if it is null the program 'octave' will be assumed to be in
-     *            the PATH.
+     *            This is the path to the octave program, if it is null the program will be found using the system
+     *            property 'dk.ange.octave.executable' and if that is not set 'octave' will be assumed to be in the
+     *            PATH.
      * @param environment
      *            The environment for the octave process, if null the process will inherit the environment for the
      *            virtual machine.
@@ -83,12 +89,11 @@ public final class OctaveExec {
      */
     public OctaveExec(final Writer stdinLog, final Writer stderrLog, final File octaveProgram,
             final String[] environment, final File workingDir) {
-        final String[] cmdArray;
-        if (octaveProgram == null) {
-            cmdArray = CMD_ARRAY;
-        } else {
-            cmdArray = CMD_ARRAY.clone();
+        final String[] cmdArray = CMD_ARRAY.clone();
+        if (octaveProgram != null) {
             cmdArray[0] = octaveProgram.getPath();
+        } else {
+            cmdArray[0] = System.getProperty(PROPERTY_EXECUTABLE, "octave");
         }
         try {
             process = Runtime.getRuntime().exec(cmdArray, environment, workingDir);
@@ -216,9 +221,14 @@ public final class OctaveExec {
             // it is not worth it to rewrite this to use eval() and some specialised Functors
             processWriter.write("exit\n");
             processWriter.close();
-            final String read = processReader.readLine();
-            if (read != null) {
-                throw new OctaveIOException("Expected reader to be closed: " + read);
+            final String read1 = processReader.readLine();
+            // Allow a single blank line, exit in octave 3.2 returns that:
+            if (read1 != null && !"".equals(read1)) {
+                throw new OctaveIOException("Expected a blank line, read '" + read1 + "'");
+            }
+            final String read2 = processReader.readLine();
+            if (read2 != null) {
+                throw new OctaveIOException("Expected reader to be at end of stream, read '" + read2 + "'");
             }
             processReader.close();
             errorStreamThread.close();
