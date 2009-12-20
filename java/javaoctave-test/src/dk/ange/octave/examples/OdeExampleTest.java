@@ -30,7 +30,7 @@ public class OdeExampleTest extends TestCase {
         // Begin web text
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("x = 0:0.01:1;");
-        octave.eval("t = lsode('x**2+t**2', 0, x);");
+        octave.eval("t = lsode(@(x,t) x**2+t**2, 0, x);");
         final OctaveDouble t = octave.get(OctaveDouble.class, "t");
         octave.close();
         final double[] result = t.getData();

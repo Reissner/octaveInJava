@@ -29,6 +29,16 @@ public class HomeExampleTest extends TestCase {
 
     /** Test */
     public void test() {
+        // FIXME create function handle version of test for 3.2
+        // Skip test on octave 3.2.x
+        final OctaveEngine octave1 = new OctaveEngineFactory().getScriptEngine();
+        try {
+            if (octave1.getVersion().startsWith("3.2.")) {
+                return;
+            }
+        } finally {
+            octave1.close();
+        }
         // Begin web text
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("warning off"); // not web text: needed to silence warnings from lsode
