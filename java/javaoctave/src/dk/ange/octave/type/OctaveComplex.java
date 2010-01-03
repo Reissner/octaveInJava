@@ -56,6 +56,24 @@ public class OctaveComplex implements OctaveObject {
     }
 
     /**
+     * @param i
+     *            dimension number in 1 based numbering, 1=row, 2=column
+     * @return the size in dimension i
+     */
+    public int size(final int i) {
+        return real.size(i);
+    }
+
+    /**
+     * @param pos
+     * @return the index into getReal() and getImag() for the position
+     * @see dk.ange.octave.type.matrix.AbstractGenericMatrix#pos2ind(int[])
+     */
+    public int pos2ind(int... pos) {
+        return real.pos2ind(pos);
+    }
+
+    /**
      * @param value
      * @param pos
      */
@@ -73,6 +91,13 @@ public class OctaveComplex implements OctaveObject {
     }
 
     /**
+     * @return the array of real value stored in the matrix
+     */
+    public double[] getReal() {
+        return real.getData();
+    }
+
+    /**
      * @param value
      * @param pos
      */
@@ -87,6 +112,13 @@ public class OctaveComplex implements OctaveObject {
      */
     public double getImag(final int... pos) {
         return imag.get(pos);
+    }
+
+    /**
+     * @return the array of imaginary value stored in the matrix
+     */
+    public double[] getImag() {
+        return imag.getData();
     }
 
     @Override

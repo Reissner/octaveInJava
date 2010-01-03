@@ -57,9 +57,14 @@ public class TestOctaveComplex extends TestCase {
         assertEquals(33.0, complex.getImag(2, 1));
         assertEquals(0.0, complex.getReal(2, 2));
         assertEquals(0.0, complex.getImag(2, 2));
+
+        assertEquals(22.0, complex.getReal()[complex.pos2ind(1, 2)]);
+        assertEquals(33.0, complex.getImag()[complex.pos2ind(2, 1)]);
     }
 
     private void checkSize(final OctaveComplex complex, final int i, final int j) {
+        assertEquals(i, complex.size(1));
+        assertEquals(j, complex.size(2));
         complex.getReal(i, j);
         complex.getImag(i, j);
         failGet(complex, i + 1, j);
