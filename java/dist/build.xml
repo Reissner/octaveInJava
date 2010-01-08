@@ -22,7 +22,10 @@ Error: dist variable is not set, run ant like this:
     <copy file="${install.dir}/javaoctave.jar" tofile="build/javaoctave-${dist}.jar"/>
     <jar destfile="build/javaoctave-${dist}.jar" update="true">
       <manifest>
-        <attribute name="Version" value="${dist}"/>
+        <attribute name="Implementation-Title" value="JavaOctave"/>
+        <attribute name="Implementation-Version" value="${dist}"/>
+        <attribute name="Implementation-Vendor" value="Kim Hansen, Ange Optimization ApS"/>
+        <attribute name="Bundle-License" value="http://www.apache.org/licenses/LICENSE-2.0"/>
         <attribute name="Project-Url" value="http://kenai.com/projects/javaoctave/"/>
       </manifest>
     </jar>
