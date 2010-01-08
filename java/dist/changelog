@@ -1,3 +1,12 @@
+JavaOctave (0.5.1) 2010-01-08
+
+  * Handle extra line feed from exit() in octave3.2
+  * Make data i OctaveComplex more accessible
+  * Create OctaveFunctionHandle
+  * Test under octave3.0 and octave3.2
+
+ -- Kim Hansen <kim@i9.dk>  Fri, 08 Jan 2010 08:32:08 +0100
+
 JavaOctave (0.5.0) 2009-11-22
 
   * Create OctaveComplex as wrapper type for complex matrices.
