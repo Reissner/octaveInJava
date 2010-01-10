@@ -101,9 +101,58 @@ public class TestOctaveErrors extends TestCase {
         assertEquals("", stderr.toString());
         final OctaveString lastError = octave.get(OctaveString.class, "javaoctave_asdf_lasterr");
         octave.eval("clear javaoctave_asdf_lasterr");
-        assertEquals("error: test usage of error\n", lastError.getString());
+        assertTrue(lastError.getString().contains("test usage of error"));
         octave.put("x", Octave.scalar(42));
         octave.close();
+        octave.destroy();
+        try {
+            octave.close();
+            fail("close should fail when the engine is destroyed");
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertTrue(e.isDestroyed());
+        }
+    }
+
+    /**
+     * Test that shows that try/catch does prevent a syntax error from breaking the engine
+     */
+    public void testSyntaxErrorInTryCatch() {
+        final StringWriter stdout = new StringWriter();
+        final StringWriter stderr = new StringWriter();
+        final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
+        octaveEngineFactory.setErrorWriter(stderr);
+        final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
+        octave.setWriter(stdout);
+        try {
+            octave.eval("" //
+                    + "try\n" //
+                    + "  x = linspace(0,6.3,10*);\n" //
+                    + "catch\n" //
+                    + "  javaoctave_asdf_lasterr = lasterr()\n" //
+                    + "end_try_catch\n" //
+                    + "");
+            fail();
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertFalse(e.isDestroyed());
+        }
+        assertEquals("", stdout.toString());
+        assertTrue(stderr.toString().contains("syntax error"));
+        try {
+            octave.put("x", Octave.scalar(42));
+            fail("put should fail when the engine is broken");
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertFalse(e.isDestroyed());
+        }
+        try {
+            octave.close();
+            fail("close should fail when the engine is broken");
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertFalse(e.isDestroyed());
+        }
         octave.destroy();
         try {
             octave.close();
