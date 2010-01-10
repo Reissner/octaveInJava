@@ -24,6 +24,7 @@ import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.exception.OctaveRecoverableException;
 import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveDouble;
+import dk.ange.octave.type.OctaveString;
 
 /**
  * Test
@@ -72,7 +73,41 @@ public class TestOctaveErrors extends TestCase {
         octave.destroy();
         try {
             octave.close();
-            fail("close should fail when the engine is broken");
+            fail("close should fail when the engine is destroyed");
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertTrue(e.isDestroyed());
+        }
+    }
+
+    /**
+     * Test that error() in try/catch does not break the engine
+     */
+    public void testEvalWithTryCatch() {
+        final StringWriter stdout = new StringWriter();
+        final StringWriter stderr = new StringWriter();
+        final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
+        octaveEngineFactory.setErrorWriter(stderr);
+        final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
+        octave.setWriter(stdout);
+        octave.eval("" //
+                + "try\n" //
+                + "  error('test usage of error');\n" //
+                + "catch\n" //
+                + "  javaoctave_asdf_lasterr = lasterr();\n" //
+                + "end_try_catch\n" //
+                + "");
+        assertEquals("", stdout.toString());
+        assertEquals("", stderr.toString());
+        final OctaveString lastError = octave.get(OctaveString.class, "javaoctave_asdf_lasterr");
+        octave.eval("clear javaoctave_asdf_lasterr");
+        assertEquals("error: test usage of error\n", lastError.getString());
+        octave.put("x", Octave.scalar(42));
+        octave.close();
+        octave.destroy();
+        try {
+            octave.close();
+            fail("close should fail when the engine is destroyed");
         } catch (final OctaveIOException e) {
             assertTrue(OctaveNonrecoverableException.class.isInstance(e));
             assertTrue(e.isDestroyed());
