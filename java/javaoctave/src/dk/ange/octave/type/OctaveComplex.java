@@ -69,7 +69,7 @@ public class OctaveComplex implements OctaveObject {
      * @return the index into getReal() and getImag() for the position
      * @see dk.ange.octave.type.matrix.AbstractGenericMatrix#pos2ind(int[])
      */
-    public int pos2ind(int... pos) {
+    public int pos2ind(final int... pos) {
         return real.pos2ind(pos);
     }
 

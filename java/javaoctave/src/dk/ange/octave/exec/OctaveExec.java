@@ -232,6 +232,15 @@ public final class OctaveExec {
             }
             processReader.close();
             errorStreamThread.close();
+            final int exitValue;
+            try {
+                exitValue = process.waitFor();
+            } catch (final InterruptedException e) {
+                throw new OctaveIOException("Interrupted when waiting for octave process to terminate", e);
+            }
+            if (exitValue != 0) {
+                throw new OctaveIOException("octave process terminated abnormaly, exitValue=" + exitValue);
+            }
         } catch (final IOException e) {
             final OctaveIOException octaveException = new OctaveIOException("reader error", e);
             if (isDestroyed()) {

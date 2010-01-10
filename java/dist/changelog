@@ -1,3 +1,9 @@
+JavaOctave (0.5.2)
+
+  * Test exit value from octave in OctaveExec.close()
+
+ -- Kim Hansen <kim@i9.dk>
+
 JavaOctave (0.5.1) 2010-01-08
 
   * Handle extra line feed from exit() in octave3.2

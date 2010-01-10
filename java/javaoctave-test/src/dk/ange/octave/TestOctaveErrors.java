@@ -15,11 +15,11 @@
  */
 package dk.ange.octave;
 
-import java.io.IOException;
 import java.io.StringWriter;
 
 import junit.framework.TestCase;
-import dk.ange.octave.exception.OctaveException;
+import dk.ange.octave.exception.OctaveIOException;
+import dk.ange.octave.exception.OctaveNonrecoverableException;
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.exception.OctaveRecoverableException;
 import dk.ange.octave.type.Octave;
@@ -31,28 +31,38 @@ import dk.ange.octave.type.OctaveDouble;
 public class TestOctaveErrors extends TestCase {
 
     /**
-     * @throws IOException
+     * Test that error() in octave breaks the engine
      */
-    public void testError() throws IOException {
+    public void testError() {
         final StringWriter stdout = new StringWriter();
         final StringWriter stderr = new StringWriter();
+        final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
+        octaveEngineFactory.setErrorWriter(stderr);
+        final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
+        octave.setWriter(stdout);
         try {
-            final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
-            octaveEngineFactory.setErrorWriter(stderr);
-            final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
-            octave.setWriter(stdout);
-            octave.eval("error('testError()');");
+            octave.eval("error('test usage of error');");
             fail("error in octave should cause execute() to throw an exception");
-            octave.close();
-        } catch (final OctaveException e) {
-            // ok
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertFalse(e.isDestroyed());
         }
-        stdout.close();
-        stderr.close();
         assertEquals("", stdout.toString());
-        // 2008-05-08: Does this still fail? I haven't seen this error for a long time, Kim
-        assertEquals("This sometime fails, there is some timing problem that prevents all of stderr to get "
-                + "from octave to Java when there is an error in octave.", "error: testError()\n", stderr.toString());
+        /*
+         * 2008-05-08, Kim: Does this still fail? I haven't seen this error for a long time
+         * 
+         * 2010-01-10, Kim: I this this error is fixed. It used to fail because output to stderr from octave sometimes
+         * wasn't flushed to Java.
+         */
+        assertEquals("error: test usage of error\n", stderr.toString());
+        try {
+            octave.close();
+            fail("close should fail when the engine is broken");
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertFalse(e.isDestroyed());
+        }
+        octave.destroy();
     }
 
     /** Test */
