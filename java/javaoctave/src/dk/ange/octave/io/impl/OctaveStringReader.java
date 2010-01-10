@@ -25,7 +25,7 @@ import dk.ange.octave.type.OctaveString;
 /**
  * The reader of string
  */
-public final class OctaveStringReader extends OctaveDataReader {
+public class OctaveStringReader extends OctaveDataReader {
 
     @Override
     public String octaveType() {
@@ -34,16 +34,25 @@ public final class OctaveStringReader extends OctaveDataReader {
 
     @Override
     public OctaveString read(final BufferedReader reader) {
-        String line;
-        line = OctaveIO.readerReadLine(reader);
-        if (!line.equals("# elements: 1")) {
-            throw new OctaveParseException("Only implementet for single-line strings '" + line + "'");
+        final String elements = OctaveIO.readerReadLine(reader);
+        final String string;
+        if (elements.equals("# elements: 0")) {
+            string = "";
+        } else if (elements.equals("# elements: 1")) {
+            final String lengthString = OctaveIO.readerReadLine(reader);
+            if (!lengthString.startsWith("# length: ")) {
+                throw new OctaveParseException("Parse error in String, line='" + lengthString + "'");
+            }
+            final int length = Integer.parseInt(lengthString.substring(10));
+            string = OctaveIO.readerReadLine(reader);
+            if (length != string.length()) {
+                // Will happen on multi line strings
+                throw new OctaveParseException("Unexpected length of string read. expected=" + length + ", actual="
+                        + string.length());
+            }
+        } else {
+            throw new OctaveParseException("Only implementet for single-line strings '" + elements + "'");
         }
-        line = OctaveIO.readerReadLine(reader);
-        if (!line.startsWith("# length: ")) {
-            throw new OctaveParseException("Parse error in String, line='" + line + "'");
-        }
-        final String string = OctaveIO.readerReadLine(reader);
         return new OctaveString(string);
     }
 

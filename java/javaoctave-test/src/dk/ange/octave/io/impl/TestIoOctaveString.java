@@ -18,6 +18,8 @@ package dk.ange.octave.io.impl;
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
+import dk.ange.octave.exception.OctaveParseException;
+import dk.ange.octave.exception.OctaveRecoverableException;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveString;
@@ -27,26 +29,69 @@ import dk.ange.octave.type.OctaveString;
  */
 public class TestIoOctaveString extends TestCase {
 
-    /** Test */
+    /**
+     * Test format of generated octave data
+     */
     public void testToString() {
         final OctaveObject string = new OctaveString("tekst");
         assertEquals("# name: ans\n# type: string\n# elements: 1\n# length: 5\ntekst\n\n", OctaveIO.toText(string));
     }
 
-    /** Test */
+    /**
+     * Test format of generated octave data
+     */
     public void testToOctave() {
         final OctaveObject string = new OctaveString("mytekst");
         assertEquals("# name: tre\n# type: string\n# elements: 1\n# length: 7\nmytekst\n\n", OctaveIO.toText(string,
                 "tre"));
     }
 
-    /** Test */
-    public void testOctaveConnection() {
-        final OctaveObject s1 = new OctaveString("tekst");
+    /**
+     * Test that string put into octave is the same as we get back
+     */
+    public void testOctaveRoundtrip() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        octave.put("st", s1);
-        final OctaveString s2 = octave.get(OctaveString.class, "st");
-        assertEquals(s1, s2);
+        roundtrip(octave, new OctaveString("sample text"));
+        roundtrip(octave, new OctaveString(""));
+        try { // not implemented yet, but does not break the engine
+            roundtrip(octave, new OctaveString("a\nb"));
+        } catch (final OctaveParseException e) {
+            assertEquals("Unexpected length of string read. expected=3, actual=1", e.getMessage());
+            assertTrue(OctaveRecoverableException.class.isInstance(e));
+        }
+        roundtrip(octave, new OctaveString("a\tb"));
+        octave.close();
+    }
+
+    private static void roundtrip(final OctaveEngine octave, final OctaveObject octaveObject) {
+        final String key = "octave_string";
+        octave.put(key, octaveObject);
+        final OctaveObject octaveObject2 = octave.get(key);
+        assertEquals(octaveObject, octaveObject2);
+    }
+
+    /**
+     * Test that string read from octave is what we expect
+     */
+    public void testOctaveRead() {
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        read(octave, "sample text", "sample text");
+        read(octave, "", "");
+        try { // not implemented yet, but does not break the engine
+            read(octave, "a\\nb", "a\nb");
+        } catch (final OctaveParseException e) {
+            assertEquals("Unexpected length of string read. expected=3, actual=1", e.getMessage());
+            assertTrue(OctaveRecoverableException.class.isInstance(e));
+        }
+        read(octave, "a\\tb", "a\tb");
+        octave.close();
+    }
+
+    private static void read(final OctaveEngine octave, final String input, final String expected) {
+        final String key = "octave_string";
+        octave.eval(key + " = \"" + input + "\";");
+        final OctaveString output = octave.get(OctaveString.class, key);
+        assertEquals(expected, output.getString());
     }
 
 }

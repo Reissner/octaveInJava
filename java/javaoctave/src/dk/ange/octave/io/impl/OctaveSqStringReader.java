@@ -18,14 +18,12 @@ package dk.ange.octave.io.impl;
 import java.io.BufferedReader;
 
 import dk.ange.octave.exception.OctaveParseException;
-import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveString;
 
 /**
  * The reader of sq_string
  */
-public final class OctaveSqStringReader extends OctaveDataReader {
+public final class OctaveSqStringReader extends OctaveStringReader {
 
     @Override
     public String octaveType() {
@@ -34,15 +32,7 @@ public final class OctaveSqStringReader extends OctaveDataReader {
 
     @Override
     public OctaveString read(final BufferedReader reader) {
-        final String elements = OctaveIO.readerReadLine(reader);
-        if (!elements.equals("# elements: 1")) {
-            throw new OctaveParseException("Only implementet for single-line strings '" + elements + "'");
-        }
-        final String length = OctaveIO.readerReadLine(reader);
-        if (!length.startsWith("# length: ")) {
-            throw new OctaveParseException("Parse error in String, line='" + length + "'");
-        }
-        final String string = OctaveIO.readerReadLine(reader);
+        final String string = super.read(reader).getString();
         if (string.contains("\\")) {
             throw new OctaveParseException("Handling of escape char (\\) not done, line='" + string + "'");
         }

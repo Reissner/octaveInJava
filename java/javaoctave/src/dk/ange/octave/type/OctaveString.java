@@ -83,4 +83,9 @@ public class OctaveString implements OctaveObject {
         return new OctaveString(value);
     }
 
+    @Override
+    public String toString() {
+        return "OctaveString[" + value + "]";
+    }
+
 }

@@ -20,9 +20,6 @@ import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.exception.OctaveRecoverableException;
-import dk.ange.octave.type.Octave;
-import dk.ange.octave.type.OctaveDouble;
-import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveString;
 
 /**
@@ -30,32 +27,28 @@ import dk.ange.octave.type.OctaveString;
  */
 public class TestIoOctaveSqString extends TestCase {
 
-    /** Test */
-    public void testEquals() {
+    /**
+     * Test that string read from octave is what we expect
+     */
+    public void testOctaveRead() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        octave.eval("st='tekst';");
-        final OctaveObject s2 = octave.get("st");
-        final OctaveObject s1 = new OctaveString("tekst");
-        assertEquals(s1, s2);
+        read(octave, "sample text", "sample text");
+        read(octave, "", "");
+        try { // not implemented yet, but does not break the engine
+            read(octave, "a\\nb", "a\nb");
+        } catch (final OctaveParseException e) {
+            assertEquals("Handling of escape char (\\) not done, line='a\\nb'", e.getMessage());
+            assertTrue(OctaveRecoverableException.class.isInstance(e));
+        }
+        // read(octave, "a\\tb", "a\tb"); same as \n example
         octave.close();
     }
 
-    /**
-     * Test that getting a string containing \ will throw a parse exception but that octave still will work after that
-     */
-    public void testUnimplementedEscapeChar() {
-        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        octave.put("x", Octave.scalar(1));
-        octave.eval("st='\\\\';");
-        assertEquals(1, octave.get(OctaveDouble.class, "x").get(1, 1), 0);
-        try {
-            octave.get("st");
-            fail();
-        } catch (final OctaveParseException e) {
-            assertTrue(OctaveRecoverableException.class.isInstance(e));
-        }
-        assertEquals(1, octave.get(OctaveDouble.class, "x").get(1, 1), 0);
-        octave.close();
+    private static void read(final OctaveEngine octave, final String input, final String expected) {
+        final String key = "octave_string";
+        octave.eval(key + " = '" + input + "';");
+        final OctaveString output = octave.get(OctaveString.class, key);
+        assertEquals(expected, output.getString());
     }
 
 }
