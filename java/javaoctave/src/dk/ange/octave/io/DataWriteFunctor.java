@@ -56,8 +56,9 @@ final class DataWriteFunctor implements WriteFunctor {
             writer.write("# name: \n");
             writer.flush();
         } catch (final IOException e) {
+            // Will happen when we write to a dead octave process
             final String message = "Unexpected IOException";
-            log.error(message, e);
+            log.debug(message, e);
             throw new OctaveIOException(message, e);
         }
     }

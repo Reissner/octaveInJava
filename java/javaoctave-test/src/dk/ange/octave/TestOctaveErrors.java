@@ -56,6 +56,13 @@ public class TestOctaveErrors extends TestCase {
          */
         assertEquals("error: test usage of error\n", stderr.toString());
         try {
+            octave.put("x", Octave.scalar(42));
+            fail("put should fail when the engine is broken");
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertFalse(e.isDestroyed());
+        }
+        try {
             octave.close();
             fail("close should fail when the engine is broken");
         } catch (final OctaveIOException e) {
@@ -63,6 +70,13 @@ public class TestOctaveErrors extends TestCase {
             assertFalse(e.isDestroyed());
         }
         octave.destroy();
+        try {
+            octave.close();
+            fail("close should fail when the engine is broken");
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertTrue(e.isDestroyed());
+        }
     }
 
     /** Test */
