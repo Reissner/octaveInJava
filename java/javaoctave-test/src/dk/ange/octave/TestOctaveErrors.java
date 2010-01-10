@@ -1,5 +1,5 @@
 /*
- * Copyright 2007, 2008, 2009 Ange Optimization ApS
+ * Copyright 2007, 2008, 2009, 2010 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package dk.ange.octave;
 import java.io.StringWriter;
 
 import junit.framework.TestCase;
+import dk.ange.octave.exception.OctaveEvalException;
 import dk.ange.octave.exception.OctaveIOException;
 import dk.ange.octave.exception.OctaveNonrecoverableException;
 import dk.ange.octave.exception.OctaveParseException;
@@ -153,6 +154,66 @@ public class TestOctaveErrors extends TestCase {
             assertTrue(OctaveNonrecoverableException.class.isInstance(e));
             assertFalse(e.isDestroyed());
         }
+        octave.destroy();
+        try {
+            octave.close();
+            fail("close should fail when the engine is destroyed");
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertTrue(e.isDestroyed());
+        }
+    }
+
+    /**
+     * Test that syntax error in eval() does not break the engine
+     */
+    public void testSyntaxErrorInEval() {
+        final StringWriter stdout = new StringWriter();
+        final StringWriter stderr = new StringWriter();
+        final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
+        octaveEngineFactory.setErrorWriter(stderr);
+        final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
+        octave.setWriter(stdout);
+        octave.put("javaoctave_asdf_eval", new OctaveString("x = linspace(0,6.3,10*);"));
+        octave.eval("eval(javaoctave_asdf_eval, 'javaoctave_asdf_lasterr = lasterr();')");
+        assertEquals("", stdout.toString());
+        assertEquals("", stderr.toString());
+        final OctaveString lastError = octave.get(OctaveString.class, "javaoctave_asdf_lasterr");
+        octave.eval("clear javaoctave_asdf_eval javaoctave_asdf_lasterr");
+        assertTrue(lastError.getString().contains("syntax error"));
+        octave.put("x", Octave.scalar(42));
+        octave.close();
+        octave.destroy();
+        try {
+            octave.close();
+            fail("close should fail when the engine is destroyed");
+        } catch (final OctaveIOException e) {
+            assertTrue(OctaveNonrecoverableException.class.isInstance(e));
+            assertTrue(e.isDestroyed());
+        }
+    }
+
+    /**
+     * Test that syntax error in safeEval() does not break the engine
+     */
+    public void testSyntaxErrorInSafeEval() {
+        final StringWriter stdout = new StringWriter();
+        final StringWriter stderr = new StringWriter();
+        final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
+        octaveEngineFactory.setErrorWriter(stderr);
+        final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
+        octave.setWriter(stdout);
+        try {
+            octave.safeEval("x = linspace(0,6.3,10*);");
+        } catch (final OctaveEvalException e) {
+            assertTrue(OctaveRecoverableException.class.isInstance(e));
+            assertFalse(e.isDestroyed());
+            assertTrue(e.getMessage().contains("syntax error"));
+        }
+        assertEquals("", stdout.toString());
+        assertEquals("", stderr.toString());
+        octave.put("x", Octave.scalar(42));
+        octave.close();
         octave.destroy();
         try {
             octave.close();

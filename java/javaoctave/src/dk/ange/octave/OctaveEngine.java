@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2010 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,10 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Random;
 
 import dk.ange.octave.exception.OctaveClassCastException;
+import dk.ange.octave.exception.OctaveEvalException;
 import dk.ange.octave.exec.OctaveExec;
 import dk.ange.octave.exec.ReadFunctor;
 import dk.ange.octave.exec.ReaderWriteFunctor;
@@ -36,6 +38,7 @@ import dk.ange.octave.exec.WriteFunctor;
 import dk.ange.octave.exec.WriterReadFunctor;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveObject;
+import dk.ange.octave.type.OctaveString;
 import dk.ange.octave.type.cast.Cast;
 
 /**
@@ -52,6 +55,8 @@ public final class OctaveEngine {
     private final OctaveIO octaveIO;
 
     private Writer writer = new OutputStreamWriter(System.out);
+
+    private final Random random = new Random();
 
     OctaveEngine(final OctaveEngineFactory factory, final Writer octaveInputLog, final Writer errorWriter,
             final File octaveProgram, final File workingDir) {
@@ -95,6 +100,25 @@ public final class OctaveEngine {
      */
     public void eval(final Reader script) {
         octaveExec.eval(new ReaderWriteFunctor(script), getReadFunctor());
+    }
+
+    /**
+     * A safe eval that will not break the engine on syntax errors or other errors.
+     * 
+     * @param script
+     *            the script to execute
+     * @throws OctaveEvalException
+     *             if the script fails
+     */
+    public void safeEval(final String script) {
+        final String tag = Long.toHexString(random.nextLong());
+        put("javaoctave_" + tag + "_eval", new OctaveString(script));
+        eval("eval(javaoctave_" + tag + "_eval, \"javaoctave_" + tag + "_lasterr = lasterr();\");");
+        final OctaveString lastError = get(OctaveString.class, "javaoctave_" + tag + "_lasterr");
+        eval("clear javaoctave_" + tag + "_eval javaoctave_" + tag + "_lasterr");
+        if (lastError != null) {
+            throw new OctaveEvalException(lastError.getString());
+        }
     }
 
     /**
