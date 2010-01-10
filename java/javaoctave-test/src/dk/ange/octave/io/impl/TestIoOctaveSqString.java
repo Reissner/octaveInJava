@@ -36,6 +36,7 @@ public class TestIoOctaveSqString extends TestCase {
         read(octave, "", "");
         try { // not implemented yet, but does not break the engine
             read(octave, "a\\nb", "a\nb");
+            fail();
         } catch (final OctaveParseException e) {
             assertEquals("Handling of escape char (\\) not done, line='a\\nb'", e.getMessage());
             assertTrue(OctaveRecoverableException.class.isInstance(e));

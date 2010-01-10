@@ -18,8 +18,6 @@ package dk.ange.octave.io.impl;
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
-import dk.ange.octave.exception.OctaveParseException;
-import dk.ange.octave.exception.OctaveRecoverableException;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveString;
@@ -53,12 +51,7 @@ public class TestIoOctaveString extends TestCase {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         roundtrip(octave, new OctaveString("sample text"));
         roundtrip(octave, new OctaveString(""));
-        try { // not implemented yet, but does not break the engine
-            roundtrip(octave, new OctaveString("a\nb"));
-        } catch (final OctaveParseException e) {
-            assertEquals("Unexpected length of string read. expected=3, actual=1", e.getMessage());
-            assertTrue(OctaveRecoverableException.class.isInstance(e));
-        }
+        roundtrip(octave, new OctaveString("a\nb"));
         roundtrip(octave, new OctaveString("a\tb"));
         octave.close();
     }
@@ -77,12 +70,7 @@ public class TestIoOctaveString extends TestCase {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         read(octave, "sample text", "sample text");
         read(octave, "", "");
-        try { // not implemented yet, but does not break the engine
-            read(octave, "a\\nb", "a\nb");
-        } catch (final OctaveParseException e) {
-            assertEquals("Unexpected length of string read. expected=3, actual=1", e.getMessage());
-            assertTrue(OctaveRecoverableException.class.isInstance(e));
-        }
+        read(octave, "a\\nb", "a\nb");
         read(octave, "a\\tb", "a\tb");
         octave.close();
     }

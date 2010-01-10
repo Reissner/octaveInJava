@@ -35,25 +35,30 @@ public class OctaveStringReader extends OctaveDataReader {
     @Override
     public OctaveString read(final BufferedReader reader) {
         final String elements = OctaveIO.readerReadLine(reader);
-        final String string;
+        final StringBuilder builder = new StringBuilder();
         if (elements.equals("# elements: 0")) {
-            string = "";
+            // Do nothing, this is the empty string
         } else if (elements.equals("# elements: 1")) {
             final String lengthString = OctaveIO.readerReadLine(reader);
             if (!lengthString.startsWith("# length: ")) {
                 throw new OctaveParseException("Parse error in String, line='" + lengthString + "'");
             }
             final int length = Integer.parseInt(lengthString.substring(10));
-            string = OctaveIO.readerReadLine(reader);
-            if (length != string.length()) {
-                // Will happen on multi line strings
+            boolean first = true;
+            while (builder.length() < length) {
+                if (!first) {
+                    builder.append('\n');
+                }
+                builder.append(OctaveIO.readerReadLine(reader));
+                first = false;
+            }
+            if (builder.length() != length) {
                 throw new OctaveParseException("Unexpected length of string read. expected=" + length + ", actual="
-                        + string.length());
+                        + builder.length());
             }
         } else {
-            throw new OctaveParseException("Only implementet for single-line strings '" + elements + "'");
+            throw new OctaveParseException("Expected elements to be 0 or 1, '" + elements + "'");
         }
-        return new OctaveString(string);
+        return new OctaveString(builder.toString());
     }
-
 }
