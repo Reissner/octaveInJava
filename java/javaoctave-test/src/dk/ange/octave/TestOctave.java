@@ -93,7 +93,7 @@ public class TestOctave extends TestCase {
     public void testExec() throws Exception {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("x", Octave.scalar(42));
-        octave.eval(new StringReader("x=x+10;"));
+        octave.unsafeEval(new StringReader("x=x+10;"));
         final OctaveDouble octaveScalar = octave.get(OctaveDouble.class, "x");
         final double x = octaveScalar.get(1, 1);
         assertEquals(52.0, x, 0.0);
@@ -171,7 +171,7 @@ public class TestOctave extends TestCase {
         final OctaveEngine octave2 = octaveEngineFactory.getScriptEngine();
         octave.setWriter(stdout);
         try {
-            octave2.eval("error('testFileClose2');");
+            octave2.unsafeEval("error('testFileClose2');");
             fail();
         } catch (final OctaveException e) {
             assertTrue(e instanceof OctaveIOException);

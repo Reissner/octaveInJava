@@ -43,7 +43,7 @@ public class TestOctaveErrors extends TestCase {
         final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
         octave.setWriter(stdout);
         try {
-            octave.eval("error('test usage of error');");
+            octave.unsafeEval("error('test usage of error');");
             fail("error in octave should cause execute() to throw an exception");
         } catch (final OctaveIOException e) {
             assertTrue(OctaveNonrecoverableException.class.isInstance(e));
@@ -126,7 +126,7 @@ public class TestOctaveErrors extends TestCase {
         final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
         octave.setWriter(stdout);
         try {
-            octave.eval("" //
+            octave.unsafeEval("" //
                     + "try\n" //
                     + "  x = linspace(0,6.3,10*);\n" //
                     + "catch\n" //
@@ -204,7 +204,7 @@ public class TestOctaveErrors extends TestCase {
         final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
         octave.setWriter(stdout);
         try {
-            octave.safeEval("x = linspace(0,6.3,10*);");
+            octave.eval("x = linspace(0,6.3,10*);");
         } catch (final OctaveEvalException e) {
             assertTrue(OctaveRecoverableException.class.isInstance(e));
             assertFalse(e.isDestroyed());

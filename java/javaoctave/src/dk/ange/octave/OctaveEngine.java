@@ -31,6 +31,7 @@ import java.util.Random;
 
 import dk.ange.octave.exception.OctaveClassCastException;
 import dk.ange.octave.exception.OctaveEvalException;
+import dk.ange.octave.exception.OctaveIOException;
 import dk.ange.octave.exec.OctaveExec;
 import dk.ange.octave.exec.ReadFunctor;
 import dk.ange.octave.exec.ReaderWriteFunctor;
@@ -68,8 +69,10 @@ public final class OctaveEngine {
     /**
      * @param script
      *            the script to execute
+     * @throws OctaveIOException
+     *             if the script fails, this will kill the engine
      */
-    public void eval(final String script) {
+    public void unsafeEval(final String script) {
         octaveExec.eval(new WriteFunctor() {
             public void doWrites(final Writer writer2) throws IOException {
                 writer2.write(script);
@@ -97,8 +100,10 @@ public final class OctaveEngine {
     /**
      * @param script
      *            the script to execute
+     * @throws OctaveIOException
+     *             if the script fails, this will kill the engine
      */
-    public void eval(final Reader script) {
+    public void unsafeEval(final Reader script) {
         octaveExec.eval(new ReaderWriteFunctor(script), getReadFunctor());
     }
 
@@ -110,12 +115,12 @@ public final class OctaveEngine {
      * @throws OctaveEvalException
      *             if the script fails
      */
-    public void safeEval(final String script) {
+    public void eval(final String script) {
         final String tag = Long.toHexString(random.nextLong());
         put("javaoctave_" + tag + "_eval", new OctaveString(script));
-        eval("eval(javaoctave_" + tag + "_eval, \"javaoctave_" + tag + "_lasterr = lasterr();\");");
+        unsafeEval("eval(javaoctave_" + tag + "_eval, \"javaoctave_" + tag + "_lasterr = lasterr();\");");
         final OctaveString lastError = get(OctaveString.class, "javaoctave_" + tag + "_lasterr");
-        eval("clear javaoctave_" + tag + "_eval javaoctave_" + tag + "_lasterr");
+        unsafeEval("clear javaoctave_" + tag + "_eval javaoctave_" + tag + "_lasterr");
         if (lastError != null) {
             throw new OctaveEvalException(lastError.getString());
         }
