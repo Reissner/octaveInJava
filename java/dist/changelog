@@ -1,8 +1,10 @@
-JavaOctave (0.5.2)
+JavaOctave (0.6.0)  2010-01-11
 
+  * Prevent engine from exiting on errors by wrapping input in eval()
+  * Handle multi line strings
   * Test exit value from octave in OctaveExec.close()
 
- -- Kim Hansen <kim@i9.dk>
+ -- Kim Hansen <kim@i9.dk>  Mon, 11 Jan 2010 01:22:44 +0100
 
 JavaOctave (0.5.1) 2010-01-08
 
