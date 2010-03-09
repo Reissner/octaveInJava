@@ -47,7 +47,7 @@ public final class StructReader extends OctaveDataReader {
         line = OctaveIO.readerReadLine(reader);
         final String LENGTH = "# length: ";
         if (!line.startsWith(LENGTH)) {
-            throw new OctaveParseException("Expected <" + LENGTH + "> got <" + line + ">");
+            throw new OctaveParseException("Expected '" + LENGTH + "' got '" + line + "'");
         }
         final int length = Integer.valueOf(line.substring(LENGTH.length())); // only used during conversion
 
@@ -58,14 +58,14 @@ public final class StructReader extends OctaveDataReader {
             final String NAME = "# name: ";
             line = OctaveIO.readerReadLine(reader);
             if (!line.startsWith(NAME)) {
-                throw new OctaveParseException("Expected <" + NAME + "> got <" + line + ">");
+                throw new OctaveParseException("Expected '" + NAME + "' got '" + line + "'");
             }
             final String subname = line.substring(NAME.length());
 
             final String CELL = "# type: cell";
             line = OctaveIO.readerReadLine(reader);
             if (!line.equals(CELL)) {
-                throw new OctaveParseException("Expected <" + CELL + "> got <" + line + ">");
+                throw new OctaveParseException("Expected '" + CELL + "' got '" + line + "'");
             }
 
             final OctaveCell cell = cellReader.read(reader);
