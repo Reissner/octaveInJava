@@ -110,14 +110,14 @@ public final class OctaveIO {
     public static OctaveObject read(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
         final String TYPE = "# type: ";
-        if (!line.startsWith(TYPE)) {
+        if (line == null || !line.startsWith(TYPE)) {
             throw new OctaveParseException("Expected '" + TYPE + "' got '" + line + "'");
         }
         final String typeGlobal = line.substring(TYPE.length());
         // Ignore "global " prefix to type (it is not really a type)
         final String GLOBAL = "global ";
         final String type;
-        if (typeGlobal.startsWith(GLOBAL)) {
+        if (typeGlobal != null && typeGlobal.startsWith(GLOBAL)) {
             type = typeGlobal.substring(GLOBAL.length());
         } else {
             type = typeGlobal;
