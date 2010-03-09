@@ -37,15 +37,14 @@ public final class BooleanReader extends OctaveDataReader {
 
     @Override
     public OctaveBoolean read(final BufferedReader reader) {
-        String line;
+        final String line = OctaveIO.readerReadLine(reader);
         // 2d or 2d+?
-        line = OctaveIO.readerReadLine(reader);
         if (line.startsWith("# rows: ")) {
             return read2dmatrix(reader, line);
         } else if (line.startsWith("# ndims: ")) {
             return readVectorizedMatrix(reader, line);
         } else {
-            throw new OctaveParseException("Expected <# rows: > or <# ndims: >, but got <" + line + ">");
+            throw new OctaveParseException("Expected '# rows: ' or '# ndims: ', but got '" + line + "'");
         }
     }
 
@@ -54,14 +53,14 @@ public final class BooleanReader extends OctaveDataReader {
         final String NDIMS = "# ndims: ";
         line = ndimsLine;
         if (!line.startsWith(NDIMS)) {
-            throw new OctaveParseException("Expected <" + NDIMS + ">, but got <" + line + ">");
+            throw new OctaveParseException("Expected '" + NDIMS + "', but got '" + line + "'");
         }
         final int ndims = Integer.parseInt(line.substring(NDIMS.length()));
         line = OctaveIO.readerReadLine(reader);
         final String[] split = line.substring(1).split(" ");
         if (split.length != ndims) {
             throw new OctaveParseException("Expected " + ndims + " dimesion, but got " + (split.length)
-                    + " (line was <" + line + ">)");
+                    + " (line was '" + line + "')");
         }
         final int[] size = new int[split.length];
         for (int dim = 0; dim < split.length; dim++) {
@@ -75,13 +74,13 @@ public final class BooleanReader extends OctaveDataReader {
         return new OctaveBoolean(data, size);
     }
 
-    private boolean parseBoolean(final String line) {
+    static boolean parseBoolean(final String line) {
         if ("0".equals(line)) {
             return false;
         } else if ("1".equals(line)) {
             return true;
         } else {
-            throw new IllegalStateException("Invalid input, '" + line + "'");
+            throw new OctaveParseException("Invalid input, '" + line + "'");
         }
     }
 
@@ -90,13 +89,13 @@ public final class BooleanReader extends OctaveDataReader {
         // # rows: 1
         line = rowsLine;
         if (!line.startsWith("# rows: ")) {
-            throw new OctaveParseException("Expected <# rows: > got <" + line + ">");
+            throw new OctaveParseException("Expected '# rows: ' got '" + line + "'");
         }
         final int rows = Integer.valueOf(line.substring(8));
         // # columns: 3
         line = OctaveIO.readerReadLine(reader);
         if (!line.startsWith("# columns: ")) {
-            throw new OctaveParseException("Expected <# columns: > got <" + line + ">");
+            throw new OctaveParseException("Expected '# columns: ' got '" + line + "'");
         }
         final int columns = Integer.valueOf(line.substring(11));
         // 1 2 3

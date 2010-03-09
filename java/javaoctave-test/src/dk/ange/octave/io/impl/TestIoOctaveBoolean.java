@@ -15,8 +15,7 @@
  */
 package dk.ange.octave.io.impl;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
+import java.util.Map;
 import java.util.TreeMap;
 
 import junit.framework.TestCase;
@@ -356,19 +355,58 @@ public class TestIoOctaveBoolean extends TestCase {
         , OctaveIO.toText(bigmatrix, "bigmatrix"));
     }
 
-    /**
-     * @throws Exception
-     */
-    public void testWriteRead() throws Exception {
+    /** */
+    public void testWriteRead() {
         final OctaveBoolean boolean1 = new OctaveBoolean(0, 0);
         boolean1.set(true, 2, 2);
 
         final String text = OctaveIO.toText(boolean1);
-        final BufferedReader bufferedReader = new BufferedReader(new StringReader(text));
 
-        assertEquals("# name: ans", bufferedReader.readLine());
-        assertEquals(boolean1, OctaveIO.read(bufferedReader));
-        assertEquals(-1, bufferedReader.read()); // Check end of file
+        final Map<String, OctaveObject> read = OctaveIO.readWithName(text);
+        assertTrue(read.containsKey("ans"));
+        assertEquals(boolean1, read.get("ans"));
+    }
+
+    /** */
+    public void testRead() {
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+
+        final OctaveBoolean bool = new OctaveBoolean(0, 0);
+        octave.eval("x = true(0, 0);");
+        assertEquals(bool, octave.get("x"));
+
+        bool.set(true, 1, 1);
+        octave.eval("x = true;");
+        assertEquals(bool, octave.get("x"));
+
+        bool.set(true, 3, 1);
+        octave.eval("x(3, 1) = true;");
+        assertEquals(bool, octave.get("x"));
+
+        bool.set(true, 2, 2);
+        octave.eval("x(2, 2) = true;");
+        assertEquals(bool, octave.get("x"));
+
+        final OctaveBoolean bool3 = new OctaveBoolean(0, 0, 0);
+        bool3.set(true, 2, 2, 2);
+        octave.eval("x3(2, 2, 2) = true;");
+        assertEquals(bool3, octave.get("x3"));
+
+        octave.close();
+    }
+
+    /**
+     * Test that we handle the special single boolean case. Type will be "bool", not "bool matrix".
+     */
+    public void testReadSingle() {
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+
+        final OctaveBoolean bool = new OctaveBoolean(0, 0);
+        bool.set(true, 1, 1);
+        octave.eval("x = true;");
+        assertEquals(bool, octave.get("x"));
+
+        octave.close();
     }
 
 }

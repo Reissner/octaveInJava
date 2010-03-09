@@ -1,4 +1,5 @@
 dk.ange.octave.io.impl.BooleanReader
+dk.ange.octave.io.impl.BooleanSingleReader
 dk.ange.octave.io.impl.CellReader
 dk.ange.octave.io.impl.ComplexMatrixReader
 dk.ange.octave.io.impl.ComplexScalarReader
