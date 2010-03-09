@@ -55,6 +55,7 @@ public class TestIoFunctionHandle extends TestCase {
     public void testOctaveConnection() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         if (octave.getVersion().equals("3.0.5")) {
+            octave.close();
             return; // Skip test on octave 3.0.5
         }
         final OctaveObject fh1 = new OctaveFunctionHandle("@(x) sqrt (1 - x ^ 2)");
@@ -62,6 +63,7 @@ public class TestIoFunctionHandle extends TestCase {
         // TODO enable when reading of OctaveFunctionHandle is done
         // final OctaveObject fh2 = octave.get(OctaveString.class, "fh");
         // assertEquals(s1, s2);
+        octave.close();
     }
 
 }
