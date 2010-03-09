@@ -69,7 +69,7 @@ public final class CellReader extends OctaveDataReader {
             }
             line = OctaveIO.readerReadLine(reader);
             token = "";
-            if (!line.equals(token)) {
+            if (line == null || !line.equals(token)) {
                 throw new OctaveParseException("Expected <" + token + ">, but got <" + line + ">");
             }
         }

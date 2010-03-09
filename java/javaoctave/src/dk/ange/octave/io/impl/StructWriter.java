@@ -41,8 +41,12 @@ public final class StructWriter extends OctaveDataWriter<OctaveStruct> {
         for (final Map.Entry<String, OctaveObject> entry : data.entrySet()) {
             final String subname = entry.getKey();
             final OctaveObject value = entry.getValue();
-            writer.write("# name: " + subname + "\n# type: cell\n# rows: 1\n# columns: 1\n");
+            writer.write("# name: " + subname + "\n");
+            writer.write("# type: cell\n");
+            writer.write("# rows: 1\n");
+            writer.write("# columns: 1\n");
             OctaveIO.write(writer, "<cell-element>", value);
+            writer.write("\n");
         }
     }
 

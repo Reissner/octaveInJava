@@ -37,7 +37,9 @@ public final class CellWriter extends OctaveDataWriter<OctaveCell> {
     public void write(final Writer writer, final OctaveCell octaveCell) throws IOException {
         final int rows = octaveCell.size(1);
         final int columns = octaveCell.size(2);
-        writer.write("# type: cell\n# rows: " + rows + "\n# columns: " + columns + "\n");
+        writer.write("# type: cell\n");
+        writer.write("# rows: " + rows + "\n");
+        writer.write("# columns: " + columns + "\n");
         for (int c = 1; c <= columns; ++c) {
             for (int r = 1; r <= rows; ++r) {
                 final OctaveObject value = octaveCell.get(r, c);

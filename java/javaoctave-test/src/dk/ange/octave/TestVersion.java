@@ -41,7 +41,7 @@ public class TestVersion extends TestCase {
     public void testKnownVersion() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         final String version = octave.getVersion();
-        final Set<String> knownVersions = new HashSet<String>(Arrays.asList("3.0.5", "3.2.3"));
+        final Set<String> knownVersions = new HashSet<String>(Arrays.asList("3.0.5", "3.2.3", "3.2.4"));
         assertTrue("Version '" + version + "' is not known", knownVersions.contains(version));
     }
 
