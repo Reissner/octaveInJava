@@ -163,6 +163,7 @@ public final class OctaveExec {
                 final OctaveException oe = (OctaveException) e.getCause();
                 return reInstantiateException(oe);
             }
+            // Can happen when there is an error in a OctaveWriter
             final String message = "ExecutionException should not happen";
             log.error(message, e);
             return new RuntimeException(message, e);
