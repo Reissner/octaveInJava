@@ -19,6 +19,7 @@ import static dk.ange.octave.io.OctaveIO.readerReadLine;
 
 import java.io.BufferedReader;
 import java.io.Reader;
+import java.util.Map;
 
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.exec.ReadFunctor;
@@ -42,24 +43,18 @@ final class DataReadFunctor implements ReadFunctor {
 
     public void doReads(final Reader reader) {
         final BufferedReader bufferedReader = new BufferedReader(reader);
-        String line = readerReadLine(bufferedReader);
-        if (line == null || !line.startsWith("# Created by Octave")) {
-            throw new OctaveParseException("Not created by Octave?: '" + line + "'");
+        final String createByOctaveLine = readerReadLine(bufferedReader);
+        if (createByOctaveLine == null || !createByOctaveLine.startsWith("# Created by Octave")) {
+            throw new OctaveParseException("Not created by Octave?: '" + createByOctaveLine + "'");
         }
-        line = readerReadLine(bufferedReader);
-        if (line == null) {
-            throw new OctaveParseException("no such variable '" + name + "'");
+        final Map<String, OctaveObject> map = OctaveIO.readWithName(bufferedReader);
+        if (map.size() != 1) {
+            throw new OctaveParseException("Expected map of size 1 but got " + map + "'");
         }
-        final String token = "# name: ";
-        if (!line.startsWith(token)) {
-            throw new OctaveParseException("Expected <" + token + ">, but got <" + line + ">");
+        if (!map.containsKey(name)) {
+            throw new OctaveParseException("Expected variable named '" + name + "' but got '" + map + "'");
         }
-        final String readname = line.substring(token.length());
-        if (!name.equals(readname)) {
-            throw new OctaveParseException("Expected variable named \"" + name + "\" but got one named \"" + readname
-                    + "\"");
-        }
-        data = OctaveIO.read(bufferedReader);
+        data = map.get(name);
     }
 
     /**

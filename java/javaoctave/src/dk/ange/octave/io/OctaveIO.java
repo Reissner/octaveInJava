@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Collections;
 import java.util.Map;
 
 import dk.ange.octave.exception.OctaveClassCastException;
@@ -104,8 +105,10 @@ public final class OctaveIO {
     }
 
     /**
+     * Read a single object from Reader
+     * 
      * @param reader
-     * @return octavetype read from reader
+     * @return OctaveObject read from Reader
      */
     public static OctaveObject read(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
@@ -127,6 +130,44 @@ public final class OctaveIO {
             throw new OctaveParseException("Unknown octave type, type='" + type + "'");
         }
         return dataReader.read(reader);
+    }
+
+    /**
+     * Read a single object from Reader
+     * 
+     * @param reader
+     * @return a singleton map with the name and object
+     */
+    public static Map<String, OctaveObject> readWithName(final BufferedReader reader) {
+        final String line = OctaveIO.readerReadLine(reader);
+        final String token = "# name: ";
+        if (!line.startsWith(token)) {
+            throw new OctaveParseException("Expected '" + token + "', but got '" + line + "'");
+        }
+        final String name = line.substring(token.length());
+        return Collections.singletonMap(name, read(reader));
+    }
+
+    /**
+     * Read a single object from String, it is an error if there is data left after the object
+     * 
+     * @param input
+     * @return a singleton map with the name and object
+     * @throws OctaveParseException
+     *             if there is data left after the object is read
+     */
+    public static Map<String, OctaveObject> readWithName(final String input) {
+        final BufferedReader bufferedReader = new BufferedReader(new StringReader(input));
+        final Map<String, OctaveObject> map = readWithName(bufferedReader);
+        try {
+            final String line = bufferedReader.readLine();
+            if (line != null) {
+                throw new OctaveParseException("Too much data in input, first extra line is '" + line + "'");
+            }
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+        return map;
     }
 
     /**
