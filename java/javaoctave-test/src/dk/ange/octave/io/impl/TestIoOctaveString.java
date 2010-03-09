@@ -96,6 +96,7 @@ public class TestIoOctaveString extends TestCase {
 
         assertEquals("# name: ans", bufferedReader.readLine());
         assertEquals(string, OctaveIO.read(bufferedReader));
+        assertEquals(-1, bufferedReader.read()); // Check end of file
     }
 
 }

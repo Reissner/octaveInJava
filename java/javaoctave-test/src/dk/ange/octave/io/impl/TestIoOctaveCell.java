@@ -262,6 +262,7 @@ public class TestIoOctaveCell extends TestCase {
 
         assertEquals("# name: ans", bufferedReader.readLine());
         assertEquals(cell, OctaveIO.read(bufferedReader));
+        assertEquals(-1, bufferedReader.read()); // Check end of file
     }
 
 }

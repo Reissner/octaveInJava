@@ -53,7 +53,6 @@ public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
             }
             writer.write('\n');
         }
-        writer.write("\n");
     }
 
     private void saveDataVectorized(final Writer writer, final OctaveBoolean octaveMatrix) throws IOException {
@@ -66,7 +65,7 @@ public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
         for (final boolean b : data) {
             writer.write("\n " + (b ? "1" : "0"));
         }
-        writer.write("\n\n");
+        writer.write("\n");
     }
 
 }

@@ -243,6 +243,7 @@ public class TestIoOctaveStruct extends TestCase {
 
         assertEquals("# name: ans", bufferedReader.readLine());
         assertEquals(struct, OctaveIO.read(bufferedReader));
+        assertEquals(-1, bufferedReader.read()); // Check end of file
     }
 
 }

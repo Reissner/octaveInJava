@@ -15,6 +15,8 @@
  */
 package dk.ange.octave.io.impl;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.util.TreeMap;
 
 import junit.framework.TestCase;
@@ -47,7 +49,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 + " 0\n 0\n 0\n" //
                 + " 0\n 0\n 0\n" //
                 + " 0\n 0\n 0\n" //
-                + "\n", OctaveIO.toText(matrix, "matrix3d"));
+                + "", OctaveIO.toText(matrix, "matrix3d"));
         matrix.set(true, 1, 3, 2);
         assertEquals("" //
                 + "# name: matrix3d\n" //
@@ -62,7 +64,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 + " 0\n 0\n 0\n" //
                 + " 1\n 0\n 0\n" //
                 + " 0\n 0\n 0\n" //
-                + "\n", OctaveIO.toText(matrix, "matrix3d"));
+                + "", OctaveIO.toText(matrix, "matrix3d"));
     }
 
     /**
@@ -70,8 +72,7 @@ public class TestIoOctaveBoolean extends TestCase {
      */
     public void testConstructor1() {
         final OctaveBoolean matrix = new OctaveBoolean(0, 0, 0);
-        assertEquals("# name: matrix3d\n# type: bool matrix\n# ndims: 3\n 0 0 0\n\n", OctaveIO.toText(matrix,
-                "matrix3d"));
+        assertEquals("# name: matrix3d\n# type: bool matrix\n# ndims: 3\n 0 0 0\n", OctaveIO.toText(matrix, "matrix3d"));
     }
 
     /**
@@ -86,7 +87,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# type: bool matrix\n" + //
                 "# rows: 0\n" + //
                 "# columns: 0\n" + //
-                "\n" //
+                "" //
         , OctaveIO.toText(matrix, "matrix"));
     }
 
@@ -104,7 +105,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# rows: 2\n" + //
                 "# columns: 3\n" + //
                 " 1 0 1\n" + //
-                " 1 0 1\n\n" //
+                " 1 0 1\n" //
         , OctaveIO.toText(matrix, "mymatrix"));
     }
 
@@ -121,7 +122,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# rows: 2\n" + //
                 "# columns: 3\n" + //
                 " 0 0 0\n" + //
-                " 0 0 0\n\n" //
+                " 0 0 0\n" //
         , OctaveIO.toText(matrix, "matrix"));
         matrix.set(true, 1, 2);
         assertEquals("" + //
@@ -130,7 +131,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# rows: 2\n" + //
                 "# columns: 3\n" + //
                 " 0 1 0\n" + //
-                " 0 0 0\n\n" //
+                " 0 0 0\n" //
         , OctaveIO.toText(matrix, "myother"));
         matrix.set(true, 2, 1);
         assertEquals("" + //
@@ -139,7 +140,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# rows: 2\n" + //
                 "# columns: 3\n" + //
                 " 0 1 0\n" + //
-                " 1 0 0\n\n" //
+                " 1 0 0\n" //
         , OctaveIO.toText(matrix, "myother"));
         matrix.set(true, 2, 2);
         assertEquals("" + //
@@ -148,7 +149,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# rows: 2\n" + //
                 "# columns: 3\n" + //
                 " 0 1 0\n" + //
-                " 1 1 0\n\n" //
+                " 1 1 0\n" //
         , OctaveIO.toText(matrix, "myother"));
     }
 
@@ -163,7 +164,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# name: matrix\n" + //
                 "# type: bool matrix\n" + //
                 "# rows: 0\n" + //
-                "# columns: 0\n\n" //
+                "# columns: 0\n" //
         , OctaveIO.toText(matrix, "matrix"));
         matrix.set(true, 1, 1);
         assertEquals(1, matrix.size(1));
@@ -173,7 +174,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# type: bool matrix\n" + //
                 "# rows: 1\n" + //
                 "# columns: 1\n" + //
-                " 1\n\n" //
+                " 1\n" //
         , OctaveIO.toText(matrix, "matrix"));
         matrix.set(true, 3, 1);
         assertEquals(3, matrix.size(1));
@@ -185,7 +186,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# columns: 1\n" + //
                 " 1\n" + //
                 " 0\n" + //
-                " 1\n\n" //
+                " 1\n" //
         , OctaveIO.toText(matrix, "matrix"));
 
         final OctaveBoolean matrix2 = new OctaveBoolean(0, 0);
@@ -196,7 +197,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# rows: 1\n" + //
                 "# columns: 3\n" + //
                 " 0 0 1\n" + //
-                "\n" //
+                "" //
         , OctaveIO.toText(matrix2, "matrix"));
     }
 
@@ -296,14 +297,14 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# name: matrixzero2d\n" + //
                 "# type: bool matrix\n" + //
                 "# rows: 0\n" + //
-                "# columns: 0\n\n" //
+                "# columns: 0\n" //
         , OctaveIO.toText(matrixzero2d, "matrixzero2d"));
 
         assertEquals("" + //
                 "# name: matrixzero\n" + //
                 "# type: bool matrix\n" + //
                 "# ndims: 4\n" + //
-                " 0 0 0 0\n\n" // 
+                " 0 0 0 0\n" // 
         , OctaveIO.toText(matrixzero, "matrixzero"));
 
         assertEquals("" + //
@@ -311,7 +312,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# type: bool matrix\n" + //
                 "# rows: 1\n" + //
                 "# columns: 1\n" + //
-                " 1\n\n" //
+                " 1\n" //
         , OctaveIO.toText(matrixscalar, "matrixscalar"));
 
         assertEquals("" + //
@@ -320,7 +321,7 @@ public class TestIoOctaveBoolean extends TestCase {
                 "# rows: 2\n" + //
                 "# columns: 3\n" + //
                 " 1 1 1\n" + //
-                " 0 0 0\n\n" //
+                " 0 0 0\n" //
         , OctaveIO.toText(matrix2d, "matrix2d"));
 
         assertEquals("" + //
@@ -351,8 +352,23 @@ public class TestIoOctaveBoolean extends TestCase {
                 " 1\n" + //
                 " 0\n" + //
                 " 1\n" + //
-                " 0\n\n" //
+                " 0\n" //
         , OctaveIO.toText(bigmatrix, "bigmatrix"));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public void testWriteRead() throws Exception {
+        final OctaveBoolean boolean1 = new OctaveBoolean(0, 0);
+        boolean1.set(true, 2, 2);
+
+        final String text = OctaveIO.toText(boolean1);
+        final BufferedReader bufferedReader = new BufferedReader(new StringReader(text));
+
+        assertEquals("# name: ans", bufferedReader.readLine());
+        assertEquals(boolean1, OctaveIO.read(bufferedReader));
+        assertEquals(-1, bufferedReader.read()); // Check end of file
     }
 
 }
