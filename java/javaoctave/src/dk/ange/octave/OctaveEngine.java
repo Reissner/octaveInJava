@@ -116,7 +116,7 @@ public final class OctaveEngine {
      *             if the script fails
      */
     public void eval(final String script) {
-        final String tag = Long.toHexString(random.nextLong());
+        final String tag = String.format("%06x%06x", random.nextInt(1 << 23), random.nextInt(1 << 23));
         put("javaoctave_" + tag + "_eval", new OctaveString(script));
         unsafeEval("eval(javaoctave_" + tag + "_eval, \"javaoctave_" + tag + "_lasterr = lasterr();\");");
         final OctaveString lastError = get(OctaveString.class, "javaoctave_" + tag + "_lasterr");

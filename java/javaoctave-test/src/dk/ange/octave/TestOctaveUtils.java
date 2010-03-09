@@ -15,7 +15,7 @@ public class TestOctaveUtils extends TestCase {
     public void testListVarsEmpty() throws Exception {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         final Collection<String> collection = OctaveUtils.listVars(octave);
-        assertEquals(0, collection.size());
+        assertEquals(collection.toString(), 0, collection.size());
         octave.close();
     }
 
@@ -27,12 +27,12 @@ public class TestOctaveUtils extends TestCase {
 
         octave.eval("my_var = 42;");
         final Collection<String> collection1 = OctaveUtils.listVars(octave);
-        assertEquals(1, collection1.size());
+        assertEquals(collection1.toString(), 1, collection1.size());
 
         octave.eval("1 + 2;");
         octave.eval("my_other_var = 42;");
         final Collection<String> collection2 = OctaveUtils.listVars(octave);
-        assertEquals(2, collection2.size());
+        assertEquals(collection2.toString(), 2, collection2.size());
 
         octave.close();
     }

@@ -214,7 +214,7 @@ public final class OctaveExec {
     }
 
     /**
-     * Close the octave process in an orderly fasion.
+     * Close the octave process in an orderly fashion.
      */
     public void close() {
         try {

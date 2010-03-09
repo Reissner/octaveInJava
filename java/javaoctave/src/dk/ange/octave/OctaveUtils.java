@@ -42,7 +42,7 @@ public final class OctaveUtils {
         final OctaveCell data = octave.get(OctaveCell.class, varName);
         octave.eval("clear " + varName);
         final Collection<String> collection = new HashSet<String>();
-        final Pattern pattern = Pattern.compile("javaoctave_[0-9a-f]{16}_eval");
+        final Pattern pattern = Pattern.compile("javaoctave_[0-9a-f]{12}_eval");
         for (int i = 1; i <= data.size(2); ++i) {
             final String name = data.get(OctaveString.class, 1, i).getString();
             if (varName.equals(name) || "__nargin__".equals(name) || "ans".equals(name)
