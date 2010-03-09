@@ -39,7 +39,6 @@ public final class OctaveStringWriter extends OctaveDataWriter<OctaveString> {
                 + "# elements: 1\n" //
                 + "# length: " + string.length() + "\n" //
                 + string + "\n" //
-                + "\n" //
                 + "");
     }
 

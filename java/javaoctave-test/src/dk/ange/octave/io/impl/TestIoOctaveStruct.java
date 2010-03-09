@@ -235,6 +235,8 @@ public class TestIoOctaveStruct extends TestCase {
     public void testWriteRead() throws Exception {
         final OctaveStruct struct = new OctaveStruct();
         struct.set("x", Octave.scalar(42));
+        struct.set("y", new OctaveString("y"));
+        struct.set("z", new OctaveString("z"));
 
         final String text = OctaveIO.toText(struct);
         final BufferedReader bufferedReader = new BufferedReader(new StringReader(text));

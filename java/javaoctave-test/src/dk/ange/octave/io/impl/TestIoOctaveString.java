@@ -15,6 +15,9 @@
  */
 package dk.ange.octave.io.impl;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
+
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
@@ -32,7 +35,7 @@ public class TestIoOctaveString extends TestCase {
      */
     public void testToString() {
         final OctaveObject string = new OctaveString("tekst");
-        assertEquals("# name: ans\n# type: string\n# elements: 1\n# length: 5\ntekst\n\n", OctaveIO.toText(string));
+        assertEquals("# name: ans\n# type: string\n# elements: 1\n# length: 5\ntekst\n", OctaveIO.toText(string));
     }
 
     /**
@@ -40,7 +43,7 @@ public class TestIoOctaveString extends TestCase {
      */
     public void testToOctave() {
         final OctaveObject string = new OctaveString("mytekst");
-        assertEquals("# name: tre\n# type: string\n# elements: 1\n# length: 7\nmytekst\n\n", OctaveIO.toText(string,
+        assertEquals("# name: tre\n# type: string\n# elements: 1\n# length: 7\nmytekst\n", OctaveIO.toText(string,
                 "tre"));
     }
 
@@ -80,6 +83,19 @@ public class TestIoOctaveString extends TestCase {
         octave.eval(key + " = \"" + input + "\";");
         final OctaveString output = octave.get(OctaveString.class, key);
         assertEquals(expected, output.getString());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public void testWriteRead() throws Exception {
+        final OctaveString string = new OctaveString("TEST");
+
+        final String text = OctaveIO.toText(string);
+        final BufferedReader bufferedReader = new BufferedReader(new StringReader(text));
+
+        assertEquals("# name: ans", bufferedReader.readLine());
+        assertEquals(string, OctaveIO.read(bufferedReader));
     }
 
 }
