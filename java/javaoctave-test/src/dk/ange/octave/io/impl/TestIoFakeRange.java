@@ -15,8 +15,6 @@
  */
 package dk.ange.octave.io.impl;
 
-import java.io.OutputStreamWriter;
-
 import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
@@ -30,9 +28,7 @@ public class TestIoFakeRange extends TestCase {
 
     /** */
     public void testReadWrite() {
-        final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
-        octaveEngineFactory.setOctaveInputLog(new OutputStreamWriter(System.out));
-        final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
         OctaveObject x;
 
