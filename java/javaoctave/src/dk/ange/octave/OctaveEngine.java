@@ -117,10 +117,11 @@ public final class OctaveEngine {
      */
     public void eval(final String script) {
         final String tag = String.format("%06x%06x", random.nextInt(1 << 23), random.nextInt(1 << 23));
-        put("javaoctave_" + tag + "_eval", new OctaveString(script));
-        unsafeEval("eval(javaoctave_" + tag + "_eval, \"javaoctave_" + tag + "_lasterr = lasterr();\");");
-        final OctaveString lastError = get(OctaveString.class, "javaoctave_" + tag + "_lasterr");
-        unsafeEval("clear javaoctave_" + tag + "_eval javaoctave_" + tag + "_lasterr");
+        put(String.format("javaoctave_%1$s_eval", tag), new OctaveString(script));
+        // Does not use lasterror() as that returns data in a matrix struct, we can not read that yet
+        unsafeEval(String.format("eval(javaoctave_%1$s_eval, \"javaoctave_%1$s_lasterr = lasterr();\");", tag));
+        final OctaveString lastError = get(OctaveString.class, String.format("javaoctave_%1$s_lasterr", tag));
+        unsafeEval(String.format("clear javaoctave_%1$s_eval javaoctave_%1$s_lasterr", tag));
         if (lastError != null) {
             throw new OctaveEvalException(lastError.getString());
         }
