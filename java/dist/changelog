@@ -1,3 +1,14 @@
+JavaOctave (0.6.1)  2010-03-10
+
+  * Create some skeleton objects that can get and put sparse booleans and
+    ranges.
+  * Create some utility functions that makes it easy to pull data out of
+    octave.
+  * Fix some bugs in the save format, a lot of linefeeds were placed in
+    the wrong way.
+
+ -- Kim Hansen <kim@i9.dk>  Wed, 10 Mar 2010 15:10:09 +0100
+
 JavaOctave (0.6.0)  2010-01-11
 
   * Prevent engine from exiting on errors by wrapping input in eval()
