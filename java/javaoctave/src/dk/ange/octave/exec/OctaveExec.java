@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -104,7 +105,7 @@ public final class OctaveExec {
         errorStreamThread = ReaderWriterPipeThread.instantiate(new InputStreamReader(process.getErrorStream()),
                 stderrLog);
         // Connect stdout
-        processReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        processReader = new BufferedReader(new InputStreamReader(process.getInputStream(), Charset.forName("Latin1")));
         // Connect stdin
         if (stdinLog == null) {
             processWriter = new OutputStreamWriter(process.getOutputStream());

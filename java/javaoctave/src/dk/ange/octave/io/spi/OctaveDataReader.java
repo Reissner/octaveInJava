@@ -44,13 +44,14 @@ public abstract class OctaveDataReader {
     }
 
     private static synchronized void initIfNecessary() {
-        if (readers == null) {
-            readers = new HashMap<String, OctaveDataReader>();
-            final Iterator<OctaveDataReader> sp = ServiceRegistry.lookupProviders(OctaveDataReader.class);
-            while (sp.hasNext()) {
-                final OctaveDataReader odr = sp.next();
-                readers.put(odr.octaveType(), odr);
-            }
+        if (readers != null) {
+            return;
+        }
+        readers = new HashMap<String, OctaveDataReader>();
+        final Iterator<OctaveDataReader> sp = ServiceRegistry.lookupProviders(OctaveDataReader.class);
+        while (sp.hasNext()) {
+            final OctaveDataReader odr = sp.next();
+            readers.put(odr.octaveType(), odr);
         }
     }
 
