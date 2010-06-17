@@ -153,7 +153,8 @@ abstract public class AbstractGenericMatrix<D> {
      */
     public void resizeUp(final int... pos) {
         if (size.length != pos.length) {
-            throw new UnsupportedOperationException("Change in number of dimenstions not supported");
+            throw new UnsupportedOperationException("Change in number of dimensions not supported (" + size.length
+                    + "!=" + pos.length + ")");
         }
         // Resize by each dimension. This is not the optimal way to do it, but it works.
         for (int dim = 0; dim < size.length; ++dim) {
