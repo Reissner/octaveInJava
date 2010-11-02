@@ -39,6 +39,7 @@ public final class Cast {
     private static synchronized void initIfNecessary() {
         if (casterMap == null) {
             casterMap = new HashMap<ClassPair<?, ?>, Caster<?, ?>>();
+            @SuppressWarnings("rawtypes")
             final Iterator<Caster> sp = ServiceRegistry.lookupProviders(Caster.class);
             while (sp.hasNext()) {
                 register(sp.next());
@@ -118,7 +119,6 @@ public final class Cast {
             return result;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         public boolean equals(final Object obj) {
             if (this == obj) {
@@ -130,7 +130,7 @@ public final class Cast {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            final ClassPair other = (ClassPair) obj;
+            final ClassPair<?, ?> other = (ClassPair<?, ?>) obj;
             if (from == null) {
                 if (other.from != null) {
                     return false;

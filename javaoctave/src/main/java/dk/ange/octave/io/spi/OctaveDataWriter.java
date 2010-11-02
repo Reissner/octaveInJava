@@ -45,13 +45,13 @@ public abstract class OctaveDataWriter<T extends OctaveObject> {
         return (OctaveDataWriter<T>) writers.get(example.getClass());
     }
 
-    @SuppressWarnings("unchecked")
     private static synchronized void initIfNecessary() {
         if (writers == null) {
             writers = new HashMap<Class<? extends OctaveObject>, OctaveDataWriter<?>>();
+            @SuppressWarnings("rawtypes")
             final Iterator<OctaveDataWriter> sp = ServiceRegistry.lookupProviders(OctaveDataWriter.class);
             while (sp.hasNext()) {
-                final OctaveDataWriter odw = sp.next();
+                final OctaveDataWriter<?> odw = sp.next();
                 writers.put(odw.javaType(), odw);
             }
         }
