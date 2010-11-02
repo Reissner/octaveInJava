@@ -9,19 +9,3 @@
 # Maven
 ^javaoctave/target$
 
-
-
-## OLD
-
-syntax: glob
-
-# Eclipse
-#java/*/eclipse-build/
-java/.metadata/
-#java/eclipse/eclipse.log
-
-# Build
-#java/*/build/
-#java/javaoctave/javaoctave.jar
-#java/jars/javaoctave/*.jar
-
