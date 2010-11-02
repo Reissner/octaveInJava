@@ -92,7 +92,6 @@ public class OctaveStruct implements OctaveObject {
         return data;
     }
 
-    @Override
     public OctaveStruct shallowCopy() {
         return new OctaveStruct(data);
     }

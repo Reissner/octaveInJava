@@ -78,7 +78,6 @@ public class OctaveString implements OctaveObject {
         return true;
     }
 
-    @Override
     public OctaveString shallowCopy() {
         return new OctaveString(value);
     }

@@ -50,7 +50,6 @@ public class OctaveInt extends IntMatrix implements OctaveObject {
         super(o);
     }
 
-    @Override
     public OctaveInt shallowCopy() {
         return new OctaveInt(this);
     }

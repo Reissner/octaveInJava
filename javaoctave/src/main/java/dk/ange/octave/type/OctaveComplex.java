@@ -121,7 +121,6 @@ public class OctaveComplex implements OctaveObject {
         return imag.getData();
     }
 
-    @Override
     public OctaveComplex shallowCopy() {
         return new OctaveComplex(this);
     }
