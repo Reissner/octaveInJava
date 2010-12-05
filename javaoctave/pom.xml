@@ -80,6 +80,16 @@
       </plugin>
 
     </plugins>
+    <extensions>
+
+      <!-- Deploy via svn -->
+      <extension>
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>1.9</version>
+      </extension>
+
+    </extensions>
   </build>
 
   <!-- More Project Information -->
@@ -107,5 +117,12 @@
     <tag>default</tag>
     <url>https://hg.kenai.com/hg/javaoctave~source-code-repository</url>
   </scm>
+  <distributionManagement>
+    <repository>
+      <id>maven-repository.javaoctave.kenai.com</id>
+      <name>JavaOctave Maven Repository</name>
+      <url>svn:https://kenai.com/svn/javaoctave~maven-repository/maven2</url>
+    </repository>
+  </distributionManagement>
 
 </project>

@@ -1,5 +1,13 @@
 
 Release
+  http://java.dzone.com/tips/using-maven-repository-kenai
+    http://blog.retep.org/2009/04/24/setting-up-a-maven-repository-on-kenai/
+    http://blog.retep.org/2009/05/19/performing-maven-releases-on-kenai-with-hudson/
+
+  It is working now, find out how to automate release of website
+  Should I have a separeate snapshot repo?
+  Release 0.6.2
+
 
 ==== DONE ==============================================================================================================
 
