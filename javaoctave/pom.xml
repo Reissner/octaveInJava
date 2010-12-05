@@ -38,12 +38,21 @@
   </properties>
   <build>
     <plugins>
+      <!-- Use Java 5 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
+        </configuration>
+      </plugin>
+      <!-- Do not filter resources -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <useBuildFilters>false</useBuildFilters>
         </configuration>
       </plugin>
     </plugins>
