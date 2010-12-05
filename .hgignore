@@ -9,3 +9,6 @@
 # Maven
 ^javaoctave/target$
 
+# Gradle
+^javaoctave/\.gradle$
+
