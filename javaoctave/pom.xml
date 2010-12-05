@@ -1,12 +1,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>dk.ange.octave</groupId>
+  <groupId>dk.ange</groupId>
   <artifactId>javaoctave</artifactId>
   <packaging>jar</packaging>
   <version>0.6.2-SNAPSHOT</version>
   <name>javaoctave</name>
   <url>http://kenai.com/projects/javaoctave</url>
+  <inceptionYear>2006</inceptionYear>
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  <organization>
+    <name>Ange Optimization ApS</name>
+    <url>http://ange.dk</url>
+  </organization>
   <dependencies>
     <dependency>
       <groupId>commons-logging</groupId>
@@ -38,6 +51,7 @@
   </properties>
   <build>
     <plugins>
+
       <!-- Use Java 5 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -47,6 +61,7 @@
           <target>1.5</target>
         </configuration>
       </plugin>
+
       <!-- Do not filter resources -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -55,6 +70,25 @@
           <useBuildFilters>false</useBuildFilters>
         </configuration>
       </plugin>
+
+      <!-- Add entries to manifest-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
+            </manifest>
+            <manifestEntries>
+              <Bundle-License>${project.licenses[0].url}</Bundle-License>
+              <Project-Url>${project.url}</Project-Url>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 </project>

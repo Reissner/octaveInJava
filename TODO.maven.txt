@@ -1,5 +1,10 @@
 
+Release
+
+==== DONE ==============================================================================================================
+
 Test rebuild performance
+  Solution: Ignore it...
 
 Add this to jar
     <attribute name="Implementation-Title" value="JavaOctave"/>
@@ -7,6 +12,5 @@ Add this to jar
     <attribute name="Implementation-Vendor" value="Kim Hansen, Ange Optimization ApS"/>
     <attribute name="Bundle-License" value="http://www.apache.org/licenses/LICENSE-2.0"/>
     <attribute name="Project-Url" value="http://kenai.com/projects/javaoctave/"/>
-
-Release
+  Solution: Fixed in pom.xml
 
