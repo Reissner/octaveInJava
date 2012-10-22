@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2012 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,9 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-/**
- * @author Kim Hansen
  */
 package dk.ange.octave.io;
 
@@ -47,13 +44,19 @@ final class DataWriteFunctor implements WriteFunctor {
     public void doWrites(final Writer writer) {
         try {
             // Enter octave in "read data from input mode"
+            log.trace("write: 'load(\"-text\", \"-\")' to start read data from input mode");
             writer.write("load(\"-text\", \"-\")\n");
             // Push the data into octave
             for (final Map.Entry<String, OctaveObject> entry : octaveTypes.entrySet()) {
                 final String name = entry.getKey();
-                OctaveIO.write(writer, name, entry.getValue());
+                final OctaveObject value = entry.getValue();
+                if (log.isTraceEnabled()) {
+                    log.trace("write: variable '" + name + "', value=<<<" + value + ">>>");
+                }
+                OctaveIO.write(writer, name, value);
             }
             // Exit octave from read data mode
+            log.trace("write: '# name:' to exit octave from read data mode");
             writer.write("# name: \n");
             writer.flush();
         } catch (final IOException e) {
