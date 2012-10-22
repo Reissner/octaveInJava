@@ -30,7 +30,7 @@ import dk.ange.octave.type.OctaveStruct;
 /**
  * The reader of struct
  */
-public final class StructReader extends OctaveDataReader {
+public class StructReader extends OctaveDataReader {
 
     private final static CellReader cellReader = new CellReader();
 
