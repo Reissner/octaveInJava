@@ -1,5 +1,5 @@
 /*
- * Copyright 2007, 2008, 2009 Ange Optimization ApS
+ * Copyright 2007, 2008, 2009, 2012 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,7 +94,7 @@ public final class OctaveIO {
      * Utility function.
      * 
      * @param reader
-     * @return next line from reader
+     * @return next line from reader, null at end of stream
      */
     public static String readerReadLine(final BufferedReader reader) {
         try {
