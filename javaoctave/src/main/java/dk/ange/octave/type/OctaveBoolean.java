@@ -37,6 +37,7 @@ public class OctaveBoolean extends BooleanMatrix implements OctaveObject {
         super(data, size);
     }
 
+    @Override
     public OctaveBoolean shallowCopy() {
         return new OctaveBoolean(data, size);
     }

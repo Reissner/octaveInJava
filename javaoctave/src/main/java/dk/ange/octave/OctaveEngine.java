@@ -74,6 +74,7 @@ public final class OctaveEngine {
      */
     public void unsafeEval(final String script) {
         octaveExec.eval(new WriteFunctor() {
+            @Override
             public void doWrites(final Writer writer2) throws IOException {
                 writer2.write(script);
             }
@@ -86,6 +87,7 @@ public final class OctaveEngine {
             return new ReadFunctor() {
                 private final char[] buffer = new char[4096];
 
+                @Override
                 public void doReads(final Reader reader) throws IOException {
                     while (reader.read(buffer) != -1) {
                         // Do nothing

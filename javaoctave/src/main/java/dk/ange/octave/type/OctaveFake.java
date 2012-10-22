@@ -30,6 +30,7 @@ public class OctaveFake implements OctaveObject {
         this.data = data;
     }
 
+    @Override
     public OctaveFake shallowCopy() {
         return new OctaveFake(data);
     }

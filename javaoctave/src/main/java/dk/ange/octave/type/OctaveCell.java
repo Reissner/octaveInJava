@@ -86,6 +86,7 @@ public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObj
         return Cast.cast(castClass, get(pos));
     }
 
+    @Override
     public OctaveCell shallowCopy() {
         return new OctaveCell(this);
     }

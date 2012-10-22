@@ -38,6 +38,7 @@ public final class ReaderWriteFunctor implements WriteFunctor {
         this.reader = reader;
     }
 
+    @Override
     public void doWrites(final Writer writer) throws IOException {
         IOUtils.copy(reader, writer);
     }

@@ -32,6 +32,7 @@ public class OctaveFunctionHandle implements OctaveObject {
         this.function = function;
     }
 
+    @Override
     public OctaveFunctionHandle shallowCopy() {
         return new OctaveFunctionHandle(getFunction());
     }

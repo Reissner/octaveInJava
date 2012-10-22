@@ -43,6 +43,7 @@ final class DataWriteFunctor implements WriteFunctor {
         this.octaveTypes = octaveTypes;
     }
 
+    @Override
     public void doWrites(final Writer writer) {
         try {
             // Enter octave in "read data from input mode"

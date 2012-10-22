@@ -48,6 +48,7 @@ public final class NamedThreadFactory implements ThreadFactory {
                 + "-";
     }
 
+    @Override
     public Thread newThread(final Runnable runnable) {
         final Thread thread = new Thread(group, runnable, namePrefix + threadNumber.getAndIncrement());
         if (thread.isDaemon()) {

@@ -53,6 +53,7 @@ public class OctaveSparseBoolean implements OctaveObject {
         this(rows, columns, 0, new int[nnz], new int[nnz], new boolean[nnz]);
     }
 
+    @Override
     public OctaveSparseBoolean shallowCopy() {
         return new OctaveSparseBoolean(rows, columns, nnz, rowIndexes, columnIndexes, data);
     }
