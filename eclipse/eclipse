@@ -29,9 +29,7 @@ username=$(perl -e'print ((split(/,/,(getpwuid($<))[6]))[0])')
   eclipse -showlocation "$showlocation" -data . \
     -consolelog \
     "$@" \
-    -vmargs "-Duser.name=$username" \
-    -XX:MaxGCPauseMillis=10 -XX:MaxHeapFreeRatio=70 -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing \
-    -Dosgi.requiredJavaVersion=1.5 -Xms30m -Xmx200m -XX:MaxPermSize=100m -Djava.library.path=/usr/lib/jni
+    -vmargs "-Duser.name=$username"
 
   echo ^^^ $date ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ) >>eclipse/eclipse.log 2>&1 </dev/null &
