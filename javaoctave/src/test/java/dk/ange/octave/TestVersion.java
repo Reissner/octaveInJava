@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 Ange Optimization ApS
+ * Copyright 2009, 2012 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public class TestVersion extends TestCase {
     public void testKnownVersion() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         final String version = octave.getVersion();
-        final Set<String> knownVersions = new HashSet<String>(Arrays.asList("3.0.5", "3.2.3", "3.2.4"));
+        final Set<String> knownVersions = new HashSet<String>(Arrays.asList("3.0.5", "3.2.3", "3.2.4", "3.6.2"));
         assertTrue("Version '" + version + "' is not known", knownVersions.contains(version));
     }
 
