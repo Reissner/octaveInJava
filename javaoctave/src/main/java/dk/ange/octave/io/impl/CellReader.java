@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2008, 2012 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,9 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-/**
- * @author Kim Hansen
  */
 package dk.ange.octave.io.impl;
 
@@ -59,7 +56,9 @@ public final class CellReader extends OctaveDataReader {
 
         for (int col = 1; col <= ncols; col++) {
             for (int row = 1; row <= nrows; row++) {
-                line = OctaveIO.readerReadLine(reader);
+                do { // Work around differences in number of line feeds in octave 3.4 and 3.6
+                    line = OctaveIO.readerReadLine(reader);
+                } while ("".equals(line)); // keep reading until line is non-empty
                 token = "# name: <cell-element>";
                 if (!line.equals(token)) {
                     throw new OctaveParseException("Expected <" + token + ">, but got <" + line + ">");
