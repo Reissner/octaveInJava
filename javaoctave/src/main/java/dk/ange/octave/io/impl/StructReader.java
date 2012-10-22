@@ -1,5 +1,5 @@
 /*
- * Copyright 2008, 2009 Ange Optimization ApS
+ * Copyright 2008, 2009, 2012 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,10 +43,22 @@ public final class StructReader extends OctaveDataReader {
     public OctaveStruct read(final BufferedReader reader) {
         String line;
 
-        // # length: 4
+        // In octave 3.6 dimension of the scalar is also written now
         line = OctaveIO.readerReadLine(reader);
+        if (line != null && line.startsWith("# ndims:")) {
+            if (!line.equals("# ndims: 2")) {
+                throw new OctaveParseException("JavaOctave does not support matrix structs, read=" + line);
+            }
+            line = OctaveIO.readerReadLine(reader);
+            if (!line.equals(" 1 1")) {
+                throw new OctaveParseException("JavaOctave does not support matrix structs, read=" + line);
+            }
+            line = OctaveIO.readerReadLine(reader);
+        }
+
+        // # length: 4
         final String LENGTH = "# length: ";
-        if (!line.startsWith(LENGTH)) {
+        if (line == null || !line.startsWith(LENGTH)) {
             throw new OctaveParseException("Expected '" + LENGTH + "' got '" + line + "'");
         }
         final int length = Integer.valueOf(line.substring(LENGTH.length())); // only used during conversion
@@ -56,7 +68,9 @@ public final class StructReader extends OctaveDataReader {
         for (int i = 0; i < length; i++) {
             // # name: elemmatrix
             final String NAME = "# name: ";
-            line = OctaveIO.readerReadLine(reader);
+            do { // Work around differences in number of line feeds in octave 3.4 and 3.6
+                line = OctaveIO.readerReadLine(reader);
+            } while ("".equals(line)); // keep reading until line is non-empty
             if (!line.startsWith(NAME)) {
                 throw new OctaveParseException("Expected '" + NAME + "' got '" + line + "'");
             }
