@@ -1,5 +1,5 @@
 /*
- * Copyright 2007, 2008, 2009 Ange Optimization ApS
+ * Copyright 2007, 2008, 2009, 2012 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,6 +98,7 @@ public class TestIoOctaveStruct extends TestCase {
         octave.put("mystruct", struct);
         final OctaveStruct mystruct_copy = octave.get(OctaveStruct.class, "mystruct");
         Assert.assertEquals(struct, mystruct_copy);
+        octave.close();
     }
 
     /**
@@ -244,6 +245,16 @@ public class TestIoOctaveStruct extends TestCase {
         assertEquals("# name: ans", bufferedReader.readLine());
         assertEquals(struct, OctaveIO.read(bufferedReader));
         assertEquals(-1, bufferedReader.read()); // Check end of file
+    }
+
+    /**
+     * Test format of struct save
+     */
+    public void testScalarStruct() {
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        octave.eval("mystruct = struct();");
+        octave.get(OctaveStruct.class, "mystruct");
+        octave.close();
     }
 
 }
