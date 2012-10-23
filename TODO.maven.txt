@@ -2,14 +2,21 @@
 Remove my username from POM:
   http://maven.apache.org/plugins/maven-release-plugin/faq.html#credentials
 
+Deploy web-site with release containing:
+  Build report
+  Test report
+  Coverage
+  JavaDoc API
+
+
+==== DONE ==============================================================================================================
+
+Source jar
+
 Create maven distribution:
   http://java.dzone.com/tips/using-maven-repository-kenai
     http://blog.retep.org/2009/04/24/setting-up-a-maven-repository-on-kenai/
     http://blog.retep.org/2009/05/19/performing-maven-releases-on-kenai-with-hudson/
-
-
-
-==== DONE ==============================================================================================================
 
 Release
   Release 0.6.2

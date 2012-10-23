@@ -71,6 +71,7 @@
         </configuration>
       </plugin>
 
+      <!-- Configure tag name for mvn release:prepare -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
@@ -78,6 +79,22 @@
         <configuration>
           <tagNameFormat>release-@{project.version}</tagNameFormat>
         </configuration>
+      </plugin>
+
+      <!-- Deploy sources.jar files -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
     </plugins>
