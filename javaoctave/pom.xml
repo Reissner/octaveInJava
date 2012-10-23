@@ -1,12 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <!-- Documentation: http://maven.apache.org/pom.html -->
 
   <!-- The Basics -->
   <groupId>dk.ange</groupId>
   <artifactId>javaoctave</artifactId>
-  <version>0.6.2-SNAPSHOT</version>
+  <version>0.6.2</version>
   <packaging>jar</packaging>
   <dependencies>
     <dependency>
@@ -115,8 +114,8 @@
   <!-- Environment Settings -->
   <scm>
     <connection>scm:hg:https://hg.kenai.com/hg/javaoctave~source-code-repository</connection>
-    <developerConnection>scm:hg:ssh://hg.kenai.com/javaoctave~source-code-repository</developerConnection>
-    <tag>default</tag>
+    <developerConnection>scm:hg:ssh://kim_i9.dk@hg.kenai.com/javaoctave~source-code-repository</developerConnection>
+    <tag>release-0.6.2</tag>
     <url>https://hg.kenai.com/hg/javaoctave~source-code-repository</url>
   </scm>
   <distributionManagement>
