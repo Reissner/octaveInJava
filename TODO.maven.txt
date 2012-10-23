@@ -1,15 +1,18 @@
 
-Release
+Remove my username from POM:
+  http://maven.apache.org/plugins/maven-release-plugin/faq.html#credentials
+
+Create maven distribution:
   http://java.dzone.com/tips/using-maven-repository-kenai
     http://blog.retep.org/2009/04/24/setting-up-a-maven-repository-on-kenai/
     http://blog.retep.org/2009/05/19/performing-maven-releases-on-kenai-with-hudson/
 
-  It is working now, find out how to automate release of website
-  Should I have a separeate snapshot repo?
-  Release 0.6.2
 
 
 ==== DONE ==============================================================================================================
+
+Release
+  Release 0.6.2
 
 Test rebuild performance
   Solution: Ignore it...
