@@ -248,13 +248,15 @@ public class TestIoOctaveStruct extends TestCase {
     }
 
     /**
-     * Test format of struct save
+     * Test format of struct save. Exposed a format change between octave 3.4 and 3.6.
      */
     public void testScalarStruct() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("mystruct = struct();");
-        octave.get(OctaveStruct.class, "mystruct");
+        octave.eval("mystruct.x = 42;");
+        final OctaveStruct mystruct = octave.get(OctaveStruct.class, "mystruct");
         octave.close();
+        assertEquals(42.0, mystruct.get(OctaveDouble.class, "x").get(1));
     }
 
 }
