@@ -1,3 +1,26 @@
+JavaOctave (0.6.4)  2012-10-24
+
+  * Update changelog, also for release 0.6.2 and 0.6.3.
+
+ -- Kim Rydhof Thor Hansen <kim@rthansen.dk>  Wed, 24 Oct 2012 17:43:33 +0200
+
+JavaOctave (0.6.3)  2012-10-23
+
+  * Deploy sources.jar file with Maven.
+
+ -- Kim Rydhof Thor Hansen <kim@rthansen.dk>  Wed, 24 Oct 2012 16:59:50 +0200
+
+JavaOctave (0.6.2)  2012-10-23
+
+  * Support reading an integer matrix (uint8)
+  * Use maven to build
+  * Build using Java 6
+  * Support Octave 3.6
+    - Handle new extra linefeeds in some of the save formats
+    - Parse 'scalar struct'
+
+ -- Kim Rydhof Thor Hansen <kim@rthansen.dk>  Wed, 24 Oct 2012 16:53:22 +0200
+
 JavaOctave (0.6.1)  2010-03-10
 
   * Create some skeleton objects that can get and put sparse booleans and
