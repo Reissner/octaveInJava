@@ -62,7 +62,8 @@ public final class Uint8MatrixReader extends OctaveDataReader {
         final int[] data = new int[product(size)];
         for (int idx = 0; idx < data.length; idx++) {
             line = OctaveIO.readerReadLine(reader);
-            data[idx] = line.codePointAt(1);
+            // In octave <= 3.6 it was: data[idx] = line.codePointAt(1);
+            data[idx] = Integer.parseInt(line.trim());
         }
         return new OctaveInt(data, size);
     }

@@ -15,6 +15,8 @@
  */
 package dk.ange.octave.type;
 
+import java.util.Arrays;
+
 import dk.ange.octave.type.matrix.IntMatrix;
 
 /**
@@ -53,6 +55,12 @@ public class OctaveInt extends IntMatrix implements OctaveObject {
     @Override
     public OctaveInt shallowCopy() {
         return new OctaveInt(this);
+    }
+
+    @Override
+    public String toString() {
+        return "OctaveInt[size=" + Arrays.toString(size) + ", data="
+                + Arrays.toString(Arrays.copyOf(data, Math.min(data.length, 10))) + "]";
     }
 
 }

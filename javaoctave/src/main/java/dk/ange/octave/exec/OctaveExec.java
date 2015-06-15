@@ -211,9 +211,9 @@ public final class OctaveExec {
         try {
             processWriter.close();
         } catch (final IOException e) {
-            throw new OctaveIOException(e);
+            log.debug("Ignored error from processWriter.close() in OctaveExec.destroy()", e);
         }
-    }
+   }
 
     /**
      * Close the octave process in an orderly fashion.

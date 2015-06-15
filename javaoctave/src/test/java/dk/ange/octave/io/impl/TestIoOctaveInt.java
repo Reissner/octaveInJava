@@ -37,7 +37,7 @@ public class TestIoOctaveInt extends TestCase {
 
         x.set(1, 1, 1);
         octave.eval("x(1, 1) = 1;");
-        //assertEquals(x, octave.get("x"));
+        // assertEquals(x, octave.get("x")); Unknown octave type, type='uint8 scalar'
 
         x.set(2, 3, 1);
         octave.eval("x(3, 1) = 2;");

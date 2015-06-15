@@ -209,15 +209,6 @@ public class TestIoOctaveStruct extends TestCase {
                 "# type: struct\n" + //
                 "# length: 2\n" + //
 
-                "# name: y\n" + //
-                "# type: cell\n" + //
-                "# rows: 1\n" + //
-                "# columns: 1\n" + //
-                "# name: <cell-element>\n" + //
-                "# type: scalar\n" + //
-                "43.0\n" + //
-                "\n" + //
-
                 "# name: x\n" + //
                 "# type: cell\n" + //
                 "# rows: 1\n" + //
@@ -225,6 +216,15 @@ public class TestIoOctaveStruct extends TestCase {
                 "# name: <cell-element>\n" + //
                 "# type: scalar\n" + //
                 "42.0\n" + //
+                "\n" + //
+
+                "# name: y\n" + //
+                "# type: cell\n" + //
+                "# rows: 1\n" + //
+                "# columns: 1\n" + //
+                "# name: <cell-element>\n" + //
+                "# type: scalar\n" + //
+                "43.0\n" + //
                 "\n" + //
 
                 "", OctaveIO.toText(struct));

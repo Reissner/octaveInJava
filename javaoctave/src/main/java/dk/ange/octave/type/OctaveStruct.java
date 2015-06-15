@@ -15,8 +15,8 @@
  */
 package dk.ange.octave.type;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import dk.ange.octave.exception.OctaveClassCastException;
 import dk.ange.octave.type.cast.Cast;
@@ -32,7 +32,9 @@ public class OctaveStruct implements OctaveObject {
      * Create empty struct
      */
     public OctaveStruct() {
-        data = new HashMap<String, OctaveObject>();
+        // Use a TreeMap in order to get a stable serialization
+        // (I might want to use HashMap here and sort in OctaveIO.toText())
+        data = new TreeMap<String, OctaveObject>();
     }
 
     /**
