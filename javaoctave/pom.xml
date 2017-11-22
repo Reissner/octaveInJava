@@ -7,6 +7,8 @@
   <artifactId>javaoctave</artifactId>
   <version>0.6.5-SNAPSHOT</version>
   <packaging>jar</packaging>
+
+
   <dependencies>
     <dependency>
       <groupId>commons-logging</groupId>
@@ -35,6 +37,7 @@
   <properties>
     <!-- Silence: [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.scm.id>github</project.scm.id>
   </properties>
 
   <!-- Build Settings -->
@@ -113,28 +116,62 @@
   <!-- More Project Information -->
   <name>javaoctave</name>
   <description>A bridge from Java to Octave, useful if you want to do some Octave calculations from inside a Java application.</description>
-  <url>http://kenai.com/projects/javaoctave</url>
+  <!--url>http://www.simuline.eu/OctaveInJava/</url-->
   <inceptionYear>2006</inceptionYear>
   <licenses>
     <license>
-      <name>Apache 2</name>
+      <name>License, Version Apache 2</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
       <comments>A business-friendly OSS license</comments>
     </license>
   </licenses>
+
   <organization>
     <name>Ange Optimization ApS</name>
     <url>http://ange.dk</url>
   </organization>
 
+  <developers>
+    <developer>
+      <id>KH</id>
+      <name>Kim Hansen</name>
+      <email></email>
+      <organization>Ange Optimization ApS</organization>
+      <timezone>Europe/Berlin</timezone>
+    </developer>
+    <developer>
+      <id>ER</id>
+      <name>Ernst Reissner</name>
+      <email>Ernst.Reissner@simuline.eu</email>
+      <organization>l2r</organization>
+      <timezone>Europe/Berlin</timezone>
+      <properties>
+        <picUrl>http://www.simuline.eu/Gluck_0001.gif</picUrl>
+      </properties>
+    </developer>
+  </developers>
+
+
   <!-- Environment Settings -->
   <scm>
-    <connection>scm:hg:https://hg.kenai.com/hg/javaoctave~source-code-repository</connection>
-    <developerConnection>scm:hg:ssh://kim_i9.dk@hg.kenai.com/javaoctave~source-code-repository</developerConnection>
+    <connection>
+      scm:svn:https://github.com/Reissner/octaveInJava.git
+    </connection>
+    <!--connection>
+      scm:hg:https://hg.kenai.com/hg/javaoctave~source-code-repository
+    </connection-->
+    <developerConnection>
+    scm:svn:https://github.com/Reissner/octaveInJava.git
+    </developerConnection>
+    <!--developerConnection>
+    scm:hg:ssh://kim_i9.dk@hg.kenai.com/javaoctave~source-code-repository
+    </developerConnection-->
     <tag>default</tag>
-    <url>https://hg.kenai.com/hg/javaoctave~source-code-repository</url>
+    <url>https://github.com/Reissner/octaveInJava</url>
+    <!--url>https://hg.kenai.com/hg/javaoctave~source-code-repository</url-->
   </scm>
+
   <distributionManagement>
     <repository>
       <id>maven-repository.javaoctave.kenai.com</id>
