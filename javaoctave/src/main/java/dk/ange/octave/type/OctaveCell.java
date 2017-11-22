@@ -26,7 +26,8 @@ import dk.ange.octave.type.matrix.GenericMatrix;
 /**
  * Nd cells
  */
-public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObject {
+public class OctaveCell 
+    extends GenericMatrix<OctaveObject> implements OctaveObject {
 
     private static final OctaveObject DEFAULT_VALUE = new OctaveDouble(0, 0);
 
@@ -82,7 +83,8 @@ public class OctaveCell extends GenericMatrix<OctaveObject> implements OctaveObj
      * @throws OctaveClassCastException
      *             if the object can not be cast to a castClass
      */
-    public <T extends OctaveObject> T get(final Class<T> castClass, final int... pos) {
+    public <T extends OctaveObject> T get(final Class<T> castClass,
+					  final int... pos) {
         return Cast.cast(castClass, get(pos));
     }
 

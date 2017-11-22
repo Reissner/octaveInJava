@@ -23,9 +23,10 @@ public interface OctaveObject {
     /**
      * Make a shallow copy of this object.
      * 
-     * In general when an {@link OctaveObject} is returned from a getter, e.g. on {@link OctaveStruct} or
-     * {@link OctaveStruct}, a shallow copy is returned in order to follow the way octave behaves. This method is used
-     * to make that copy.
+     * In general when an {@link OctaveObject} is returned from a getter,
+     * e.g. on {@link OctaveStruct} or {@link OctaveStruct},
+     * a shallow copy is returned in order to follow the way octave behaves. 
+     * This method is used to make that copy.
      * 
      * @return a shallow copy of this
      */

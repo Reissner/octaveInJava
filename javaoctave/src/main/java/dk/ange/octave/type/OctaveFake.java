@@ -16,8 +16,9 @@
 package dk.ange.octave.type;
 
 /**
- * A fake object, the point of this object is to make it easy to create objects that is read without being unfolded into
- * Java.
+ * A fake object, the point of this object is 
+ * to make it easy to create objects that is read 
+ * without being unfolded into Java.
  */
 public class OctaveFake implements OctaveObject {
 
