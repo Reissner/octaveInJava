@@ -64,7 +64,8 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     }
 
     @Override
-    protected boolean dataEquals(final int usedLength, final double[] otherData) {
+    protected boolean dataEquals(final int usedLength,
+				 final double[] otherData) {
         for (int i = 0; i < usedLength; i++) {
             if (data[i] != otherData[i]) {
                 return false;

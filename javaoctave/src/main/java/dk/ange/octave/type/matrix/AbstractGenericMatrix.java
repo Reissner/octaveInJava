@@ -18,7 +18,8 @@ package dk.ange.octave.type.matrix;
 import java.util.Arrays;
 
 /**
- * A general matrix that does not even know that it is an array it stores its data in.
+ * A general matrix that does not even know 
+ * that it is an array it stores its data in.
  * 
  * @param <D>
  *            an array
@@ -75,11 +76,13 @@ abstract public class AbstractGenericMatrix<D> {
             throw new IllegalArgumentException("no size");
         }
         if (size.length < 2) {
-            throw new IllegalArgumentException("size must have a least 2 dimenstions");
+            throw new IllegalArgumentException
+		("size must have a least 2 dimenstions");
         }
         for (final int s : size) {
             if (s < 0) {
-                throw new IllegalArgumentException("element in size less than zero. =" + s);
+                throw new IllegalArgumentException
+		    ("element in size less than zero. =" + s);
             }
         }
     }
@@ -153,10 +156,12 @@ abstract public class AbstractGenericMatrix<D> {
      */
     public void resizeUp(final int... pos) {
         if (size.length != pos.length) {
-            throw new UnsupportedOperationException("Change in number of dimensions not supported (" + size.length
+            throw new UnsupportedOperationException
+		("Change in number of dimensions not supported (" + size.length
                     + "!=" + pos.length + ")");
         }
-        // Resize by each dimension. This is not the optimal way to do it, but it works.
+        // Resize by each dimension. 
+	// This is not the optimal way to do it, but it works.
         for (int dim = 0; dim < size.length; ++dim) {
             if (pos[dim] > size[dim]) {
                 resizeAlongOneDimension(dim, pos[dim]);
@@ -198,7 +203,9 @@ abstract public class AbstractGenericMatrix<D> {
             // Create new array and copy data into it
             final D newData = newD(newLength * 2);
             int newOffset = 0;
-            for (int oldOffset = 0; oldOffset < oldLength; oldOffset += oldBlockSize) {
+            for (int oldOffset = 0; 
+		 oldOffset < oldLength; 
+		 oldOffset += oldBlockSize) {
                 System.arraycopy(data, oldOffset, newData, newOffset, oldBlockSize);
                 newOffset += newBlockSize;
             }
@@ -206,11 +213,14 @@ abstract public class AbstractGenericMatrix<D> {
         } else {
             // Move around the data in the old array
             int newOffset = newLength - newBlockSize;
-            for (int oldOffset = oldLength - oldBlockSize; oldOffset > 0; oldOffset -= oldBlockSize) {
+            for (int oldOffset = oldLength - oldBlockSize; 
+		 oldOffset > 0; 
+		 oldOffset -= oldBlockSize) {
                 System.arraycopy(data, oldOffset, data, newOffset, oldBlockSize);
                 newOffset -= newBlockSize;
             }
-            // Don't need to move block 0 around, but has to init the new part of it
+            // Don't need to move block 0 around, 
+	    // but has to init the new part of it
             dataFillInit(oldBlockSize, newBlockSize);
         }
     }
@@ -224,8 +234,9 @@ abstract public class AbstractGenericMatrix<D> {
         int factor = 1;
         for (int dim = 0; dim < pos.length; ++dim) {
             if (pos[dim] > size[dim]) {
-                throw new IndexOutOfBoundsException("pos exceeded dimension for dimension " + dim + " (" + pos[dim]
-                        + " > " + size[dim] + ")");
+                throw new IndexOutOfBoundsException
+		    ("pos exceeded dimension for dimension " + 
+		     dim + " (" + pos[dim] + " > " + size[dim] + ")");
             }
             idx += (pos[dim] - 1) * factor;
             factor *= size[dim];
@@ -285,7 +296,8 @@ abstract public class AbstractGenericMatrix<D> {
             if (other.data != null) {
                 return false;
             }
-        } else if (!(data == other.data || dataEquals(product(size), other.data))) {
+        } else if (!(data == other.data || 
+		     dataEquals(product(size), other.data))) {
             return false;
         }
         return true;
