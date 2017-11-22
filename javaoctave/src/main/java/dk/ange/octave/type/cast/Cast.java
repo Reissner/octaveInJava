@@ -40,7 +40,8 @@ public final class Cast {
         if (casterMap == null) {
             casterMap = new HashMap<ClassPair<?, ?>, Caster<?, ?>>();
             @SuppressWarnings("rawtypes")
-            final Iterator<Caster> sp = ServiceRegistry.lookupProviders(Caster.class);
+            final Iterator<Caster> sp = ServiceRegistry
+		.lookupProviders(Caster.class);
             while (sp.hasNext()) {
                 register(sp.next());
             }
@@ -48,7 +49,8 @@ public final class Cast {
     }
 
     private static <F, T> void register(final Caster<F, T> caster) {
-        final ClassPair<F, T> cp = new ClassPair<F, T>(caster.from(), caster.to());
+        final ClassPair<F, T> cp = new ClassPair<F, T>(caster.from(),
+						       caster.to());
         if (casterMap.containsKey(cp)) {
             throw new RuntimeException("casterMap.containsKey(cp)");
         }
@@ -64,14 +66,17 @@ public final class Cast {
      * @param from
      * @return The transformed object
      */
-    public static <F extends OctaveObject, T extends OctaveObject> T cast(final Class<T> toClass, final F from) {
+    public static <F extends OctaveObject, 
+		   T extends OctaveObject> T cast(final Class<T> toClass, 
+						  final F from) {
         if (from == null) {
             return null;
         }
         if (toClass.isInstance(from)) {
             return toClass.cast(from);
         }
-        final ClassPair<F, T> cp = new ClassPair<F, T>(unsafeGetClass(from), toClass);
+        final ClassPair<F, T> cp = new ClassPair<F, T>(unsafeGetClass(from),
+						       toClass);
         final Caster<F, T> caster = casterMapGet(cp);
         if (caster == null) {
             throw new OctaveClassCastException(null, from, toClass);
@@ -85,7 +90,9 @@ public final class Cast {
     }
 
     @SuppressWarnings("unchecked")
-    private static <F extends OctaveObject, T extends OctaveObject> Caster<F, T> casterMapGet(final ClassPair<F, T> cp) {
+    private static <F extends OctaveObject, 
+		    T extends OctaveObject> 
+    Caster<F, T> casterMapGet(final ClassPair<F, T> cp) {
         initIfNecessary();
         if (!casterMap.containsKey(cp)) {
             return null;
@@ -115,12 +122,12 @@ public final class Cast {
             final int prime = 31;
             int result = 1;
             result = prime * result + ((from == null) ? 0 : from.hashCode());
-            result = prime * result + ((to == null) ? 0 : to.hashCode());
+            result = prime * result + ((to   == null) ? 0 :   to.hashCode());
             return result;
         }
 
-        @Override
-        public boolean equals(final Object obj) {
+	@Override
+	public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
             }

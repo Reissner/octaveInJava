@@ -6,7 +6,8 @@ import dk.ange.octave.type.OctaveDouble;
 /**
  * Cast OctaveDouble to OctaveComplex
  */
-public class DoubleToComplexCaster implements Caster<OctaveDouble, OctaveComplex> {
+public class DoubleToComplexCaster 
+    implements Caster<OctaveDouble, OctaveComplex> {
 
     @Override
     public OctaveComplex cast(final OctaveDouble from) {
