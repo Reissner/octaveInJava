@@ -35,14 +35,19 @@ public class TestVersion extends TestCase {
     }
 
     /**
-     * Test that the version is a version we know. If this test fails the fix will usually be to add the new version to
-     * the Set of known versions.
+     * Test that the version is a version we know. 
+     * If this test fails the fix will usually be 
+     * to add the new version to the Set of known versions.
      */
     public void testKnownVersion() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         final String version = octave.getVersion();
-        final Set<String> knownVersions = new HashSet<String>(Arrays.asList("3.0.5", "3.2.3", "3.2.4", "3.6.2", "3.8.2"));
-        assertTrue("Version '" + version + "' is not known", knownVersions.contains(version));
+        final Set<String> knownVersions = new HashSet<String>
+	    (Arrays.asList("3.0.5", "3.2.3", "3.2.4", "3.6.2", "3.8.2", 
+			   // added by E.R.
+			   "4.3.0+"));
+        assertTrue("Version '" + version + "' is not known", 
+		   knownVersions.contains(version));
     }
 
 }
