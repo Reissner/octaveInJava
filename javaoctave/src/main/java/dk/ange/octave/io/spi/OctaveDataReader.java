@@ -32,6 +32,8 @@ import dk.ange.octave.type.OctaveObject;
  */
 public abstract class OctaveDataReader {
 
+    // maps the {@link OctaveDataReader#octaveType()} 
+    // of an {@link OctaveDataReader} to the {@link OctaveDataReader} itself. 
     private static Map<String, OctaveDataReader> readers = null;
 
     /**
@@ -47,18 +49,20 @@ public abstract class OctaveDataReader {
         if (readers != null) {
             return;
         }
-        readers = new HashMap<String, OctaveDataReader>();
-        final Iterator<OctaveDataReader> sp = ServiceRegistry.lookupProviders(OctaveDataReader.class);
-        while (sp.hasNext()) {
-            final OctaveDataReader odr = sp.next();
-            readers.put(odr.octaveType(), odr);
-        }
+	readers = new HashMap<String, OctaveDataReader>();
+	final Iterator<OctaveDataReader> sp = 
+	    ServiceRegistry.lookupProviders(OctaveDataReader.class);
+	while (sp.hasNext()) {
+	    final OctaveDataReader odr = sp.next();
+	    readers.put(odr.octaveType(), odr);
+	}
     }
 
     /**
      * Could be "scalar" or "string"
-     * 
-     * @return the {@link Class} of the {@link OctaveObject} that this IO handler loads and saves
+     *
+     * @return the {@link Class} of the {@link OctaveObject} 
+     * that this IO handler loads and saves
      */
     public abstract String octaveType();
 

@@ -27,12 +27,13 @@ import dk.ange.octave.type.OctaveObject;
 
 /**
  * Interface for the IO handler that can read and write {@link OctaveObject}s
- * 
+ *
  * @param <T>
  */
 public abstract class OctaveDataWriter<T extends OctaveObject> {
 
-    private static Map<Class<? extends OctaveObject>, OctaveDataWriter<?>> writers;
+    private static 
+	Map<Class<? extends OctaveObject>, OctaveDataWriter<?>> writers;
 
     /**
      * @param <T>
@@ -40,16 +41,19 @@ public abstract class OctaveDataWriter<T extends OctaveObject> {
      * @return The OctaveDataWriter or null if it does not exist
      */
     @SuppressWarnings("unchecked")
-    public static <T extends OctaveObject> OctaveDataWriter<T> getOctaveDataWriter(final T example) {
+    public static <T extends OctaveObject> 
+	OctaveDataWriter<T> getOctaveDataWriter(final T example) {
         initIfNecessary();
         return (OctaveDataWriter<T>) writers.get(example.getClass());
     }
 
     private static synchronized void initIfNecessary() {
         if (writers == null) {
-            writers = new HashMap<Class<? extends OctaveObject>, OctaveDataWriter<?>>();
+            writers = new HashMap
+		<Class<? extends OctaveObject>, OctaveDataWriter<?>>();
             @SuppressWarnings("rawtypes")
-            final Iterator<OctaveDataWriter> sp = ServiceRegistry.lookupProviders(OctaveDataWriter.class);
+            final Iterator<OctaveDataWriter> sp = 
+		ServiceRegistry.lookupProviders(OctaveDataWriter.class);
             while (sp.hasNext()) {
                 final OctaveDataWriter<?> odw = sp.next();
                 writers.put(odw.javaType(), odw);
@@ -59,8 +63,9 @@ public abstract class OctaveDataWriter<T extends OctaveObject> {
 
     /**
      * Could be OctaveScalar or OctaveMatrix
-     * 
-     * @return the {@link Class} of the {@link OctaveObject} that this IO handler loads and saves
+     *
+     * @return the {@link Class} of the {@link OctaveObject} 
+     *    that this IO handler loads and saves
      */
     public abstract Class<T> javaType();
 
