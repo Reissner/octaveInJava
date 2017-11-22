@@ -1,0 +1,5 @@
+Tests: 
+- dk.ange.octave.examples.HomeExampleTest.test()
+java.io.IOException: Stream closed
+- dk.ange.octave.examples.HomeExampleTest.testWithFunctionInVariable()
+seems not to terminate: thus deactivated using annotation @Ignore 
