@@ -108,7 +108,7 @@ public class TestOctave extends TestCase {
         octave.eval("sigterm_dumps_octave_core(0);");
         new DestroyThread(octave).start();
         try {
-            octave.eval("sleep(10);");
+            octave.eval("pause(10);");
         } catch (final OctaveException e) {
             assertTrue(e.isDestroyed());
         }
