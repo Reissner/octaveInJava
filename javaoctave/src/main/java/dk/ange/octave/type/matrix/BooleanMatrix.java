@@ -53,7 +53,8 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
     }
 
     @Override
-    protected boolean dataEquals(final int usedLength, final boolean[] otherData) {
+    protected boolean dataEquals(final int usedLength,
+				 final boolean[] otherData) {
         for (int i = 0; i < usedLength; i++) {
             if (data[i] != otherData[i]) {
                 return false;
