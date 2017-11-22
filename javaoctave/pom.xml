@@ -1,6 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="utf-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
-  <!-- Documentation: http://maven.apache.org/pom.html -->
 
   <!-- The Basics -->
   <groupId>dk.ange</groupId>
@@ -9,16 +13,69 @@
   <packaging>jar</packaging>
 
 
+  <!-- More Project Information -->
+  <name>javaoctave</name>
+  <description>
+  A bridge from Java to Octave, 
+  useful if you want to do some Octave calculations 
+  from inside a Java application.
+  </description>
+
+  <!--url>http://www.simuline.eu/OctaveInJava/</url-->
+  <inceptionYear>2006</inceptionYear>
+  <licenses>
+    <license>
+      <name>License, Version Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+
+  <organization>
+    <name>Ange Optimization ApS</name>
+    <url>http://ange.dk</url>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>KH</id>
+      <name>Kim Hansen</name>
+      <email></email>
+      <organization>Ange Optimization ApS</organization>
+      <timezone>Europe/Berlin</timezone>
+    </developer>
+    <developer>
+      <id>ER</id>
+      <name>Ernst Reissner</name>
+      <email>Ernst.Reissner@simuline.eu</email>
+      <organization>l2r</organization>
+      <timezone>Europe/Berlin</timezone>
+      <properties>
+        <picUrl>http://www.simuline.eu/Gluck_0001.gif</picUrl>
+      </properties>
+    </developer>
+  </developers>
+
+  <properties>
+    <versionTestPlugins>2.20.1</versionTestPlugins>
+
+
+    <!-- Silence: [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.scm.id>github</project.scm.id>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
+      <version>1.2</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.2</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -30,15 +87,11 @@
     <dependency>
       <groupId>net.sourceforge.cobertura</groupId>
       <artifactId>cobertura</artifactId>
-      <version>1.9.4.1</version>
+      <version>1.9.4.1</version><!-- 2.1.1 -->
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <properties>
-    <!-- Silence: [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.scm.id>github</project.scm.id>
-  </properties>
+
 
   <!-- Build Settings -->
   <build>
@@ -48,12 +101,25 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.7.0</version> <!--2.3.2 -->
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
       </plugin>
+
+
+      <!-- configuration for tests -->
+      <!--plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${versionTestPlugins}</version>
+        <configuration>
+	  <redirectTestOutputToFile>true</redirectTestOutputToFile>
+        </configuration>
+     </plugin-->
+
+
 
       <!-- Add entries to manifest-->
       <plugin>
@@ -113,44 +179,21 @@
     </extensions>
   </build>
 
-  <!-- More Project Information -->
-  <name>javaoctave</name>
-  <description>A bridge from Java to Octave, useful if you want to do some Octave calculations from inside a Java application.</description>
-  <!--url>http://www.simuline.eu/OctaveInJava/</url-->
-  <inceptionYear>2006</inceptionYear>
-  <licenses>
-    <license>
-      <name>License, Version Apache 2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-      <comments>A business-friendly OSS license</comments>
-    </license>
-  </licenses>
+  <reporting>
+    <plugins>
+      <!-- Creates surefire test reports -->
+      <plugin>
+ 	<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>${versionTestPlugins}</version>
+	<configuration>
+	  <!-- to show failed tests only -->
+	  <showSuccess>false</showSuccess>
+	</configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 
-  <organization>
-    <name>Ange Optimization ApS</name>
-    <url>http://ange.dk</url>
-  </organization>
-
-  <developers>
-    <developer>
-      <id>KH</id>
-      <name>Kim Hansen</name>
-      <email></email>
-      <organization>Ange Optimization ApS</organization>
-      <timezone>Europe/Berlin</timezone>
-    </developer>
-    <developer>
-      <id>ER</id>
-      <name>Ernst Reissner</name>
-      <email>Ernst.Reissner@simuline.eu</email>
-      <organization>l2r</organization>
-      <timezone>Europe/Berlin</timezone>
-      <properties>
-        <picUrl>http://www.simuline.eu/Gluck_0001.gif</picUrl>
-      </properties>
-    </developer>
-  </developers>
 
 
   <!-- Environment Settings -->
