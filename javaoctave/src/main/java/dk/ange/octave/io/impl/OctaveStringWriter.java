@@ -32,7 +32,8 @@ public final class OctaveStringWriter extends OctaveDataWriter<OctaveString> {
     }
 
     @Override
-    public void write(final Writer writer, final OctaveString octaveString) throws IOException {
+    public void write(final Writer writer,
+		      final OctaveString octaveString) throws IOException {
         final String string = octaveString.getString();
         writer.write("" //
                 + "# type: string\n" //

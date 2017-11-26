@@ -46,7 +46,7 @@ public final class ScalarReader extends OctaveDataReader {
     /**
      * This is almost the same as Double.parseDouble(), 
      * but it handles a few more versions of infinity
-     * 
+     *
      * @param string
      * @return The parsed Double
      */

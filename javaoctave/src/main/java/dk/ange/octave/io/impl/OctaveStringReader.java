@@ -41,7 +41,8 @@ public class OctaveStringReader extends OctaveDataReader {
         } else if (elements.equals("# elements: 1")) {
             final String lengthString = OctaveIO.readerReadLine(reader);
             if (!lengthString.startsWith("# length: ")) {
-                throw new OctaveParseException("Parse error in String, line='" + lengthString + "'");
+                throw new OctaveParseException
+		    ("Parse error in String, line='" + lengthString + "'");
             }
             final int length = Integer.parseInt(lengthString.substring(10));
             boolean first = true;
@@ -53,11 +54,13 @@ public class OctaveStringReader extends OctaveDataReader {
                 first = false;
             }
             if (builder.length() != length) {
-                throw new OctaveParseException("Unexpected length of string read. expected=" + length + ", actual="
-                        + builder.length());
+                throw new OctaveParseException
+		    ("Unexpected length of string read. expected=" + 
+		     length + ", actual=" + builder.length());
             }
         } else {
-            throw new OctaveParseException("Expected elements to be 0 or 1, '" + elements + "'");
+            throw new OctaveParseException
+		("Expected elements to be 0 or 1, '" + elements + "'");
         }
         return new OctaveString(builder.toString());
     }

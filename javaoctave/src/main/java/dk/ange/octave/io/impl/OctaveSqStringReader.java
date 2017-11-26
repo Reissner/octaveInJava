@@ -34,7 +34,9 @@ public final class OctaveSqStringReader extends OctaveStringReader {
     public OctaveString read(final BufferedReader reader) {
         final String string = super.read(reader).getString();
         if (string.contains("\\")) {
-            throw new OctaveParseException("Handling of escape char (\\) not done, line='" + string + "'");
+            throw new OctaveParseException
+		("Handling of escape char (\\) not done, line='" + 
+		 string + "'");
         }
         return new OctaveString(string);
     }
