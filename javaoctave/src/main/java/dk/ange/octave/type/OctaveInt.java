@@ -59,8 +59,14 @@ public class OctaveInt extends IntMatrix implements OctaveObject {
 
     @Override
     public String toString() {
-        return "OctaveInt[size=" + Arrays.toString(size) + ", data="
-                + Arrays.toString(Arrays.copyOf(data, Math.min(data.length, 10))) + "]";
+	StringBuilder res = new StringBuilder();
+        res.append("OctaveInt[size=");
+	res.append(Arrays.toString(size));
+	res.append(", data=");
+        res.append(Arrays.toString(Arrays.copyOf(data, 
+						 Math.min(data.length, 10))));
+	res.append(']');
+	return res.toString();
     }
 
 }
