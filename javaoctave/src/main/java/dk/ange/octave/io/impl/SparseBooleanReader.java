@@ -18,13 +18,15 @@ package dk.ange.octave.io.impl;
 import java.io.BufferedReader;
 
 import dk.ange.octave.exception.OctaveParseException;
+
 import dk.ange.octave.io.OctaveIO;
+
 import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveSparseBoolean;
 
 /**
  * The reader of {@link OctaveSparseBoolean}
- * 
+ *
  * <pre>
  * # name: x
  * # type: sparse bool matrix
@@ -43,11 +45,15 @@ public final class SparseBooleanReader extends OctaveDataReader {
 
     @Override
     public OctaveSparseBoolean read(final BufferedReader reader) {
-        final int nnz = parseHeader("# nnz: ", OctaveIO.readerReadLine(reader));
-        final int rows = parseHeader("# rows: ", OctaveIO.readerReadLine(reader));
-        final int columns = parseHeader("# columns: ", OctaveIO.readerReadLine(reader));
+        final int nnz = parseHeader("# nnz: ", 
+				    OctaveIO.readerReadLine(reader));
+        final int rows = parseHeader("# rows: ", 
+				     OctaveIO.readerReadLine(reader));
+        final int columns = parseHeader("# columns: ", 
+					OctaveIO.readerReadLine(reader));
 
-        final OctaveSparseBoolean sparse = new OctaveSparseBoolean(rows, columns, nnz);
+        final OctaveSparseBoolean sparse = 
+	    new OctaveSparseBoolean(rows, columns, nnz);
         for (int n = 0; n < nnz; ++n) {
             final String line = OctaveIO.readerReadLine(reader);
             final String[] split = line.split(" ");
@@ -69,8 +75,9 @@ public final class SparseBooleanReader extends OctaveDataReader {
 
     private int parseHeader(final String prefix, final String line) {
         if (line == null || !line.startsWith(prefix)) {
-            throw new OctaveParseException("Expected a line that should start with '" + prefix + "', got '" + line
-                    + "'");
+            throw new OctaveParseException
+		("Expected a line that should start with '" + prefix + 
+		 "', got '" + line + "'");
         }
         try {
             return Integer.parseInt(line.substring(prefix.length()));

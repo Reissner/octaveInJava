@@ -30,7 +30,7 @@ import dk.ange.octave.type.OctaveStruct;
 /**
  * The reader of struct
  */
-public class StructReader extends OctaveDataReader {
+public final class StructReader extends OctaveDataReader {
 
     private final static CellReader cellReader = new CellReader();
 
@@ -47,11 +47,13 @@ public class StructReader extends OctaveDataReader {
         line = OctaveIO.readerReadLine(reader);
         if (line != null && line.startsWith("# ndims:")) {
             if (!line.equals("# ndims: 2")) {
-                throw new OctaveParseException("JavaOctave does not support matrix structs, read=" + line);
+                throw new OctaveParseException
+		    ("JavaOctave does not support matrix structs, read=" + line);
             }
             line = OctaveIO.readerReadLine(reader);
             if (!line.equals(" 1 1")) {
-                throw new OctaveParseException("JavaOctave does not support matrix structs, read=" + line);
+                throw new OctaveParseException
+		    ("JavaOctave does not support matrix structs, read=" + line);
             }
             line = OctaveIO.readerReadLine(reader);
         }
@@ -59,11 +61,14 @@ public class StructReader extends OctaveDataReader {
         // # length: 4
         final String LENGTH = "# length: ";
         if (line == null || !line.startsWith(LENGTH)) {
-            throw new OctaveParseException("Expected '" + LENGTH + "' got '" + line + "'");
+            throw new OctaveParseException
+		("Expected '" + LENGTH + "' got '" + line + "'");
         }
-        final int length = Integer.valueOf(line.substring(LENGTH.length())); // only used during conversion
+        final int length = Integer.valueOf(line.substring(LENGTH.length()));
+	// only used during conversion
 
-        final Map<String, OctaveObject> data = new HashMap<String, OctaveObject>();
+        final Map<String, OctaveObject> data = 
+	    new HashMap<String, OctaveObject>();
 
         for (int i = 0; i < length; i++) {
             // # name: elemmatrix
@@ -72,14 +77,16 @@ public class StructReader extends OctaveDataReader {
                 line = OctaveIO.readerReadLine(reader);
             } while ("".equals(line)); // keep reading until line is non-empty
             if (!line.startsWith(NAME)) {
-                throw new OctaveParseException("Expected '" + NAME + "' got '" + line + "'");
+                throw new OctaveParseException
+		    ("Expected '" + NAME + "' got '" + line + "'");
             }
             final String subname = line.substring(NAME.length());
 
             final String CELL = "# type: cell";
             line = OctaveIO.readerReadLine(reader);
             if (!line.equals(CELL)) {
-                throw new OctaveParseException("Expected '" + CELL + "' got '" + line + "'");
+                throw new OctaveParseException
+		    ("Expected '" + CELL + "' got '" + line + "'");
             }
 
             final OctaveCell cell = cellReader.read(reader);
@@ -87,7 +94,8 @@ public class StructReader extends OctaveDataReader {
                 final OctaveObject value = cell.get(1, 1);
                 data.put(subname, value);
             } else {
-                throw new OctaveParseException("JavaOctave does not support matrix structs, size="
+                throw new OctaveParseException
+		    ("JavaOctave does not support matrix structs, size="
                         + Arrays.toString(cell.getSize()));
             }
         }

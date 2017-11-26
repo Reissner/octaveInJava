@@ -35,7 +35,8 @@ public final class StructWriter extends OctaveDataWriter<OctaveStruct> {
     }
 
     @Override
-    public void write(final Writer writer, final OctaveStruct octaveStruct) throws IOException {
+    public void write(final Writer writer,
+		      final OctaveStruct octaveStruct) throws IOException {
         final Map<String, OctaveObject> data = octaveStruct.getData();
         writer.write("# type: struct\n# length: " + data.size() + "\n");
         for (final Map.Entry<String, OctaveObject> entry : data.entrySet()) {

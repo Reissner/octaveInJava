@@ -23,7 +23,7 @@ import dk.ange.octave.type.OctaveSparseBoolean;
 
 /**
  * The writer of {@link OctaveSparseBoolean}
- * 
+ *
  * <pre>
  * # name: x
  * # type: sparse bool matrix
@@ -33,7 +33,8 @@ import dk.ange.octave.type.OctaveSparseBoolean;
  * 1 1 1
  * </pre>
  */
-public final class SparseBooleanWriter extends OctaveDataWriter<OctaveSparseBoolean> {
+public final class SparseBooleanWriter 
+    extends OctaveDataWriter<OctaveSparseBoolean> {
 
     @Override
     public Class<OctaveSparseBoolean> javaType() {
@@ -41,7 +42,9 @@ public final class SparseBooleanWriter extends OctaveDataWriter<OctaveSparseBool
     }
 
     @Override
-    public void write(final Writer writer, final OctaveSparseBoolean octaveSparseBoolean) throws IOException {
+    public void write(final Writer writer,
+		      final OctaveSparseBoolean octaveSparseBoolean) 
+	throws IOException {
         final int nnz = octaveSparseBoolean.getNnz();
         writer.write("# type: sparse bool matrix\n");
         writer.write("# nnz: " + nnz + "\n");
@@ -51,7 +54,8 @@ public final class SparseBooleanWriter extends OctaveDataWriter<OctaveSparseBool
         final int[] columnIndexes = octaveSparseBoolean.getColumnIndexes();
         final boolean[] data = octaveSparseBoolean.getData();
         for (int n = 0; n < nnz; ++n) {
-            writer.write(rowIndexes[n] + " " + columnIndexes[n] + " " + (data[n] ? "1" : "0") + "\n");
+            writer.write(rowIndexes[n] + " " + columnIndexes[n] + " " + 
+			 (data[n] ? "1" : "0") + "\n");
         }
     }
 
