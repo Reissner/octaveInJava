@@ -34,6 +34,7 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveObject;
 
+// ER: Has only static methods or methods based on {@link #octaveExec} 
 /**
  * The object controlling IO of Octave data
  */
@@ -53,7 +54,8 @@ public final class OctaveIO {
      */
     public void set(final Map<String, OctaveObject> values) {
         final StringWriter outputWriter = new StringWriter();
-        octaveExec.eval(new DataWriteFunctor(values), new WriterReadFunctor(outputWriter));
+	this.octaveExec.eval(new DataWriteFunctor(values),
+			     new WriterReadFunctor(outputWriter));
         final String output = outputWriter.toString();
         if (output.length() != 0) {
             throw new IllegalStateException("Unexpected output, " + output);
@@ -62,24 +64,28 @@ public final class OctaveIO {
 
     /**
      * @param name
-     * @return Returns the value of the variable from octave or null if the variable does not exist
+     * @return the value of the variable from octave 
+     *    or null if the variable does not exist
      * @throws OctaveClassCastException
-     *             if the value can not be cast to T
+     *    if the value can not be cast to T
      */
     public OctaveObject get(final String name) {
         if (!checkIfVarExists(name)) {
             return null;
         }
-        final WriteFunctor writeFunctor = new ReaderWriteFunctor(new StringReader("save -text - " + name));
+        final WriteFunctor writeFunctor = 
+	    new ReaderWriteFunctor(new StringReader("save -text - " + name));
         final DataReadFunctor readFunctor = new DataReadFunctor(name);
-        octaveExec.eval(writeFunctor, readFunctor);
+        this.octaveExec.eval(writeFunctor, readFunctor);
         return readFunctor.getData();
     }
 
     private boolean checkIfVarExists(final String name) {
         final StringWriter existResult = new StringWriter();
-        octaveExec.eval(new ReaderWriteFunctor(new StringReader("printf(\"%d\", exist(\"" + name + "\",\"var\"));")),
-                new WriterReadFunctor(existResult));
+        this.octaveExec.eval(new ReaderWriteFunctor
+			     (new StringReader("printf(\"%d\", exist(\"" + 
+					       name + "\",\"var\"));")),
+			     new WriterReadFunctor(existResult));
         final String s = existResult.toString();
         if ("1".equals(s)) {
             return true;
@@ -92,7 +98,7 @@ public final class OctaveIO {
 
     /**
      * Utility function.
-     * 
+     *
      * @param reader
      * @return next line from reader, null at end of stream
      */
@@ -106,7 +112,7 @@ public final class OctaveIO {
 
     /**
      * Read a single object from Reader
-     * 
+     *
      * @param reader
      * @return OctaveObject read from Reader
      */
@@ -114,7 +120,8 @@ public final class OctaveIO {
         final String line = OctaveIO.readerReadLine(reader);
         final String TYPE = "# type: ";
         if (line == null || !line.startsWith(TYPE)) {
-            throw new OctaveParseException("Expected '" + TYPE + "' got '" + line + "'");
+            throw new OctaveParseException
+		("Expected '" + TYPE + "' got '" + line + "'");
         }
         final String typeGlobal = line.substring(TYPE.length());
         // Ignore "global " prefix to type (it is not really a type)
@@ -125,44 +132,52 @@ public final class OctaveIO {
         } else {
             type = typeGlobal;
         }
-        final OctaveDataReader dataReader = OctaveDataReader.getOctaveDataReader(type);
+        final OctaveDataReader dataReader = 
+	    OctaveDataReader.getOctaveDataReader(type);
         if (dataReader == null) {
-            throw new OctaveParseException("Unknown octave type, type='" + type + "'");
+            throw new OctaveParseException
+		("Unknown octave type, type='" + type + "'");
         }
         return dataReader.read(reader);
     }
 
     /**
      * Read a single object from Reader
-     * 
+     *
      * @param reader
      * @return a singleton map with the name and object
      */
-    public static Map<String, OctaveObject> readWithName(final BufferedReader reader) {
+    public static 
+	Map<String, OctaveObject> readWithName(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
         final String token = "# name: ";
         if (!line.startsWith(token)) {
-            throw new OctaveParseException("Expected '" + token + "', but got '" + line + "'");
+            throw new OctaveParseException
+		("Expected '" + token + "', but got '" + line + "'");
         }
         final String name = line.substring(token.length());
         return Collections.singletonMap(name, read(reader));
     }
 
     /**
-     * Read a single object from String, it is an error if there is data left after the object
-     * 
+     * Read a single object from String, 
+     * it is an error if there is data left after the object
+     *
      * @param input
      * @return a singleton map with the name and object
      * @throws OctaveParseException
      *             if there is data left after the object is read
      */
     public static Map<String, OctaveObject> readWithName(final String input) {
-        final BufferedReader bufferedReader = new BufferedReader(new StringReader(input));
+        final BufferedReader bufferedReader = 
+	    new BufferedReader(new StringReader(input));
         final Map<String, OctaveObject> map = readWithName(bufferedReader);
         try {
             final String line = bufferedReader.readLine();
             if (line != null) {
-                throw new OctaveParseException("Too much data in input, first extra line is '" + line + "'");
+                throw new OctaveParseException
+		    ("Too much data in input, first extra line is '" + 
+		     line + "'");
             }
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -176,10 +191,14 @@ public final class OctaveIO {
      * @param octaveType
      * @throws IOException
      */
-    public static <T extends OctaveObject> void write(final Writer writer, final T octaveType) throws IOException {
-        final OctaveDataWriter<T> dataWriter = OctaveDataWriter.getOctaveDataWriter(octaveType);
+    public static <T extends OctaveObject> void write(final Writer writer,
+						      final T octaveType) 
+	throws IOException {
+        final OctaveDataWriter<T> dataWriter = 
+	    OctaveDataWriter.getOctaveDataWriter(octaveType);
         if (dataWriter == null) {
-            throw new OctaveParseException("Unknown type, " + octaveType.getClass());
+            throw new OctaveParseException
+		("Unknown type, " + octaveType.getClass());
         }
         dataWriter.write(writer, octaveType);
     }
@@ -190,7 +209,9 @@ public final class OctaveIO {
      * @param octaveType
      * @throws IOException
      */
-    public static void write(final Writer writer, final String name, final OctaveObject octaveType) throws IOException {
+    public static void write(final Writer writer,
+			     final String name,
+			     final OctaveObject octaveType) throws IOException {
         writer.write("# name: " + name + "\n");
         write(writer, octaveType);
     }
@@ -198,9 +219,11 @@ public final class OctaveIO {
     /**
      * @param octaveType
      * @param name
-     * @return The result from saving the value octaveType in octave -text format
+     * @return The result from saving the value octaveType 
+     *    in octave -text format
      */
-    public static String toText(final OctaveObject octaveType, final String name) {
+    public static String toText(final OctaveObject octaveType,
+				final String name) {
         try {
             final Writer writer = new java.io.StringWriter();
             write(writer, name, octaveType);
