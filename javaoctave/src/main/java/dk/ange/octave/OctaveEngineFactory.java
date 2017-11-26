@@ -46,7 +46,11 @@ public final class OctaveEngineFactory {
      * @return a new OctaveEngine
      */
     public OctaveEngine getScriptEngine() {
-        return new OctaveEngine(this, octaveInputLog, errorWriter, octaveProgram, workingDir);
+        return new OctaveEngine(this, 
+				this.octaveInputLog, 
+				this.errorWriter, 
+				this.octaveProgram, 
+				this.workingDir);
     }
 
     /**
