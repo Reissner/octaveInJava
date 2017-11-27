@@ -22,13 +22,16 @@ import java.util.concurrent.Callable;
 
 import dk.ange.octave.exception.OctaveIOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Callable that reads from the octave process
  */
 final class OctaveReaderCallable implements Callable<Void> {
 
-    private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
-            .getLog(OctaveReaderCallable.class);
+    private static final Log log = LogFactory
+	.getLog(OctaveReaderCallable.class);
 
     private final BufferedReader processReader;
 
@@ -41,7 +44,9 @@ final class OctaveReaderCallable implements Callable<Void> {
      * @param readFunctor
      * @param spacer
      */
-    public OctaveReaderCallable(final BufferedReader processReader, final ReadFunctor readFunctor, final String spacer) {
+    public OctaveReaderCallable(final BufferedReader processReader, 
+				final ReadFunctor readFunctor, 
+				final String spacer) {
         this.processReader = processReader;
         this.readFunctor = readFunctor;
         this.spacer = spacer;
@@ -49,9 +54,10 @@ final class OctaveReaderCallable implements Callable<Void> {
 
     @Override
     public Void call() {
-        final Reader reader = new OctaveExecuteReader(processReader, spacer);
+        final Reader reader = new OctaveExecuteReader(this.processReader, 
+						      this.spacer);
         try {
-            readFunctor.doReads(reader);
+            this.readFunctor.doReads(reader);
         } catch (final IOException e) {
             final String message = "IOException from ReadFunctor";
             log.debug(message, e);

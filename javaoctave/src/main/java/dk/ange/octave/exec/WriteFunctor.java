@@ -28,7 +28,7 @@ public interface WriteFunctor {
 
     /**
      * Write the input to an eval()
-     * 
+     *
      * @param writer
      *            Writer to write to
      * @throws IOException

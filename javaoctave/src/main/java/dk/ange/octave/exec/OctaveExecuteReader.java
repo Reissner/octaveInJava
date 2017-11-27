@@ -25,8 +25,10 @@ import org.apache.commons.logging.LogFactory;
 import dk.ange.octave.util.StringUtil;
 
 /**
- * Reader that passes the reading on to the output from the octave process until the spacer reached, then it returns
- * EOF. When this reader is closed the underlying reader is slurped up to the spacer.
+ * Reader that passes the reading on to the output from the octave process 
+ * until the spacer reached, then it returns EOF. 
+ * When this reader is closed 
+ * the underlying reader is slurped up to the spacer. 
  */
 final class OctaveExecuteReader extends Reader {
 
@@ -43,26 +45,31 @@ final class OctaveExecuteReader extends Reader {
     private boolean eof = false;
 
     /**
-     * This reader will read from octaveReader until a single line equal() spacer is read, after that this reader will
-     * return eof. When this reader is closed it will update the state of octave to NONE.
+     * This reader will read from octaveReader 
+     * until a single line equal() spacer is read, 
+     * after that this reader will return eof. 
+     * When this reader is closed it will update the state of octave to NONE.
      * 
      * @param octaveReader
      * @param spacer
      */
-    public OctaveExecuteReader(final BufferedReader octaveReader, final String spacer) {
+    public OctaveExecuteReader(final BufferedReader octaveReader, 
+			       final String spacer) {
         this.octaveReader = octaveReader;
         this.spacer = spacer;
     }
 
     @Override
-    public int read(final char[] cbuf, final int off, final int len) throws IOException {
+    public int read(final char[] cbuf, final int off, final int len) 
+	throws IOException {
         if (eof) {
             return -1;
         }
         if (buffer == null) {
             final String line = octaveReader.readLine();
             if (log.isTraceEnabled()) {
-                log.trace("octaveReader.readLine() = " + StringUtil.jQuote(line));
+                log.trace("octaveReader.readLine() = " + 
+			  StringUtil.jQuote(line));
             }
             if (line == null) {
                 throw new IOException("Pipe to octave-process broken");

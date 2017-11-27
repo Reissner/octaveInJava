@@ -28,7 +28,7 @@ public interface ReadFunctor {
 
     /**
      * Read the output from an eval()
-     * 
+     *
      * @param reader
      *            Reader to read from
      * @throws IOException

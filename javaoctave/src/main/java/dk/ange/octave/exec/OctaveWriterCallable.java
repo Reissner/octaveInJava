@@ -21,17 +21,22 @@ import java.util.concurrent.Callable;
 
 import dk.ange.octave.exception.OctaveIOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Callable that writes to the octave process
  */
 final class OctaveWriterCallable implements Callable<Void> {
 
-    private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
-            .getLog(OctaveWriterCallable.class);
+    private static final Log log = LogFactory
+	.getLog(OctaveWriterCallable.class);
 
-    static final String EXCEPTION_MESSAGE_FUNCTOR = "IOException from WriteFunctor";
+    static final String EXCEPTION_MESSAGE_FUNCTOR = 
+	"IOException from WriteFunctor";
 
-    static final String EXCEPTION_MESSAGE_SPACER = "IOException when writing spacer";
+    static final String EXCEPTION_MESSAGE_SPACER = 
+	"IOException when writing spacer";
 
     private final Writer processWriter;
 
@@ -44,7 +49,9 @@ final class OctaveWriterCallable implements Callable<Void> {
      * @param writeFunctor
      * @param spacer
      */
-    public OctaveWriterCallable(final Writer processWriter, final WriteFunctor writeFunctor, final String spacer) {
+    public OctaveWriterCallable(final Writer processWriter, 
+				final WriteFunctor writeFunctor, 
+				final String spacer) {
         this.processWriter = processWriter;
         this.writeFunctor = writeFunctor;
         this.spacer = spacer;
@@ -54,14 +61,15 @@ final class OctaveWriterCallable implements Callable<Void> {
     public Void call() {
         // Write to process
         try {
-            writeFunctor.doWrites(processWriter);
+	    this.writeFunctor.doWrites(processWriter);
         } catch (final IOException e) {
             log.debug(EXCEPTION_MESSAGE_FUNCTOR, e);
             throw new OctaveIOException(EXCEPTION_MESSAGE_FUNCTOR, e);
         }
         try {
-            processWriter.write("\nprintf(\"\\n%s\\n\", \"" + spacer + "\");\n");
-            processWriter.flush();
+	    this.processWriter.write
+		("\nprintf(\"\\n%s\\n\", \"" + spacer + "\");\n");
+            this.processWriter.flush();
         } catch (final IOException e) {
             log.debug(EXCEPTION_MESSAGE_SPACER, e);
             throw new OctaveIOException(EXCEPTION_MESSAGE_SPACER, e);

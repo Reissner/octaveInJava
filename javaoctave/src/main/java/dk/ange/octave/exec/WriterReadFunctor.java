@@ -38,6 +38,10 @@ public final class WriterReadFunctor implements ReadFunctor {
         this.writer = writer;
     }
 
+    /**
+     * @param reader
+     * @throws IOException if any.
+     */
     @Override
     public void doReads(final Reader reader) throws IOException {
         IOUtils.copy(reader, writer);
