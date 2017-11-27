@@ -23,9 +23,9 @@ import dk.ange.octave.type.OctaveComplex;
 
 /**
  * Reader of "complex scalar"
- * 
+ *
  * Format is:
- * 
+ *
  * <pre>
  * # type: complex scalar
  * (1.2,3.4)

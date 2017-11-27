@@ -23,7 +23,7 @@ import dk.ange.octave.type.OctaveFake;
 
 /**
  * The reader of a range.
- * 
+ *
  * <pre>
  * # type: range
  * # base, limit, increment

@@ -24,9 +24,9 @@ import dk.ange.octave.type.OctaveComplex;
 
 /**
  * Reader of "complex matrix"
- * 
+ *
  * Format is:
- * 
+ *
  * <pre>
  * # type: complex matrix
  * # rows: 2

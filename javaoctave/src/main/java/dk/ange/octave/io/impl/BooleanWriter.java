@@ -32,7 +32,8 @@ public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
     }
 
     @Override
-    public void write(final Writer writer, final OctaveBoolean octaveBoolean) throws IOException {
+    public void write(final Writer writer, 
+		      final OctaveBoolean octaveBoolean) throws IOException {
         writer.write("# type: bool matrix\n");
         if (octaveBoolean.getSize().length > 2) {
             saveDataVectorized(writer, octaveBoolean);
@@ -41,7 +42,10 @@ public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
         }
     }
 
-    private void saveData2d(final Writer writer, final OctaveBoolean octaveBoolean) throws IOException {
+    private void saveData2d(final Writer writer, 
+			    final OctaveBoolean octaveBoolean) 
+	throws IOException {
+
         final int[] size = octaveBoolean.getSize();
         final boolean[] data = octaveBoolean.getData();
         final int nrows = size[0];
@@ -55,7 +59,10 @@ public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
         }
     }
 
-    private void saveDataVectorized(final Writer writer, final OctaveBoolean octaveMatrix) throws IOException {
+    private void saveDataVectorized(final Writer writer, 
+				    final OctaveBoolean octaveMatrix) 
+	throws IOException {
+
         final int[] size = octaveMatrix.getSize();
         final boolean[] data = octaveMatrix.getData();
         writer.write("# ndims: " + size.length + "\n");
