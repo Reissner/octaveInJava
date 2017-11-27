@@ -67,8 +67,8 @@ final class OctaveWriterCallable implements Callable<Void> {
             throw new OctaveIOException(EXCEPTION_MESSAGE_FUNCTOR, e);
         }
         try {
-	    this.processWriter.write
-		("\nprintf(\"\\n%s\\n\", \"" + spacer + "\");\n");
+	    this.processWriter.write("\nprintf(\"\\n%s\\n\", \"" + 
+				     spacer + "\");\n");
             this.processWriter.flush();
         } catch (final IOException e) {
             log.debug(EXCEPTION_MESSAGE_SPACER, e);

@@ -22,7 +22,7 @@ public class OctaveParseException extends OctaveRecoverableException {
 
     /**
      * Constructor
-     * 
+     *
      * @see Throwable
      */
     public OctaveParseException() {
@@ -31,7 +31,7 @@ public class OctaveParseException extends OctaveRecoverableException {
 
     /**
      * Constructor
-     * 
+     *
      * @param message
      * @see Throwable
      */
@@ -41,7 +41,7 @@ public class OctaveParseException extends OctaveRecoverableException {
 
     /**
      * Constructor
-     * 
+     *
      * @param cause
      * @see Throwable
      */
@@ -51,7 +51,7 @@ public class OctaveParseException extends OctaveRecoverableException {
 
     /**
      * Constructor
-     * 
+     *
      * @param message
      * @param cause
      * @see Throwable

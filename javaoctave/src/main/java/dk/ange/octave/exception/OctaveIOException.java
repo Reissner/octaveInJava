@@ -23,7 +23,7 @@ public class OctaveIOException extends OctaveNonrecoverableException {
 
     /**
      * Constructor
-     * 
+     *
      * @see Throwable
      */
     public OctaveIOException() {
@@ -32,7 +32,7 @@ public class OctaveIOException extends OctaveNonrecoverableException {
 
     /**
      * Constructor
-     * 
+     *
      * @param message
      * @see Throwable
      */
@@ -42,7 +42,7 @@ public class OctaveIOException extends OctaveNonrecoverableException {
 
     /**
      * Constructor
-     * 
+     *
      * @param cause
      * @see Throwable
      */
@@ -52,7 +52,7 @@ public class OctaveIOException extends OctaveNonrecoverableException {
 
     /**
      * Constructor
-     * 
+     *
      * @param message
      * @param cause
      * @see Throwable

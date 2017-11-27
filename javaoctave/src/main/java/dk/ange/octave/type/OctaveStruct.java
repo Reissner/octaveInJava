@@ -32,8 +32,8 @@ public class OctaveStruct implements OctaveObject {
      * Create empty struct
      */
     public OctaveStruct() {
-        // Use a TreeMap in order to get a stable serialization
-        // (I might want to use HashMap here and sort in OctaveIO.toText())
+	// Use a TreeMap in order to get a stable serialization
+	// (I might want to use HashMap here and sort in OctaveIO.toText())
         data = new TreeMap<String, OctaveObject>();
     }
 

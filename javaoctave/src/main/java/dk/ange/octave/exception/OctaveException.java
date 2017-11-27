@@ -22,7 +22,7 @@ public abstract class OctaveException extends RuntimeException {
 
     /**
      * Constructor
-     * 
+     *
      * @see Throwable
      */
     public OctaveException() {
@@ -31,7 +31,7 @@ public abstract class OctaveException extends RuntimeException {
 
     /**
      * Constructor
-     * 
+     *
      * @param message
      * @see Throwable
      */
@@ -41,7 +41,7 @@ public abstract class OctaveException extends RuntimeException {
 
     /**
      * Constructor
-     * 
+     *
      * @param cause
      * @see Throwable
      */
@@ -51,7 +51,7 @@ public abstract class OctaveException extends RuntimeException {
 
     /**
      * Constructor
-     * 
+     *
      * @param message
      * @param cause
      * @see Throwable
@@ -61,8 +61,9 @@ public abstract class OctaveException extends RuntimeException {
     }
 
     /**
-     * Set to true on exceptions thrown from an Octave object when the reason for the exception is that the object has
-     * been asked to destroy its octave process.
+     * Set to true on exceptions thrown from an Octave object 
+     * when the reason for the exception is that the object has 
+     * been asked to destroy its octave process. 
      */
     private boolean destroyed = false;
 
