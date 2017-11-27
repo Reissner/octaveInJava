@@ -28,6 +28,7 @@ import dk.ange.octave.type.OctaveFake;
  * # type: range
  * # base, limit, increment
  * 1 10 1
+ * </pre>
  */
 public final class FakeRangeReader extends OctaveDataReader {
 
