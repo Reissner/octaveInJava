@@ -34,8 +34,9 @@ public class OctaveClassCastException extends OctaveRecoverableException {
      * @param castClass
      *            The class octaveObject couldn't be casted to
      */
-    public OctaveClassCastException(final ClassCastException cause, final OctaveObject octaveObject,
-            final Class<? extends OctaveObject> castClass) {
+    public OctaveClassCastException(final ClassCastException cause, 
+				    final OctaveObject octaveObject,
+				    final Class<? extends OctaveObject> castClass) {
         super(cause);
         this.octaveObject = octaveObject;
         this.castClass = castClass;

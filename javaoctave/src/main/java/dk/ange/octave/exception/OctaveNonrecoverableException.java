@@ -16,7 +16,8 @@
 package dk.ange.octave.exception;
 
 /**
- * An exception in the Octave engine that did broke the octave process, any action on the Octave object now will cause a
+ * An exception in the Octave engine that did broke the octave process, 
+ * any action on the Octave object now will cause a
  * new OctaveNonrecoverableException.
  */
 public abstract class OctaveNonrecoverableException extends OctaveException {
@@ -57,7 +58,8 @@ public abstract class OctaveNonrecoverableException extends OctaveException {
      * @param cause
      * @see Throwable
      */
-    public OctaveNonrecoverableException(final String message, final Throwable cause) {
+    public OctaveNonrecoverableException(final String message, 
+					 final Throwable cause) {
         super(message, cause);
     }
 

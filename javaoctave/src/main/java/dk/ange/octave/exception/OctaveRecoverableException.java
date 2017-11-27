@@ -56,7 +56,8 @@ public abstract class OctaveRecoverableException extends OctaveException {
      * @param cause
      * @see Throwable
      */
-    public OctaveRecoverableException(final String message, final Throwable cause) {
+    public OctaveRecoverableException(final String message, 
+				      final Throwable cause) {
         super(message, cause);
     }
 

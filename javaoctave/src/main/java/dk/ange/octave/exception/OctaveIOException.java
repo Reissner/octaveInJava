@@ -16,7 +16,8 @@
 package dk.ange.octave.exception;
 
 /**
- * Exception thrown when IO errors happen, this will most likely be cause by the octave process dying
+ * Exception thrown when IO errors happen, 
+ * this will most likely be cause by the octave process dying
  */
 public class OctaveIOException extends OctaveNonrecoverableException {
 

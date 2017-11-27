@@ -18,7 +18,8 @@ package dk.ange.octave.exception;
 import dk.ange.octave.OctaveEngine;
 
 /**
- * Exception thrown when evaluation of an octave statement in {@link OctaveEngine#eval(String)} fails.
+ * Exception thrown when evaluation of an octave statement 
+ * in {@link OctaveEngine#eval(String)} fails.
  */
 public class OctaveEvalException extends OctaveRecoverableException {
 
