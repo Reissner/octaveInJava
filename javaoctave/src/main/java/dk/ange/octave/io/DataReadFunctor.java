@@ -41,19 +41,28 @@ final class DataReadFunctor implements ReadFunctor {
         this.name = name;
     }
 
+    /**
+     * @param reader
+     */
     @Override
     public void doReads(final Reader reader) {
         final BufferedReader bufferedReader = new BufferedReader(reader);
         final String createByOctaveLine = readerReadLine(bufferedReader);
-        if (createByOctaveLine == null || !createByOctaveLine.startsWith("# Created by Octave")) {
-            throw new OctaveParseException("Not created by Octave?: '" + createByOctaveLine + "'");
+        if (createByOctaveLine == null || 
+	    !createByOctaveLine.startsWith("# Created by Octave")) {
+            throw new OctaveParseException
+		("Not created by Octave?: '" + createByOctaveLine + "'");
         }
-        final Map<String, OctaveObject> map = OctaveIO.readWithName(bufferedReader);
+        final Map<String, OctaveObject> map = 
+	    OctaveIO.readWithName(bufferedReader);
         if (map.size() != 1) {
-            throw new OctaveParseException("Expected map of size 1 but got " + map + "'");
+            throw new OctaveParseException
+		("Expected map of size 1 but got " + map + "'");
         }
         if (!map.containsKey(name)) {
-            throw new OctaveParseException("Expected variable named '" + name + "' but got '" + map + "'");
+            throw new OctaveParseException
+		("Expected variable named '" + name + 
+		 "' but got '" + map + "'");
         }
         data = map.get(name);
     }

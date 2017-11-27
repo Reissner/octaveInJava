@@ -23,13 +23,15 @@ import dk.ange.octave.exception.OctaveIOException;
 import dk.ange.octave.exec.WriteFunctor;
 import dk.ange.octave.type.OctaveObject;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Write data from {@link OctaveObject}s in a {@link Map}
  */
 final class DataWriteFunctor implements WriteFunctor {
 
-    private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
-            .getLog(DataWriteFunctor.class);
+    private static final Log log = LogFactory.getLog(DataWriteFunctor.class);
 
     final Map<String, OctaveObject> octaveTypes;
 
@@ -44,14 +46,17 @@ final class DataWriteFunctor implements WriteFunctor {
     public void doWrites(final Writer writer) {
         try {
             // Enter octave in "read data from input mode"
-            log.trace("write: 'load(\"-text\", \"-\")' to start read data from input mode");
-            writer.write("load(\"-text\", \"-\")\n");
+	    log.trace("write: 'load(\"-text\", \"-\")' " + 
+		      "to start read data from input mode");
+	    writer.write("load(\"-text\", \"-\")\n");
             // Push the data into octave
-            for (final Map.Entry<String, OctaveObject> entry : octaveTypes.entrySet()) {
+            for (final Map.Entry<String, OctaveObject> entry 
+		     : octaveTypes.entrySet()) {
                 final String name = entry.getKey();
                 final OctaveObject value = entry.getValue();
-                if (log.isTraceEnabled()) {
-                    log.trace("write: variable '" + name + "', value=<<<" + value + ">>>");
+		if (log.isTraceEnabled()) {
+                    log.trace("write: variable '" + name + 
+			      "', value=<<<" + value + ">>>");
                 }
                 OctaveIO.write(writer, name, value);
             }
