@@ -56,12 +56,20 @@ public final class OctaveExec {
 
     private static final Log log = LogFactory.getLog(OctaveExec.class);
 
-    private static final String[] CMD_ARRAY = { null, 
-						"--no-history", 
-						"--no-init-file", 
-						"--no-line-editing",
-						"--no-site-file", 
-						"--silent"
+    // private static final String[] CMD_ARRAY = { null, 
+    // 						"--no-history", 
+    // 						"--no-init-file", 
+    // 						"--no-line-editing",
+    // 						"--no-site-file", 
+    // 						"--silent"
+    // };
+
+    private static final String[] ARGS_ARRAY = {
+	"--no-history", 
+	"--no-init-file", 
+	"--no-line-editing",
+	"--no-site-file", 
+	"--silent"
     };
 
     private final Process process;
@@ -95,6 +103,8 @@ public final class OctaveExec {
      *    if it is null the program will be found
      *    using the system property 'dk.ange.octave.executable'
      *    and if that is not set 'octave' will be assumed to be in the PATH.
+     ******
+
      * @param environment
      *    The environment for the octave process,
      *    if null the process will inherit the environment
@@ -107,14 +117,18 @@ public final class OctaveExec {
     public OctaveExec(final Writer stdinLog, 
 		      final Writer stderrLog, 
 		      final File octaveProgram,
+		      //		      final String[] argsArray,
 		      final String[] environment, 
 		      final File workingDir) {
-        final String[] cmdArray = CMD_ARRAY.clone();
+	final String[] argsArray = ARGS_ARRAY.clone();
+        final String[] cmdArray = new String[argsArray.length + 1];
+
         if (octaveProgram != null) {
             cmdArray[0] = octaveProgram.getPath();
         } else {
             cmdArray[0] = System.getProperty(PROPERTY_EXECUTABLE, "octave");
         }
+	System.arraycopy(argsArray, 0, cmdArray, 1, argsArray.length);
         try {
             this.process = Runtime.getRuntime().exec(cmdArray, 
 						     environment, 
