@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+
 /**
  * A Thread that moves data from a Reader to a Writer
  * 
@@ -26,8 +29,8 @@ import java.io.Writer;
  */
 public class ReaderWriterPipeThread extends Thread {
 
-    private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
-            .getLog(ReaderWriterPipeThread.class);
+    private static final Log log = LogFactory
+	.getLog(ReaderWriterPipeThread.class);
 
     private static final int BUFFERSIZE = 4 * 1024;
 
@@ -43,10 +46,21 @@ public class ReaderWriterPipeThread extends Thread {
      * @param writer
      * @return Returns the new thread
      */
-    public static ReaderWriterPipeThread instantiate(final Reader reader, final Writer writer) {
-        final ReaderWriterPipeThread readerWriterPipeThread = new ReaderWriterPipeThread(reader, writer);
-        readerWriterPipeThread.setName(Thread.currentThread().getName() + "-javaoctave-"
-                + ReaderWriterPipeThread.class.getSimpleName());
+    public static ReaderWriterPipeThread instantiate(final Reader reader, 
+						     final Writer writer) {
+        final ReaderWriterPipeThread readerWriterPipeThread = 
+	    new ReaderWriterPipeThread(reader, writer);
+        readerWriterPipeThread.setName(Thread.currentThread().getName() 
+				       + "-javaoctave-"
+				       + ReaderWriterPipeThread.class
+				       .getSimpleName());
+	readerWriterPipeThread
+	    .setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+		    public void uncaughtException(Thread th, Throwable ex) {
+			System.out.println("Uncaught : " + ex + 
+					   " of thread " + th.getName());
+		    }
+		});
         readerWriterPipeThread.start();
         return readerWriterPipeThread;
     }
