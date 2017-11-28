@@ -48,13 +48,19 @@ public final class OctaveExec {
     /**
      * System property where the executable is found
      */
-    public static final String PROPERTY_EXECUTABLE = "dk.ange.octave.executable";
+    public static final String PROPERTY_EXECUTABLE = 
+	"dk.ange.octave.executable";
 
     private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
             .getLog(OctaveExec.class);
 
-    private static final String[] CMD_ARRAY = { null, "--no-history", "--no-init-file", "--no-line-editing",
-            "--no-site-file", "--silent" };
+    private static final String[] CMD_ARRAY = { null, 
+						"--no-history", 
+						"--no-init-file", 
+						"--no-line-editing",
+						"--no-site-file", 
+						"--silent"
+    };
 
     private final Process process;
 
