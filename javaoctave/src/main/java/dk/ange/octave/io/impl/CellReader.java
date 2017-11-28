@@ -56,11 +56,14 @@ public final class CellReader extends OctaveDataReader {
 
         for (int col = 1; col <= ncols; col++) {
             for (int row = 1; row <= nrows; row++) {
-                do { // Work around differences in number of line feeds in octave 3.4 and 3.6
+		// Work around differences in number of line feeds 
+		// in octave 3.4 and 3.6: 
+		// keep reading until line is non-empty
+		do {
                     line = OctaveIO.readerReadLine(reader);
-                } while ("".equals(line)); // keep reading until line is non-empty
-                token = "# name: <cell-element>";
-                if (!line.equals(token)) {
+                } while ("".equals(line));
+		token = "# name: <cell-element>";
+		if (!line.equals(token)) {
                     throw new OctaveParseException("Expected <" + token + ">, but got <" + line + ">");
                 }
                 final OctaveObject octaveType = OctaveIO.read(reader);
