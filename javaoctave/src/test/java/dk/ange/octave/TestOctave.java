@@ -123,14 +123,6 @@ public class TestOctave extends TestCase {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 	octave.eval("sigterm_dumps_octave_core(0);");
 	Thread thread = new DestroyThread(octave);
-	thread
-	    .setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-		    public void uncaughtException(Thread th, Throwable ex) {
-			System.out.println("Uncaught : " + ex + 
-					   " of thread " + th.getName() + 
-					   ": message above is from logging.");
-		}
-	    });
 
 	// destroys itself in 1000 ms 
 	thread.start();
@@ -140,6 +132,8 @@ public class TestOctave extends TestCase {
 	    fail("Exception expected. ");
 	} catch (final OctaveException oe) {
 	    assertTrue(oe.isDestroyed());
+	    System.out.println("Stacktrace above is intended: is by logging. ");
+	    System.out.println("Message 'Uncaught:...' also. ");
 	} catch (final Throwable th) {
 	    assertTrue(false);
 	}
