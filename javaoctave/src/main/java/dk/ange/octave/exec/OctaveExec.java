@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
+
 import java.util.Random;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -70,23 +71,28 @@ public final class OctaveExec {
 
     /**
      * Will start the octave process.
-     * 
+     *
      * @param stdinLog
-     *            This writer will capture all that is written to the octave process via stdin, if null the data will
-     *            not be captured.
+     *    This writer will capture all
+     *    that is written to the octave process via stdin,
+     *    if null the data will not be captured.
      * @param stderrLog
-     *            This writer will capture all that is written from the octave process on stderr, if null the data will
-     *            not be captured.
+     *    This writer will capture all
+     *    that is written from the octave process on stderr,
+     *    if null the data will not be captured.
      * @param octaveProgram
-     *            This is the path to the octave program, if it is null the program will be found using the system
-     *            property 'dk.ange.octave.executable' and if that is not set 'octave' will be assumed to be in the
-     *            PATH.
+     *    This is the path to the octave program,
+     *    if it is null the program will be found
+     *    using the system property 'dk.ange.octave.executable'
+     *    and if that is not set 'octave' will be assumed to be in the PATH.
      * @param environment
-     *            The environment for the octave process, if null the process will inherit the environment for the
-     *            virtual machine.
+     *    The environment for the octave process,
+     *    if null the process will inherit the environment
+     *    for the virtual machine.
      * @param workingDir
-     *            This will be the working dir for the octave process, if null the process will inherit the working dir
-     *            of the current process.
+     *    This will be the working dir for the octave process,
+     *    if null the process will inherit the working dir
+     *    of the current process.
      */
     public OctaveExec(final Writer stdinLog, 
 		      final Writer stderrLog, 
