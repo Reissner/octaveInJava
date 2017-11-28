@@ -61,25 +61,17 @@ public final class OctaveEngine {
 
     private final Random random = new Random();
 
-    private static final String[] ARGS_ARRAY = {
-	"--no-history", 
-	"--no-init-file", 
-	"--no-line-editing",
-	"--no-site-file", 
-	"--silent"
-    };
-
     OctaveEngine(final OctaveEngineFactory factory,
 		 final Writer octaveInputLog,
 		 final Writer errorWriter,
 		 final File octaveProgram,
-		 //final String[] argsArray,
+		 final String[] argsArray,
 		 final File workingDir) {
         this.factory = factory;
         this.octaveExec = new OctaveExec(octaveInputLog,
 					 errorWriter,
 					 octaveProgram,
-					 ARGS_ARRAY.clone(),
+					 argsArray,
 					 null, // environment
 					 workingDir);
         this.octaveIO = new OctaveIO(this.octaveExec);

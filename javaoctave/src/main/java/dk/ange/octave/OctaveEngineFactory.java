@@ -33,6 +33,14 @@ public final class OctaveEngineFactory {
 
     private File octaveProgram = null;
 
+    private static final String[] ARGS_ARRAY = {
+    	"--no-history", 
+    	"--no-init-file", 
+    	"--no-line-editing",
+    	"--no-site-file", 
+    	"--silent"
+    };
+
     private File workingDir = null;
 
     /**
@@ -50,6 +58,7 @@ public final class OctaveEngineFactory {
 				this.octaveInputLog, 
 				this.errorWriter, 
 				this.octaveProgram, 
+				ARGS_ARRAY.clone(),
 				this.workingDir);
     }
 
