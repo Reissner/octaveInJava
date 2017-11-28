@@ -115,14 +115,10 @@ public final class OctaveExec {
 	    (new InputStreamReader(this.process.getInputStream(), 
 				   Charset.forName("Latin1")));
         // Connect stdin
-        if (stdinLog == null) {
-            processWriter = new OutputStreamWriter
-		(this.process.getOutputStream());
-        } else {
-            processWriter = new TeeWriter
-		(new NoCloseWriter(stdinLog),
-		 new OutputStreamWriter(this.process.getOutputStream()));
-        }
+	Writer pw = new OutputStreamWriter(this.process.getOutputStream());
+	this.processWriter = (stdinLog == null)
+	    ? pw
+	    : new TeeWriter(new NoCloseWriter(stdinLog), pw);
     }
 
     private final Random random = new Random();
