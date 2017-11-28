@@ -40,6 +40,9 @@ import dk.ange.octave.util.NoCloseWriter;
 import dk.ange.octave.util.ReaderWriterPipeThread;
 import dk.ange.octave.util.TeeWriter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * The object connecting to the octave process
  */
@@ -51,8 +54,7 @@ public final class OctaveExec {
     public static final String PROPERTY_EXECUTABLE = 
 	"dk.ange.octave.executable";
 
-    private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
-            .getLog(OctaveExec.class);
+    private static final Log log = LogFactory.getLog(OctaveExec.class);
 
     private static final String[] CMD_ARRAY = { null, 
 						"--no-history", 
@@ -68,8 +70,10 @@ public final class OctaveExec {
 
     private final BufferedReader processReader;
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(2, new NamedThreadFactory(OctaveExec.class
-            .getSimpleName()));
+    private final ExecutorService executor = 
+	Executors.newFixedThreadPool(2, 
+				     new NamedThreadFactory(OctaveExec.class
+							    .getSimpleName()));
 
     private final ReaderWriterPipeThread errorStreamThread;
 
