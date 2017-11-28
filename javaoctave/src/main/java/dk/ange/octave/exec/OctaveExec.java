@@ -88,8 +88,11 @@ public final class OctaveExec {
      *            This will be the working dir for the octave process, if null the process will inherit the working dir
      *            of the current process.
      */
-    public OctaveExec(final Writer stdinLog, final Writer stderrLog, final File octaveProgram,
-            final String[] environment, final File workingDir) {
+    public OctaveExec(final Writer stdinLog, 
+		      final Writer stderrLog, 
+		      final File octaveProgram,
+		      final String[] environment, 
+		      final File workingDir) {
         final String[] cmdArray = CMD_ARRAY.clone();
         if (octaveProgram != null) {
             cmdArray[0] = octaveProgram.getPath();
@@ -97,28 +100,36 @@ public final class OctaveExec {
             cmdArray[0] = System.getProperty(PROPERTY_EXECUTABLE, "octave");
         }
         try {
-            process = Runtime.getRuntime().exec(cmdArray, environment, workingDir);
+            this.process = Runtime.getRuntime().exec(cmdArray, 
+						     environment, 
+						     workingDir);
         } catch (final IOException e) {
             throw new OctaveIOException(e);
         }
         // Connect stderr
-        errorStreamThread = ReaderWriterPipeThread.instantiate(new InputStreamReader(process.getErrorStream()),
-                stderrLog);
+        errorStreamThread = ReaderWriterPipeThread
+	    .instantiate(new InputStreamReader(this.process.getErrorStream()),
+			 stderrLog);
         // Connect stdout
-        processReader = new BufferedReader(new InputStreamReader(process.getInputStream(), Charset.forName("Latin1")));
+        processReader = new BufferedReader
+	    (new InputStreamReader(this.process.getInputStream(), 
+				   Charset.forName("Latin1")));
         // Connect stdin
         if (stdinLog == null) {
-            processWriter = new OutputStreamWriter(process.getOutputStream());
+            processWriter = new OutputStreamWriter
+		(this.process.getOutputStream());
         } else {
-            processWriter = new TeeWriter(new NoCloseWriter(stdinLog),
-                    new OutputStreamWriter(process.getOutputStream()));
+            processWriter = new TeeWriter
+		(new NoCloseWriter(stdinLog),
+		 new OutputStreamWriter(this.process.getOutputStream()));
         }
     }
 
     private final Random random = new Random();
 
     private String generateSpacer() {
-        return "-=+X+=- Octave.java spacer -=+X+=- " + random.nextLong() + " -=+X+=-";
+        return "-=+X+=- Octave.java spacer -=+X+=- " + 
+	    random.nextLong() + " -=+X+=-";
     }
 
     /**
@@ -127,15 +138,22 @@ public final class OctaveExec {
      */
     public void eval(final WriteFunctor input, final ReadFunctor output) {
         final String spacer = generateSpacer();
-        final Future<Void> writerFuture = executor.submit(new OctaveWriterCallable(processWriter, input, spacer));
-        final Future<Void> readerFuture = executor.submit(new OctaveReaderCallable(processReader, output, spacer));
+        final Future<Void> writerFuture = 
+	    this.executor.submit(new OctaveWriterCallable(processWriter, 
+							  input, 
+							  spacer));
+        final Future<Void> readerFuture = 
+	    this.executor.submit(new OctaveReaderCallable(processReader, 
+							  output, 
+							  spacer));
         final RuntimeException writerException = getFromFuture(writerFuture);
         if (writerException instanceof CancellationException) {
             log.error("Did not expect writer to be canceled", writerException);
         }
         if (writerException != null) {
             if (writerException instanceof CancellationException) {
-                log.error("Did not expect writer to be canceled", writerException);
+                log.error("Did not expect writer to be canceled", 
+			  writerException);
             }
             readerFuture.cancel(true);
         }
@@ -144,16 +162,18 @@ public final class OctaveExec {
             throw writerException;
         }
         if (readerException != null) {
-            // Only gets here when writerException==null, and in that case we don't expect the reader to be cancelled
+            // Only gets here when writerException==null, 
+	    // and in that case we don't expect the reader to be cancelled
             if (readerException instanceof CancellationException) {
-                log.error("Did not expect reader to be canceled", writerException);
+                log.error("Did not expect reader to be canceled", 
+			  writerException);
             }
             throw readerException;
         }
     }
 
     private RuntimeException getFromFuture(final Future<Void> future) {
-        try {
+	try {
             future.get();
         } catch (final InterruptedException e) {
             final String message = "InterruptedException should not happen";
@@ -166,8 +186,8 @@ public final class OctaveExec {
             }
             // Can happen when there is an error in a OctaveWriter
             final String message = "ExecutionException should not happen";
-            log.error(message, e);
-            return new RuntimeException(message, e);
+	    log.error(message, e);
+	    return new RuntimeException(message, e);
         } catch (final CancellationException e) {
             return e;
         } catch (final RuntimeException e) {
@@ -181,8 +201,9 @@ public final class OctaveExec {
     private OctaveException reInstantiateException(final OctaveException inException) {
         final OctaveException outException;
         try {
-            outException = inException.getClass().getConstructor(String.class, Throwable.class).newInstance(
-                    inException.getMessage(), inException);
+            outException = inException.getClass()
+		.getConstructor(String.class, Throwable.class)
+		.newInstance(inException.getMessage(), inException);
         } catch (final Exception e) {
             throw new IllegalStateException("Exception should not happen", e);
         }
@@ -205,52 +226,62 @@ public final class OctaveExec {
      */
     public void destroy() {
         setDestroyed(true);
-        executor.shutdownNow();
-        process.destroy();
+        this.executor.shutdownNow();
+        this.process.destroy();
         errorStreamThread.close();
         try {
             processWriter.close();
         } catch (final IOException e) {
-            log.debug("Ignored error from processWriter.close() in OctaveExec.destroy()", e);
-        }
-   }
+            log.debug("Ignored error from processWriter.close() " + 
+		      "in OctaveExec.destroy()", e);
+	}
+    }
 
     /**
      * Close the octave process in an orderly fashion.
      */
     public void close() {
         try {
-            // it is not worth it to rewrite this to use eval() and some specialised Functors
+            // it is not worth it to rewrite this 
+	    // to use eval() and some specialised Functors
             processWriter.write("exit\n");
             processWriter.close();
             final String read1 = processReader.readLine();
             // Allow a single blank line, exit in octave 3.2 returns that:
             if (read1 != null && !"".equals(read1)) {
-                throw new OctaveIOException("Expected a blank line, read '" + read1 + "'");
+                throw new OctaveIOException
+		    ("Expected a blank line, read '" + read1 + "'");
             }
             final String read2 = processReader.readLine();
             if (read2 != null) {
-                throw new OctaveIOException("Expected reader to be at end of stream, read '" + read2 + "'");
+                throw new OctaveIOException
+		    ("Expected reader to be at end of stream, read '" + 
+		     read2 + "'");
             }
             processReader.close();
             errorStreamThread.close();
             final int exitValue;
             try {
-                exitValue = process.waitFor();
+                exitValue = this.process.waitFor();
             } catch (final InterruptedException e) {
-                throw new OctaveIOException("Interrupted when waiting for octave process to terminate", e);
+                throw new OctaveIOException
+		    ("Interrupted when waiting for octave process " + 
+		     "to terminate", e);
             }
             if (exitValue != 0) {
-                throw new OctaveIOException("octave process terminated abnormaly, exitValue=" + exitValue);
+                throw new OctaveIOException
+		    ("octave process terminated abnormaly, " + 
+		     "exitValue=" + exitValue);
             }
         } catch (final IOException e) {
-            final OctaveIOException octaveException = new OctaveIOException("reader error", e);
+            final OctaveIOException octaveException = 
+		new OctaveIOException("reader error", e);
             if (isDestroyed()) {
                 octaveException.setDestroyed(true);
             }
             throw octaveException;
         } finally {
-            executor.shutdown();
+            this.executor.shutdown();
         }
     }
 
