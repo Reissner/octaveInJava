@@ -103,15 +103,46 @@ public class TestOctave extends TestCase {
     /**
      * @throws Exception
      */
+    // does something like 
+    // Running dk.ange.octave.TestOctave
+    // 2017-11-28 23:52:09,016 [main-javaoctave-ReaderWriterPipeThread] 
+    // ERROR dk.ange.octave.util.ReaderWriterPipeThread 
+    // (ReaderWriterPipeThread.java:81) - Error when reading from reader
+    // java.io.IOException: Stream closed
+    // at java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:170)
+    // at java.io.BufferedInputStream.read1(BufferedInputStream.java:283)
+    // at java.io.BufferedInputStream.read(BufferedInputStream.java:345)
+    // at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+    // at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+    // at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+    // at java.io.InputStreamReader.read(InputStreamReader.java:184)
+    // at java.io.Reader.read(Reader.java:140)
+    // at dk.ange.octave.util.ReaderWriterPipeThread
+    //                                      .run(ReaderWriterPipeThread.java:79)
     public void testDestroy() throws Exception {
-        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        octave.eval("sigterm_dumps_octave_core(0);");
-        new DestroyThread(octave).start();
-        try {
-            octave.eval("pause(10);");
-        } catch (final OctaveException e) {
-            assertTrue(e.isDestroyed());
-        }
+	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+	octave.eval("sigterm_dumps_octave_core(0);");
+	Thread thread = new DestroyThread(octave);
+	thread
+	    .setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+		    public void uncaughtException(Thread th, Throwable ex) {
+			System.out.println("Uncaught : " + ex + 
+					   " of thread " + th.getName() + 
+					   ": message above is from logging.");
+		}
+	    });
+
+	// destroys itself in 1000 ms 
+	thread.start();
+	try {
+	    // octave pauses for 10 sec and so thread is destroyed during pause 
+	    octave.eval("pause(10);");
+	    fail("Exception expected. ");
+	} catch (final OctaveException oe) {
+	    assertTrue(oe.isDestroyed());
+	} catch (final Throwable th) {
+	    assertTrue(false);
+	}
     }
 
     /**
@@ -131,7 +162,7 @@ public class TestOctave extends TestCase {
             try {
                 sleep(1000);
                 octave.destroy();
-            } catch (final Exception e) {
+            } catch (final Throwable e) {
                 e.printStackTrace();
             }
         }
@@ -143,7 +174,8 @@ public class TestOctave extends TestCase {
      * @throws Exception
      */
     public void testConstructor() throws Exception {
-        final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
+        final OctaveEngineFactory octaveEngineFactory = 
+	    new OctaveEngineFactory();
         octaveEngineFactory.setOctaveProgram(new File("octave"));
         final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
         octave.setWriter(null);
@@ -157,10 +189,11 @@ public class TestOctave extends TestCase {
      * @throws Exception
      */
     public void testFileClose() throws Exception {
-        final Writer stdin = new DontCloseWriter("stdin");
+        final Writer stdin  = new DontCloseWriter("stdin");
         final Writer stdout = new DontCloseWriter("stdout");
         final Writer stderr = new DontCloseWriter("stderr");
-        final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
+        final OctaveEngineFactory octaveEngineFactory = 
+	    new OctaveEngineFactory();
         octaveEngineFactory.setErrorWriter(stderr);
         octaveEngineFactory.setOctaveInputLog(stdin);
         final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
