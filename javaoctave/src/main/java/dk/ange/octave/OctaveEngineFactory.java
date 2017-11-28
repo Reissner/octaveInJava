@@ -33,7 +33,11 @@ public final class OctaveEngineFactory {
 
     private File octaveProgram = null;
 
-    private static final String[] ARGS_ARRAY = {
+    /**
+     * Thr array of arguments of the octave engines created. 
+     * Default value 
+     */
+    private static String[] argsArray = {
     	"--no-history", 
     	"--no-init-file", 
     	"--no-line-editing",
@@ -58,7 +62,7 @@ public final class OctaveEngineFactory {
 				this.octaveInputLog, 
 				this.errorWriter, 
 				this.octaveProgram, 
-				ARGS_ARRAY.clone(),
+				argsArray.clone(),
 				this.workingDir);
     }
 
@@ -84,6 +88,14 @@ public final class OctaveEngineFactory {
      */
     public void setOctaveProgram(final File octaveProgram) {
         this.octaveProgram = octaveProgram;
+    }
+
+    /**
+     * @param argsArray
+     *            the arguments as an array to set
+     */
+    public void setArgsArray(final String[] argsArray) {
+        this.argsArray = argsArray;
     }
 
     /**
