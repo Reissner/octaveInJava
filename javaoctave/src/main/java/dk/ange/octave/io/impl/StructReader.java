@@ -43,17 +43,19 @@ public final class StructReader extends OctaveDataReader {
     public OctaveStruct read(final BufferedReader reader) {
         String line;
 
-        // In octave 3.6 dimension of the scalar is also written now
         line = OctaveIO.readerReadLine(reader);
+        // In octave 3.6 dimension of the scalar is also written now
         if (line != null && line.startsWith("# ndims:")) {
             if (!line.equals("# ndims: 2")) {
                 throw new OctaveParseException
-		    ("JavaOctave does not support matrix structs, read=" + line);
+		    ("JavaOctave does not support matrix structs, read '" + 
+		     line + "'");
             }
             line = OctaveIO.readerReadLine(reader);
             if (!line.equals(" 1 1")) {
                 throw new OctaveParseException
-		    ("JavaOctave does not support matrix structs, read=" + line);
+		    ("JavaOctave does not support matrix structs, read '" + 
+		     line + "'");
             }
             line = OctaveIO.readerReadLine(reader);
         }
@@ -73,9 +75,12 @@ public final class StructReader extends OctaveDataReader {
         for (int i = 0; i < length; i++) {
             // # name: elemmatrix
             final String NAME = "# name: ";
-            do { // Work around differences in number of line feeds in octave 3.4 and 3.6
+	    // Work around differences in number of line feeds 
+	    // in octave 3.4 and 3.6: 
+	    // keep reading until line is non-empty
+            do {
                 line = OctaveIO.readerReadLine(reader);
-            } while ("".equals(line)); // keep reading until line is non-empty
+            } while ("".equals(line));
             if (!line.startsWith(NAME)) {
                 throw new OctaveParseException
 		    ("Expected '" + NAME + "' got '" + line + "'");
