@@ -58,7 +58,8 @@ public final class OctaveIO {
 			     new WriterReadFunctor(outputWriter));
         final String output = outputWriter.toString();
         if (output.length() != 0) {
-            throw new IllegalStateException("Unexpected output, " + output);
+            throw new IllegalStateException
+		("Unexpected output: '" + output + "'");
         }
     }
 
