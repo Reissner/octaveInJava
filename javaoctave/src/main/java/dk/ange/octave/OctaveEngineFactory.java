@@ -34,15 +34,29 @@ public final class OctaveEngineFactory {
     private File octaveProgram = null;
 
     /**
-     * Thr array of arguments of the octave engines created. 
-     * Default value 
+     * The array of arguments of the octave engines created. 
+     * For details, see octave user manual, version 3.4.0.+, Section 2.2.1. 
+     * <p>
+     * Default value of this field is default value for octave engines created.
+     * The only mandatory argument is <code>--silent</code>: 
+     * If not set this, octave's greeting message causes an exception. 
+     * Option <code>--no-init-file</code> makes the result independent 
+     * of user input, 
+     * whereas <code>--no-init-file</code> and <code>--no-site-file</code> 
+     * makes it independent of initialization files. 
+     * Since this is used to create scripting engines, 
+     * history seems superfluous 
+     * and so <code>--no-history</code> seems appropriate. 
+     * Note that <code>--no-init-file</code> and <code>--no-site-file</code> 
+     * may be appropriate or not. 
+     * ***** why not needed --no-gui? 
      */
     private static String[] argsArray = {
-    	"--no-history", 
-    	"--no-init-file", 
-    	"--no-line-editing",
-    	"--no-site-file", 
-    	"--silent"
+    	"--silent",          // greeting message causes exception **** 
+    	"--no-init-file",    // makes result depend on init file 
+     	"--no-site-file",    // see --no-init-file
+   	"--no-line-editing", // make independent of user input 
+    	"--no-history"       // superfluous, because commands come from scripts 
     };
 
     private File workingDir = null;
