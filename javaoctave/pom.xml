@@ -21,6 +21,7 @@
   from inside a Java application.
   </description>
 
+  <url>https://github.com/AngeAnalytics/java-octave</url>
   <!--url>http://www.simuline.eu/OctaveInJava/</url-->
   <inceptionYear>2006</inceptionYear>
   <licenses>
