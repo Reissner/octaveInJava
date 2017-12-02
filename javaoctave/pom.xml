@@ -99,13 +99,13 @@
 
       <!-- Use Java 6 -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+	<groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.7.0</version> <!--2.3.2 -->
         <configuration>
-          <source>1.6</source>
+	  <source>1.6</source>
           <target>1.6</target>
-        </configuration>
+	</configuration>
       </plugin>
 
 
@@ -119,6 +119,12 @@
         </configuration>
      </plugin-->
 
+      <!-- javadoc plugin -->
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-javadoc-plugin</artifactId>
+	<version>3.0.0-M1</version>
+      </plugin>
 
 
       <!-- Add entries to manifest-->
