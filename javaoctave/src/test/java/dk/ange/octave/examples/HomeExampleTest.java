@@ -24,7 +24,6 @@ import dk.ange.octave.type.OctaveString;
 
 import static org.junit.Assert.assertEquals;
 
-
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -52,23 +51,38 @@ public class HomeExampleTest {
      * Test that is too complicated because of bugs in both 3.0 and 3.2
      */
     // **** this does not seem to terminate. 
-    @Ignore @Test public void testWithFunctionInVariable() {
+    @Ignore 
+@Test public void testWithFunctionInVariable() {
         // Begin web text
+System.out.println("1testWithFunctionInVariable");
+    
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        octave.eval("warning off"); // not web text: needed to silence warnings from lsode
+//        octave.eval("warning off"); // not web text: needed to silence warnings from lsode
         octave.put("t1", Octave.scalar(0));
         octave.put("t2", Octave.scalar(1));
+System.out.println("2testWithFunctionInVariable");
         if (octave.getVersion().startsWith("3.0.")) {
             octave.put("fun", new OctaveString("sqrt(1-t**2)"));
         } else {
             octave.put("fun", new OctaveFunctionHandle("@(x, t) sqrt (1 - t ^ 2)"));
         }
+System.out.println("3testWithFunctionInVariable");
+octave.eval("fun");
+octave.eval("t1");
+octave.eval("t2");
+octave.eval("fun");
+// this is what does not terminate 
+octave.eval("lsode(fun, 0, [t1 t2])");
         octave.eval("result = lsode(fun, 0, [t1 t2])(2);");
+System.out.println("3atestWithFunctionInVariable");
         final OctaveDouble result = octave.get(OctaveDouble.class, "result");
+System.out.println("4testWithFunctionInVariable");
         octave.close();
+System.out.println("5testWithFunctionInVariable");
         final double integral = result.get(1);
         assertEquals(Math.PI / 4, integral, 1e-5);
         // End web text
+System.out.println("6testWithFunctionInVariable");
     }
 
 }
