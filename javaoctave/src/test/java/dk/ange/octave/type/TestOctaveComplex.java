@@ -15,54 +15,61 @@
  */
 package dk.ange.octave.type;
 
-import junit.framework.TestCase;
 import dk.ange.octave.type.cast.Cast;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * Test OctaveComplex
  */
-public class TestOctaveComplex extends TestCase {
+public class TestOctaveComplex {
 
     /**
      * Test that an OctaveDouble can be viewed as an OctaveComplex
      */
-    public void testCast() {
+    @Test public void testCast() {
         Cast.cast(OctaveComplex.class, new OctaveDouble(1, 1));
     }
 
     /**
      * Test OctaveComplex resizes correctly
      */
-    public void testResize() {
+    @Test public void testResize() {
         final OctaveComplex complex = new OctaveComplex(1, 1);
 
         checkSize(complex, 1, 1);
-        assertEquals(0.0, complex.getReal(1, 1));
-        assertEquals(0.0, complex.getImag(1, 1));
+        assertEquals(0.0, complex.getReal(1, 1), 0.0);
+        assertEquals(0.0, complex.getImag(1, 1), 0.0);
 
         complex.setReal(22, 1, 2);
         checkSize(complex, 1, 2);
-        assertEquals(0.0, complex.getReal(1, 1));
-        assertEquals(0.0, complex.getImag(1, 1));
-        assertEquals(22.0, complex.getReal(1, 2));
-        assertEquals(0.0, complex.getImag(1, 2));
+        assertEquals( 0.0, complex.getReal(1, 1), 0.0);
+        assertEquals( 0.0, complex.getImag(1, 1), 0.0);
+        assertEquals(22.0, complex.getReal(1, 2), 0.0);
+        assertEquals( 0.0, complex.getImag(1, 2), 0.0);
 
         complex.setImag(33, 2, 1);
         checkSize(complex, 2, 2);
-        assertEquals(0.0, complex.getReal(1, 1));
-        assertEquals(0.0, complex.getImag(1, 1));
-        assertEquals(22.0, complex.getReal(1, 2));
-        assertEquals(0.0, complex.getImag(1, 2));
-        assertEquals(0.0, complex.getReal(2, 1));
-        assertEquals(33.0, complex.getImag(2, 1));
-        assertEquals(0.0, complex.getReal(2, 2));
-        assertEquals(0.0, complex.getImag(2, 2));
+        assertEquals( 0.0, complex.getReal(1, 1), 0.0);
+        assertEquals( 0.0, complex.getImag(1, 1), 0.0);
+        assertEquals(22.0, complex.getReal(1, 2), 0.0);
+        assertEquals( 0.0, complex.getImag(1, 2), 0.0);
+        assertEquals( 0.0, complex.getReal(2, 1), 0.0);
+        assertEquals(33.0, complex.getImag(2, 1), 0.0);
+        assertEquals( 0.0, complex.getReal(2, 2), 0.0);
+        assertEquals( 0.0, complex.getImag(2, 2), 0.0);
 
-        assertEquals(22.0, complex.getReal()[complex.pos2ind(1, 2)]);
-        assertEquals(33.0, complex.getImag()[complex.pos2ind(2, 1)]);
+        assertEquals(22.0, complex.getReal()[complex.pos2ind(1, 2)], 0.0);
+        assertEquals(33.0, complex.getImag()[complex.pos2ind(2, 1)], 0.0);
     }
 
-    private void checkSize(final OctaveComplex complex, final int i, final int j) {
+    private void checkSize(final OctaveComplex complex, 
+			   final int i, 
+			   final int j) {
         assertEquals(i, complex.size(1));
         assertEquals(j, complex.size(2));
         complex.getReal(i, j);
@@ -71,7 +78,9 @@ public class TestOctaveComplex extends TestCase {
         failGet(complex, i, j + 1);
     }
 
-    private void failGet(final OctaveComplex complex, final int i, final int j) {
+    private void failGet(final OctaveComplex complex, 
+			 final int i, 
+			 final int j) {
         try {
             complex.getReal(i, j);
             fail();

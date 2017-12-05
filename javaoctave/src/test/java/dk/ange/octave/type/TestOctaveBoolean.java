@@ -15,26 +15,34 @@
  */
 package dk.ange.octave.type;
 
-import junit.framework.TestCase;
 import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * Test OctaveBoolean
  */
-public class TestOctaveBoolean extends TestCase {
+public class TestOctaveBoolean {
 
     /** Test */
-    public void testGetAndSet() {
+    @Test public void testGetAndSet() {
         final OctaveBoolean matrix = new OctaveBoolean(3, 6, 5, 4);
         matrix.set(true, 2, 5, 2, 3);
         for (int row = 1; row <= 3; row++) {
             for (int column = 1; column <= 6; column++) {
                 for (int depth = 1; depth <= 5; depth++) {
                     for (int coffee = 1; coffee <= 4; coffee++) {
-                        if (row == 2 && column == 5 && depth == 2 && coffee == 3) {
-                            assertEquals(matrix.get(row, column, depth, coffee), true);
+                        if (row == 2 && column == 5 
+			    && depth == 2 && coffee == 3) {
+			    // true for exactly the entry explicitly set above 
+                            assertTrue( matrix.get(row, column, depth, coffee));
                         } else {
-                            assertEquals(matrix.get(row, column, depth, coffee), false);
+                            assertTrue(!matrix.get(row, column, depth, coffee));
                         }
                     }
                 }
@@ -42,19 +50,22 @@ public class TestOctaveBoolean extends TestCase {
         }
         try {
             matrix.get(2, 3, 1, 0);
-            fail("Attempt to get with a position that includes a 0 should fail");
+            fail("Attempt to get with a position " + 
+		 "that includes a 0 should fail");
         } catch (final IndexOutOfBoundsException e) {
             // ok
         }
         try {
             matrix.get(2, 3, 10, 3);
-            fail("Attempt to get with a position that exceeds range should fail");
+            fail("Attempt to get with a position " + 
+		 "that exceeds range should fail");
         } catch (final IndexOutOfBoundsException e) {
             // ok
         }
         try {
             matrix.get(2, 3, 2, 3, 4);
-            fail("Attempt to get with a position that exceeds dimensions should fail");
+            fail("Attempt to get with a position " + 
+		 "that exceeds dimensions should fail");
         } catch (final IndexOutOfBoundsException e) {
             // ok
         }
@@ -63,7 +74,7 @@ public class TestOctaveBoolean extends TestCase {
 
     /**
      */
-    public void testSizeConstructor() {
+    @Test public void testSizeConstructor() {
         final OctaveBoolean matrix = new OctaveBoolean(3, 6, 5, 4);
         assertEquals(matrix.getSize().length, 4);
         assertEquals(matrix.getSize()[0], 3);
@@ -80,12 +91,13 @@ public class TestOctaveBoolean extends TestCase {
     }
 
     /** Test */
-    public void testMakeCopy() {
+    @Test public void testMakeCopy() {
         final boolean[] data = new boolean[2 * 3 * 4];
         for (int idx = 0; idx < data.length; idx++) {
             data[idx] = idx % 2 == 0;
         }
-        final OctaveBoolean matrix = (new OctaveBoolean(data, 2, 3, 4)).shallowCopy();
+        final OctaveBoolean matrix = new OctaveBoolean(data, 2, 3, 4)
+	    .shallowCopy();
         boolean b = true;
         for (int depth = 1; depth <= 4; depth++) {
             for (int column = 1; column <= 3; column++) {
@@ -101,7 +113,7 @@ public class TestOctaveBoolean extends TestCase {
     /**
      * matrixzero doesn't work because of bug in octave
      */
-    public void testGrowth() {
+    @Test public void testGrowth() {
         final OctaveBoolean matrix = new OctaveBoolean(3, 3, 3, 3);
         matrix.set(true, 2, 2, 2, 2);
         matrix.set(true, 3, 2, 2, 2);
@@ -124,7 +136,7 @@ public class TestOctaveBoolean extends TestCase {
     }
 
     /** */
-    public void testResize() {
+    @Test public void testResize() {
         final OctaveBoolean matrix = new OctaveBoolean(0, 4);
         assertEquals(2, matrix.getSize().length);
         assertEquals(0, matrix.getSize()[0]);
@@ -142,7 +154,7 @@ public class TestOctaveBoolean extends TestCase {
     }
 
     /** Test Performance of Resize */
-    public void testPerformance() {
+    @Test public void testPerformance() {
         OctaveBoolean matrix = new OctaveBoolean(30, 0);
         final long allowedTime;
         if (matrix instanceof HasBeenInstrumented) {
@@ -158,7 +170,8 @@ public class TestOctaveBoolean extends TestCase {
         }
         long timeused = System.currentTimeMillis() - t;
         if (timeused > allowedTime) {
-            fail("Performance test didn't finish in " + allowedTime + "ms (used " + timeused + "ms)");
+            fail("Performance test didn't finish in " + allowedTime + 
+		 "ms (used " + timeused + "ms)");
         }
 
         matrix = new OctaveBoolean(0, 30);
@@ -170,7 +183,8 @@ public class TestOctaveBoolean extends TestCase {
         }
         timeused = System.currentTimeMillis() - t;
         if (timeused > allowedTime) {
-            fail("Performance test didn't finish in " + allowedTime + "ms (used " + timeused + "ms)");
+            fail("Performance test didn't finish in " + allowedTime + 
+		 "ms (used " + timeused + "ms)");
         }
     }
 

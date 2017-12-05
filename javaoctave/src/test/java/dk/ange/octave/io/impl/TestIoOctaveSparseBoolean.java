@@ -17,7 +17,6 @@ package dk.ange.octave.io.impl;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
@@ -25,10 +24,16 @@ import dk.ange.octave.type.OctaveBoolean;
 import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveSparseBoolean;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * Test read/write of {@link OctaveBoolean}
  */
-public class TestIoOctaveSparseBoolean extends TestCase {
+public class TestIoOctaveSparseBoolean {
 
     private static final String TEXT_TRUE = "" + //
             "# name: x\n" + //
@@ -48,7 +53,7 @@ public class TestIoOctaveSparseBoolean extends TestCase {
             "";
 
     /** */
-    public void testReadFalse() {
+    @Test public void testReadFalse() {
         final Map<String, OctaveObject> read = OctaveIO.readWithName("" + //
                 "# name: x\n" + //
                 "# type: sparse bool matrix\n" + //
@@ -60,33 +65,34 @@ public class TestIoOctaveSparseBoolean extends TestCase {
     }
 
     /** */
-    public void testReadTrue() {
+    @Test public void testReadTrue() {
         final Map<String, OctaveObject> read = OctaveIO.readWithName(TEXT_TRUE);
         assertTrue(read.toString(), read.containsKey("x"));
     }
 
     /** */
-    public void testWriteTrue() {
+    @Test public void testWriteTrue() {
         final OctaveSparseBoolean o = new OctaveSparseBoolean(1, 1, 1);
         o.set(true, 1, 1);
         assertEquals(TEXT_TRUE, OctaveIO.toText(o, "x"));
     }
 
     /** */
-    public void testReadEmpty() {
-        final Map<String, OctaveObject> read = OctaveIO.readWithName(TEXT_EMPTY);
+    @Test public void testReadEmpty() {
+        final Map<String, OctaveObject> read = 
+	    OctaveIO.readWithName(TEXT_EMPTY);
         assertTrue(read.toString(), read.containsKey("x"));
         assertEquals(new OctaveSparseBoolean(0, 0, 0), read.get("x"));
     }
 
     /** */
-    public void testWriteEmpty() {
+    @Test public void testWriteEmpty() {
         final OctaveSparseBoolean o = new OctaveSparseBoolean(0, 0, 0);
         assertEquals(TEXT_EMPTY, OctaveIO.toText(o, "x"));
     }
 
     /** */
-    public void testReadWrite() {
+    @Test public void testReadWrite() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
         if (octave.getVersion().equals("3.0.5")) {

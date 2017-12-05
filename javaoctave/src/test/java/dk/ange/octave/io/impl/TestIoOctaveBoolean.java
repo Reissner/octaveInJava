@@ -18,22 +18,27 @@ package dk.ange.octave.io.impl;
 import java.util.Map;
 import java.util.TreeMap;
 
-import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveBoolean;
 import dk.ange.octave.type.OctaveObject;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * Test read/write of {@link OctaveBoolean}
  */
-public class TestIoOctaveBoolean extends TestCase {
+public class TestIoOctaveBoolean {
 
     /**
      * Test
      */
-    public void testConstructorIntIntInt() {
+    @Test public void testConstructorIntIntInt() {
         final OctaveBoolean matrix = new OctaveBoolean(3, 4, 2);
         assertEquals("" //
                 + "# name: matrix3d\n" //
@@ -69,15 +74,18 @@ public class TestIoOctaveBoolean extends TestCase {
     /**
      * Test
      */
-    public void testConstructor1() {
+    @Test public void testConstructor1() {
         final OctaveBoolean matrix = new OctaveBoolean(0, 0, 0);
-        assertEquals("# name: matrix3d\n# type: bool matrix\n# ndims: 3\n 0 0 0\n", OctaveIO.toText(matrix, "matrix3d"));
+        assertEquals("# name: matrix3d\n" + 
+		     "# type: bool matrix\n" + 
+		     "# ndims: 3\n 0 0 0\n", 
+		     OctaveIO.toText(matrix, "matrix3d"));
     }
 
     /**
      * @throws Exception
      */
-    public void testConstructor2() throws Exception {
+    @Test public void testConstructor2() throws Exception {
         final OctaveBoolean matrix = new OctaveBoolean(0, 0);
         assertEquals(0, matrix.size(1));
         assertEquals(0, matrix.size(2));
@@ -93,7 +101,7 @@ public class TestIoOctaveBoolean extends TestCase {
     /**
      * @throws Exception
      */
-    public void testConstructorMatrix() throws Exception {
+    @Test public void testConstructorMatrix() throws Exception {
         final boolean[] numbers = { true, true, false, false, true, true };
         final OctaveBoolean matrix = new OctaveBoolean(numbers, 2, 3);
         assertEquals(2, matrix.size(1));
@@ -111,7 +119,7 @@ public class TestIoOctaveBoolean extends TestCase {
     /**
      * @throws Exception
      */
-    public void testConstructorIntInt() throws Exception {
+    @Test public void testConstructorIntInt() throws Exception {
         final OctaveBoolean matrix = new OctaveBoolean(2, 3);
         assertEquals(2, matrix.size(1));
         assertEquals(3, matrix.size(2));
@@ -155,7 +163,7 @@ public class TestIoOctaveBoolean extends TestCase {
     /**
      * @throws Exception
      */
-    public void testGrowth() throws Exception {
+    @Test public void testGrowth() throws Exception {
         final OctaveBoolean matrix = new OctaveBoolean(0, 0);
         assertEquals(0, matrix.size(1));
         assertEquals(0, matrix.size(2));
@@ -203,7 +211,7 @@ public class TestIoOctaveBoolean extends TestCase {
     /**
      * @throws Exception
      */
-    public void testOctaveGet() throws Exception {
+    @Test public void testOctaveGet() throws Exception {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("m=[true false;false true];");
         final OctaveBoolean m = octave.get(OctaveBoolean.class, "m");
@@ -219,7 +227,7 @@ public class TestIoOctaveBoolean extends TestCase {
     /**
      * @throws Exception
      */
-    public void testOctaveSetExecGet() throws Exception {
+    @Test public void testOctaveSetExecGet() throws Exception {
         final boolean[] numbers = { true, false, true, false, true, false };
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         final OctaveBoolean in = new OctaveBoolean(numbers, 2, 3);
@@ -241,7 +249,7 @@ public class TestIoOctaveBoolean extends TestCase {
     /**
      * Test
      */
-    public void test3dMatrix() {
+    @Test public void test3dMatrix() {
         final OctaveBoolean matrix3d = new OctaveBoolean(3, 4, 2);
         matrix3d.set(true, 1, 3, 2);
         matrix3d.set(true, 3, 1, 1);
@@ -265,7 +273,7 @@ public class TestIoOctaveBoolean extends TestCase {
     }
 
     /** Test */
-    public void testNdMatrix() {
+    @Test public void testNdMatrix() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         final TreeMap<String, OctaveObject> vars = new TreeMap<String, OctaveObject>();
         final boolean[] bigdata = new boolean[2 * 3 * 4];
@@ -356,7 +364,7 @@ public class TestIoOctaveBoolean extends TestCase {
     }
 
     /** */
-    public void testWriteRead() {
+    @Test public void testWriteRead() {
         final OctaveBoolean boolean1 = new OctaveBoolean(0, 0);
         boolean1.set(true, 2, 2);
 
@@ -368,7 +376,7 @@ public class TestIoOctaveBoolean extends TestCase {
     }
 
     /** */
-    public void testRead() {
+    @Test public void testRead() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
         final OctaveBoolean bool = new OctaveBoolean(0, 0);
@@ -396,9 +404,10 @@ public class TestIoOctaveBoolean extends TestCase {
     }
 
     /**
-     * Test that we handle the special single boolean case. Type will be "bool", not "bool matrix".
+     * Test that we handle the special single boolean case. 
+     * Type will be "bool", not "bool matrix".
      */
-    public void testReadSingle() {
+    @Test public void testReadSingle() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
         final OctaveBoolean bool = new OctaveBoolean(0, 0);

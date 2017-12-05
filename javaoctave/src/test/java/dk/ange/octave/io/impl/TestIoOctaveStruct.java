@@ -18,8 +18,6 @@ package dk.ange.octave.io.impl;
 import java.io.BufferedReader;
 import java.io.StringReader;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.exception.OctaveParseException;
@@ -31,80 +29,89 @@ import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveString;
 import dk.ange.octave.type.OctaveStruct;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * Test I/O on OctaveStruct
  */
-public class TestIoOctaveStruct extends TestCase {
+public class TestIoOctaveStruct {
 
     /**
      */
-    public void testConstructor() {
+    @Test public void testConstructor() {
         final OctaveObject struct = new OctaveStruct();
-        Assert.assertEquals("# name: mystruct\n# type: struct\n# length: 0\n", OctaveIO.toText(struct, "mystruct"));
+        assertEquals("# name: mystruct\n" + 
+		     "# type: struct\n" + 
+		     "# length: 0\n", 
+		     OctaveIO.toText(struct, "mystruct"));
     }
 
     /**
      */
-    public void testSet() {
+    @Test public void testSet() {
         final OctaveStruct struct1 = new OctaveStruct();
         struct1.set("a", Octave.scalar(42));
-        Assert.assertEquals("" + //
-                "# name: mystruct\n" + //
-                "# type: struct\n" + //
-                "# length: 1\n" + //
-                "# name: a\n" + //
-                "# type: cell\n" + //
-                "# rows: 1\n" + //
-                "# columns: 1\n" + //
-                "# name: <cell-element>\n" + //
-                "# type: scalar\n" + //
-                "42.0\n" + //
-                "\n" + //
-                "", OctaveIO.toText(struct1, "mystruct"));
+        assertEquals("" + //
+		     "# name: mystruct\n" + //
+		     "# type: struct\n" + //
+		     "# length: 1\n" + //
+		     "# name: a\n" + //
+		     "# type: cell\n" + //
+		     "# rows: 1\n" + //
+		     "# columns: 1\n" + //
+		     "# name: <cell-element>\n" + //
+		     "# type: scalar\n" + //
+		     "42.0\n" + //
+		     "\n" + //
+		     "", OctaveIO.toText(struct1, "mystruct"));
         final OctaveStruct struct2 = new OctaveStruct();
         final OctaveCell octaveCell = new OctaveCell(0, 0);
         octaveCell.set(Octave.scalar(42), 1, 1);
         struct2.set("mycell", octaveCell);
-        Assert.assertEquals("" + //
-                "# name: mystruct\n" + //
-                "# type: struct\n" + //
-                "# length: 1\n" + //
-                "# name: mycell\n" + //
-                "# type: cell\n" + //
-                "# rows: 1\n" + //
-                "# columns: 1\n" + //
-                "# name: <cell-element>\n" + //
-                "# type: cell\n" + //
-                "# rows: 1\n" + //
-                "# columns: 1\n" + //
-                "# name: <cell-element>\n" + //
-                "# type: scalar\n" + //
-                "42.0\n" + //
-                "\n" + //
-                "\n" + //
-                "", OctaveIO.toText(struct2, "mystruct"));
+        assertEquals("" + //
+		     "# name: mystruct\n" + //
+		     "# type: struct\n" + //
+		     "# length: 1\n" + //
+		     "# name: mycell\n" + //
+		     "# type: cell\n" + //
+		     "# rows: 1\n" + //
+		     "# columns: 1\n" + //
+		     "# name: <cell-element>\n" + //
+		     "# type: cell\n" + //
+		     "# rows: 1\n" + //
+		     "# columns: 1\n" + //
+		     "# name: <cell-element>\n" + //
+		     "# type: scalar\n" + //
+		     "42.0\n" + //
+		     "\n" + //
+		     "\n" + //
+		     "", OctaveIO.toText(struct2, "mystruct"));
     }
 
     /**
      */
-    public void testOctaveConnection() {
-        final OctaveStruct struct = new OctaveStruct();
+    @Test public void testOctaveConnection() {
+        OctaveStruct struct = new OctaveStruct();
         struct.set("scalar", Octave.scalar(42));
-        final OctaveStruct nested_struct = new OctaveStruct();
+        OctaveStruct nested_struct = new OctaveStruct();
         nested_struct.set("string", new OctaveString("a cheese called Horace"));
         struct.set("mynestedstruct", nested_struct);
 
-        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("mystruct", struct);
-        final OctaveStruct mystruct_copy = octave.get(OctaveStruct.class, "mystruct");
-        Assert.assertEquals(struct, mystruct_copy);
+        OctaveStruct mystruct_copy = octave.get(OctaveStruct.class, "mystruct");
+        assertEquals(struct, mystruct_copy);
         octave.close();
     }
 
     /**
      * Test
      */
-    public void testMatices() {
+    @Test public void testMatices() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("s = struct();");
         final int[] i123 = { 1, 2, 3 };
@@ -122,9 +129,10 @@ public class TestIoOctaveStruct extends TestCase {
         }
         final OctaveStruct s1 = octave.get(OctaveStruct.class, "s");
         octave.put("s1", s1);
-        octave.eval("t = 1.0*isequal(s, s1);"); // "1.0*" is a typecast from bool to scalar
+	// "1.0*" is a typecast from bool to scalar
+        octave.eval("t = 1.0*isequal(s, s1);");
         final OctaveDouble t = octave.get(OctaveDouble.class, "t");
-        assertEquals(1.0, t.get(1, 1));
+        assertEquals(1.0, t.get(1, 1), 0.0);
         final OctaveStruct s2 = octave.get(OctaveStruct.class, "s1");
         assertEquals(s1, s2);
         octave.close();
@@ -153,7 +161,7 @@ public class TestIoOctaveStruct extends TestCase {
     /**
      * Test that the reader does not understand 1x2 cells
      */
-    public void testMatrixStruct() {
+    @Test public void testMatrixStruct() {
         final String input = "" //
                 + "# type: struct\n" //
                 + "# length: 1\n" //
@@ -182,7 +190,7 @@ public class TestIoOctaveStruct extends TestCase {
     /**
      * @throws Exception
      */
-    public void testWrite() throws Exception {
+    @Test public void testWrite() throws Exception {
         final OctaveStruct struct = new OctaveStruct();
         struct.set("x", Octave.scalar(42));
 
@@ -233,7 +241,7 @@ public class TestIoOctaveStruct extends TestCase {
     /**
      * @throws Exception
      */
-    public void testWriteRead() throws Exception {
+    @Test public void testWriteRead() throws Exception {
         final OctaveStruct struct = new OctaveStruct();
         struct.set("x", Octave.scalar(42));
         struct.set("y", new OctaveString("y"));
@@ -248,15 +256,16 @@ public class TestIoOctaveStruct extends TestCase {
     }
 
     /**
-     * Test format of struct save. Exposed a format change between octave 3.4 and 3.6.
+     * Test format of struct save. 
+     * Exposed a format change between octave 3.4 and 3.6.
      */
-    public void testScalarStruct() {
+    @Test public void testScalarStruct() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("mystruct = struct();");
         octave.eval("mystruct.x = 42;");
-        final OctaveStruct mystruct = octave.get(OctaveStruct.class, "mystruct");
+        OctaveStruct mystruct = octave.get(OctaveStruct.class, "mystruct");
         octave.close();
-        assertEquals(42.0, mystruct.get(OctaveDouble.class, "x").get(1));
+        assertEquals(42.0, mystruct.get(OctaveDouble.class, "x").get(1), 0.0);
     }
 
 }

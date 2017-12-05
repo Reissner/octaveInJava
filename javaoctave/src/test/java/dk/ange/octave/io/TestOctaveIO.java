@@ -2,21 +2,27 @@ package dk.ange.octave.io;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveDouble;
 import dk.ange.octave.type.OctaveObject;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * Test {@link OctaveIO}
  */
-public class TestOctaveIO extends TestCase {
+public class TestOctaveIO {
 
     /**
-     * Test that {@link OctaveIO#readWithName(String)} works and throws the expected on too much data.
+     * Test that {@link OctaveIO#readWithName(String)} works 
+     * and throws the expected on too much data.
      */
-    public void testReadWithName() {
+    @Test public void testReadWithName() {
         // Data
         final String varName = "x";
         final OctaveDouble varValue = Octave.scalar(42);
@@ -37,7 +43,8 @@ public class TestOctaveIO extends TestCase {
         try {
             OctaveIO.readWithName(input + extra);
         } catch (final OctaveParseException e) {
-            assertEquals("Too much data in input, first extra line is 'extra 1'", e.getMessage());
+            assertEquals("Too much data in input, " + 
+			 "first extra line is 'extra 1'", e.getMessage());
         }
     }
 

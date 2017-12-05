@@ -18,19 +18,24 @@
  */
 package dk.ange.octave.io;
 
-import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveDouble;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 /** Tests */
-public class TestUnknownVar extends TestCase {
+public class TestUnknownVar {
 
     /**
      * Test Octave.get() on unknown var
      */
-    public void testGetUnknownVar() {
+    @Test public void testGetUnknownVar() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         final OctaveDouble x1 = octave.get(OctaveDouble.class, "x");
         assertNull(x1);

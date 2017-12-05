@@ -15,22 +15,28 @@
  */
 package dk.ange.octave.io.impl;
 
-import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.exception.OctaveRecoverableException;
 import dk.ange.octave.type.OctaveString;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * Test reading of sq_string (can not be written)
  */
-public class TestIoOctaveSqString extends TestCase {
+public class TestIoOctaveSqString {
 
     /**
      * Test that string read from octave is what we expect
      */
-    public void testOctaveRead() {
+    @Test public void testOctaveRead() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         read(octave, "sample text", "sample text");
         read(octave, "", "");
@@ -38,14 +44,17 @@ public class TestIoOctaveSqString extends TestCase {
             read(octave, "a\\nb", "a\nb");
             fail();
         } catch (final OctaveParseException e) {
-            assertEquals("Handling of escape char (\\) not done, line='a\\nb'", e.getMessage());
+            assertEquals("Handling of escape char (\\) not done, line='a\\nb'",
+			 e.getMessage());
             assertTrue(OctaveRecoverableException.class.isInstance(e));
         }
         // read(octave, "a\\tb", "a\tb"); same as \n example
         octave.close();
     }
 
-    private static void read(final OctaveEngine octave, final String input, final String expected) {
+    private static void read(final OctaveEngine octave, 
+			     final String input, 
+			     final String expected) {
         final String key = "octave_string";
         octave.eval(key + " = '" + input + "';");
         final OctaveString output = octave.get(OctaveString.class, key);

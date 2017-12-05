@@ -15,30 +15,40 @@
  */
 package dk.ange.octave.type;
 
-import junit.framework.TestCase;
 import dk.ange.octave.exception.OctaveClassCastException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * Test OctaveStruct object
  */
-public class TestOctaveStruct extends TestCase {
+public class TestOctaveStruct {
 
     /**
      * Test that a copy is taken when getting from struct
      */
-    public void testOctaveGetCopy() {
+    @Test public void testOctaveGetCopy() {
         final OctaveStruct struct = new OctaveStruct();
         struct.set("scalar", Octave.scalar(42));
         final OctaveDouble scalar = struct.get(OctaveDouble.class, "scalar");
         scalar.set(10, 1, 1);
-        assertEquals(scalar.get(1, 1), 10.0);
-        assertEquals(struct.get(OctaveDouble.class, "scalar").get(1, 1), 42.0);
+        assertEquals(10.0,
+		     scalar.get(1, 1), 
+		     0.0);
+        assertEquals(42.0, 
+		     struct.get(OctaveDouble.class, "scalar").get(1, 1), 
+		     0.0);
     }
 
     /**
      * Test that the correct exception is thrown from OctaveStruct.get()
      */
-    public void testClassCast() {
+    @Test public void testClassCast() {
         final OctaveStruct struct = new OctaveStruct();
         final OctaveDouble scalar = Octave.scalar(42);
         struct.set("scalar", scalar);
@@ -53,7 +63,7 @@ public class TestOctaveStruct extends TestCase {
     /**
      * Test that we can get unknown values
      */
-    public void testGetUnknown() {
+    @Test public void testGetUnknown() {
         final OctaveStruct struct = new OctaveStruct();
         assertNull(struct.get("unknown"));
     }

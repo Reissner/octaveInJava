@@ -15,21 +15,27 @@
  */
 package dk.ange.octave.io.impl;
 
-import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.type.OctaveFunctionHandle;
 import dk.ange.octave.type.OctaveObject;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
+
 /**
  * Test read/write of {@link OctaveFunctionHandle}
  */
-public class TestIoFunctionHandle extends TestCase {
+public class TestIoFunctionHandle {
 
     /** Test */
-    public void testToString() {
-        final OctaveObject fh = new OctaveFunctionHandle("@(x) sqrt (1 - x ^ 2)");
+    @Test public void testToString() {
+        final OctaveObject fh = 
+	    new OctaveFunctionHandle("@(x) sqrt (1 - x ^ 2)");
         assertEquals("" + //
                 "# name: ans\n" + //
                 "# type: function handle\n" + //
@@ -40,8 +46,9 @@ public class TestIoFunctionHandle extends TestCase {
     }
 
     /** Test */
-    public void testToOctave() {
-        final OctaveObject fh = new OctaveFunctionHandle("@(x) sqrt (1 - x ^ 2)");
+    @Test public void testToOctave() {
+        final OctaveObject fh = 
+	    new OctaveFunctionHandle("@(x) sqrt (1 - x ^ 2)");
         assertEquals("" + //
                 "# name: fh\n" + //
                 "# type: function handle\n" + //
@@ -52,13 +59,14 @@ public class TestIoFunctionHandle extends TestCase {
     }
 
     /** Test */
-    public void testOctaveConnection() {
+    @Test public void testOctaveConnection() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         if (octave.getVersion().equals("3.0.5")) {
             octave.close();
             return; // Skip test on octave 3.0.5
         }
-        final OctaveObject fh1 = new OctaveFunctionHandle("@(x) sqrt (1 - x ^ 2)");
+        final OctaveObject fh1 = 
+	    new OctaveFunctionHandle("@(x) sqrt (1 - x ^ 2)");
         octave.put("fh", fh1);
         // TODO enable when reading of OctaveFunctionHandle is done
         // final OctaveObject fh2 = octave.get(OctaveString.class, "fh");

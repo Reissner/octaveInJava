@@ -15,18 +15,22 @@
  */
 package dk.ange.octave.io.impl;
 
-import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.type.OctaveComplex;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * Test read/write of {@link OctaveComplex}
  */
-public class TestIoOctaveComplex extends TestCase {
+public class TestIoOctaveComplex {
 
     /** Test */
-    public void testGetScalar() {
+    @Test public void testGetScalar() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("y = 1.2 + 3.4i;");
         final OctaveComplex c = octave.get(OctaveComplex.class, "y");
@@ -36,7 +40,7 @@ public class TestIoOctaveComplex extends TestCase {
     }
 
     /** Test */
-    public void testGet2dMatrix() {
+    @Test public void testGet2dMatrix() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("y = [ 1.1 1.1i ; 2.2 2.2i ];");
         final OctaveComplex c = octave.get(OctaveComplex.class, "y");
@@ -52,7 +56,7 @@ public class TestIoOctaveComplex extends TestCase {
     }
 
     /** Test that a real number also works in the complex code */
-    public void testGetReal() {
+    @Test public void testGetReal() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("y = 1.2;");
         final OctaveComplex c = octave.get(OctaveComplex.class, "y");

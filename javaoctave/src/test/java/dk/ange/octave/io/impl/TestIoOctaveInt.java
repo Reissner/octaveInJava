@@ -15,20 +15,24 @@
  */
 package dk.ange.octave.io.impl;
 
-import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.type.OctaveInt;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * Test read/write of {@link OctaveInt}
  */
-public class TestIoOctaveInt extends TestCase {
+public class TestIoOctaveInt {
 
     /**
      * Test that data read from Octave is what we expect it to be
      */
-    public void testRead() {
+    @Test public void testRead() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
         final OctaveInt x = new OctaveInt(0, 0);

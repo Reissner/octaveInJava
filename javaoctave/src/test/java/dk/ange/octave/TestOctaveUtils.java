@@ -1,18 +1,24 @@
 package dk.ange.octave;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
 import java.util.Collection;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * Test {@link OctaveUtils}
  */
-public class TestOctaveUtils extends TestCase {
+public class TestOctaveUtils {
 
     /**
-     * @throws Exception
+     * Test that the list of variables is empty. 
      */
-    public void testListVarsEmpty() throws Exception {
+    @Test public void testListVarsEmpty() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         final Collection<String> collection = OctaveUtils.listVars(octave);
         assertEquals(collection.toString(), 0, collection.size());
@@ -20,9 +26,10 @@ public class TestOctaveUtils extends TestCase {
     }
 
     /**
-     * @throws Exception
+     * Test that the list of variables has 1 or 2 entries. 
+     * **** better: test concrete collection of variables. 
      */
-    public void testListVarsOneTwo() throws Exception {
+    @Test public void testListVarsOneTwo() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
         octave.eval("my_var = 42;");

@@ -17,7 +17,13 @@ package dk.ange.octave;
 
 import java.io.StringWriter;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 import dk.ange.octave.exception.OctaveEvalException;
 import dk.ange.octave.exception.OctaveIOException;
 import dk.ange.octave.exception.OctaveNonrecoverableException;
@@ -30,24 +36,26 @@ import dk.ange.octave.type.OctaveString;
 /**
  * Test
  */
-public class TestOctaveErrors extends TestCase {
+public class TestOctaveErrors {
 
     /**
      * Test that error() in octave breaks the engine
      */
-    public void testError() {
+    @Test public void testError() {
         final StringWriter stdout = new StringWriter();
         final StringWriter stderr = new StringWriter();
-        final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
+        final OctaveEngineFactory octaveEngineFactory = 
+	    new OctaveEngineFactory();
         octaveEngineFactory.setErrorWriter(stderr);
         final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
         octave.setWriter(stdout);
         try {
             octave.unsafeEval("error('test usage of error');");
-            fail("error in octave should cause execute() to throw an exception");
+            fail("error in octave should cause execute() " + 
+		 "to throw an exception");
         } catch (final OctaveIOException e) {
             assertTrue(OctaveNonrecoverableException.class.isInstance(e));
-            assertFalse(e.isDestroyed());
+            assertTrue(!e.isDestroyed());
         }
         assertEquals("", stdout.toString());
         /*
@@ -62,14 +70,14 @@ public class TestOctaveErrors extends TestCase {
             fail("put should fail when the engine is broken");
         } catch (final OctaveIOException e) {
             assertTrue(OctaveNonrecoverableException.class.isInstance(e));
-            assertFalse(e.isDestroyed());
+            assertTrue(!e.isDestroyed());
         }
         try {
             octave.close();
             fail("close should fail when the engine is broken");
         } catch (final OctaveIOException e) {
             assertTrue(OctaveNonrecoverableException.class.isInstance(e));
-            assertFalse(e.isDestroyed());
+            assertTrue(!e.isDestroyed());
         }
         octave.destroy();
         try {
@@ -84,7 +92,7 @@ public class TestOctaveErrors extends TestCase {
     /**
      * Test that error() in try/catch does not break the engine
      */
-    public void testEvalWithTryCatch() {
+    @Test public void testEvalWithTryCatch() {
         final StringWriter stdout = new StringWriter();
         final StringWriter stderr = new StringWriter();
         final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
@@ -100,7 +108,8 @@ public class TestOctaveErrors extends TestCase {
                 + "");
         assertEquals("", stdout.toString());
         assertEquals("", stderr.toString());
-        final OctaveString lastError = octave.get(OctaveString.class, "javaoctave_asdf_lasterr");
+        final OctaveString lastError = octave.get(OctaveString.class, 
+						  "javaoctave_asdf_lasterr");
         octave.eval("clear javaoctave_asdf_lasterr");
         assertTrue(lastError.getString().contains("test usage of error"));
         octave.put("x", Octave.scalar(42));
@@ -116,9 +125,10 @@ public class TestOctaveErrors extends TestCase {
     }
 
     /**
-     * Test that shows that try/catch does prevent a syntax error from breaking the engine
+     * Test that shows that try/catch does prevent a syntax error 
+     * from breaking the engine
      */
-    public void testSyntaxErrorInTryCatch() {
+    @Test public void testSyntaxErrorInTryCatch() {
         final StringWriter stdout = new StringWriter();
         final StringWriter stderr = new StringWriter();
         final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
@@ -136,7 +146,7 @@ public class TestOctaveErrors extends TestCase {
             fail();
         } catch (final OctaveIOException e) {
             assertTrue(OctaveNonrecoverableException.class.isInstance(e));
-            assertFalse(e.isDestroyed());
+            assertTrue(!e.isDestroyed());
         }
         assertEquals("", stdout.toString());
         assertTrue(stderr.toString().contains("syntax error"));
@@ -145,14 +155,14 @@ public class TestOctaveErrors extends TestCase {
             fail("put should fail when the engine is broken");
         } catch (final OctaveIOException e) {
             assertTrue(OctaveNonrecoverableException.class.isInstance(e));
-            assertFalse(e.isDestroyed());
+            assertTrue(!e.isDestroyed());
         }
         try {
             octave.close();
             fail("close should fail when the engine is broken");
         } catch (final OctaveIOException e) {
             assertTrue(OctaveNonrecoverableException.class.isInstance(e));
-            assertFalse(e.isDestroyed());
+            assertTrue(!e.isDestroyed());
         }
         octave.destroy();
         try {
@@ -167,7 +177,7 @@ public class TestOctaveErrors extends TestCase {
     /**
      * Test that syntax error in eval() does not break the engine
      */
-    public void testSyntaxErrorInEval() {
+    @Test public void testSyntaxErrorInEval() {
         final StringWriter stdout = new StringWriter();
         final StringWriter stderr = new StringWriter();
         final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
@@ -196,7 +206,7 @@ public class TestOctaveErrors extends TestCase {
     /**
      * Test that syntax error in safeEval() does not break the engine
      */
-    public void testSyntaxErrorInSafeEval() {
+    @Test public void testSyntaxErrorInSafeEval() {
         final StringWriter stdout = new StringWriter();
         final StringWriter stderr = new StringWriter();
         final OctaveEngineFactory octaveEngineFactory = new OctaveEngineFactory();
@@ -207,7 +217,7 @@ public class TestOctaveErrors extends TestCase {
             octave.eval("x = linspace(0,6.3,10*);");
         } catch (final OctaveEvalException e) {
             assertTrue(OctaveRecoverableException.class.isInstance(e));
-            assertFalse(e.isDestroyed());
+            assertTrue(!e.isDestroyed());
             assertTrue(e.getMessage().contains("syntax error"));
         }
         assertEquals("", stdout.toString());
@@ -225,7 +235,7 @@ public class TestOctaveErrors extends TestCase {
     }
 
     /** Test */
-    public void testOk() {
+    @Test public void testOk() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("ok=1;");
         octave.close();
@@ -234,7 +244,7 @@ public class TestOctaveErrors extends TestCase {
     /**
      * Test that when an unknown type is read the OctaveParseException is thrown and the system will still work
      */
-    public void testParseException() {
+    @Test public void testParseException() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("x", Octave.scalar(1));
         octave.eval("y = uint16(42);");

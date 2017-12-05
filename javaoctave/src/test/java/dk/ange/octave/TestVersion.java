@@ -19,17 +19,20 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  * Test getVersion
  */
-public class TestVersion extends TestCase {
+public class TestVersion {
 
     /**
      * Test getVersion
      */
-    public void testVersion() {
+    @Test public void testVersion() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.getVersion();
     }
@@ -39,7 +42,7 @@ public class TestVersion extends TestCase {
      * If this test fails the fix will usually be 
      * to add the new version to the Set of known versions.
      */
-    public void testKnownVersion() {
+    @Test public void testKnownVersion() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         final String version = octave.getVersion();
         final Set<String> knownVersions = new HashSet<String>

@@ -15,17 +15,23 @@
  */
 package dk.ange.octave.type;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 
 /**
  * Test {@link OctaveInt}
  */
-public class TestOctaveInt extends TestCase {
+public class TestOctaveInt {
 
     /**
      * Test equals
      */
-    public void testEquals() {
+    @Test public void testEquals() {
         final OctaveInt s1a = intScalar(1);
         final OctaveInt s1b = intScalar(1);
         final OctaveInt s1c = intScalar(0);
@@ -41,8 +47,8 @@ public class TestOctaveInt extends TestCase {
         final OctaveInt s0 = intScalar(0);
         final OctaveInt s2 = intScalar(2);
 
-        assertFalse(s1a.equals(s0));
-        assertFalse(s1a.equals(s2));
+        assertTrue(!s1a.equals(s0));
+        assertTrue(!s1a.equals(s2));
     }
 
     private static OctaveInt intScalar(final int i) {
@@ -52,7 +58,7 @@ public class TestOctaveInt extends TestCase {
     /**
      * Simple test of set and get
      */
-    public void testGetAndSet() {
+    @Test public void testGetAndSet() {
         final OctaveInt matrix = new OctaveInt(3, 6, 5, 4);
         assertEquals(0, matrix.get(2, 5, 2, 3));
         matrix.set(42, 2, 5, 2, 3);

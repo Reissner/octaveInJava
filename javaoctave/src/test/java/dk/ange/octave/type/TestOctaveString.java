@@ -15,16 +15,22 @@
  */
 package dk.ange.octave.type;
 
-import junit.framework.TestCase;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Kim Hansen
  */
-public class TestOctaveString extends TestCase {
+public class TestOctaveString  {
+
     /**
      * Test
      */
-    public void testValues() {
+    @Test public void testValues() {
         final OctaveString s1a = new OctaveString("1");
         final OctaveString s1b = new OctaveString("1");
         final OctaveString s1c = new OctaveString("0");
@@ -40,8 +46,8 @@ public class TestOctaveString extends TestCase {
         final OctaveString s0 = new OctaveString("0");
         final OctaveString s2 = new OctaveString("2");
 
-        assertFalse(s1a.equals(s0));
-        assertFalse(s1a.equals(s2));
+        assertTrue(!s1a.equals(s0));
+        assertTrue(!s1a.equals(s2));
     }
 
 }

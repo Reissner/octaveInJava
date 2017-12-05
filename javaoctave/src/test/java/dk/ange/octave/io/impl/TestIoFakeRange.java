@@ -15,25 +15,24 @@
  */
 package dk.ange.octave.io.impl;
 
-import junit.framework.TestCase;
 import dk.ange.octave.OctaveEngine;
 import dk.ange.octave.OctaveEngineFactory;
 import dk.ange.octave.type.OctaveFake;
 import dk.ange.octave.type.OctaveObject;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
 /**
  * Test read/write of {@link OctaveFake}
  */
-public class TestIoFakeRange extends TestCase {
+public class TestIoFakeRange {
 
     /** */
-    public void testReadWrite() {
+    @Test public void testReadWrite() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-
-        OctaveObject x;
-
         octave.eval("x = 1:10;");
-        x = octave.get("x");
+        OctaveObject x = octave.get("x");
         octave.put("c", x);
         octave.eval("assert(c, x);");
 
