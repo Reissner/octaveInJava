@@ -28,16 +28,16 @@ public interface Caster<F, T> {
      *            object to convert
      * @return Converted object
      */
-    public T cast(F from);
+    T cast(F from);
 
     /**
      * @return Class to cast from
      */
-    public Class<F> from();
+    Class<F> from();
 
     /**
      * @return Class to cast to
      */
-    public Class<T> to();
+    Class<T> to();
 
 }

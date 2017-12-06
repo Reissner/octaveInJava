@@ -226,7 +226,7 @@ public final class OctaveIO {
     public static String toText(final OctaveObject octaveType,
 				final String name) {
         try {
-            final Writer writer = new java.io.StringWriter();
+            final Writer writer = new StringWriter();
             write(writer, name, octaveType);
             return writer.toString();
         } catch (final IOException e) {

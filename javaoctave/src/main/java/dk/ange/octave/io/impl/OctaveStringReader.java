@@ -36,9 +36,8 @@ public class OctaveStringReader extends OctaveDataReader {
     public OctaveString read(final BufferedReader reader) {
         final String elements = OctaveIO.readerReadLine(reader);
         final StringBuilder builder = new StringBuilder();
-        if (elements.equals("# elements: 0")) {
-            // Do nothing, this is the empty string
-        } else if (elements.equals("# elements: 1")) {
+	// NOTE: in java > 1.7 strings are allowed in switch 
+	if (elements.equals("# elements: 1")) {
             final String lengthString = OctaveIO.readerReadLine(reader);
             if (!lengthString.startsWith("# length: ")) {
                 throw new OctaveParseException
@@ -58,7 +57,7 @@ public class OctaveStringReader extends OctaveDataReader {
 		    ("Unexpected length of string read. expected=" + 
 		     length + ", actual=" + builder.length());
             }
-        } else {
+        } else if (!elements.equals("# elements: 0")) {
             throw new OctaveParseException
 		("Expected elements to be 0 or 1, '" + elements + "'");
         }

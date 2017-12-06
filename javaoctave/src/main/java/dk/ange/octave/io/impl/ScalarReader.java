@@ -50,7 +50,7 @@ public final class ScalarReader extends OctaveDataReader {
      * @param string
      * @return The parsed Double
      */
-    public static final double parseDouble(final String string) {
+    public static double parseDouble(final String string) {
         if ("Inf".equals(string)) {
             return Double.POSITIVE_INFINITY;
         }

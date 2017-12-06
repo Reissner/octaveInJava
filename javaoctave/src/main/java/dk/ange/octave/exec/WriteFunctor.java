@@ -34,6 +34,6 @@ public interface WriteFunctor {
      * @throws IOException
      *             on IO error from writer
      */
-    public void doWrites(Writer writer) throws IOException;
+    void doWrites(Writer writer) throws IOException;
 
 }

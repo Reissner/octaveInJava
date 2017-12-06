@@ -34,6 +34,6 @@ public interface ReadFunctor {
      * @throws IOException
      *             on IO error from reader
      */
-    public void doReads(Reader reader) throws IOException;
+    void doReads(Reader reader) throws IOException;
 
 }

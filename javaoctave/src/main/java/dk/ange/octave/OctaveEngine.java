@@ -102,7 +102,7 @@ public final class OctaveEngine {
 
 		@Override
 		public void doReads(final Reader reader) throws IOException {
-                    while (reader.read(buffer) != -1) {
+                    while (reader.read(buffer) != -1) { // NOPMD 
                         // Do nothing
                     }
                 }

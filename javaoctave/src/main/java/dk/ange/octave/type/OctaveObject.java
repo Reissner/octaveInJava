@@ -30,6 +30,6 @@ public interface OctaveObject {
      * 
      * @return a shallow copy of this
      */
-    public abstract OctaveObject shallowCopy();
+    OctaveObject shallowCopy();
 
 }

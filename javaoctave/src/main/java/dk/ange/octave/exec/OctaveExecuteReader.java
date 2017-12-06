@@ -100,7 +100,7 @@ final class OctaveExecuteReader extends Reader {
     public void close() throws IOException {
         final char[] buffer1 = new char[4096];
         // Slurp the rest of the wrapped input
-        while (read(buffer1) != -1) {
+        while (read(buffer1) != -1) { // NOPMD 
             // Do nothing
         }
         if (octaveReader.ready()) {
