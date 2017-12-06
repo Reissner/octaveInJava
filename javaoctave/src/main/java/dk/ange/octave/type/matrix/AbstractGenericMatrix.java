@@ -255,7 +255,7 @@ abstract public class AbstractGenericMatrix<D> {
      * @return the size
      */
     public int[] getSize() {
-        return size;
+        return this.size;
     }
 
     /**
@@ -264,7 +264,7 @@ abstract public class AbstractGenericMatrix<D> {
      * @return the size in dimension i
      */
     public int size(final int i) {
-        return size[i - 1];
+        return this.size[i - 1];
     }
 
     @Override

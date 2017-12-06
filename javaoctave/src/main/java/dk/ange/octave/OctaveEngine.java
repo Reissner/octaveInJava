@@ -25,6 +25,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
@@ -57,7 +58,9 @@ public final class OctaveEngine {
 
     private final OctaveIO octaveIO;
 
-    private Writer writer = new OutputStreamWriter(System.out);
+    // UTF-8 is a standart charset and is thus supported 
+    private Writer writer = new OutputStreamWriter(System.out, 
+						   Charset.forName("UTF-8"));
 
     private final Random random = new Random();
 

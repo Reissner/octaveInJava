@@ -122,14 +122,16 @@ public final class OctaveExec {
         }
         // Connect stderr
         errorStreamThread = ReaderWriterPipeThread
-	    .instantiate(new InputStreamReader(this.process.getErrorStream()),
+	    .instantiate(new InputStreamReader(this.process.getErrorStream(), 
+					       Charset.forName("UTF-8")),
 			 stderrLog);
         // Connect stdout
         processReader = new BufferedReader
 	    (new InputStreamReader(this.process.getInputStream(), 
-				   Charset.forName("Latin1")));
+				   Charset.forName("UTF-8")));
         // Connect stdin
-	Writer pw = new OutputStreamWriter(this.process.getOutputStream());
+	Writer pw = new OutputStreamWriter(this.process.getOutputStream(),
+					   Charset.forName("UTF-8"));
 	this.processWriter = (stdinLog == null)
 	    ? pw
 	    : new TeeWriter(new NoCloseWriter(stdinLog), pw);
@@ -176,7 +178,7 @@ public final class OctaveExec {
 	    // and in that case we don't expect the reader to be cancelled
             if (readerException instanceof CancellationException) {
                 log.error("Did not expect reader to be canceled", 
-			  writerException);
+			  readerException);
             }
             throw readerException;
         }

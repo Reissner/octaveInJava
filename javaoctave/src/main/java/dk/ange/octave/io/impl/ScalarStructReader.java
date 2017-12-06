@@ -58,7 +58,7 @@ public final class ScalarStructReader extends OctaveDataReader {
         if (line == null || !line.startsWith(LENGTH)) {
             throw new OctaveParseException("Expected '" + LENGTH + "' got '" + line + "'");
         }
-        final int length = Integer.valueOf(line.substring(LENGTH.length())); // only used during conversion
+        final int length = Integer.parseInt(line.substring(LENGTH.length())); // only used during conversion
 
         final Map<String, OctaveObject> data = new HashMap<String, OctaveObject>();
 

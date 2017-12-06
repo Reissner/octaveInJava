@@ -95,21 +95,21 @@ public class OctaveSparseBoolean implements OctaveObject {
      * @return the rowIndexes
      */
     public int[] getRowIndexes() {
-        return rowIndexes;
+        return this.rowIndexes;
     }
 
     /**
      * @return the columnIndexes
      */
     public int[] getColumnIndexes() {
-        return columnIndexes;
+        return this.columnIndexes;
     }
 
     /**
      * @return the data
      */
     public boolean[] getData() {
-        return data;
+        return this.data;
     }
 
     @Override

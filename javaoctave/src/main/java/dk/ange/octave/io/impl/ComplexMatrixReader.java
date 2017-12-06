@@ -73,7 +73,7 @@ public final class ComplexMatrixReader extends OctaveDataReader {
         if (!line.startsWith("# rows: ")) {
             throw new OctaveParseException("Expected <# rows: > got <" + line + ">");
         }
-        return Integer.valueOf(line.substring(8));
+        return Integer.parseInt(line.substring(8));
     }
 
     /**
@@ -85,7 +85,7 @@ public final class ComplexMatrixReader extends OctaveDataReader {
         if (!line.startsWith("# columns: ")) {
             throw new OctaveParseException("Expected <# columns: > got <" + line + ">");
         }
-        return Integer.valueOf(line.substring(11));
+        return Integer.parseInt(line.substring(11));
     }
 
 }

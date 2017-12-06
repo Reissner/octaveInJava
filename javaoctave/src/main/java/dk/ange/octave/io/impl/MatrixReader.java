@@ -88,14 +88,14 @@ public final class MatrixReader extends OctaveDataReader {
             throw new OctaveParseException
 		("Expected <# rows: > got <" + line + ">");
         }
-        final int rows = Integer.valueOf(line.substring(8));
+        final int rows = Integer.parseInt(line.substring(8));
         // # columns: 3
         line = OctaveIO.readerReadLine(reader);
         if (!line.startsWith("# columns: ")) {
             throw new OctaveParseException
 		("Expected <# columns: > got <" + line + ">");
         }
-        final int columns = Integer.valueOf(line.substring(11));
+        final int columns = Integer.parseInt(line.substring(11));
         // 1 2 3
         final int[] size = new int[2];
         size[0] = rows;

@@ -89,15 +89,17 @@ public final class BooleanReader extends OctaveDataReader {
         // # rows: 1
         line = rowsLine;
         if (!line.startsWith("# rows: ")) {
-            throw new OctaveParseException("Expected '# rows: ' got '" + line + "'");
+            throw new OctaveParseException("Expected '# rows: ' got '" + 
+					   line + "'");
         }
-        final int rows = Integer.valueOf(line.substring(8));
+        final int rows = Integer.parseInt(line.substring(8));
         // # columns: 3
         line = OctaveIO.readerReadLine(reader);
         if (!line.startsWith("# columns: ")) {
-            throw new OctaveParseException("Expected '# columns: ' got '" + line + "'");
+            throw new OctaveParseException("Expected '# columns: ' got '" + 
+					   line + "'");
         }
-        final int columns = Integer.valueOf(line.substring(11));
+        final int columns = Integer.parseInt(line.substring(11));
         // 1 2 3
         final int[] size = new int[2];
         size[0] = rows;
@@ -107,7 +109,8 @@ public final class BooleanReader extends OctaveDataReader {
             line = OctaveIO.readerReadLine(reader);
             final String[] split = line.split(" ");
             if (split.length != columns + 1) {
-                throw new OctaveParseException("Error in matrix-format: '" + line + "'");
+                throw new OctaveParseException("Error in matrix-format: '" + 
+					       line + "'");
             }
             for (int c = 1; c < split.length; c++) {
                 data[(r - 1) + (c - 1) * rows] = parseBoolean(split[c]);
