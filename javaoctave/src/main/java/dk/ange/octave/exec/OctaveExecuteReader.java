@@ -32,7 +32,7 @@ import dk.ange.octave.util.StringUtil;
  */
 final class OctaveExecuteReader extends Reader {
 
-    private static final Log log = LogFactory.getLog(OctaveExecuteReader.class);
+    private static final Log LOG = LogFactory.getLog(OctaveExecuteReader.class);
 
     private final BufferedReader octaveReader;
 
@@ -53,8 +53,8 @@ final class OctaveExecuteReader extends Reader {
      * @param octaveReader
      * @param spacer
      */
-    public OctaveExecuteReader(final BufferedReader octaveReader, 
-			       final String spacer) {
+    OctaveExecuteReader(final BufferedReader octaveReader, 
+			final String spacer) {
         this.octaveReader = octaveReader;
         this.spacer = spacer;
     }
@@ -67,8 +67,8 @@ final class OctaveExecuteReader extends Reader {
         }
         if (buffer == null) {
             final String line = octaveReader.readLine();
-            if (log.isTraceEnabled()) {
-                log.trace("octaveReader.readLine() = " + 
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("octaveReader.readLine() = " + 
 			  StringUtil.jQuote(line));
             }
             if (line == null) {
@@ -106,7 +106,7 @@ final class OctaveExecuteReader extends Reader {
         if (octaveReader.ready()) {
             throw new IOException("octaveReader is ready()");
         }
-        log.debug("Reader closed()");
+        LOG.debug("Reader closed()");
     }
 
 }

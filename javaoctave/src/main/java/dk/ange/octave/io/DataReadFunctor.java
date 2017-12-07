@@ -37,7 +37,7 @@ final class DataReadFunctor implements ReadFunctor {
     /**
      * @param name
      */
-    public DataReadFunctor(final String name) {
+    DataReadFunctor(final String name) {
         this.name = name;
     }
 

@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
  */
 final class OctaveReaderCallable implements Callable<Void> {
 
-    private static final Log log = LogFactory
+    private static final Log LOG = LogFactory
 	.getLog(OctaveReaderCallable.class);
 
     private final BufferedReader processReader;
@@ -44,9 +44,9 @@ final class OctaveReaderCallable implements Callable<Void> {
      * @param readFunctor
      * @param spacer
      */
-    public OctaveReaderCallable(final BufferedReader processReader, 
-				final ReadFunctor readFunctor, 
-				final String spacer) {
+    OctaveReaderCallable(final BufferedReader processReader, 
+			 final ReadFunctor readFunctor, 
+			 final String spacer) {
         this.processReader = processReader;
         this.readFunctor = readFunctor;
         this.spacer = spacer;
@@ -60,14 +60,14 @@ final class OctaveReaderCallable implements Callable<Void> {
             this.readFunctor.doReads(reader);
         } catch (final IOException e) {
             final String message = "IOException from ReadFunctor";
-            log.debug(message, e);
+            LOG.debug(message, e);
             throw new OctaveIOException(message, e);
         } finally {
             try {
                 reader.close();
             } catch (final IOException e) {
                 final String message = "IOException during close";
-                log.debug(message, e);
+                LOG.debug(message, e);
                 throw new OctaveIOException(message, e);
             }
         }

@@ -20,7 +20,7 @@ import dk.ange.octave.type.OctaveObject;
 /**
  * Exception thrown when a cast fails inside JavaOctave. 
  */
-public class OctaveClassCastException extends OctaveRecoverableException {
+public final class OctaveClassCastException extends OctaveRecoverableException {
 
     private final OctaveObject octaveObject;
 

@@ -38,7 +38,7 @@ final class DataWriteFunctor implements WriteFunctor {
     /**
      * @param octaveTypes
      */
-    public DataWriteFunctor(final Map<String, OctaveObject> octaveTypes) {
+    DataWriteFunctor(final Map<String, OctaveObject> octaveTypes) {
         this.octaveTypes = octaveTypes;
     }
 

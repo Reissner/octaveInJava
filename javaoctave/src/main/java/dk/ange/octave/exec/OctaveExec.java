@@ -54,7 +54,7 @@ public final class OctaveExec {
     public static final String PROPERTY_EXECUTABLE = 
 	"dk.ange.octave.executable";
 
-    private static final Log log = LogFactory.getLog(OctaveExec.class);
+    private static final Log LOG = LogFactory.getLog(OctaveExec.class);
 
     private final Process process;
 
@@ -160,11 +160,11 @@ public final class OctaveExec {
 							  spacer));
         final RuntimeException writerException = getFromFuture(writerFuture);
         if (writerException instanceof CancellationException) {
-            log.error("Did not expect writer to be canceled", writerException);
+            LOG.error("Did not expect writer to be canceled", writerException);
         }
         if (writerException != null) {
             if (writerException instanceof CancellationException) {
-                log.error("Did not expect writer to be canceled", 
+                LOG.error("Did not expect writer to be canceled", 
 			  writerException);
             }
             readerFuture.cancel(true);
@@ -177,7 +177,7 @@ public final class OctaveExec {
             // Only gets here when writerException==null, 
 	    // and in that case we don't expect the reader to be cancelled
             if (readerException instanceof CancellationException) {
-                log.error("Did not expect reader to be canceled", 
+                LOG.error("Did not expect reader to be canceled", 
 			  readerException);
             }
             throw readerException;
@@ -189,28 +189,28 @@ public final class OctaveExec {
             future.get();
         } catch (final InterruptedException e) {
             final String message = "InterruptedException should not happen";
-            log.error(message, e);
+            LOG.error(message, e);
             return new RuntimeException(message, e);
         } catch (final ExecutionException e) {
             if (e.getCause() instanceof OctaveException) {
                 final OctaveException oe = (OctaveException) e.getCause();
-                return reInstantiateException(oe);
+                return reInstException(oe);
             }
             // Can happen when there is an error in a OctaveWriter
             final String message = "ExecutionException should not happen";
-	    log.error(message, e);
+	    LOG.error(message, e);
 	    return new RuntimeException(message, e);
         } catch (final CancellationException e) {
             return e;
         } catch (final RuntimeException e) {
             final String message = "RuntimeException should not happen";
-            log.error(message, e);
+            LOG.error(message, e);
             return new RuntimeException(message, e);
         }
         return null;
     }
 
-    private OctaveException reInstantiateException(final OctaveException inException) {
+    private OctaveException reInstException(final OctaveException inException) {
         final OctaveException outException;
         try {
             outException = inException.getClass()
@@ -244,7 +244,7 @@ public final class OctaveExec {
         try {
             processWriter.close();
         } catch (final IOException e) {
-            log.debug("Ignored error from processWriter.close() " + 
+            LOG.debug("Ignored error from processWriter.close() " + 
 		      "in OctaveExec.destroy()", e);
 	}
     }
@@ -282,8 +282,8 @@ public final class OctaveExec {
             }
             if (exitValue != 0) {
                 throw new OctaveIOException
-		    ("octave process terminated abnormaly, " + 
-		     "exitValue=" + exitValue);
+		    ("octave process terminated abnormaly, exitValue='" + 
+		     exitValue + "'");
             }
         } catch (final IOException e) {
             final OctaveIOException octaveException = 

@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  */
 final class OctaveWriterCallable implements Callable<Void> {
 
-    private static final Log log = LogFactory
+    private static final Log LOG = LogFactory
 	.getLog(OctaveWriterCallable.class);
 
     static final String EXCEPTION_MESSAGE_FUNCTOR = 
@@ -49,9 +49,9 @@ final class OctaveWriterCallable implements Callable<Void> {
      * @param writeFunctor
      * @param spacer
      */
-    public OctaveWriterCallable(final Writer processWriter, 
-				final WriteFunctor writeFunctor, 
-				final String spacer) {
+    OctaveWriterCallable(final Writer processWriter, 
+			 final WriteFunctor writeFunctor, 
+			 final String spacer) {
         this.processWriter = processWriter;
         this.writeFunctor = writeFunctor;
         this.spacer = spacer;
@@ -63,7 +63,7 @@ final class OctaveWriterCallable implements Callable<Void> {
         try {
 	    this.writeFunctor.doWrites(processWriter);
         } catch (final IOException e) {
-            log.debug(EXCEPTION_MESSAGE_FUNCTOR, e);
+            LOG.debug(EXCEPTION_MESSAGE_FUNCTOR, e);
             throw new OctaveIOException(EXCEPTION_MESSAGE_FUNCTOR, e);
         }
         try {
@@ -71,10 +71,10 @@ final class OctaveWriterCallable implements Callable<Void> {
 				     spacer + "\");\n");
             this.processWriter.flush();
         } catch (final IOException e) {
-            log.debug(EXCEPTION_MESSAGE_SPACER, e);
+            LOG.debug(EXCEPTION_MESSAGE_SPACER, e);
             throw new OctaveIOException(EXCEPTION_MESSAGE_SPACER, e);
         }
-        log.debug("Has written all");
+        LOG.debug("Has written all");
         return null;
     }
 
