@@ -24,7 +24,7 @@ import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveObject;
 
 /**
- * The reader of cell
+ * The reader of cell. 
  */
 public final class CellReader extends OctaveDataReader {
 
@@ -41,14 +41,16 @@ public final class CellReader extends OctaveDataReader {
         line = OctaveIO.readerReadLine(reader);
         token = "# rows: ";
         if (!line.startsWith(token)) {
-            throw new OctaveParseException("Expected <" + token + ">, but got <" + line + ">");
+            throw new OctaveParseException
+		("Expected <" + token + ">, but got <" + line + ">");
         }
         final int nrows = Integer.parseInt(line.substring(token.length()));
 
         line = OctaveIO.readerReadLine(reader);
         token = "# columns: ";
         if (!line.startsWith(token)) {
-            throw new OctaveParseException("Expected <" + token + ">, but got <" + line + ">");
+            throw new OctaveParseException
+		("Expected <" + token + ">, but got <" + line + ">");
         }
         final int ncols = Integer.parseInt(line.substring(token.length()));
 
@@ -64,7 +66,8 @@ public final class CellReader extends OctaveDataReader {
                 } while ("".equals(line));
 		token = "# name: <cell-element>";
 		if (!line.equals(token)) {
-                    throw new OctaveParseException("Expected <" + token + ">, but got <" + line + ">");
+                    throw new OctaveParseException
+			("Expected <" + token + ">, but got <" + line + ">");
                 }
                 final OctaveObject octaveType = OctaveIO.read(reader);
                 octaveCell.set(octaveType, row, col);
@@ -72,7 +75,8 @@ public final class CellReader extends OctaveDataReader {
             line = OctaveIO.readerReadLine(reader);
             token = "";
             if (line == null || !line.equals(token)) {
-                throw new OctaveParseException("Expected <" + token + ">, but got <" + line + ">");
+                throw new OctaveParseException
+		    ("Expected <" + token + ">, but got <" + line + ">");
             }
         }
 

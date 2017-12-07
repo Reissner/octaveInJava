@@ -26,7 +26,7 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveInt;
 
 /**
- * The reader of matrix
+ * The reader of matrix. 
  */
 public final class Uint8MatrixReader extends OctaveDataReader {
 
@@ -41,19 +41,22 @@ public final class Uint8MatrixReader extends OctaveDataReader {
         return readVectorizedMatrix(reader, line);
     }
 
-    private OctaveInt readVectorizedMatrix(final BufferedReader reader, final String ndimsLine) {
+    private OctaveInt readVectorizedMatrix(final BufferedReader reader,
+					   final String ndimsLine) {
         String line;
         final String NDIMS = "# ndims: ";
         line = ndimsLine;
         if (!line.startsWith(NDIMS)) {
-            throw new OctaveParseException("Expected '" + NDIMS + "', but got '" + line + "'");
+            throw new OctaveParseException
+		("Expected '" + NDIMS + "', but got '" + line + "'");
         }
         final int ndims = Integer.parseInt(line.substring(NDIMS.length()));
         line = OctaveIO.readerReadLine(reader);
         final String[] split = line.substring(1).split(" ");
         if (split.length != ndims) {
-            throw new OctaveParseException("Expected " + ndims + " dimesion, but got " + (split.length)
-                    + " (line was '" + line + "')");
+            throw new OctaveParseException
+		("Expected " + ndims + " dimesion, but got " + (split.length)
+		 + " (line was '" + line + "')");
         }
         final int[] size = new int[split.length];
         for (int dim = 0; dim < split.length; dim++) {

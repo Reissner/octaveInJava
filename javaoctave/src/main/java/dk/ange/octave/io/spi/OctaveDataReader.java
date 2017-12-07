@@ -28,7 +28,7 @@ import javax.imageio.spi.ServiceRegistry;
 import dk.ange.octave.type.OctaveObject;
 
 /**
- * Interface for the IO handler that can read and write {@link OctaveObject}
+ * Interface for the IO handler that can read and write {@link OctaveObject}. 
  */
 public abstract class OctaveDataReader {
 
@@ -59,7 +59,7 @@ public abstract class OctaveDataReader {
     }
 
     /**
-     * Could be "scalar" or "string"
+     * Could be "scalar" or "string". 
      *
      * @return the {@link Class} of the {@link OctaveObject} 
      * that this IO handler loads and saves

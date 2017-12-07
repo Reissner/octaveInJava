@@ -15,7 +15,7 @@ import dk.ange.octave.type.OctaveString;
  */
 public final class OctaveUtils {
 
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     private OctaveUtils() {
         throw new UnsupportedOperationException("Do not instantiate");
@@ -60,7 +60,7 @@ public final class OctaveUtils {
     }
 
     private static synchronized int nextInt() {
-        return random.nextInt(1 << 30);
+        return RANDOM.nextInt(1 << 30);
     }
 
 

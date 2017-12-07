@@ -25,7 +25,7 @@ import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveDouble;
 
 /**
- * The writer of OctaveMatrix
+ * The writer of OctaveMatrix. 
  */
 public final class MatrixWriter extends OctaveDataWriter<OctaveDouble> {
 

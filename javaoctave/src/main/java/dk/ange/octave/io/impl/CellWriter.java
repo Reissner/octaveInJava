@@ -24,7 +24,7 @@ import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveObject;
 
 /**
- * The writer of OctaveCell
+ * The writer of OctaveCell. 
  */
 public final class CellWriter extends OctaveDataWriter<OctaveCell> {
 
@@ -34,7 +34,8 @@ public final class CellWriter extends OctaveDataWriter<OctaveCell> {
     }
 
     @Override
-    public void write(final Writer writer, final OctaveCell octaveCell) throws IOException {
+    public void write(final Writer writer,
+		      final OctaveCell octaveCell) throws IOException {
         final int rows = octaveCell.size(1);
         final int columns = octaveCell.size(2);
         writer.write("# type: cell\n");

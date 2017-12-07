@@ -25,7 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Callable that writes to the octave process
+ * Callable that writes to the octave process. 
  */
 final class OctaveWriterCallable implements Callable<Void> {
 

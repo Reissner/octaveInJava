@@ -26,7 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Callable that reads from the octave process
+ * Callable that reads from the octave process. 
  */
 final class OctaveReaderCallable implements Callable<Void> {
 

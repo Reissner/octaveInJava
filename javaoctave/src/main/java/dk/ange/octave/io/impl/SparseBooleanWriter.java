@@ -22,7 +22,7 @@ import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveSparseBoolean;
 
 /**
- * The writer of {@link OctaveSparseBoolean}
+ * The writer of {@link OctaveSparseBoolean}. 
  *
  * <pre>
  * # name: x

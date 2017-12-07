@@ -23,7 +23,7 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveString;
 
 /**
- * The reader of string
+ * The reader of string. 
  */
 public class OctaveStringReader extends OctaveDataReader {
 

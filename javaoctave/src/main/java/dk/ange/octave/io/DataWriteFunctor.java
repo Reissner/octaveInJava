@@ -27,7 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Write data from {@link OctaveObject}s in a {@link Map}
+ * Write data from {@link OctaveObject}s in a {@link Map}. 
  */
 final class DataWriteFunctor implements WriteFunctor {
 
@@ -42,7 +42,6 @@ final class DataWriteFunctor implements WriteFunctor {
         this.octaveTypes = octaveTypes;
     }
 
-    @Override
     public void doWrites(final Writer writer) {
         try {
             // Enter octave in "read data from input mode"

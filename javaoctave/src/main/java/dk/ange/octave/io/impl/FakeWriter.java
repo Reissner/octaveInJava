@@ -22,7 +22,7 @@ import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveFake;
 
 /**
- * The writer of all {@link OctaveFake} objects
+ * The writer of all {@link OctaveFake} objects. 
  */
 public final class FakeWriter extends OctaveDataWriter<OctaveFake> {
 
@@ -32,7 +32,8 @@ public final class FakeWriter extends OctaveDataWriter<OctaveFake> {
     }
 
     @Override
-    public void write(final Writer writer, final OctaveFake octaveFake) throws IOException {
+    public void write(final Writer writer,
+		      final OctaveFake octaveFake) throws IOException {
         writer.write(octaveFake.getData());
     }
 

@@ -25,7 +25,7 @@ import java.io.Writer;
 import dk.ange.octave.util.IOUtils;
 
 /**
- * Reads all from the reader and writes it to the writer
+ * Reads all from the reader and writes it to the writer. 
  */
 public final class ReaderWriteFunctor implements WriteFunctor {
 

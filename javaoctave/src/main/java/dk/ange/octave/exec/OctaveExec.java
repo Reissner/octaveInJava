@@ -44,12 +44,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * The object connecting to the octave process
+ * The object connecting to the octave process. 
  */
 public final class OctaveExec {
 
     /**
-     * System property where the executable is found
+     * System property where the executable is found. 
      */
     public static final String PROPERTY_EXECUTABLE = 
 	"dk.ange.octave.executable";
@@ -234,7 +234,7 @@ public final class OctaveExec {
     }
 
     /**
-     * Kill the octave process without remorse
+     * Kill the octave process without remorse. 
      */
     public void destroy() {
         setDestroyed(true);

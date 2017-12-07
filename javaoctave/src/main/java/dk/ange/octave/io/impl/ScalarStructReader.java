@@ -26,8 +26,8 @@ import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveStruct;
 
 /**
- * Read 'scalar struct', this is an encoding similar to 'struct' introduced in octave 3.6, it is optimized to the 1x1
- * struct.
+ * Read 'scalar struct', this is an encoding similar to 'struct' 
+ * introduced in octave 3.6, it is optimized to the 1x1 struct.
  */
 public final class ScalarStructReader extends OctaveDataReader {
 
@@ -43,33 +43,41 @@ public final class ScalarStructReader extends OctaveDataReader {
         // # ndims: 2
         line = OctaveIO.readerReadLine(reader);
         if (!line.equals("# ndims: 2")) {
-            throw new OctaveParseException("JavaOctave does not support matrix structs, read=" + line);
+            throw new OctaveParseException
+		("JavaOctave does not support matrix structs, read=" + line);
         }
 
         // 1 1
         line = OctaveIO.readerReadLine(reader);
         if (!line.equals(" 1 1")) {
-            throw new OctaveParseException("JavaOctave does not support matrix structs, read=" + line);
+            throw new OctaveParseException
+		("JavaOctave does not support matrix structs, read=" + line);
         }
 
         // # length: 4
         line = OctaveIO.readerReadLine(reader);
         final String LENGTH = "# length: ";
         if (line == null || !line.startsWith(LENGTH)) {
-            throw new OctaveParseException("Expected '" + LENGTH + "' got '" + line + "'");
+            throw new OctaveParseException
+		("Expected '" + LENGTH + "' got '" + line + "'");
         }
-        final int length = Integer.parseInt(line.substring(LENGTH.length())); // only used during conversion
+        final int length = Integer.parseInt(line.substring(LENGTH.length()));
+	// only used during conversion
 
-        final Map<String, OctaveObject> data = new HashMap<String, OctaveObject>();
+        final Map<String, OctaveObject> data =
+	    new HashMap<String, OctaveObject>();
 
         for (int i = 0; i < length; i++) {
             // # name: elemmatrix
             final String NAME = "# name: ";
-            do { // Work around differences in number of line feeds in octave 3.4 and 3.6
+	    // Work around differences in number of line feeds 
+	    // in octave 3.4 and 3.6
+            do {
                 line = OctaveIO.readerReadLine(reader);
             } while ("".equals(line)); // keep reading until line is non-empty
             if (!line.startsWith(NAME)) {
-                throw new OctaveParseException("Expected '" + NAME + "' got '" + line + "'");
+                throw new OctaveParseException
+		    ("Expected '" + NAME + "' got '" + line + "'");
             }
             final String subname = line.substring(NAME.length());
 

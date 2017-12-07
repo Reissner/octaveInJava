@@ -22,12 +22,12 @@ import java.io.IOException;
 import java.io.Reader;
 
 /**
- * Function object that will execute reads on a Reader
+ * Function object that will execute reads on a Reader. 
  */
 public interface ReadFunctor {
 
     /**
-     * Read the output from an eval()
+     * Read the output from an eval(). 
      *
      * @param reader
      *            Reader to read from

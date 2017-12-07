@@ -36,7 +36,7 @@ import dk.ange.octave.type.OctaveObject;
 
 // ER: Has only static methods or methods based on {@link #octaveExec} 
 /**
- * The object controlling IO of Octave data
+ * The object controlling IO of Octave data. 
  */
 public final class OctaveIO {
 
@@ -112,7 +112,7 @@ public final class OctaveIO {
     }
 
     /**
-     * Read a single object from Reader
+     * Read a single object from Reader. 
      *
      * @param reader
      * @return OctaveObject read from Reader
@@ -143,7 +143,7 @@ public final class OctaveIO {
     }
 
     /**
-     * Read a single object from Reader
+     * Read a single object from Reader. 
      *
      * @param reader
      * @return a singleton map with the name and object
@@ -162,7 +162,7 @@ public final class OctaveIO {
 
     /**
      * Read a single object from String, 
-     * it is an error if there is data left after the object
+     * it is an error if there is data left after the object. 
      *
      * @param input
      * @return a singleton map with the name and object

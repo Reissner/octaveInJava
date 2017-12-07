@@ -23,7 +23,7 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveComplex;
 
 /**
- * Reader of "complex matrix"
+ * Reader of "complex matrix". 
  *
  * Format is:
  *
@@ -51,12 +51,16 @@ public final class ComplexMatrixReader extends OctaveDataReader {
             final String line = OctaveIO.readerReadLine(reader);
             final String[] split = line.split(" ");
             if (split.length != columns + 1) {
-                throw new OctaveParseException("Error in complex matrix-format: '" + line + "'");
+                throw new OctaveParseException
+		    ("Error in complex matrix-format: '" + line + "'");
             }
             for (int c = 1; c < split.length; c++) {
                 final int commaIndex = split[c].indexOf(',');
-                final double real = ScalarReader.parseDouble(split[c].substring(1, commaIndex));
-                final double imag = ScalarReader.parseDouble(split[c].substring(commaIndex + 1, split[c].length() - 1));
+                final double real = ScalarReader
+		    .parseDouble(split[c].substring(1, commaIndex));
+                final double imag = ScalarReader
+		    .parseDouble(split[c].substring(commaIndex + 1,
+						    split[c].length() - 1));
                 complex.setReal(real, r, c);
                 complex.setImag(imag, r, c);
             }
@@ -71,7 +75,8 @@ public final class ComplexMatrixReader extends OctaveDataReader {
     public int parseRows(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
         if (!line.startsWith("# rows: ")) {
-            throw new OctaveParseException("Expected <# rows: > got <" + line + ">");
+            throw new OctaveParseException
+		("Expected <# rows: > got <" + line + ">");
         }
         return Integer.parseInt(line.substring(8));
     }
@@ -83,7 +88,8 @@ public final class ComplexMatrixReader extends OctaveDataReader {
     public int parseColumns(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
         if (!line.startsWith("# columns: ")) {
-            throw new OctaveParseException("Expected <# columns: > got <" + line + ">");
+            throw new OctaveParseException
+		("Expected <# columns: > got <" + line + ">");
         }
         return Integer.parseInt(line.substring(11));
     }

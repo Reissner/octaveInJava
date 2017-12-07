@@ -22,12 +22,12 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * Function object that will execute writes to a Writer
+ * Function object that will execute writes to a Writer. 
  */
 public interface WriteFunctor {
 
     /**
-     * Write the input to an eval()
+     * Write the input to an eval(). 
      *
      * @param writer
      *            Writer to write to

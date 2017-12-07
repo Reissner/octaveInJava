@@ -28,11 +28,11 @@ import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveStruct;
 
 /**
- * The reader of struct
+ * The reader of struct. 
  */
 public final class StructReader extends OctaveDataReader {
 
-    private final static CellReader cellReader = new CellReader();
+    private static final CellReader cellReader = new CellReader();
 
     @Override
     public String octaveType() {

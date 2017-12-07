@@ -26,7 +26,7 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveDouble;
 
 /**
- * The reader of matrix
+ * The reader of matrix. 
  */
 public final class MatrixReader extends OctaveDataReader {
 

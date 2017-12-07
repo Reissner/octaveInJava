@@ -25,7 +25,7 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveSparseBoolean;
 
 /**
- * The reader of {@link OctaveSparseBoolean}
+ * The reader of {@link OctaveSparseBoolean}. 
  *
  * <pre>
  * # name: x

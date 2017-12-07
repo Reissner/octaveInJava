@@ -22,7 +22,7 @@ import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveString;
 
 /**
- * The writer of OctaveString
+ * The writer of OctaveString. 
  */
 public final class OctaveStringWriter extends OctaveDataWriter<OctaveString> {
 

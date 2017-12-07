@@ -22,9 +22,10 @@ import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveFunctionHandle;
 
 /**
- * The writer of {@link OctaveFunctionHandle}
+ * The writer of {@link OctaveFunctionHandle}. 
  */
-public final class FunctionHandleWriter extends OctaveDataWriter<OctaveFunctionHandle> {
+public final class FunctionHandleWriter 
+    extends OctaveDataWriter<OctaveFunctionHandle> {
 
     @Override
     public Class<OctaveFunctionHandle> javaType() {
@@ -32,7 +33,10 @@ public final class FunctionHandleWriter extends OctaveDataWriter<OctaveFunctionH
     }
 
     @Override
-    public void write(final Writer writer, final OctaveFunctionHandle octaveType) throws IOException {
+    public void write(final Writer writer,
+		      final OctaveFunctionHandle octaveType)
+	throws IOException {
+
         writer.write("# type: function handle\n");
         writer.write("@<anonymous>\n");
         writer.write(octaveType.getFunction());
