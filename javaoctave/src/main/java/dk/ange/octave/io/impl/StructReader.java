@@ -31,8 +31,11 @@ import dk.ange.octave.type.OctaveStruct;
  * The reader of struct. 
  */
 public final class StructReader extends OctaveDataReader {
+    private static final String LENGTH = "# length: ";
+    private static final String CELL = "# type: cell";
+    private static final String NAME = "# name: ";
 
-    private static final CellReader cellReader = new CellReader();
+    private static final CellReader CELL_READER = new CellReader();
 
     @Override
     public String octaveType() {
@@ -61,7 +64,6 @@ public final class StructReader extends OctaveDataReader {
         }
 
         // # length: 4
-        final String LENGTH = "# length: ";
         if (line == null || !line.startsWith(LENGTH)) {
             throw new OctaveParseException
 		("Expected '" + LENGTH + "' got '" + line + "'");
@@ -74,7 +76,6 @@ public final class StructReader extends OctaveDataReader {
 
         for (int i = 0; i < length; i++) {
             // # name: elemmatrix
-            final String NAME = "# name: ";
 	    // Work around differences in number of line feeds 
 	    // in octave 3.4 and 3.6: 
 	    // keep reading until line is non-empty
@@ -87,14 +88,13 @@ public final class StructReader extends OctaveDataReader {
             }
             final String subname = line.substring(NAME.length());
 
-            final String CELL = "# type: cell";
             line = OctaveIO.readerReadLine(reader);
             if (!line.equals(CELL)) {
                 throw new OctaveParseException
 		    ("Expected '" + CELL + "' got '" + line + "'");
             }
 
-            final OctaveCell cell = cellReader.read(reader);
+            final OctaveCell cell = CELL_READER.read(reader);
             if (cell.size(1) == 1 && cell.size(2) == 1) {
                 final OctaveObject value = cell.get(1, 1);
                 data.put(subname, value);

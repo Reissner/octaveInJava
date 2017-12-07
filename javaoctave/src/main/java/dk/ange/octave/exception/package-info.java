@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.exception;
 
 /**
  * The exceptions here are still very close tied to the implementation 
@@ -27,10 +26,11 @@ package dk.ange.octave.exception;
  * <li> internal errors in the Octave object
  * <li> lost connection to octave process
  * <li> user error, this should be recoverable
- * <ul>
+ * </ul>
  * The reason that it could be nice to distinguish between the different types 
  * of error is that the user error could be recoverable in some cases.
  */
+package dk.ange.octave.exception;
 /*-
  * OctaveException
  *   OctaveRecoverableException

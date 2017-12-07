@@ -39,6 +39,8 @@ import dk.ange.octave.type.OctaveObject;
  * The object controlling IO of Octave data. 
  */
 public final class OctaveIO {
+    private static final String TYPE = "# type: ";
+    private static final String GLOBAL = "global ";
 
     private final OctaveExec octaveExec;
 
@@ -119,15 +121,13 @@ public final class OctaveIO {
      */
     public static OctaveObject read(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
-        final String TYPE = "# type: ";
         if (line == null || !line.startsWith(TYPE)) {
             throw new OctaveParseException
 		("Expected '" + TYPE + "' got '" + line + "'");
         }
         final String typeGlobal = line.substring(TYPE.length());
         // Ignore "global " prefix to type (it is not really a type)
-        final String GLOBAL = "global ";
-        final String type;
+         final String type;
         if (typeGlobal != null && typeGlobal.startsWith(GLOBAL)) {
             type = typeGlobal.substring(GLOBAL.length());
         } else {

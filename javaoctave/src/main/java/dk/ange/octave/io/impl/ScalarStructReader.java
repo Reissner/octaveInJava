@@ -30,6 +30,8 @@ import dk.ange.octave.type.OctaveStruct;
  * introduced in octave 3.6, it is optimized to the 1x1 struct.
  */
 public final class ScalarStructReader extends OctaveDataReader {
+    private static final String NAME = "# name: ";
+    private static final String LENGTH = "# length: ";
 
     @Override
     public String octaveType() {
@@ -56,7 +58,6 @@ public final class ScalarStructReader extends OctaveDataReader {
 
         // # length: 4
         line = OctaveIO.readerReadLine(reader);
-        final String LENGTH = "# length: ";
         if (line == null || !line.startsWith(LENGTH)) {
             throw new OctaveParseException
 		("Expected '" + LENGTH + "' got '" + line + "'");
@@ -69,7 +70,6 @@ public final class ScalarStructReader extends OctaveDataReader {
 
         for (int i = 0; i < length; i++) {
             // # name: elemmatrix
-            final String NAME = "# name: ";
 	    // Work around differences in number of line feeds 
 	    // in octave 3.4 and 3.6
             do {

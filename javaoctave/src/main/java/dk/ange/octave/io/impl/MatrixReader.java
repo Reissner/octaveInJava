@@ -29,6 +29,7 @@ import dk.ange.octave.type.OctaveDouble;
  * The reader of matrix. 
  */
 public final class MatrixReader extends OctaveDataReader {
+    private static final String NDIMS = "# ndims: ";
 
     @Override
     public String octaveType() {
@@ -53,7 +54,6 @@ public final class MatrixReader extends OctaveDataReader {
     private OctaveDouble readVectorizedMatrix(final BufferedReader reader, 
 					      final String ndimsLine) {
         String line;
-        final String NDIMS = "# ndims: ";
         line = ndimsLine;
         if (!line.startsWith(NDIMS)) {
             throw new OctaveParseException("Expected <" + NDIMS + 
