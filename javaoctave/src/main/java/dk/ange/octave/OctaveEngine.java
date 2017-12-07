@@ -30,9 +30,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
 
-import dk.ange.octave.exception.OctaveClassCastException;
 import dk.ange.octave.exception.OctaveEvalException;
-import dk.ange.octave.exception.OctaveIOException;
 import dk.ange.octave.exec.OctaveExec;
 import dk.ange.octave.exec.ReadFunctor;
 import dk.ange.octave.exec.ReaderWriteFunctor;
@@ -54,16 +52,30 @@ public final class OctaveEngine {
     // which is in turn nowhere used. 
     private final OctaveEngineFactory factory;
 
+    /**
+     * The executor of this octave engine. 
+     */
     private final OctaveExec octaveExec;
 
     private final OctaveIO octaveIO;
 
-    // UTF-8 is a standart charset and is thus supported 
-    private Writer writer = new OutputStreamWriter(System.out, 
+    // UTF-8 is a standart charset and is thus supported
+    /**
+     * The writer to write to stdout with generally supported charset 
+     * <code>Charset.forName("UTF-8")}</code>. 
+     */
+    private Writer writer = new OutputStreamWriter(System.out,
 						   Charset.forName("UTF-8"));
 
+    /**
+     * Describe variable <code>random</code> here.
+     *
+     */
     private final Random random = new Random();
 
+    /**
+     * Creates an octave egine with the given parameters. 
+     */
     OctaveEngine(final OctaveEngineFactory factory,
 		 final Writer octaveInputLog,
 		 final Writer errorWriter,
@@ -80,7 +92,7 @@ public final class OctaveEngine {
         this.octaveIO = new OctaveIO(this.octaveExec);
     }
 
-    // ER: see also {@link #eval(final String script)} 
+    // ER: see also {@link #eval(final String script)}
     /**
      * @param script
      *            the script to execute
@@ -93,10 +105,19 @@ public final class OctaveEngine {
 		public void doWrites(final Writer writer2) throws IOException {
 		    writer2.write(script);
 		}
-	    }, 
+	    },
 	    getReadFunctor());
     }
 
+    /**
+     * Returns the according read functor: 
+     * If {@link #writer} is non-zero, 
+     * wrap it into a {@link WriterReadFunctor}. 
+     * Otherwise, create functor from a reader 
+     * which reads empty, i.e. without action, as long as the reader is empt. 
+     * 
+     */
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     private ReadFunctor getReadFunctor() {
         if (this.writer == null) {
             // If writer is null create a "do nothing" functor
@@ -104,8 +125,9 @@ public final class OctaveEngine {
                 private final char[] buffer = new char[4096];
 
 		@Override
+		@SuppressWarnings("checkstyle:emptyblock")
 		public void doReads(final Reader reader) throws IOException {
-                    while (reader.read(buffer) != -1) { // NOPMD 
+                    while (reader.read(buffer) != -1) { // NOPMD
                         // Do nothing
                     }
                 }
@@ -152,20 +174,20 @@ public final class OctaveEngine {
      */
     public void eval(final String script) {
         final String tag = String.format("%06x%06x",
-					 random.nextInt(1 << 23),
-					 random.nextInt(1 << 23));
-        put(String.format("javaoctave_%1$s_eval", tag), 
+					 this.random.nextInt(1 << 23),
+					 this.random.nextInt(1 << 23));
+        put(String.format("javaoctave_%1$s_eval", tag),
 	    new OctaveString(script));
-        // Does not use lasterror() as that returns data in a matrix struct, 
+        // Does not use lasterror() as that returns data in a matrix struct,
 	// we can not read that yet
         unsafeEval(String.format("eval(javaoctave_%1$s_eval, " +
 				 "\"javaoctave_%1$s_lasterr = lasterr();\");",
 				 tag));
-        final OctaveString lastError = 
-	    get(OctaveString.class, 
+        final OctaveString lastError =
+	    get(OctaveString.class,
 		String.format("javaoctave_%1$s_lasterr", tag));
-        unsafeEval(String.format
-		   ("clear javaoctave_%1$s_eval javaoctave_%1$s_lasterr", tag));
+        unsafeEval(String.format("clear javaoctave_%1$s_eval  " +
+				 "javaoctave_%1$s_lasterr", tag));
         if (lastError != null) {
             throw new OctaveEvalException(lastError.getString());
         }
@@ -242,9 +264,9 @@ public final class OctaveEngine {
 
     /**
      * Set the writer that the scripts error output will be written to.
-     * 
+     *
      * This method is usually placed in ScriptContext.
-     * 
+     *
      * @param errorWriter
      *            the errorWriter to set
      */
@@ -269,16 +291,15 @@ public final class OctaveEngine {
     /**
      * Return the version of the octave implementation. 
      * E.g. a string like "3.0.5" or "3.2.3".
-     * 
+     *
      * @return Version of octave
      */
     public String getVersion() {
         final StringWriter version = new StringWriter();
-        this.octaveExec.eval
-	    (new ReaderWriteFunctor
-	     (new StringReader("printf(\"%s\", OCTAVE_VERSION());")),
-	     new WriterReadFunctor(version));
+	StringReader reader =
+	    new StringReader("printf(\"%s\", OCTAVE_VERSION());");
+        this.octaveExec.eval(new ReaderWriteFunctor(reader),
+			     new WriterReadFunctor(version));
         return version.toString();
     }
-
 }

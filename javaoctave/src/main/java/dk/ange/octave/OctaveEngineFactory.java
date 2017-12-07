@@ -36,6 +36,11 @@ public final class OctaveEngineFactory {
     private Writer errWriter = new OutputStreamWriter(System.err, 
 						      Charset.forName("UTF-8"));
 
+    /**
+     * The file containing the octave program. 
+     * This field is initialize with <code>null</code>. 
+     *
+     */
     private File octaveProgram = null;
 
     /**

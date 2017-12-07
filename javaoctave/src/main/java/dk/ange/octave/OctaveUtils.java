@@ -63,6 +63,12 @@ public final class OctaveUtils {
         return random.nextInt(1 << 30);
     }
 
+
+    /**
+     * Returns a variable with value not accessible. 
+     *
+     * @return a <code>String</code> value
+     */
     private static String randomVarName() {
         return String.format("_OctaveUtils_%d", nextInt());
     }
