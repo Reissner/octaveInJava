@@ -114,10 +114,11 @@ public final class OctaveEngine {
      * If {@link #writer} is non-zero, 
      * wrap it into a {@link WriterReadFunctor}. 
      * Otherwise, create functor from a reader 
-     * which reads empty, i.e. without action, as long as the reader is empt. 
+     * which reads empty, i.e. without action, as long as the reader is empty. 
      * 
      */
-    @SuppressWarnings("checkstyle:visibilitymodifier")
+    @SuppressWarnings({"checkstyle:visibilitymodifier", 
+	    "checkstyle:magicnumber"})
     private ReadFunctor getReadFunctor() {
         if (this.writer == null) {
             // If writer is null create a "do nothing" functor
@@ -172,6 +173,7 @@ public final class OctaveEngine {
      * @throws OctaveEvalException
      *             if the script fails
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     public void eval(final String script) {
         final String tag = String.format("%06x%06x",
 					 this.random.nextInt(1 << 23),

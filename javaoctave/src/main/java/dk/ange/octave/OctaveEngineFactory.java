@@ -27,7 +27,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
- * Factory that creates OctaveEngines
+ * Factory that creates OctaveEngines. 
  */
 public final class OctaveEngineFactory {
 

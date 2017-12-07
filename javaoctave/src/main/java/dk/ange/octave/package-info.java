@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave;
 
 /**
  * This implementation follows the interface in:
@@ -21,3 +20,5 @@ package dk.ange.octave;
  * 
  * It does not implement it as the code has to work on Java 5.0.
  */
+package dk.ange.octave;
+
