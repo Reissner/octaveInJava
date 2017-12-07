@@ -24,7 +24,7 @@ import java.util.Arrays;
  * @param <D>
  *            an array
  */
-abstract public class AbstractGenericMatrix<D> {
+public abstract class AbstractGenericMatrix<D> {
 
     /**
      * The dimensions, rows x columns x depth x ....
@@ -37,7 +37,7 @@ abstract public class AbstractGenericMatrix<D> {
     protected D data;
 
     /**
-     * Constructor that creates new blank matrix
+     * Constructor that creates new blank matrix. 
      * 
      * @param size
      */
@@ -48,7 +48,7 @@ abstract public class AbstractGenericMatrix<D> {
     }
 
     /**
-     * Constructor that reuses data in the new object
+     * Constructor that reuses data in the new object. 
      * 
      * @param data
      * @param size
@@ -61,7 +61,7 @@ abstract public class AbstractGenericMatrix<D> {
     }
 
     /**
-     * Copy constructor
+     * Copy constructor. 
      * 
      * @param o
      */
@@ -113,12 +113,12 @@ abstract public class AbstractGenericMatrix<D> {
      * @param size_
      * @return new D[size_]
      */
-    abstract protected D newD(int size_);
+    protected abstract D newD(int size);
 
     /**
      * @return data_.length
      */
-    abstract protected int dataLength();
+    protected abstract int dataLength();
 
     /**
      * Fill data with the default value between fromIndex and toIndex.
@@ -128,14 +128,14 @@ abstract public class AbstractGenericMatrix<D> {
      * @param fromIndex
      * @param toIndex
      */
-    abstract protected void dataFillInit(int fromIndex, int toIndex);
+    protected abstract void dataFillInit(int fromIndex, int toIndex);
 
     /**
      * @param usedLength
      * @param otherData
      * @return true if the used part of data is equal to otherData
      */
-    abstract protected boolean dataEquals(int usedLength, D otherData);
+    protected abstract boolean dataEquals(int usedLength, D otherData);
 
     /**
      * @param ns
@@ -150,7 +150,7 @@ abstract public class AbstractGenericMatrix<D> {
     }
 
     /**
-     * Resize matrix up to include pos
+     * Resize matrix up to include pos. 
      * 
      * @param pos
      */
@@ -158,7 +158,7 @@ abstract public class AbstractGenericMatrix<D> {
         if (size.length != pos.length) {
             throw new UnsupportedOperationException
 		("Change in number of dimensions not supported (" + size.length
-                    + "!=" + pos.length + ")");
+		 + "!=" + pos.length + ")");
 	}
         // Resize by each dimension. 
 	// This is not the optimal way to do it, but it works.
@@ -170,7 +170,7 @@ abstract public class AbstractGenericMatrix<D> {
     }
 
     /**
-     * Do the resizing along a single dimension
+     * Do the resizing along a single dimension. 
      * 
      * @param dim
      * @param newSizeDim
@@ -206,7 +206,8 @@ abstract public class AbstractGenericMatrix<D> {
             for (int oldOffset = 0; 
 		 oldOffset < oldLength; 
 		 oldOffset += oldBlockSize) {
-                System.arraycopy(data, oldOffset, newData, newOffset, oldBlockSize);
+                System.arraycopy(data, oldOffset, 
+				 newData, newOffset, oldBlockSize);
                 newOffset += newBlockSize;
             }
             data = newData;
@@ -216,7 +217,8 @@ abstract public class AbstractGenericMatrix<D> {
             for (int oldOffset = oldLength - oldBlockSize; 
 		 oldOffset > 0; 
 		 oldOffset -= oldBlockSize) {
-                System.arraycopy(data, oldOffset, data, newOffset, oldBlockSize);
+                System.arraycopy(data, oldOffset, 
+				 data, newOffset, oldBlockSize);
                 newOffset -= newBlockSize;
             }
             // Don't need to move block 0 around, 
@@ -268,7 +270,7 @@ abstract public class AbstractGenericMatrix<D> {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((data == null) ? 0 : data.hashCode());
@@ -278,7 +280,7 @@ abstract public class AbstractGenericMatrix<D> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

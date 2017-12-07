@@ -18,12 +18,12 @@ package dk.ange.octave.type.matrix;
 import java.util.Arrays;
 
 /**
- * General matrix with Object values in
+ * General matrix with Object values. 
  * 
  * @param <T>
- *            Type of the values
+ *    Type of the values
  */
-abstract public class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
+public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
 
     /**
      * @param size
@@ -42,7 +42,7 @@ abstract public class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
     }
 
     /**
-     * Copy constructor
+     * Copy constructor. 
      * 
      * @param o
      */
@@ -51,23 +51,20 @@ abstract public class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
     }
 
     @SuppressWarnings("unchecked")
-    @Override
-    protected T[] newD(final int size_) {
-        return (T[]) new Object[size_];
+    protected final T[] newD(final int size) {
+        return (T[]) new Object[size];
     }
 
-    @Override
-    protected int dataLength() {
+    protected final int dataLength() {
         return data.length;
     }
 
-    @Override
-    protected void dataFillInit(final int fromIndex, final int toIndex) {
+    protected final void dataFillInit(final int fromIndex, final int toIndex) {
         Arrays.fill(data, fromIndex, toIndex, null);
     }
 
-    @Override
-    protected boolean dataEquals(final int usedLength, final T[] otherData) {
+    protected final boolean dataEquals(final int usedLength,
+				       final T[] otherData) {
         for (int i = 0; i < usedLength; i++) {
             final T o1 = data[i];
             final T o2 = otherData[i];
@@ -79,7 +76,7 @@ abstract public class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
     }
 
     /**
-     * Set the value
+     * Set the value. 
      * 
      * @param value
      * @param pos
@@ -90,7 +87,7 @@ abstract public class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
     }
 
     /**
-     * Get the value
+     * Get the value. 
      * 
      * @param pos
      * @return value at pos

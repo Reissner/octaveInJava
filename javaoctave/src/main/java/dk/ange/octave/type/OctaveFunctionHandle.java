@@ -21,7 +21,7 @@ package dk.ange.octave.type;
  * This does for some reason not work with octave 3.0, 
  * but it works with octave 3.2.
  */
-public class OctaveFunctionHandle implements OctaveObject {
+public final class OctaveFunctionHandle implements OctaveObject {
 
     private final String function;
 

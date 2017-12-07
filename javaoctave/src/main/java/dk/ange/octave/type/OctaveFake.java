@@ -20,7 +20,7 @@ package dk.ange.octave.type;
  * to make it easy to create objects that is read 
  * without being unfolded into Java.
  */
-public class OctaveFake implements OctaveObject {
+public final class OctaveFake implements OctaveObject {
 
     private final String data;
 

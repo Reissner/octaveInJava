@@ -18,7 +18,7 @@ package dk.ange.octave.type.matrix;
 import java.util.Arrays;
 
 /**
- * General matrix with boolean values in
+ * General matrix with boolean values. 
  */
 public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
 
@@ -37,24 +37,20 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
         super(data, size);
     }
 
-    @Override
-    protected boolean[] newD(final int size_) {
-        return new boolean[size_];
+    protected final boolean[] newD(final int size) {
+        return new boolean[size];
     }
 
-    @Override
-    protected int dataLength() {
+    protected final int dataLength() {
         return data.length;
     }
 
-    @Override
-    protected void dataFillInit(final int fromIndex, final int toIndex) {
+    protected final void dataFillInit(final int fromIndex, final int toIndex) {
         Arrays.fill(data, fromIndex, toIndex, false);
     }
 
-    @Override
-    protected boolean dataEquals(final int usedLength,
-				 final boolean[] otherData) {
+    protected final boolean dataEquals(final int usedLength,
+				       final boolean[] otherData) {
         for (int i = 0; i < usedLength; i++) {
             if (data[i] != otherData[i]) {
                 return false;
@@ -64,7 +60,7 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
     }
 
     /**
-     * Set the value
+     * Set the value. 
      * 
      * @param value
      * @param pos
@@ -75,7 +71,7 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
     }
 
     /**
-     * Get the value
+     * Get the value. 
      * 
      * @param pos
      * @return value at pos

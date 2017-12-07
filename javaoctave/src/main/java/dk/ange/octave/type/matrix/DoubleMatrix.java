@@ -18,7 +18,7 @@ package dk.ange.octave.type.matrix;
 import java.util.Arrays;
 
 /**
- * General matrix with double values in
+ * General matrix with double values. 
  */
 public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
 
@@ -30,7 +30,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     }
 
     /**
-     * Constructor that reuses the input data
+     * Constructor that reuses the input data. 
      * 
      * @param data
      * @param size
@@ -40,7 +40,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     }
 
     /**
-     * Copy constructor
+     * Copy constructor. 
      * 
      * @param o
      */
@@ -48,24 +48,20 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
         super(o);
     }
 
-    @Override
-    protected double[] newD(final int size_) {
-        return new double[size_];
+    protected final double[] newD(final int size) {
+        return new double[size];
     }
 
-    @Override
-    protected int dataLength() {
+    protected final int dataLength() {
         return data.length;
     }
 
-    @Override
-    protected void dataFillInit(final int fromIndex, final int toIndex) {
+    protected final void dataFillInit(final int fromIndex, final int toIndex) {
         Arrays.fill(data, fromIndex, toIndex, 0);
     }
 
-    @Override
-    protected boolean dataEquals(final int usedLength,
-				 final double[] otherData) {
+    protected final boolean dataEquals(final int usedLength,
+				       final double[] otherData) {
         for (int i = 0; i < usedLength; i++) {
             if (data[i] != otherData[i]) {
                 return false;
@@ -75,7 +71,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     }
 
     /**
-     * Set the value
+     * Set the value. 
      * 
      * @param value
      * @param pos
@@ -86,7 +82,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     }
 
     /**
-     * Get the value
+     * Get the value. 
      * 
      * @param pos
      * @return value at pos

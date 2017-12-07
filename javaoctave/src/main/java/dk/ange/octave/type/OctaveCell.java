@@ -24,15 +24,15 @@ import dk.ange.octave.type.matrix.AbstractGenericMatrix;
 import dk.ange.octave.type.matrix.GenericMatrix;
 
 /**
- * Nd cells
+ * Nd cells. 
  */
-public class OctaveCell 
+public final class OctaveCell 
     extends GenericMatrix<OctaveObject> implements OctaveObject {
 
     private static final OctaveObject DEFAULT_VALUE = new OctaveDouble(0, 0);
 
     /**
-     * Warn about usage of old constructor
+     * Warn about usage of old constructor. 
      * 
      * @deprecated use: new OctaveCell(0, 0)
      */

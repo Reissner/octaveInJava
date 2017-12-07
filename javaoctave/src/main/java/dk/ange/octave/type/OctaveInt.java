@@ -20,12 +20,12 @@ import java.util.Arrays;
 import dk.ange.octave.type.matrix.IntMatrix;
 
 /**
- * A matrix of ints
+ * Represents a matrix of ints. 
  */
-public class OctaveInt extends IntMatrix implements OctaveObject {
+public final class OctaveInt extends IntMatrix implements OctaveObject {
 
     /**
-     * Create new matrix
+     * Create new matrix. 
      * 
      * @param size
      */
@@ -34,7 +34,7 @@ public class OctaveInt extends IntMatrix implements OctaveObject {
     }
 
     /**
-     * Constructor that reuses the input data
+     * Constructor that reuses the input data. 
      * 
      * @param data
      * @param size
@@ -44,7 +44,7 @@ public class OctaveInt extends IntMatrix implements OctaveObject {
     }
 
     /**
-     * Copy constructor
+     * Copy constructor. 
      * 
      * @param o
      */

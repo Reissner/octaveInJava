@@ -18,7 +18,7 @@ package dk.ange.octave.type.matrix;
 import java.util.Arrays;
 
 /**
- * General matrix with int values in
+ * General matrix with int values. 
  */
 public class IntMatrix extends AbstractGenericMatrix<int[]> {
 
@@ -30,7 +30,7 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
     }
 
     /**
-     * Constructor that reuses the input data
+     * Constructor that reuses the input data. 
      * 
      * @param data
      * @param size
@@ -40,7 +40,7 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
     }
 
     /**
-     * Copy constructor
+     * Copy constructor. 
      * 
      * @param o
      */
@@ -48,23 +48,20 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
         super(o);
     }
 
-    @Override
-    protected int[] newD(final int size_) {
-        return new int[size_];
+    protected final int[] newD(final int size) {
+        return new int[size];
     }
 
-    @Override
-    protected int dataLength() {
+    protected final int dataLength() {
         return data.length;
     }
 
-    @Override
-    protected void dataFillInit(final int fromIndex, final int toIndex) {
+    protected final void dataFillInit(final int fromIndex, final int toIndex) {
         Arrays.fill(data, fromIndex, toIndex, 0);
     }
 
-    @Override
-    protected boolean dataEquals(final int usedLength, final int[] otherData) {
+    protected final boolean dataEquals(final int usedLength,
+				       final int[] otherData) {
         for (int i = 0; i < usedLength; i++) {
             if (data[i] != otherData[i]) {
                 return false;
@@ -74,7 +71,7 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
     }
 
     /**
-     * Set the value
+     * Set the value. 
      * 
      * @param value
      * @param pos
@@ -85,7 +82,7 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
     }
 
     /**
-     * Get the value
+     * Get the value. 
      * 
      * @param pos
      * @return value at pos
