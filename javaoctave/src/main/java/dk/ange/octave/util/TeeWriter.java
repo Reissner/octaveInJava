@@ -21,18 +21,22 @@ package dk.ange.octave.util;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
+
 /**
  * Executes the actions on a single writer to multiple writers.
  * 
- * If the list of writers in the constructor is empty everything that is written will be discarted.
+ * If the list of writers in the constructor is empty 
+ * everything that is written will be discarted.
  * 
- * If there is thrown one or more exception all writers will still be accessed, the exceptions will be logged and the
- * last exception thrown will be passed on outside.
+ * If there is thrown one or more exception all writers will still be accessed, 
+ * the exceptions will be logged and the last exception thrown 
+ * will be passed on outside.
  */
-public class TeeWriter extends Writer {
+public final class TeeWriter extends Writer {
 
-    private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory
-            .getLog(TeeWriter.class);
+    private static final Log LOG = LogFactory.getLog(TeeWriter.class);
 
     private final Writer[] writers;
 
@@ -54,13 +58,15 @@ public class TeeWriter extends Writer {
     }
 
     @Override
-    public void write(final char[] cbuf, final int off, final int len) throws IOException {
+    public void write(final char[] cbuf, final int off, final int len) 
+	throws IOException {
+
         IOException ioe = null;
         for (final Writer writer : writers) {
             try {
                 writer.write(cbuf, off, len);
             } catch (final IOException e) {
-                log.debug("Exception during write()", e);
+                LOG.debug("Exception during write()", e);
                 ioe = e;
             }
         }
@@ -76,7 +82,7 @@ public class TeeWriter extends Writer {
             try {
                 writer.flush();
             } catch (final IOException e) {
-                log.debug("Exception during flush()", e);
+                LOG.debug("Exception during flush()", e);
                 ioe = e;
             }
         }
@@ -92,7 +98,7 @@ public class TeeWriter extends Writer {
             try {
                 writer.close();
             } catch (final IOException e) {
-                log.debug("Exception during close()", e);
+                LOG.debug("Exception during close()", e);
                 ioe = e;
             }
         }

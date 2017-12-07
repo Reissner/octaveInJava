@@ -22,13 +22,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Will protect a Writer from beeing closed by .close(), usefull for protecting stdout and stderr from beeing closed.
+ * Will protect a Writer from beeing closed by .close(), 
+ * useful for protecting stdout and stderr from beeing closed.
  * 
  * @author Kim Hansen
  */
-public class NoCloseWriter extends Writer {
+public final class NoCloseWriter extends Writer {
 
-    private static final Log log = LogFactory.getLog(NoCloseWriter.class);
+    private static final Log LOG = LogFactory.getLog(NoCloseWriter.class);
 
     private Writer writer;
 
@@ -43,7 +44,9 @@ public class NoCloseWriter extends Writer {
     }
 
     @Override
-    public void write(final char[] cbuf, final int off, final int len) throws IOException {
+    public void write(final char[] cbuf, final int off, final int len) 
+	throws IOException {
+
         if (writer == null) {
             return;
         }
@@ -62,11 +65,11 @@ public class NoCloseWriter extends Writer {
      * Flushes the writer and looses the connection to it.
      * 
      * @throws IOException
-     *             from the underlying writer.
+     *    from the underlying writer.
      */
     @Override
     public void close() throws IOException {
-        log.debug("ignoring close() on a writer");
+        LOG.debug("ignoring close() on a writer");
         if (writer == null) {
             return;
         }
@@ -78,12 +81,12 @@ public class NoCloseWriter extends Writer {
      * Really closes the underlying writer.
      * 
      * @throws IOException
-     *             from the underlying writer.
+     *    from the underlying writer.
      * @throws NullPointerException
-     *             if the NoCloseWriter has been closed.
+     *    if the NoCloseWriter has been closed.
      */
     public void reallyClose() throws IOException {
-        log.debug("reallyClose() a writer");
+        LOG.debug("reallyClose() a writer");
         writer.close();
     }
 

@@ -16,30 +16,35 @@
 package dk.ange.octave.util;
 
 /**
- * Utils for string handling
+ * Utils for string handling. 
  * 
  * @author Kim Hansen
  */
 public final class StringUtil {
 
+    private StringUtil() {
+    }
+
     /**
-     * Quotes string as Java Language string literal. Returns string <code>null</code> if <code>s</code> is
-     * <code>null</code>.
+     * Quotes string as Java Language string literal. 
+     * Returns the string "<code>null</code>" (with length 4) 
+     * if <code>str</code> is <code>null</code>.
      * 
      * Code taken from http://freemarker.sourceforge.net/
      * 
-     * @param s
+     * @param str
      * @return the string encoded and quoted
      */
-    public static String jQuote(final String s) {
-        if (s == null) {
+    @SuppressWarnings("checkstyle:magicnumber")
+    public static String jQuote(final String str) {
+        if (str == null) {
             return "null";
         }
-        final int ln = s.length();
+        final int ln = str.length();
         final StringBuffer b = new StringBuffer(ln + 4);
         b.append('"');
         for (int i = 0; i < ln; i++) {
-            final char c = s.charAt(i);
+            final char c = str.charAt(i);
             if (c == '"') {
                 b.append("\\\"");
             } else if (c == '\\') {
@@ -71,15 +76,19 @@ public final class StringUtil {
     }
 
     /**
-     * Quotes char[] as Java Language string literal. Returns string <code>null</code> if <code>s</code> is
-     * <code>null</code>.
+     * Quotes the first <code>len</code> characters of <code>cbuf</code> 
+     * as Java Language string literal. 
+     * Returns string <code>null</code> if <code>s</code> is <code>null</code>. 
      * 
      * @param cbuf
-     *            the buffer
+     *    the buffer
      * @param len
-     *            How much of the buffer to quote
-     * @return the string encoded and quoted
+     *    How much of the buffer to quote
+     * @return the string encoded and quoted: 
+     *    Starts and ends with <code>"</code>
      */
+    @SuppressWarnings("checkstyle:magicnumber")
+    // **** this is a copy of the above code 
     public static String jQuote(final char[] cbuf, final int len) {
         final StringBuffer b = new StringBuffer(len + 4);
         b.append('"');

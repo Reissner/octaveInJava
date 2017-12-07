@@ -23,13 +23,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
 /**
- * A Thread that moves data from a Reader to a Writer
+ * A Thread that moves data from a Reader to a Writer. 
  * 
  * @author Kim Hansen
  */
-public class ReaderWriterPipeThread extends Thread {
+public final class ReaderWriterPipeThread extends Thread {
 
-    private static final Log log = LogFactory
+    private static final Log LOG = LogFactory
 	.getLog(ReaderWriterPipeThread.class);
 
     private static final int BUFFERSIZE = 4 * 1024;
@@ -39,8 +39,10 @@ public class ReaderWriterPipeThread extends Thread {
     private Writer writer;
 
     /**
-     * Will create a thread that reads from reader and writes to write until reader reaches EOF. Then the thread will
-     * close. Remember to join() this thread before closeing reader or writer.
+     * Will create a thread that reads from reader and writes to write 
+     * until reader reaches EOF. 
+     * Then the thread will close. 
+     * Remember to join() this thread before closeing reader or writer.
      * 
      * @param reader
      * @param writer
@@ -78,7 +80,7 @@ public class ReaderWriterPipeThread extends Thread {
             try {
                 len = reader.read(b);
             } catch (final IOException e) {
-                log.error("Error when reading from reader", e);
+                LOG.error("Error when reading from reader", e);
                 throw new RuntimeException(e);
             }
             if (len == -1) {
@@ -92,16 +94,16 @@ public class ReaderWriterPipeThread extends Thread {
                     }
                 }
             } catch (final IOException e) {
-                log.error("Error when writing to writer", e);
+                LOG.error("Error when writing to writer", e);
                 throw new RuntimeException(e);
             }
         }
-        log.debug("ReaderWriterPipeThread finished without error");
+        LOG.debug("ReaderWriterPipeThread finished without error");
     }
 
     /**
      * @param writer
-     *            the writer to set
+     *    the writer to set
      */
     public void setWriter(final Writer writer) {
         synchronized (this) {
@@ -110,7 +112,7 @@ public class ReaderWriterPipeThread extends Thread {
     }
 
     /**
-     * Close the thread
+     * Close the thread.
      */
     public void close() {
         interrupt();

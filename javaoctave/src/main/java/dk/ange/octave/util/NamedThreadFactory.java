@@ -22,13 +22,13 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A ThreadFactory that sets thread names
+ * A ThreadFactory that sets thread names. 
  * 
  * @author Kim Hansen
  */
 public final class NamedThreadFactory implements ThreadFactory {
 
-    private static final AtomicInteger poolNumber = new AtomicInteger(1);
+    private static final AtomicInteger POOL_NUMBER = new AtomicInteger(1);
 
     private final ThreadGroup group;
 
@@ -37,20 +37,24 @@ public final class NamedThreadFactory implements ThreadFactory {
     private final String namePrefix;
 
     /**
-     * Will create a factory that create Threads with the names: [parent]-javaoctave-[prefix]-[pool#]-[thread#]
+     * Will create a factory that create Threads with the names: 
+     * [parent]-javaoctave-[prefix]-[pool#]-[thread#]. 
      * 
      * @param prefix
      */
     public NamedThreadFactory(final String prefix) {
         final SecurityManager securityManager = System.getSecurityManager();
-        group = (securityManager != null) ? securityManager.getThreadGroup() : Thread.currentThread().getThreadGroup();
-        namePrefix = Thread.currentThread().getName() + "-javaoctave-" + prefix + "-" + poolNumber.getAndIncrement()
-                + "-";
+        group = (securityManager != null) 
+	    ? securityManager.getThreadGroup() 
+	    : Thread.currentThread().getThreadGroup();
+        namePrefix = Thread.currentThread().getName() + "-javaoctave-" 
+	    + prefix + "-" + POOL_NUMBER.getAndIncrement() + "-";
     }
 
     @Override
     public Thread newThread(final Runnable runnable) {
-        final Thread thread = new Thread(group, runnable, namePrefix + threadNumber.getAndIncrement());
+        final Thread thread = new Thread
+	    (group, runnable, namePrefix + threadNumber.getAndIncrement());
         if (thread.isDaemon()) {
             thread.setDaemon(false);
         }
