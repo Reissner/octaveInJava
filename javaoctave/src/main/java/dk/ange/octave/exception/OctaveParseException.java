@@ -16,12 +16,12 @@
 package dk.ange.octave.exception;
 
 /**
- * Exception thrown when parsing of the output from octave fails
+ * Exception thrown when parsing of the output from octave fails. 
  */
 public class OctaveParseException extends OctaveRecoverableException {
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @see Throwable
      */
@@ -30,7 +30,7 @@ public class OctaveParseException extends OctaveRecoverableException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param message
      * @see Throwable
@@ -40,7 +40,7 @@ public class OctaveParseException extends OctaveRecoverableException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param cause
      * @see Throwable
@@ -50,7 +50,7 @@ public class OctaveParseException extends OctaveRecoverableException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param message
      * @param cause

@@ -16,14 +16,14 @@
 package dk.ange.octave.exception;
 
 /**
- * An exception in the Octave engine that did broke the octave process, 
+ * An exception in the Octave engine that did break the octave process, 
  * any action on the Octave object now will cause a
  * new OctaveNonrecoverableException.
  */
 public abstract class OctaveNonrecoverableException extends OctaveException {
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @see Throwable
      */
@@ -32,7 +32,7 @@ public abstract class OctaveNonrecoverableException extends OctaveException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param message
      * @see Throwable
@@ -42,7 +42,7 @@ public abstract class OctaveNonrecoverableException extends OctaveException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param cause
      * @see Throwable
@@ -52,7 +52,7 @@ public abstract class OctaveNonrecoverableException extends OctaveException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param message
      * @param cause

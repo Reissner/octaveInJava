@@ -24,7 +24,7 @@ import dk.ange.octave.OctaveEngine;
 public class OctaveEvalException extends OctaveRecoverableException {
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @see Throwable
      */
@@ -33,7 +33,7 @@ public class OctaveEvalException extends OctaveRecoverableException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param message
      * @see Throwable
@@ -43,7 +43,7 @@ public class OctaveEvalException extends OctaveRecoverableException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param cause
      * @see Throwable
@@ -53,7 +53,7 @@ public class OctaveEvalException extends OctaveRecoverableException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param message
      * @param cause

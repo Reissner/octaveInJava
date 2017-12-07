@@ -21,7 +21,7 @@ package dk.ange.octave.exception;
 public abstract class OctaveRecoverableException extends OctaveException {
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @see Throwable
      */
@@ -30,7 +30,7 @@ public abstract class OctaveRecoverableException extends OctaveException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param message
      * @see Throwable
@@ -40,7 +40,7 @@ public abstract class OctaveRecoverableException extends OctaveException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param cause
      * @see Throwable
@@ -50,7 +50,7 @@ public abstract class OctaveRecoverableException extends OctaveException {
     }
 
     /**
-     * Constructor
+     * Constructor. 
      *
      * @param message
      * @param cause
