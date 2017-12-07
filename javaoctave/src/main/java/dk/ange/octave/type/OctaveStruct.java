@@ -22,14 +22,15 @@ import dk.ange.octave.exception.OctaveClassCastException;
 import dk.ange.octave.type.cast.Cast;
 
 /**
- * 1x1 struct. JavaOctave does not support the multidimensional structs that octave has.
+ * 1x1 struct. JavaOctave does not support the multidimensional structs 
+ * that octave has.
  */
-public class OctaveStruct implements OctaveObject {
+public final class OctaveStruct implements OctaveObject {
 
     private final Map<String, OctaveObject> data;
 
     /**
-     * Create empty struct
+     * Create empty struct. 
      */
     public OctaveStruct() {
 	// Use a TreeMap in order to get a stable serialization
@@ -38,7 +39,7 @@ public class OctaveStruct implements OctaveObject {
     }
 
     /**
-     * Create struct from data
+     * Create struct from data. 
      * 
      * @param data
      *            this data will be referenced, not copied
@@ -59,7 +60,8 @@ public class OctaveStruct implements OctaveObject {
     }
 
     /**
-     * Get object from struct as plain OctaveObject. If you want to cast the object to a special type use
+     * Get object from struct as plain OctaveObject. 
+     * If you want to cast the object to a special type use 
      * {@link OctaveStruct#get(Class, String)}.
      * 
      * @param key
@@ -83,7 +85,8 @@ public class OctaveStruct implements OctaveObject {
      * @throws OctaveClassCastException
      *             if the object can not be cast to a castClass
      */
-    public <T extends OctaveObject> T get(final Class<T> castClass, final String key) {
+    public <T extends OctaveObject> T get(final Class<T> castClass, 
+					  final String key) {
         return Cast.cast(castClass, get(key));
     }
 

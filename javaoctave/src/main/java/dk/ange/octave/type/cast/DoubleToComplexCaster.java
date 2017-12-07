@@ -4,9 +4,9 @@ import dk.ange.octave.type.OctaveComplex;
 import dk.ange.octave.type.OctaveDouble;
 
 /**
- * Cast OctaveDouble to OctaveComplex
+ * Cast OctaveDouble to OctaveComplex. 
  */
-public class DoubleToComplexCaster 
+public final class DoubleToComplexCaster 
     implements Caster<OctaveDouble, OctaveComplex> {
 
     @Override

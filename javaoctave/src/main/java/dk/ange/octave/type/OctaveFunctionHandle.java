@@ -18,7 +18,8 @@ package dk.ange.octave.type;
 /**
  * A function handle.
  * <p>
- * This does for some reason not work with octave 3.0, but it works with octave 3.2.
+ * This does for some reason not work with octave 3.0, 
+ * but it works with octave 3.2.
  */
 public class OctaveFunctionHandle implements OctaveObject {
 

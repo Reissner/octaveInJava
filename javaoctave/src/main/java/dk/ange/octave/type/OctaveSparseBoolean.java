@@ -18,9 +18,11 @@ package dk.ange.octave.type;
 import java.util.Arrays;
 
 /**
- * A Boolean matrix
+ * Represents a Boolean matrix and is appropriate for sparse matrices. 
+ *
+ * @see OctaveBoolean
  */
-public class OctaveSparseBoolean implements OctaveObject {
+public final class OctaveSparseBoolean implements OctaveObject {
 
     private final int rows;
 
@@ -34,7 +36,10 @@ public class OctaveSparseBoolean implements OctaveObject {
 
     private final boolean[] data;
 
-    private OctaveSparseBoolean(final int rows, final int columns, final int nnz, final int[] rowIndexes,
+    private OctaveSparseBoolean(final int rows,
+				final int columns,
+				final int nnz,
+				final int[] rowIndexes,
             final int[] columnIndexes, final boolean[] data) {
         this.rows = rows;
         this.columns = columns;
@@ -49,13 +54,16 @@ public class OctaveSparseBoolean implements OctaveObject {
      * @param columns
      * @param nnz
      */
-    public OctaveSparseBoolean(final int rows, final int columns, final int nnz) {
+    public OctaveSparseBoolean(final int rows,
+			       final int columns,
+			       final int nnz) {
         this(rows, columns, 0, new int[nnz], new int[nnz], new boolean[nnz]);
     }
 
     @Override
     public OctaveSparseBoolean shallowCopy() {
-        return new OctaveSparseBoolean(rows, columns, nnz, rowIndexes, columnIndexes, data);
+        return new OctaveSparseBoolean
+	    (rows, columns, nnz, rowIndexes, columnIndexes, data);
     }
 
     /**

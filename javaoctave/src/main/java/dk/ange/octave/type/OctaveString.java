@@ -19,10 +19,12 @@
 package dk.ange.octave.type;
 
 /**
+ * Represents an octave string. 
+ *
  * http://www.octave.org/mailing-lists/octave-maintainers/2005/258
  * http://www.octave.org/octave-lists/archive/octave-maintainers.2005/msg00280.html
  */
-public class OctaveString implements OctaveObject {
+public final class OctaveString implements OctaveObject {
 
     private String value;
 

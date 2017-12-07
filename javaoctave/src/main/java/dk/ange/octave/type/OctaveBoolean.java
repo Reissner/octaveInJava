@@ -18,9 +18,12 @@ package dk.ange.octave.type;
 import dk.ange.octave.type.matrix.BooleanMatrix;
 
 /**
- * A Boolean matrix
+ * Represents a Boolean matrix. 
+ * Not so appropriate for sparse matrices. 
+ *
+ * @see OctaveSparseBoolean
  */
-public class OctaveBoolean extends BooleanMatrix implements OctaveObject {
+public final class OctaveBoolean extends BooleanMatrix implements OctaveObject {
 
     /**
      * @param size

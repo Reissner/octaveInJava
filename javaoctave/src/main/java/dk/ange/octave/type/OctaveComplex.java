@@ -18,9 +18,9 @@ package dk.ange.octave.type;
 import dk.ange.octave.type.matrix.DoubleMatrix;
 
 /**
- * A complex matrix
+ * Represents a complex matrix. 
  */
-public class OctaveComplex implements OctaveObject {
+public final class OctaveComplex implements OctaveObject {
 
     private final DoubleMatrix real;
 
@@ -35,7 +35,7 @@ public class OctaveComplex implements OctaveObject {
     }
 
     /**
-     * Copy constructor
+     * Copy constructor. 
      * 
      * @param o
      */
@@ -45,7 +45,7 @@ public class OctaveComplex implements OctaveObject {
     }
 
     /**
-     * Reuse input data
+     * Reuse input data. 
      * 
      * @param realData
      * @param size

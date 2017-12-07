@@ -25,7 +25,7 @@ import dk.ange.octave.exception.OctaveClassCastException;
 import dk.ange.octave.type.OctaveObject;
 
 /**
- * Helper class for the auto cast functionality
+ * Helper class for the auto cast functionality. 
  */
 public final class Cast {
 
@@ -58,7 +58,7 @@ public final class Cast {
     }
 
     /**
-     * Cast and transform the object
+     * Cast and transform the object. 
      * 
      * @param <F>
      * @param <T>
@@ -107,15 +107,22 @@ public final class Cast {
         return caster;
     }
 
+    /**
+     * Represents a pair of classes, 
+     * essentially a cast from one to the other class. 
+     *
+     * @param <F> from class 
+     * @param <T> to   class 
+     */
     private static class ClassPair<F, T> {
         ClassPair(final Class<F> from, final Class<T> to) {
             this.from = from;
             this.to = to;
         }
 
-        Class<F> from;
+        private final Class<F> from;
 
-        Class<T> to;
+        private final Class<T> to;
 
         @Override
         public int hashCode() {

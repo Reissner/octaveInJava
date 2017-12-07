@@ -18,12 +18,12 @@ package dk.ange.octave.type;
 import dk.ange.octave.type.matrix.DoubleMatrix;
 
 /**
- * A matrix of doubles
+ * Represents a matrix of doubles. 
  */
-public class OctaveDouble extends DoubleMatrix implements OctaveObject {
+public final class OctaveDouble extends DoubleMatrix implements OctaveObject {
 
     /**
-     * Create new matrix
+     * Create new matrix. 
      * 
      * @param size
      */
@@ -32,7 +32,7 @@ public class OctaveDouble extends DoubleMatrix implements OctaveObject {
     }
 
     /**
-     * Constructor that reuses the input data
+     * Constructor that reuses the input data. 
      * 
      * @param data
      * @param size
@@ -42,7 +42,7 @@ public class OctaveDouble extends DoubleMatrix implements OctaveObject {
     }
 
     /**
-     * Copy constructor
+     * Copy constructor. 
      * 
      * @param o
      */

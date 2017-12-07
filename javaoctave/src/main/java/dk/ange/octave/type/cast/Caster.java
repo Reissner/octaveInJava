@@ -16,7 +16,7 @@
 package dk.ange.octave.type.cast;
 
 /**
- * Interface for a caster that transforms objects from type F to T
+ * Interface for a caster that transforms objects from type F to T. 
  * 
  * @param <F>
  * @param <T>

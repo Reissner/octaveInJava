@@ -16,7 +16,7 @@
 package dk.ange.octave.type;
 
 /**
- * Place holder for factory methods
+ * Place holder for factory methods. 
  */
 public final class Octave {
 
