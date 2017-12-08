@@ -54,7 +54,8 @@ public final class SparseBooleanWriter
         final int[] columnIndexes = octaveSparseBoolean.getColumnIndexes();
         final boolean[] data = octaveSparseBoolean.getData();
         for (int n = 0; n < nnz; ++n) {
-            writer.write(rowIndexes[n] + " " + columnIndexes[n] + " " + 
+            writer.write(rowIndexes[n] + " " + 
+			 columnIndexes[n] + " " + 
 			 (data[n] ? "1" : "0") + "\n");
         }
     }

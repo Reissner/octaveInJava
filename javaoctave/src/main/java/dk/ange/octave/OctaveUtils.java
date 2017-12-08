@@ -59,6 +59,8 @@ public final class OctaveUtils {
         return collection;
     }
 
+    @SuppressWarnings("checkstyle:magicnumber")
+    // 30 is some number, compromize between security and performance 
     private static synchronized int nextInt() {
         return RANDOM.nextInt(1 << 30);
     }

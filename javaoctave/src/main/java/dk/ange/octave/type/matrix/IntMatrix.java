@@ -18,7 +18,7 @@ package dk.ange.octave.type.matrix;
 import java.util.Arrays;
 
 /**
- * General matrix with int values. 
+ * General matrix of <code>int</code> values. 
  */
 public class IntMatrix extends AbstractGenericMatrix<int[]> {
 
@@ -53,17 +53,17 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
     }
 
     protected final int dataLength() {
-        return data.length;
+        return this.data.length;
     }
 
     protected final void dataFillInit(final int fromIndex, final int toIndex) {
-        Arrays.fill(data, fromIndex, toIndex, 0);
+        Arrays.fill(this.data, fromIndex, toIndex, 0);
     }
 
     protected final boolean dataEquals(final int usedLength,
 				       final int[] otherData) {
         for (int i = 0; i < usedLength; i++) {
-            if (data[i] != otherData[i]) {
+            if (this.data[i] != otherData[i]) {
                 return false;
             }
         }
@@ -78,7 +78,7 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
      */
     public void set(final int value, final int... pos) {
         resizeUp(pos);
-        data[pos2ind(pos)] = value;
+        this.data[pos2ind(pos)] = value;
     }
 
     /**
@@ -88,7 +88,7 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
      * @return value at pos
      */
     public int get(final int... pos) {
-        return data[pos2ind(pos)];
+        return this.data[pos2ind(pos)];
     }
 
 }

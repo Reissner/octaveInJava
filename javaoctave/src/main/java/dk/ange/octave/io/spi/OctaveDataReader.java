@@ -67,7 +67,7 @@ public abstract class OctaveDataReader {
     }
 
     /**
-     * Could be "scalar" or "string". 
+     * Could be "scalar" or "string" or something else. 
      *
      * @return the {@link Class} of the {@link OctaveObject} 
      * that this IO handler loads and saves

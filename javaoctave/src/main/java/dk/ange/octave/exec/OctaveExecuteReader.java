@@ -97,6 +97,8 @@ final class OctaveExecuteReader extends Reader {
     }
 
     @Override
+    @SuppressWarnings({"checkstyle:magicnumber", "checkstyle:emptyblock"})
+    // length of buffer is immaterial for function 
     public void close() throws IOException {
         final char[] buffer1 = new char[4096];
         // Slurp the rest of the wrapped input

@@ -43,12 +43,18 @@ public final class SparseBooleanReader extends OctaveDataReader {
         return "sparse bool matrix";
     }
 
+    /**
+     * @throws OctaveParseException
+     */
     @Override
+    @SuppressWarnings("checkstyle:magicnumber")
+    // 3 is clear from SparseBooleanWriter 
+    // **** seems buggy: headline "# type: sparse bool matrix\n" not read. 
     public OctaveSparseBoolean read(final BufferedReader reader) {
-        final int nnz = parseHeader("# nnz: ", 
-				    OctaveIO.readerReadLine(reader));
-        final int rows = parseHeader("# rows: ", 
-				     OctaveIO.readerReadLine(reader));
+        final int nnz     = parseHeader("# nnz: ", 
+					OctaveIO.readerReadLine(reader));
+        final int rows    = parseHeader("# rows: ", 
+					OctaveIO.readerReadLine(reader));
         final int columns = parseHeader("# columns: ", 
 					OctaveIO.readerReadLine(reader));
 
@@ -61,8 +67,8 @@ public final class SparseBooleanReader extends OctaveDataReader {
                 throw new OctaveParseException("split.length != 3");
             }
             try {
-                final int row = Integer.parseInt(split[0]);
-                final int column = Integer.parseInt(split[1]);
+                final int row       = Integer.parseInt(split[0]);
+                final int column    = Integer.parseInt(split[1]);
                 final boolean value = BooleanReader.parseBoolean(split[2]);
                 sparse.set(value, row, column);
             } catch (final NumberFormatException e) {

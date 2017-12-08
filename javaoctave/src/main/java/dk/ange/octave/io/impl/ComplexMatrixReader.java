@@ -37,6 +37,10 @@ import dk.ange.octave.type.OctaveComplex;
  */
 public final class ComplexMatrixReader extends OctaveDataReader {
 
+
+    private static final String COLUMNS = "# columns: ";
+    private static final String ROWS    = "# rows: ";
+
     @Override
     public String octaveType() {
         return "complex matrix";
@@ -70,28 +74,30 @@ public final class ComplexMatrixReader extends OctaveDataReader {
 
     /**
      * @param reader
-     * @return the number of rows
+     * @return
+     *   the number of rows
      */
     public int parseRows(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
-        if (!line.startsWith("# rows: ")) {
+        if (!line.startsWith(ROWS)) {
             throw new OctaveParseException
-		("Expected <# rows: > got <" + line + ">");
+		("Expected <" + ROWS + "> got <" + line + ">");
         }
-        return Integer.parseInt(line.substring(8));
+        return Integer.parseInt(line.substring(ROWS.length()));
     }
 
     /**
      * @param reader
-     * @return the number of columns
+     * @return
+     *    the number of columns
      */
     public int parseColumns(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
-        if (!line.startsWith("# columns: ")) {
+        if (!line.startsWith(COLUMNS)) {
             throw new OctaveParseException
-		("Expected <# columns: > got <" + line + ">");
+		("Expected <" + COLUMNS + "> got <" + line + ">");
         }
-        return Integer.parseInt(line.substring(11));
+        return Integer.parseInt(line.substring(COLUMNS.length()));
     }
 
 }
