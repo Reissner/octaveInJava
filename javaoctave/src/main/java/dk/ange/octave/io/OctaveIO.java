@@ -39,6 +39,7 @@ import dk.ange.octave.type.OctaveObject;
  * The object controlling IO of Octave data. 
  */
 public final class OctaveIO {
+
     private static final String TYPE = "# type: ";
     private static final String GLOBAL = "global ";
 
@@ -187,10 +188,25 @@ public final class OctaveIO {
     }
 
     /**
+     * ER: 
+     * Writes the {@link OctaveObject} <code>octaveType</code> (****bad name) 
+     * to the writer <code>writer</code>. 
+     * To that end, fetch an {@link OctaveDataWriter} 
+     * of the appropriate type given by <code>octaveType</code> 
+     * and use this writer to write <code>octaveType</code> 
+     * onto <code>writer</code>. 
+
      * @param <T>
+     *    the type of {@link OctaveObject} to be written. 
      * @param writer
+     *    the writer to write the object <code>octaveType</code> onto. 
      * @param octaveType
+     *    the object to write to <code>writer</code>. 
+     * @throws OctaveParseException **** appropriate type? 
+     *    if the type of <code>octaveType</code> is not registered 
+     *    and so there is no appropriate writer. 
      * @throws IOException
+     *    if the process of writing fails. 
      */
     public static <T extends OctaveObject> void write(final Writer writer,
 						      final T octaveType) 
@@ -201,26 +217,49 @@ public final class OctaveIO {
             throw new OctaveParseException
 		("Unknown type, " + octaveType.getClass());
         }
+	// may throw IOException 
         dataWriter.write(writer, octaveType);
     }
 
     /**
+     * ER: 
+     * Writes the name <code>name</code> 
+     * and the {@link OctaveObject} <code>octaveType</code> (****bad name) 
+     * to the writer <code>writer</code> 
+     * using {@link #write(Writer, OctaveObject)}. 
+
      * @param writer
+     *    the writer to write the object <code>octaveType</code> onto. 
      * @param name
+     *    the name, **** of a variable 
      * @param octaveType
+     *    the object to write to <code>writer</code>. 
+     * @throws OctaveParseException **** appropriate type? 
+     *    if the type of <code>octaveType</code> is not registered 
+     *    and so there is no appropriate writer. 
      * @throws IOException
+     *    if the process of writing fails. 
      */
     public static void write(final Writer writer,
 			     final String name,
 			     final OctaveObject octaveType) throws IOException {
-        writer.write("# name: " + name + "\n");
+	// may throw IOException 
+        writer.write("# name: " + name + "\n"); // just a comment??? **** 
+	// may throw IOException, OctaveParseException
         write(writer, octaveType);
     }
 
     /**
+     * Returns  as a string how the variable <code>name</code> 
+     * and the {@link OctaveObject} <code>octaveType</code> (****bad name) 
+     * are written. 
+     *
      * @param octaveType
+     *    the object to write to <code>writer</code>. 
      * @param name
-     * @return The result from saving the value octaveType 
+     *    the name, **** of a variable 
+     * @return 
+     *    The result from saving the value octaveType 
      *    in octave -text format
      */
     public static String toText(final OctaveObject octaveType,
@@ -235,6 +274,10 @@ public final class OctaveIO {
     }
 
     /**
+     * Returns as a string how the {@link OctaveObject} <code>octaveType</code> 
+     * (****bad name) is written without variable, 
+     * i.e. with variable <code>"ans"</code>. 
+     *
      * @param octaveType
      * @return toText(octaveType, "ans")
      */

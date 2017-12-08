@@ -16,8 +16,13 @@
 
 /**
  * Classes related with executing octave. 
- * The central class is {@link OctaveExec} executing octave. 
- * {@link OctaveExecuteReader} reads the output of the octave process, 
+ * The central class is {@link dk.ange.octave.exec.OctaveExec} 
+ * executing octave. 
+ * {@link dk.ange.octave.exec.OctaveExecuteReader} 
+ * reads the output of the octave process, 
  * ****
  */
 package dk.ange.octave.exec;
+
+//import dk.ange.octave.exec.OctaveExec;
+//import dk.ange.octave.exec.OctaveExecuteReader;

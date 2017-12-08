@@ -26,12 +26,24 @@ import javax.imageio.spi.ServiceRegistry;
 import dk.ange.octave.type.OctaveObject;
 
 /**
- * Interface for the IO handler that can read and write {@link OctaveObject}s. 
+ * Service Provider Interface for the IO handler 
+ * that can write {@link OctaveObject}s. 
+ * The according implementations are in package {@link dk.ange.octave.io.impl} 
+ * and extend this class. 
+ * These classes are registered in the jar-file 
+ * under <code>META-INF/services/dk.ange.octave.io.OctaveDataReader</code>.
  *
  * @param <T>
+ *    the type extending {@link OctaveObject} this writer can write. 
  */
 public abstract class OctaveDataWriter<T extends OctaveObject> {
 
+    /**
+     * Maps the {@link OctaveDataReader#javaType()} 
+     * which represents an octave type 
+     * of an {@link OctaveDataWriter} to the {@link OctaveDataWriter} itself 
+     * which is able to write the octave type to a writer. 
+     */
     private static 
 	Map<Class<? extends OctaveObject>, OctaveDataWriter<?>> writers;
 

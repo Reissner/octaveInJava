@@ -1,29 +1,35 @@
 /**
  * Contains all octave types. 
- * The base interface for all types is {@link OctaveObject} 
- * defining a single method only: {@link OctaveObject#shallowCopy()}. 
+ * The base interface for all types is {@link dk.ange.octave.type.OctaveObject} 
+ * defining a single method only: 
+ * {@link dk.ange.octave.type.OctaveObject#shallowCopy()}. 
  *
- * Classes implementing {@link OctaveObject}: 
+ * Classes implementing {@link dk.ange.octave.type.OctaveObject}: 
  * <ul>
  * <li>
- * {@link OctaveBoolean} extending 
+ * {@link dk.ange.octave.type.OctaveBoolean} extending 
  * {@link dk.ange.octave.type.matrix.BooleanMatrix}, 
  * <li>
- * {@link OctaveCell} extending 
+ * {@link dk.ange.octave.type.OctaveCell} extending 
  * {@link dk.ange.octave.type.matrix.GenericMatrix}, 
  * <li>
- * {@link OctaveDouble} extending 
+ * {@link dk.ange.octave.type.OctaveDouble} extending 
  * {@link dk.ange.octave.type.matrix.DoubleMatrix}, 
  * <li>
- * {@link OctaveInt} extending 
+ * {@link dk.ange.octave.type.OctaveInt} extending 
  * {@link dk.ange.octave.type.matrix.IntMatrix}, 
  * <li>
  * Without base class, i.e. based on object: 
- * {@link OctaveSparseBoolean}, {@link OctaveString}, 
- * {@link OctaveStruct}, {@link OctaveFunctionHandle}, {@link OctaveComplex}, 
- * and special case {@link OctaveFake}. 
+ * {@link dk.ange.octave.type.OctaveSparseBoolean}, 
+ * {@link dk.ange.octave.type.OctaveString}, 
+ * {@link dk.ange.octave.type.OctaveStruct}, 
+ * {@link dk.ange.octave.type.OctaveFunctionHandle}, 
+ * {@link dk.ange.octave.type.OctaveComplex}, 
+ * and special case {@link dk.ange.octave.type.OctaveFake}. 
  * </ul>
- * Special is {@link Octave} the use of which is not clear to me... 
- * Provides a single static method {@link Octave# scalar(double)}. 
+ * Special is {@link dk.ange.octave.type.Octave} 
+ * the use of which is not clear to me... 
+ * Provides a single static method 
+ * {@link dk.ange.octave.type.Octave#scalar(double)}. 
  */
 package dk.ange.octave.type;

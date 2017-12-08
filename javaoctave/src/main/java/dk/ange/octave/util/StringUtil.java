@@ -16,7 +16,7 @@
 package dk.ange.octave.util;
 
 /**
- * Utils for string handling. 
+ * Class for holding static utility functions for string handling: quoting. 
  * 
  * @author Kim Hansen
  */

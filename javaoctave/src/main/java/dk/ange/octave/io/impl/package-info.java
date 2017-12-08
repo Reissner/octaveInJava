@@ -15,6 +15,6 @@
  */
 
 /**
- * Explanation missing. ****
+ * Provides the implementations of the classes. 
  */
 package dk.ange.octave.io.impl;

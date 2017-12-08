@@ -33,15 +33,26 @@ final class DataWriteFunctor implements WriteFunctor {
 
     private static final Log LOG = LogFactory.getLog(DataWriteFunctor.class);
 
-    final Map<String, OctaveObject> octaveTypes;
+    /**
+     * A map from variable names to according octave objects. 
+     */
+    private final Map<String, OctaveObject> octaveTypes;
 
     /**
      * @param octaveTypes
+     *    A map from variable names to according octave objects. 
      */
     DataWriteFunctor(final Map<String, OctaveObject> octaveTypes) {
         this.octaveTypes = octaveTypes;
     }
 
+    /**
+     * Writes this functor representing the map {@link #octaveTypes} 
+     * to <code>writer</code>. 
+     *
+     * @param writer
+     *    the writer this variable to value configuration is to be written to. 
+     */
     public void doWrites(final Writer writer) {
         try {
             // Enter octave in "read data from input mode"

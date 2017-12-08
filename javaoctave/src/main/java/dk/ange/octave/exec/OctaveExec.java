@@ -56,10 +56,22 @@ public final class OctaveExec {
 
     private static final Log LOG = LogFactory.getLog(OctaveExec.class);
 
+    /**
+     * The octave process created in the constructor 
+     * with given command, arguments, environment and working directory. 
+     */
     private final Process process;
 
+    /**
+     * 
+     */
     private final Writer processWriter;
 
+    /**
+     * The input reader for {@link #process}. 
+     * This is used by {@link #eval(WriteFunctor, ReadFunctor)} 
+     * and used to close via {@link #close()}. 
+     */
     private final BufferedReader processReader;
 
     private final ExecutorService executor = 
@@ -67,6 +79,12 @@ public final class OctaveExec {
 				     new NamedThreadFactory(OctaveExec.class
 							    .getSimpleName()));
 
+    /**
+     * The error thread of the error stream of {@link #process} 
+     * writing the error stream to a given writer. 
+     * This is used to close but also to change the error writer 
+     * by {@link #setErrorWriter(writer)}. 
+     */
     private final ReaderWriterPipeThread errorStreamThread;
 
     private boolean destroyed = false;
@@ -107,12 +125,16 @@ public final class OctaveExec {
 		      final File workingDir) {
         final String[] cmdArray = new String[argsArray.length + 1];
 
-        if (octaveProgram != null) {
-            cmdArray[0] = octaveProgram.getPath();
-        } else {
-            cmdArray[0] = System.getProperty(PROPERTY_EXECUTABLE, "octave");
-        }
+	cmdArray[0] = (octaveProgram != null)
+	    ? octaveProgram.getPath()
+	    : System.getProperty(PROPERTY_EXECUTABLE, "octave");
+        // if (octaveProgram != null) {
+        //     cmdArray[0] = octaveProgram.getPath();
+        // } else {
+        //     cmdArray[0] = System.getProperty(PROPERTY_EXECUTABLE, "octave");
+        // }
 	System.arraycopy(argsArray, 0, cmdArray, 1, argsArray.length);
+
         try {
             this.process = Runtime.getRuntime().exec(cmdArray, 
 						     environment, 
@@ -121,12 +143,12 @@ public final class OctaveExec {
             throw new OctaveIOException(e);
         }
         // Connect stderr
-        errorStreamThread = ReaderWriterPipeThread
+        this.errorStreamThread = ReaderWriterPipeThread
 	    .instantiate(new InputStreamReader(this.process.getErrorStream(), 
 					       Charset.forName("UTF-8")),
 			 stderrLog);
         // Connect stdout
-        processReader = new BufferedReader
+        this.processReader = new BufferedReader
 	    (new InputStreamReader(this.process.getInputStream(), 
 				   Charset.forName("UTF-8")));
         // Connect stdin
@@ -155,7 +177,7 @@ public final class OctaveExec {
 							  input, 
 							  spacer));
         final Future<Void> readerFuture = 
-	    this.executor.submit(new OctaveReaderCallable(processReader, 
+	    this.executor.submit(new OctaveReaderCallable(this.processReader, 
 							  output, 
 							  spacer));
         final RuntimeException writerException = getFromFuture(writerFuture);
@@ -240,7 +262,7 @@ public final class OctaveExec {
         setDestroyed(true);
         this.executor.shutdownNow();
         this.process.destroy();
-        errorStreamThread.close();
+        this.errorStreamThread.close();
         try {
             processWriter.close();
         } catch (final IOException e) {
@@ -258,20 +280,20 @@ public final class OctaveExec {
 	    // to use eval() and some specialised Functors
             processWriter.write("exit\n");
             processWriter.close();
-            final String read1 = processReader.readLine();
+            final String read1 = this.processReader.readLine();
             // Allow a single blank line, exit in octave 3.2 returns that:
             if (read1 != null && !"".equals(read1)) {
                 throw new OctaveIOException
 		    ("Expected a blank line, read '" + read1 + "'");
             }
-            final String read2 = processReader.readLine();
+            final String read2 = this.processReader.readLine();
             if (read2 != null) {
                 throw new OctaveIOException
 		    ("Expected reader to be at end of stream, read '" + 
 		     read2 + "'");
             }
-            processReader.close();
-            errorStreamThread.close();
+            this.processReader.close();
+            this.errorStreamThread.close();
             final int exitValue;
             try {
                 exitValue = this.process.waitFor();
@@ -302,7 +324,7 @@ public final class OctaveExec {
      *            the new writer to write the error output to
      */
     public void setErrorWriter(final Writer writer) {
-        errorStreamThread.setWriter(writer);
+        this.errorStreamThread.setWriter(writer);
     }
 
 }

@@ -22,8 +22,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Will protect a Writer from beeing closed by .close(), 
- * useful for protecting stdout and stderr from beeing closed.
+ * Will protect a Writer from beeing closed by {@link #close()}, 
+ * useful for protecting stdout and stderr from beeing closed. 
+ * Trying to close via {@link #close()} results in loosing connection 
+ * whereas {@link #reallyClose()} really closes the writer. 
  * 
  * @author Kim Hansen
  */
@@ -31,13 +33,20 @@ public final class NoCloseWriter extends Writer {
 
     private static final Log LOG = LogFactory.getLog(NoCloseWriter.class);
 
+    /**
+     * A writer or <code>null</code>. 
+     * The latter is the case if initialized with <code>null</code>, 
+     * or if tried to close via {@link #close()}. 
+     * In the latter case 
+     * it is not even possible to close with {@link #reallyClose()}. 
+     */
     private Writer writer;
 
     /**
      * Create a NoCloseWriter that will protect writer.
      * 
      * @param writer
-     *            the writer to be protected.
+     *    the writer to be protected from being closed by {@link #close()}.
      */
     public NoCloseWriter(final Writer writer) {
         this.writer = writer;
@@ -47,47 +56,49 @@ public final class NoCloseWriter extends Writer {
     public void write(final char[] cbuf, final int off, final int len) 
 	throws IOException {
 
-        if (writer == null) {
+        if (this.writer == null) {
             return;
         }
-        writer.write(cbuf, off, len);
+        this.writer.write(cbuf, off, len);
     }
 
     @Override
     public void flush() throws IOException {
-        if (writer == null) {
+        if (this.writer == null) {
             return;
         }
-        writer.flush();
+        this.writer.flush();
     }
 
     /**
-     * Flushes the writer and looses the connection to it.
+     * Flushes the writer and looses the connection to it. 
+     * No close and also in future no close possible. 
      * 
      * @throws IOException
-     *    from the underlying writer.
+     *    from the underlying writer. 
+     * @see #reallyClose()
      */
     @Override
     public void close() throws IOException {
         LOG.debug("ignoring close() on a writer");
-        if (writer == null) {
+        if (this.writer == null) {
             return;
         }
-        writer.flush();
-        writer = null;
+        this.writer.flush();
+        this.writer = null;
     }
 
     /**
-     * Really closes the underlying writer.
+     * Really closes the underlying writer, with one exception ;-).
      * 
      * @throws IOException
      *    from the underlying writer.
      * @throws NullPointerException
-     *    if the NoCloseWriter has been closed.
+     *    if the NoCloseWriter has been closed via {@link #close()}.
      */
     public void reallyClose() throws IOException {
         LOG.debug("reallyClose() a writer");
-        writer.close();
+        this.writer.close();
     }
 
 }

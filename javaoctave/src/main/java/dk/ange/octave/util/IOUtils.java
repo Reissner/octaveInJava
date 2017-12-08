@@ -23,7 +23,8 @@ import java.io.Reader;
 import java.io.Writer;
 
 /**
- * Class for holding static utility functions. 
+ * Class for holding static utility functions for readers and writers: 
+ * copy from reader to writer. 
  * 
  * @author Kim Hansen
  */

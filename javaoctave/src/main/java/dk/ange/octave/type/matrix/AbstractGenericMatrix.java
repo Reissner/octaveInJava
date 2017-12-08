@@ -110,8 +110,8 @@ public abstract class AbstractGenericMatrix<D> {
     }
 
     /**
-     * @param size_
-     * @return new D[size_]
+     * @param size
+     * @return new D[size]
      */
     protected abstract D newD(int size);
 
