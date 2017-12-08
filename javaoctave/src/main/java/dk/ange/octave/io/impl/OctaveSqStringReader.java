@@ -23,7 +23,7 @@ import dk.ange.octave.type.OctaveString;
 /**
  * The reader of sq_string. 
  */
-public final class OctaveSqStringReader extends OctaveStringReader {
+public final class OctaveSqStringReader extends AbstractOctaveStringReader {
 
     @Override
     public String octaveType() {

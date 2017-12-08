@@ -15,52 +15,21 @@
  */
 package dk.ange.octave.io.impl;
 
-import java.io.BufferedReader;
-
-import dk.ange.octave.exception.OctaveParseException;
-import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.io.spi.OctaveDataReader;
-import dk.ange.octave.type.OctaveString;
+//import java.io.BufferedReader;
+//import dk.ange.octave.type.OctaveString;
 
 /**
  * The reader of string. 
  */
-public class OctaveStringReader extends OctaveDataReader {
+public final class OctaveStringReader extends AbstractOctaveStringReader {
 
     @Override
     public String octaveType() {
         return "string";
     }
 
-    @Override
-    public OctaveString read(final BufferedReader reader) {
-        final String elements = OctaveIO.readerReadLine(reader);
-        final StringBuilder builder = new StringBuilder();
-	// NOTE: in java > 1.7 strings are allowed in switch 
-	if (elements.equals("# elements: 1")) {
-            final String lengthString = OctaveIO.readerReadLine(reader);
-            if (!lengthString.startsWith("# length: ")) {
-                throw new OctaveParseException
-		    ("Parse error in String, line='" + lengthString + "'");
-            }
-            final int length = Integer.parseInt(lengthString.substring(10));
-            boolean first = true;
-            while (builder.length() < length) {
-                if (!first) {
-                    builder.append('\n');
-                }
-                builder.append(OctaveIO.readerReadLine(reader));
-                first = false;
-            }
-            if (builder.length() != length) {
-                throw new OctaveParseException
-		    ("Unexpected length of string read. expected=" + 
-		     length + ", actual=" + builder.length());
-            }
-        } else if (!elements.equals("# elements: 0")) {
-            throw new OctaveParseException
-		("Expected elements to be 0 or 1, '" + elements + "'");
-        }
-        return new OctaveString(builder.toString());
-    }
+//    @Override
+//    public OctaveString read(final BufferedReader reader) {
+//	return super.read(reader);
+//    }
 }
