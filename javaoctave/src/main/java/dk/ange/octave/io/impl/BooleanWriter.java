@@ -46,12 +46,10 @@ public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
 			    final OctaveBoolean octaveBoolean) 
 	throws IOException {
 
-//        final int[] size = octaveBoolean.getSize();
         final boolean[] data = octaveBoolean.getData();
-        final int nrows = octaveBoolean.getSize(1);//size[0];
-//        final int ncols = size.length > 1 ? size[1] : 1;
+        final int nrows = octaveBoolean.getSize(1);
         final int ncols = octaveBoolean.getSizeLength() > 1 
-	    ? octaveBoolean.getSize(2) : 1;//size[1] : 1;
+	    ? octaveBoolean.getSize(2) : 1;
         writer.write("# rows: " + nrows + "\n# columns: " + ncols + "\n");
         for (int row = 0; row < nrows; row++) {
             for (int col = 0; col < ncols; col++) {
@@ -65,11 +63,8 @@ public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
 				    final OctaveBoolean octaveMatrix) 
 	throws IOException {
 
-//        final int[] size = octaveMatrix.getSize();
         final boolean[] data = octaveMatrix.getData();
-//        writer.write("# ndims: " + size.length + "\n");
         writer.write("# ndims: " + octaveMatrix.getSizeLength() + "\n");
-//        for (final int sdim : size) {
         for (int idx = 1; idx <= octaveMatrix.getSizeLength(); idx++) {
             writer.write(" " + octaveMatrix.getSize(idx));
         }

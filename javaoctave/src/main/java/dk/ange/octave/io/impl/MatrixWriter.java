@@ -58,12 +58,10 @@ public final class MatrixWriter extends OctaveDataWriter<OctaveDouble> {
 			    final OctaveDouble octaveMatrix) 
 	throws IOException {
 
-//        final int[] size = octaveMatrix.getSize();
         final double[] data = octaveMatrix.getData();
-        final int nrows = octaveMatrix.getSize(1);//size[0];
+        final int nrows = octaveMatrix.getSize(1);
 	final int ncols = octaveMatrix.getSizeLength() > 1 
-	    ? octaveMatrix.getSize(2) : 1;//size[1] : 1;
-//        final int ncols = size.length > 1 ? size[1] : 1;
+	    ? octaveMatrix.getSize(2) : 1;
         writer.write("# rows: " + nrows + "\n# columns: " + ncols + "\n");
         for (int row = 0; row < nrows; row++) {
             for (int col = 0; col < ncols; col++) {
@@ -77,11 +75,8 @@ public final class MatrixWriter extends OctaveDataWriter<OctaveDouble> {
 				    final OctaveDouble octaveMatrix) 
 	throws IOException {
 
-//        final int[] size = octaveMatrix.getSize();
         final double[] data = octaveMatrix.getData();
-//        writer.write("# ndims: " + size.length + "\n");
         writer.write("# ndims: " + octaveMatrix.getSizeLength() + "\n");
-//        for (final int sdim : size) {
         for (int idx = 1; idx <= octaveMatrix.getSizeLength(); idx++) {
             writer.write(" " + octaveMatrix.getSize(idx));
         }

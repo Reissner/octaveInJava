@@ -44,17 +44,6 @@ public final class OctaveComplex implements OctaveObject {
         this.imag = new DoubleMatrix(o.imag);
     }
 
-    /**
-     * Reuse input data. 
-     * 
-     * @param realData
-     * @param size
-     */
-    public OctaveComplex(final double[] realData, final int... size) {
-        this.real = new DoubleMatrix(realData, size);
-        this.imag = new DoubleMatrix(size);
-    }
-
     public OctaveComplex(OctaveDouble r) {
 	this.real = new DoubleMatrix(r);
 	this.imag = r.zero();

@@ -28,6 +28,9 @@ public final class OctaveSparseBoolean implements OctaveObject {
 
     private final int columns;
 
+    // number of non-zero, i.e. of non-false, i.e. of true. 
+    // meant number of entries with value true. 
+    // seems to be rowInices.length which equals columnIndices.length. 
     private int nnz;
 
     private final int[] rowIndexes;
@@ -40,7 +43,8 @@ public final class OctaveSparseBoolean implements OctaveObject {
 				final int columns,
 				final int nnz,
 				final int[] rowIndexes,
-            final int[] columnIndexes, final boolean[] data) {
+				final int[] columnIndexes,
+				final boolean[] data) {
         this.rows = rows;
         this.columns = columns;
         this.nnz = nnz;

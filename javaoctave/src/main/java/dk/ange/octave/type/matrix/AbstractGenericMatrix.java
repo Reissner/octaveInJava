@@ -266,13 +266,6 @@ public abstract class AbstractGenericMatrix<D> {
         return data;
     }
 
-    // /**
-    //  * @return the size
-    //  */
-    // public int[] getSize() {
-    //     return this.size;
-    // }
-
     public int getSizeLength() {
         return this.size.length;
     }

@@ -12,7 +12,6 @@ public final class DoubleToComplexCaster
     @Override
     public OctaveComplex cast(final OctaveDouble from) {
         return new OctaveComplex(from);
-//        return new OctaveComplex(from.getData(), from.getSize());
     }
 
     @Override
