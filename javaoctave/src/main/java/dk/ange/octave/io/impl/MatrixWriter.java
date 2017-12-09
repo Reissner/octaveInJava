@@ -37,8 +37,8 @@ public final class MatrixWriter extends OctaveDataWriter<OctaveDouble> {
     @Override
     public void write(final Writer writer, 
 		      final OctaveDouble octaveMatrix) throws IOException {
-        if (octaveMatrix.getSize().length <= 2) {
-            if (octaveMatrix.getSize().length == 2 && 
+        if (octaveMatrix.getSizeLength() <= 2) {
+            if (octaveMatrix.getSizeLength() == 2 && 
 		octaveMatrix.size(1) == 1 && 
 		octaveMatrix.size(2) == 1) {
 
@@ -58,10 +58,12 @@ public final class MatrixWriter extends OctaveDataWriter<OctaveDouble> {
 			    final OctaveDouble octaveMatrix) 
 	throws IOException {
 
-        final int[] size = octaveMatrix.getSize();
+//        final int[] size = octaveMatrix.getSize();
         final double[] data = octaveMatrix.getData();
-        final int nrows = size[0];
-        final int ncols = size.length > 1 ? size[1] : 1;
+        final int nrows = octaveMatrix.getSize(1);//size[0];
+	final int ncols = octaveMatrix.getSizeLength() > 1 
+	    ? octaveMatrix.getSize(2) : 1;//size[1] : 1;
+//        final int ncols = size.length > 1 ? size[1] : 1;
         writer.write("# rows: " + nrows + "\n# columns: " + ncols + "\n");
         for (int row = 0; row < nrows; row++) {
             for (int col = 0; col < ncols; col++) {
@@ -75,11 +77,13 @@ public final class MatrixWriter extends OctaveDataWriter<OctaveDouble> {
 				    final OctaveDouble octaveMatrix) 
 	throws IOException {
 
-        final int[] size = octaveMatrix.getSize();
+//        final int[] size = octaveMatrix.getSize();
         final double[] data = octaveMatrix.getData();
-        writer.write("# ndims: " + size.length + "\n");
-        for (final int sdim : size) {
-            writer.write(" " + sdim);
+//        writer.write("# ndims: " + size.length + "\n");
+        writer.write("# ndims: " + octaveMatrix.getSizeLength() + "\n");
+//        for (final int sdim : size) {
+        for (int idx = 1; idx <= octaveMatrix.getSizeLength(); idx++) {
+            writer.write(" " + octaveMatrix.getSize(idx));
         }
         for (final double d : data) {
             writer.write("\n " + d);

@@ -83,7 +83,7 @@ public final class OctaveExec {
      * The error thread of the error stream of {@link #process} 
      * writing the error stream to a given writer. 
      * This is used to close but also to change the error writer 
-     * by {@link #setErrorWriter(writer)}. 
+     * by {@link #setErrorWriter(Writer)}. 
      */
     private final ReaderWriterPipeThread errorStreamThread;
 

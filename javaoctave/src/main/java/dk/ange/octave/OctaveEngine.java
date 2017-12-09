@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.Random;
 
 import dk.ange.octave.exception.OctaveEvalException;
+import dk.ange.octave.exception.OctaveClassCastException;
+import dk.ange.octave.exception.OctaveIOException;
 import dk.ange.octave.exec.OctaveExec;
 import dk.ange.octave.exec.ReadFunctor;
 import dk.ange.octave.exec.ReaderWriteFunctor;

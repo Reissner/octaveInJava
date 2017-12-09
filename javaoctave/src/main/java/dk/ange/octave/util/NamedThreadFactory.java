@@ -58,6 +58,11 @@ public final class NamedThreadFactory implements ThreadFactory {
      * 
      * @param prefix
      */
+    @SuppressWarnings("PMD.AvoidThreadGroup")
+    // Thread.getThreadGroup() causes warning 
+    // only because threadgroup has methods which are not threadsafe. 
+    // but we do not invoke method on group, 
+    // use just to create new thread with that group. 
     public NamedThreadFactory(final String prefix) {
         final SecurityManager securityManager = System.getSecurityManager();
         this.group = (securityManager != null) 

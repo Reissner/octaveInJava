@@ -38,7 +38,7 @@ import dk.ange.octave.type.OctaveObject;
 public abstract class OctaveDataReader {
 
     /**
-     * Maps the {@link OctaveDataReader#octaveType()} 
+     * Maps the {@link #octaveType()} 
      * of an {@link OctaveDataReader} to the {@link OctaveDataReader} itself 
      * which is able to read the octave type from a reader. 
      */

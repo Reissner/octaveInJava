@@ -39,7 +39,7 @@ import dk.ange.octave.type.OctaveObject;
 public abstract class OctaveDataWriter<T extends OctaveObject> {
 
     /**
-     * Maps the {@link OctaveDataReader#javaType()} 
+     * Maps the {@link #javaType()} 
      * which represents an octave type 
      * of an {@link OctaveDataWriter} to the {@link OctaveDataWriter} itself 
      * which is able to write the octave type to a writer. 

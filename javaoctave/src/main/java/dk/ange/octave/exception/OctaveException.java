@@ -70,14 +70,14 @@ public abstract class OctaveException extends RuntimeException {
     /**
      * @return destroyed
      */
-    public boolean isDestroyed() {
-        return destroyed;
+    public final boolean isDestroyed() {
+        return this.destroyed;
     }
 
     /**
      * @param destroyed
      */
-    public void setDestroyed(final boolean destroyed) {
+    public final void setDestroyed(final boolean destroyed) {
         this.destroyed = destroyed;
     }
 

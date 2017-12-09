@@ -29,11 +29,13 @@ public abstract class AbstractGenericMatrix<D> {
     /**
      * The dimensions, rows x columns x depth x ....
      */
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     protected final int[] size;
 
     /**
      * The data, vectorized.
      */
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     protected D data;
 
     /**
@@ -110,6 +112,11 @@ public abstract class AbstractGenericMatrix<D> {
     }
 
     /**
+     * Returns a new data store with given size 
+     * and entries carrying the default value. 
+     * The latter depends on the types: false for boolean, 
+     * 0 for int, 0.0 for double and null for GenericMatrix's. 
+     * 
      * @param size
      * @return new D[size]
      */
@@ -121,7 +128,8 @@ public abstract class AbstractGenericMatrix<D> {
     protected abstract int dataLength();
 
     /**
-     * Fill data with the default value between fromIndex and toIndex.
+     * Fill data with the default value from fromIndex inclusively 
+     * to toIndex exclusively. 
      * 
      * Arrays.fill(data, fromIndex, toIndex, default);
      * 
@@ -131,9 +139,14 @@ public abstract class AbstractGenericMatrix<D> {
     protected abstract void dataFillInit(int fromIndex, int toIndex);
 
     /**
+     * Returns whether data of this and <code>otherData</code> 
+     * are equal in the first <code>usedLength</code> entries. 
+     * Here, two null-values are considered equal. 
+     *
      * @param usedLength
      * @param otherData
-     * @return true if the used part of data is equal to otherData
+     * @return
+     *    whether the used part of data is equal to otherData
      */
     protected abstract boolean dataEquals(int usedLength, D otherData);
 
@@ -253,11 +266,15 @@ public abstract class AbstractGenericMatrix<D> {
         return data;
     }
 
-    /**
-     * @return the size
-     */
-    public int[] getSize() {
-        return this.size;
+    // /**
+    //  * @return the size
+    //  */
+    // public int[] getSize() {
+    //     return this.size;
+    // }
+
+    public int getSizeLength() {
+        return this.size.length;
     }
 
     /**
@@ -266,6 +283,9 @@ public abstract class AbstractGenericMatrix<D> {
      * @return the size in dimension i
      */
     public int size(final int i) {
+        return this.size[i - 1];
+    }
+    public int getSize(final int i) {
         return this.size[i - 1];
     }
 

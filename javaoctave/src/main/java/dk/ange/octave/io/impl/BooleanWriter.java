@@ -35,7 +35,7 @@ public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
     public void write(final Writer writer, 
 		      final OctaveBoolean octaveBoolean) throws IOException {
         writer.write("# type: bool matrix\n");
-        if (octaveBoolean.getSize().length > 2) {
+        if (octaveBoolean.getSizeLength() > 2) {
             saveDataVectorized(writer, octaveBoolean);
         } else {
             saveData2d(writer, octaveBoolean);
@@ -46,10 +46,12 @@ public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
 			    final OctaveBoolean octaveBoolean) 
 	throws IOException {
 
-        final int[] size = octaveBoolean.getSize();
+//        final int[] size = octaveBoolean.getSize();
         final boolean[] data = octaveBoolean.getData();
-        final int nrows = size[0];
-        final int ncols = size.length > 1 ? size[1] : 1;
+        final int nrows = octaveBoolean.getSize(1);//size[0];
+//        final int ncols = size.length > 1 ? size[1] : 1;
+        final int ncols = octaveBoolean.getSizeLength() > 1 
+	    ? octaveBoolean.getSize(2) : 1;//size[1] : 1;
         writer.write("# rows: " + nrows + "\n# columns: " + ncols + "\n");
         for (int row = 0; row < nrows; row++) {
             for (int col = 0; col < ncols; col++) {
@@ -63,11 +65,13 @@ public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
 				    final OctaveBoolean octaveMatrix) 
 	throws IOException {
 
-        final int[] size = octaveMatrix.getSize();
+//        final int[] size = octaveMatrix.getSize();
         final boolean[] data = octaveMatrix.getData();
-        writer.write("# ndims: " + size.length + "\n");
-        for (final int sdim : size) {
-            writer.write(" " + sdim);
+//        writer.write("# ndims: " + size.length + "\n");
+        writer.write("# ndims: " + octaveMatrix.getSizeLength() + "\n");
+//        for (final int sdim : size) {
+        for (int idx = 1; idx <= octaveMatrix.getSizeLength(); idx++) {
+            writer.write(" " + octaveMatrix.getSize(idx));
         }
         for (final boolean b : data) {
             writer.write("\n " + (b ? "1" : "0"));

@@ -50,6 +50,10 @@ public final class OctaveDouble extends DoubleMatrix implements OctaveObject {
         super(o);
     }
 
+    public OctaveDouble zero() {
+	return new OctaveDouble(this.size);
+    }
+
     @Override
     public OctaveDouble shallowCopy() {
         return new OctaveDouble(this);

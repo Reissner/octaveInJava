@@ -81,6 +81,7 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
      * @param value
      * @param pos
      */
+    // overwritten in OctaveCell 
     public void set(final T value, final int... pos) {
         resizeUp(pos);
         data[pos2ind(pos)] = value;
@@ -92,6 +93,7 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
      * @param pos
      * @return value at pos
      */
+    // overwritten in OctaveCell 
     public T get(final int... pos) {
         return data[pos2ind(pos)];
     }

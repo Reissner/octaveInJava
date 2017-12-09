@@ -76,7 +76,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
      * @param value
      * @param pos
      */
-    public void set(final double value, final int... pos) {
+    public final void set(final double value, final int... pos) {
         resizeUp(pos);
         data[pos2ind(pos)] = value;
     }
@@ -87,7 +87,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
      * @param pos
      * @return value at pos
      */
-    public double get(final int... pos) {
+    public final double get(final int... pos) {
         return data[pos2ind(pos)];
     }
 

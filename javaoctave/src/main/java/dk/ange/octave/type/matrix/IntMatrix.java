@@ -76,7 +76,7 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
      * @param value
      * @param pos
      */
-    public void set(final int value, final int... pos) {
+    public final void set(final int value, final int... pos) {
         resizeUp(pos);
         this.data[pos2ind(pos)] = value;
     }
@@ -87,7 +87,7 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
      * @param pos
      * @return value at pos
      */
-    public int get(final int... pos) {
+    public final int get(final int... pos) {
         return this.data[pos2ind(pos)];
     }
 

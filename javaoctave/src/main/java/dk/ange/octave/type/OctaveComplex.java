@@ -30,8 +30,8 @@ public final class OctaveComplex implements OctaveObject {
      * @param size
      */
     public OctaveComplex(final int... size) {
-        real = new DoubleMatrix(size);
-        imag = new DoubleMatrix(size);
+        this.real = new DoubleMatrix(size);
+        this.imag = new DoubleMatrix(size);
     }
 
     /**
@@ -40,8 +40,8 @@ public final class OctaveComplex implements OctaveObject {
      * @param o
      */
     public OctaveComplex(final OctaveComplex o) {
-        real = new DoubleMatrix(o.real);
-        imag = new DoubleMatrix(o.imag);
+        this.real = new DoubleMatrix(o.real);
+        this.imag = new DoubleMatrix(o.imag);
     }
 
     /**
@@ -51,8 +51,13 @@ public final class OctaveComplex implements OctaveObject {
      * @param size
      */
     public OctaveComplex(final double[] realData, final int... size) {
-        real = new DoubleMatrix(realData, size);
-        imag = new DoubleMatrix(size);
+        this.real = new DoubleMatrix(realData, size);
+        this.imag = new DoubleMatrix(size);
+    }
+
+    public OctaveComplex(OctaveDouble r) {
+	this.real = new DoubleMatrix(r);
+	this.imag = r.zero();
     }
 
     /**
@@ -61,7 +66,7 @@ public final class OctaveComplex implements OctaveObject {
      * @return the size in dimension i
      */
     public int size(final int i) {
-        return real.size(i);
+        return this.real.size(i);
     }
 
     /**
@@ -70,7 +75,7 @@ public final class OctaveComplex implements OctaveObject {
      * @see dk.ange.octave.type.matrix.AbstractGenericMatrix#pos2ind(int[])
      */
     public int pos2ind(final int... pos) {
-        return real.pos2ind(pos);
+        return this.real.pos2ind(pos);
     }
 
     /**
@@ -78,8 +83,8 @@ public final class OctaveComplex implements OctaveObject {
      * @param pos
      */
     public void setReal(final double value, final int... pos) {
-        real.set(value, pos);
-        imag.resizeUp(pos);
+        this.real.set(value, pos);
+        this.imag.resizeUp(pos);
     }
 
     /**
@@ -87,14 +92,14 @@ public final class OctaveComplex implements OctaveObject {
      * @return the real value stored at pos
      */
     public double getReal(final int... pos) {
-        return real.get(pos);
+        return this.real.get(pos);
     }
 
     /**
      * @return the array of real value stored in the matrix
      */
     public double[] getReal() {
-        return real.getData();
+        return this.real.getData();
     }
 
     /**
@@ -102,8 +107,8 @@ public final class OctaveComplex implements OctaveObject {
      * @param pos
      */
     public void setImag(final double value, final int... pos) {
-        real.resizeUp(pos);
-        imag.set(value, pos);
+        this.real.resizeUp(pos);
+        this.imag.set(value, pos);
     }
 
     /**
@@ -111,7 +116,7 @@ public final class OctaveComplex implements OctaveObject {
      * @return the imaginary value stored at pos
      */
     public double getImag(final int... pos) {
-        return imag.get(pos);
+        return this.imag.get(pos);
     }
 
     /**
