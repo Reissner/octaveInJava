@@ -30,6 +30,11 @@ import org.apache.commons.logging.LogFactory;
  */
 final class OctaveReaderCallable implements Callable<Void> {
 
+    private static final String MSG_IOE_READ = 
+	"IOException from ReadFunctor";
+    private static final String MSG_IOE_CLS = 
+	"IOException during close";
+
     private static final Log LOG = LogFactory
 	.getLog(OctaveReaderCallable.class);
 
@@ -59,16 +64,14 @@ final class OctaveReaderCallable implements Callable<Void> {
         try {
             this.readFunctor.doReads(reader);
         } catch (final IOException e) {
-            final String message = "IOException from ReadFunctor";
-            LOG.debug(message, e);
-            throw new OctaveIOException(message, e);
+             LOG.debug(MSG_IOE_READ, e);
+            throw new OctaveIOException(MSG_IOE_READ, e);
         } finally {
             try {
                 reader.close();
             } catch (final IOException e) {
-                final String message = "IOException during close";
-                LOG.debug(message, e);
-                throw new OctaveIOException(message, e);
+                LOG.debug(MSG_IOE_CLS, e);
+                throw new OctaveIOException(MSG_IOE_CLS, e);
             }
         }
         return null;

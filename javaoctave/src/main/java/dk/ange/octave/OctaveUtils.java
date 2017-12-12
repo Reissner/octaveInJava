@@ -15,6 +15,16 @@ import dk.ange.octave.type.OctaveString;
  */
 public final class OctaveUtils {
 
+    /**
+     * A variable name not to be listed by {@link #listVars(OctaveEngine)}. 
+     */
+    private static final String NARGIN = "__nargin__";
+
+    /**
+     * A variable name not to be listed by {@link #listVars(OctaveEngine)}. 
+     */
+    private static final String ANS    = "ans";
+
     private static final Random RANDOM = new Random();
 
     private OctaveUtils() {
@@ -48,9 +58,9 @@ public final class OctaveUtils {
         final Pattern pattern = Pattern.compile("javaoctave_[0-9a-f]{12}_eval");
         for (int i = 1; i <= data.size(2); ++i) {
             final String name = data.get(OctaveString.class, 1, i).getString();
-            if (varName     .equals(name) || 
-		"__nargin__".equals(name) || 
-		"ans"       .equals(name) || 
+            if (varName.equals(name) || 
+		NARGIN .equals(name) || 
+		ANS    .equals(name) || 
 		pattern.matcher(name).matches()) {
                 continue;
             }

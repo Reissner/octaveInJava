@@ -31,6 +31,8 @@ import org.apache.commons.logging.LogFactory;
  */
 final class DataWriteFunctor implements WriteFunctor {
 
+    private static final String MSG_IOE_UNEXP = "Unexpected IOException";
+
     private static final Log LOG = LogFactory.getLog(DataWriteFunctor.class);
 
     /**
@@ -76,9 +78,8 @@ final class DataWriteFunctor implements WriteFunctor {
             writer.flush();
         } catch (final IOException e) {
             // Will happen when we write to a dead octave process
-            final String message = "Unexpected IOException";
-            LOG.debug(message, e);
-            throw new OctaveIOException(message, e);
+            LOG.debug(MSG_IOE_UNEXP, e);
+            throw new OctaveIOException(MSG_IOE_UNEXP, e);
         }
     }
 

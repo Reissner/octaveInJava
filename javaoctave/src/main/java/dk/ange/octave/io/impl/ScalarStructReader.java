@@ -47,14 +47,14 @@ public final class ScalarStructReader extends OctaveDataReader {
 
         // # ndims: 2
         line = OctaveIO.readerReadLine(reader);
-        if (!line.equals("# ndims: 2")) {
+        if (!"# ndims: 2".equals(line)) {
             throw new OctaveParseException
 		("JavaOctave does not support matrix structs, read=" + line);
         }
 
         // 1 1
         line = OctaveIO.readerReadLine(reader);
-        if (!line.equals(" 1 1")) {
+        if (!" 1 1".equals(line)) {
             throw new OctaveParseException
 		("JavaOctave does not support matrix structs, read=" + line);
         }

@@ -49,13 +49,13 @@ public final class StructReader extends OctaveDataReader {
         line = OctaveIO.readerReadLine(reader);
         // In octave 3.6 dimension of the scalar is also written now
         if (line != null && line.startsWith("# ndims:")) {
-            if (!line.equals("# ndims: 2")) {
+            if (!"# ndims: 2".equals(line)) {
                 throw new OctaveParseException
 		    ("JavaOctave does not support matrix structs, read '" + 
 		     line + "'");
             }
             line = OctaveIO.readerReadLine(reader);
-            if (!line.equals(" 1 1")) {
+            if (!" 1 1".equals(line)) {
                 throw new OctaveParseException
 		    ("JavaOctave does not support matrix structs, read '" + 
 		     line + "'");

@@ -42,7 +42,8 @@ public final class OctaveIO {
 
     private static final String TYPE = "# type: ";
     private static final String GLOBAL = "global ";
-
+    private static final String TOKEN = "# name: ";
+ 
     private final OctaveExec octaveExec;
 
     /**
@@ -128,7 +129,7 @@ public final class OctaveIO {
         }
         final String typeGlobal = line.substring(TYPE.length());
         // Ignore "global " prefix to type (it is not really a type)
-         final String type;
+	final String type;
         if (typeGlobal != null && typeGlobal.startsWith(GLOBAL)) {
             type = typeGlobal.substring(GLOBAL.length());
         } else {
@@ -152,12 +153,11 @@ public final class OctaveIO {
     public static 
 	Map<String, OctaveObject> readWithName(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
-        final String token = "# name: ";
-        if (!line.startsWith(token)) {
+       if (!line.startsWith(TOKEN)) {
             throw new OctaveParseException
-		("Expected '" + token + "', but got '" + line + "'");
+		("Expected '" + TOKEN + "', but got '" + line + "'");
         }
-        final String name = line.substring(token.length());
+        final String name = line.substring(TOKEN.length());
         return Collections.singletonMap(name, read(reader));
     }
 

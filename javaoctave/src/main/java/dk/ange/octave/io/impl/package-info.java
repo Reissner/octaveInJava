@@ -158,7 +158,3 @@
  * </ul>
  */
 package dk.ange.octave.io.impl;
-
-import dk.ange.octave.io.impl.BooleanReader;
-import dk.ange.octave.io.impl.BooleanWriter;
-import dk.ange.octave.io.impl.*;

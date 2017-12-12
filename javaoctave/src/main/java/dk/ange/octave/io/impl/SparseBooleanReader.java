@@ -64,7 +64,7 @@ public final class SparseBooleanReader extends OctaveDataReader {
         for (int n = 0; n < nnz; ++n) {
             final String line = OctaveIO.readerReadLine(reader);
             final String[] split = line.split(" ");
-            if (split.length != 3) {
+            if (split.length != 3) { // NOPMD 
                 throw new OctaveParseException("split.length != 3");
             }
             try {

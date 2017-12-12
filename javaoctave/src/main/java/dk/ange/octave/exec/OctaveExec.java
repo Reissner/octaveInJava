@@ -54,6 +54,15 @@ public final class OctaveExec {
     public static final String PROPERTY_EXECUTABLE = 
 	"dk.ange.octave.executable";
 
+    public static final String MSG_IOE_NH = 
+	"InterruptedException should not happen";
+
+    public static final String MSG_EXE_NH = 
+	"ExecutionException should not happen";
+
+    public static final String MSG_RTE_NH = 
+	"RuntimeException should not happen";
+
     private static final Log LOG = LogFactory.getLog(OctaveExec.class);
 
     /**
@@ -125,14 +134,9 @@ public final class OctaveExec {
 		      final File workingDir) {
         final String[] cmdArray = new String[argsArray.length + 1];
 
-	cmdArray[0] = (octaveProgram != null)
-	    ? octaveProgram.getPath()
-	    : System.getProperty(PROPERTY_EXECUTABLE, "octave");
-        // if (octaveProgram != null) {
-        //     cmdArray[0] = octaveProgram.getPath();
-        // } else {
-        //     cmdArray[0] = System.getProperty(PROPERTY_EXECUTABLE, "octave");
-        // }
+	cmdArray[0] = (octaveProgram == null)
+	    ? System.getProperty(PROPERTY_EXECUTABLE, "octave")
+	    : octaveProgram.getPath();
 	System.arraycopy(argsArray, 0, cmdArray, 1, argsArray.length);
 
         try {
@@ -210,35 +214,32 @@ public final class OctaveExec {
 	try {
             future.get();
         } catch (final InterruptedException e) {
-            final String message = "InterruptedException should not happen";
-            LOG.error(message, e);
-            return new RuntimeException(message, e);
+            LOG.error(MSG_IOE_NH, e);
+            return new RuntimeException(MSG_IOE_NH, e);
         } catch (final ExecutionException e) {
             if (e.getCause() instanceof OctaveException) {
                 final OctaveException oe = (OctaveException) e.getCause();
                 return reInstException(oe);
             }
             // Can happen when there is an error in a OctaveWriter
-            final String message = "ExecutionException should not happen";
-	    LOG.error(message, e);
-	    return new RuntimeException(message, e);
+ 	    LOG.error(MSG_EXE_NH, e);
+	    return new RuntimeException(MSG_EXE_NH, e);
         } catch (final CancellationException e) {
             return e;
         } catch (final RuntimeException e) {
-            final String message = "RuntimeException should not happen";
-            LOG.error(message, e);
-            return new RuntimeException(message, e);
+            LOG.error(MSG_RTE_NH, e);
+            return new RuntimeException(MSG_RTE_NH, e);
         }
         return null;
     }
 
     private OctaveException reInstException(final OctaveException inException) {
-        final OctaveException outException;
+        OctaveException outException;
         try {
             outException = inException.getClass()
 		.getConstructor(String.class, Throwable.class)
 		.newInstance(inException.getMessage(), inException);
-        } catch (final Exception e) {
+        } catch (final Throwable e) {
             throw new IllegalStateException("Exception should not happen", e);
         }
         if (isDestroyed()) {
@@ -294,7 +295,7 @@ public final class OctaveExec {
             }
             this.processReader.close();
             this.errorStreamThread.close();
-            final int exitValue;
+            int exitValue;
             try {
                 exitValue = this.process.waitFor();
             } catch (final InterruptedException e) {
