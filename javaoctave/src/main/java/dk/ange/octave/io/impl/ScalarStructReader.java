@@ -40,6 +40,7 @@ public final class ScalarStructReader extends OctaveDataReader {
         return "scalar struct";
     }
 
+    // **** should be OctaveStuct 
     @Override
     public OctaveObject read(final BufferedReader reader) {
         String line;

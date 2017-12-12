@@ -22,7 +22,8 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveBoolean;
 
 /**
- * The reader for the octave type (scalar) "bool". 
+ * The reader for the octave type (scalar) "bool" 
+ * reading an {@link OctaveBoolean} from a {@link BufferedReader}. 
  */
 public final class BooleanSingleReader extends OctaveDataReader {
 
