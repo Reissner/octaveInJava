@@ -26,6 +26,8 @@ import java.util.Arrays;
  */
 public abstract class AbstractGenericMatrix<D> {
 
+    private static final int PRIME = 31;
+
     /**
      * The dimensions, rows x columns x depth x ....
      */
@@ -94,8 +96,7 @@ public abstract class AbstractGenericMatrix<D> {
             final StringBuilder text = new StringBuilder();
             text.append("length of data(");
             text.append(dataLength());
-            text.append(") is smaller than size(");
-            text.append("[");
+            text.append(") is smaller than size([");
             boolean first = true;
             for (final int i : size) {
                 if (first) {
@@ -105,8 +106,7 @@ public abstract class AbstractGenericMatrix<D> {
                 }
                 text.append(i);
             }
-            text.append("]");
-            text.append(")");
+            text.append("])");
             throw new IllegalArgumentException(text.toString());
         }
     }
@@ -285,10 +285,9 @@ public abstract class AbstractGenericMatrix<D> {
 
     @Override
     public final int hashCode() {
-        final int prime = 31;
         int result = 1;
-        result = prime * result + ((data == null) ? 0 : data.hashCode());
-        result = prime * result + Arrays.hashCode(size);
+        result = PRIME * result + ((data == null) ? 0 : data.hashCode());
+        result = PRIME * result + Arrays.hashCode(size);
         return result;
     }
 

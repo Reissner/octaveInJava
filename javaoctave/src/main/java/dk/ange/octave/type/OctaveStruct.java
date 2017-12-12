@@ -27,6 +27,8 @@ import dk.ange.octave.type.cast.Cast;
  */
 public final class OctaveStruct implements OctaveObject {
 
+    private static final int PRIME = 31;
+
     private final Map<String, OctaveObject> data;
 
     /**
@@ -104,9 +106,8 @@ public final class OctaveStruct implements OctaveObject {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
         int result = 1;
-        result = prime * result + ((data == null) ? 0 : data.hashCode());
+        result = PRIME * result + ((data == null) ? 0 : data.hashCode());
         return result;
     }
 

@@ -24,6 +24,8 @@ import java.util.Arrays;
  */
 public final class OctaveSparseBoolean implements OctaveObject {
 
+    private static final int PRIME = 31;
+
     private final int rows;
 
     private final int columns;
@@ -141,14 +143,13 @@ public final class OctaveSparseBoolean implements OctaveObject {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
         int result = 1;
-        result = prime * result + Arrays.hashCode(columnIndexes);
-        result = prime * result + columns;
-        result = prime * result + Arrays.hashCode(data);
-        result = prime * result + nnz;
-        result = prime * result + Arrays.hashCode(rowIndexes);
-        result = prime * result + rows;
+        result = PRIME * result + Arrays.hashCode(columnIndexes);
+        result = PRIME * result + columns;
+        result = PRIME * result + Arrays.hashCode(data);
+        result = PRIME * result + nnz;
+        result = PRIME * result + Arrays.hashCode(rowIndexes);
+        result = PRIME * result + rows;
         return result;
     }
 
@@ -179,10 +180,11 @@ public final class OctaveSparseBoolean implements OctaveObject {
         if (!Arrays.equals(rowIndexes, other.rowIndexes)) {
             return false;
         }
-        if (rows != other.rows) {
-            return false;
-        }
-        return true;
+	return rows == other.rows;
+        // if (rows != other.rows) {
+        //     return false;
+        // }
+        // return true;
     }
 
 }

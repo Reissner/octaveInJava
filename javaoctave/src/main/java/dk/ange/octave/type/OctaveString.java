@@ -23,6 +23,8 @@ package dk.ange.octave.type;
  */
 public final class OctaveString implements OctaveObject {
 
+    private static final int PRIME = 31;
+
     private String value;
 
     /**
@@ -49,9 +51,8 @@ public final class OctaveString implements OctaveObject {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
         int result = 1;
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        result = PRIME * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
 

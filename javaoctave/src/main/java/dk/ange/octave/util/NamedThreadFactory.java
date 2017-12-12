@@ -65,9 +65,9 @@ public final class NamedThreadFactory implements ThreadFactory {
     // use just to create new thread with that group. 
     public NamedThreadFactory(final String prefix) {
         final SecurityManager securityManager = System.getSecurityManager();
-        this.group = (securityManager != null) 
-	    ? securityManager       .getThreadGroup() 
-	    : Thread.currentThread().getThreadGroup();
+        this.group = (securityManager == null) 
+	    ? Thread.currentThread().getThreadGroup()
+	    : securityManager       .getThreadGroup() ;
         this.namePrefix = Thread.currentThread().getName() + "-javaoctave-" 
 	    + prefix + "-" + POOL_NUMBER.getAndIncrement() + "-";
     }

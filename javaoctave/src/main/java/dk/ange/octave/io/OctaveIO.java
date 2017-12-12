@@ -127,14 +127,16 @@ public final class OctaveIO {
             throw new OctaveParseException
 		("Expected '" + TYPE + "' got '" + line + "'");
         }
-        final String typeGlobal = line.substring(TYPE.length());
+        String typeGlobal = line.substring(TYPE.length());
         // Ignore "global " prefix to type (it is not really a type)
-	final String type;
-        if (typeGlobal != null && typeGlobal.startsWith(GLOBAL)) {
-            type = typeGlobal.substring(GLOBAL.length());
-        } else {
-            type = typeGlobal;
-        }
+	String type = (typeGlobal != null && typeGlobal.startsWith(GLOBAL))
+	    ? typeGlobal.substring(GLOBAL.length())
+	    : typeGlobal;
+        // if (typeGlobal != null && typeGlobal.startsWith(GLOBAL)) {
+        //     type = typeGlobal.substring(GLOBAL.length());
+        // } else {
+        //     type = typeGlobal;
+        // }
         final OctaveDataReader dataReader = 
 	    OctaveDataReader.getOctaveDataReader(type);
         if (dataReader == null) {

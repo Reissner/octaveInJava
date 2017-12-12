@@ -30,6 +30,10 @@ import dk.ange.octave.type.OctaveString;
  */
 public abstract class AbstractOctaveStringReader extends OctaveDataReader {
 
+
+    private static final String H_ELEMENTS1 = "# elements: 1";
+    private static final String H_ELEMENTS0 = "# elements: 0";
+
     /**
      * Overriding this method may add just handling of <code>\\</code> 
      * or delegate to this method. 
@@ -39,7 +43,7 @@ public abstract class AbstractOctaveStringReader extends OctaveDataReader {
         final String elements = OctaveIO.readerReadLine(reader);
         final StringBuilder builder = new StringBuilder();
 	// NOTE: in java > 1.7 strings are allowed in switch 
-	if ("# elements: 1".equals(elements)) {
+	if (H_ELEMENTS1.equals(elements)) {
             final String lengthString = OctaveIO.readerReadLine(reader);
             if (!lengthString.startsWith("# length: ")) {
                 throw new OctaveParseException
@@ -59,7 +63,7 @@ public abstract class AbstractOctaveStringReader extends OctaveDataReader {
 		    ("Unexpected length of string read. expected=" + 
 		     length + ", actual=" + builder.length());
             }
-        } else if (!"# elements: 0".equals(elements)) {
+        } else if (!H_ELEMENTS0.equals(elements)) {
             throw new OctaveParseException
 		("Expected elements to be 0 or 1, '" + elements + "'");
         }

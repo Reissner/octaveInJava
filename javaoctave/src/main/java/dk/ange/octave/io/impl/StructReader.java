@@ -34,6 +34,8 @@ public final class StructReader extends OctaveDataReader {
     private static final String LENGTH = "# length: ";
     private static final String CELL = "# type: cell";
     private static final String NAME = "# name: ";
+    private static final String N_DIMS2 = "# ndims: 2";
+    private static final String V_DIMS2 = " 1 1";
 
     private static final CellReader CELL_READER = new CellReader();
 
@@ -49,13 +51,13 @@ public final class StructReader extends OctaveDataReader {
         line = OctaveIO.readerReadLine(reader);
         // In octave 3.6 dimension of the scalar is also written now
         if (line != null && line.startsWith("# ndims:")) {
-            if (!"# ndims: 2".equals(line)) {
+            if (!N_DIMS2.equals(line)) {
                 throw new OctaveParseException
 		    ("JavaOctave does not support matrix structs, read '" + 
 		     line + "'");
             }
             line = OctaveIO.readerReadLine(reader);
-            if (!" 1 1".equals(line)) {
+            if (!V_DIMS2.equals(line)) {
                 throw new OctaveParseException
 		    ("JavaOctave does not support matrix structs, read '" + 
 		     line + "'");

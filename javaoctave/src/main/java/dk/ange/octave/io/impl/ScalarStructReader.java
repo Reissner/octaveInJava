@@ -34,6 +34,8 @@ import dk.ange.octave.type.OctaveStruct;
 public final class ScalarStructReader extends OctaveDataReader {
     private static final String NAME = "# name: ";
     private static final String LENGTH = "# length: ";
+    private static final String N_DIMS2 = "# ndims: 2";
+    private static final String V_DIMS2 = " 1 1";
 
     @Override
     public String octaveType() {
@@ -47,14 +49,14 @@ public final class ScalarStructReader extends OctaveDataReader {
 
         // # ndims: 2
         line = OctaveIO.readerReadLine(reader);
-        if (!"# ndims: 2".equals(line)) {
+        if (!N_DIMS2.equals(line)) {
             throw new OctaveParseException
 		("JavaOctave does not support matrix structs, read=" + line);
         }
 
         // 1 1
         line = OctaveIO.readerReadLine(reader);
-        if (!" 1 1".equals(line)) {
+        if (!V_DIMS2.equals(line)) {
             throw new OctaveParseException
 		("JavaOctave does not support matrix structs, read=" + line);
         }

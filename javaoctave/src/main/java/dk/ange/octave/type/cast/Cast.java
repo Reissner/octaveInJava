@@ -29,6 +29,8 @@ import dk.ange.octave.type.OctaveObject;
  */
 public final class Cast {
 
+    private static final int PRIME = 31;
+ 
     private static Map<ClassPair<?, ?>, Caster<?, ?>> casterMap;
 
     private Cast() {
@@ -126,10 +128,9 @@ public final class Cast {
 
         @Override
         public int hashCode() {
-            final int prime = 31;
             int result = 1;
-            result = prime * result + ((from == null) ? 0 : from.hashCode());
-            result = prime * result + ((to   == null) ? 0 :   to.hashCode());
+            result = PRIME * result + ((from == null) ? 0 : from.hashCode());
+            result = PRIME * result + ((to   == null) ? 0 :   to.hashCode());
             return result;
         }
 

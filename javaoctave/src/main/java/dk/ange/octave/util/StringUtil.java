@@ -48,7 +48,7 @@ public final class StringUtil {
 	    buf.append(str);
 	    return;
 	}
-	if (c < 0x20) {
+	if (c < 0x20) { // NOPMD 
 	    buf.append("\\u00");
 	    int x = c / 0x10;
 	    buf.append((char) (x < 0xA ? x + '0' : x - 0xA + 'A'));

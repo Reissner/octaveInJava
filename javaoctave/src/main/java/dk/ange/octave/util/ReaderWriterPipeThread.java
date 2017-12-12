@@ -32,8 +32,9 @@ public final class ReaderWriterPipeThread extends Thread {
     private static final Log LOG = LogFactory
 	.getLog(ReaderWriterPipeThread.class);
 
-    private static final int BUFFERSIZE = 4 * 1024;
-
+    //private static final int BUFFERSIZE = 4 * 1024;
+    private static final char[] BUF = new char[4 * 1024];//[BUFFERSIZE];
+ 
     private final Reader reader;
 
     private Writer writer;
@@ -74,11 +75,10 @@ public final class ReaderWriterPipeThread extends Thread {
 
     @Override
     public void run() {
-        final char[] b = new char[BUFFERSIZE];
         while (!interrupted()) {
-            final int len;
+            int len;
             try {
-                len = reader.read(b);
+                len = reader.read(BUF);
             } catch (final IOException e) {
                 LOG.error("Error when reading from reader", e);
                 throw new RuntimeException(e);
@@ -89,7 +89,7 @@ public final class ReaderWriterPipeThread extends Thread {
             try {
                 synchronized (this) {
                     if (writer != null) {
-                        writer.write(b, 0, len);
+                        writer.write(BUF, 0, len);
                         writer.flush();
                     }
                 }
