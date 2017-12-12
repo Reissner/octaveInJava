@@ -99,6 +99,7 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
      * @return value at pos
      */
     // overwritten in OctaveCell 
+    // see set(...)
     @SuppressWarnings("checkstyle:designforextension")
     public T get(final int... pos) {
         return this.data[pos2ind(pos)];
