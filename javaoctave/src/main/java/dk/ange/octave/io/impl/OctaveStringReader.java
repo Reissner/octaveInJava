@@ -19,7 +19,10 @@ import java.io.BufferedReader;
 import dk.ange.octave.type.OctaveString;
 
 /**
- * The reader of string. 
+ * The reader for the octave type "string" 
+ * reading an {@link OctaveString} from a {@link BufferedReader}. 
+ * The name is {@link OctaveStringReader} instead of <code>StringReader</code> 
+ * to avoid name clash with {@link java.io.StringReader}. 
  */
 public final class OctaveStringReader extends AbstractOctaveStringReader {
 

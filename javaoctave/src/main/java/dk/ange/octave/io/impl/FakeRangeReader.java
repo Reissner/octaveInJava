@@ -22,7 +22,8 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveFake;
 
 /**
- * The reader of a range.
+ * The reader for the octave type "range" (**** seems not general enough) 
+ * reading an {@link OctaveFake} **** from a {@link BufferedReader}.
  *
  * <pre>
  * # type: range

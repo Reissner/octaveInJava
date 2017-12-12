@@ -22,7 +22,8 @@ import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveSparseBoolean;
 
 /**
- * The writer of {@link OctaveSparseBoolean}. 
+ * The writer for the octave type "sparse bool matrix" 
+ * writing an {@link OctaveSparseBoolean} to a {@link Writer}. 
  *
  * <pre>
  * # name: x

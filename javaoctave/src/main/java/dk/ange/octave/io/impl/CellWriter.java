@@ -24,7 +24,8 @@ import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveObject;
 
 /**
- * The writer of OctaveCell. 
+ * The writer for the octave type "cell" 
+ * writing an {@link OctaveCell} to a {@link Writer}. 
  */
 public final class CellWriter extends OctaveDataWriter<OctaveCell> {
 

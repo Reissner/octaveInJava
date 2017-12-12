@@ -23,7 +23,9 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveComplex;
 
 /**
- * Reader of "complex matrix". 
+ * Reader for the octave type "complex matrix" 
+ * reading an {@link OctaveComplex} from a {@link BufferedReader}. 
+ * Note that the entries are of type "complex scalar". 
  *
  * Format is:
  *

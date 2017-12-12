@@ -26,7 +26,8 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveDouble;
 
 /**
- * The reader of matrix. 
+ * The reader for the octave type "matrix" (of double) 
+ * reading an {@link OctaveDouble} from a {@link BufferedReader}. 
  */
 public final class MatrixReader extends OctaveDataReader {
     private static final String NDIMS = "# ndims: ";
@@ -56,8 +57,8 @@ public final class MatrixReader extends OctaveDataReader {
         String line;
         line = ndimsLine;
         if (!line.startsWith(NDIMS)) {
-            throw new OctaveParseException("Expected <" + NDIMS + 
-					   ">, but got <" + line + ">");
+            throw new OctaveParseException
+		("Expected <" + NDIMS + ">, but got <" + line + ">");
         }
         final int ndims = Integer.parseInt(line.substring(NDIMS.length()));
         line = OctaveIO.readerReadLine(reader);

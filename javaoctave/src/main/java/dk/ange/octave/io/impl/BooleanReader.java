@@ -26,7 +26,9 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveBoolean;
 
 /**
- * The reader of matrix. 
+ * The reader for the octave type "bool matrix" (matrix with boolean entries) 
+ * reading an {@link OctaveBoolean} from a {@link BufferedReader}. 
+ * **** the class name should be BoolMatrixReader **** 
  */
 public final class BooleanReader extends OctaveDataReader {
     private static final String NDIMS = "# ndims: ";
@@ -114,8 +116,8 @@ public final class BooleanReader extends OctaveDataReader {
             line = OctaveIO.readerReadLine(reader);
             final String[] split = line.split(" ");
             if (split.length != columns + 1) {
-                throw new OctaveParseException("Error in matrix-format: '" + 
-					       line + "'");
+                throw new OctaveParseException
+		    ("Error in matrix-format: '" + line + "'");
             }
             for (int c = 1; c < split.length; c++) {
                 data[(r - 1) + (c - 1) * rows] = parseBoolean(split[c]);

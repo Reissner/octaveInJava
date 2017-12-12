@@ -30,10 +30,13 @@ import dk.ange.octave.type.OctaveObject;
 /**
  * Service Provider Interface for the IO handler 
  * that can read {@link OctaveObject}s. 
+ * The octave type which can be read is given by {@link #octaveType()} 
+ * whereas {@link #read(BufferedReader)} performs reading. 
+ * <p>
  * The according implementations are in package {@link dk.ange.octave.io.impl} 
  * and extend this class. 
  * These classes are registered in the jar-file 
- * under <code>META-INF/services/dk.ange.octave.io.OctaveDataReader</code>.
+ * under <code>META-INF/services/dk.ange.octave.io.OctaveDataReader</code>. 
  */
 public abstract class OctaveDataReader {
 
@@ -69,8 +72,9 @@ public abstract class OctaveDataReader {
     /**
      * Could be "scalar" or "string" or something else. 
      *
-     * @return the {@link Class} of the {@link OctaveObject} 
-     * that this IO handler loads and saves
+     * @return
+     *    the string representation of the octave type 
+     *    read by this {@link OctaveDataReader} 
      */
     public abstract String octaveType();
 

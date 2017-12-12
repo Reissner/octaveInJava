@@ -26,7 +26,8 @@ import dk.ange.octave.type.Octave;
 import dk.ange.octave.type.OctaveDouble;
 
 /**
- * The reader of scalar. 
+ * The reader for the octave type "scalar" (double) 
+ * reading an {@link OctaveDouble} from a {@link BufferedReader}. 
  */
 public final class ScalarReader extends OctaveDataReader {
 

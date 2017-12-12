@@ -26,7 +26,8 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveInt;
 
 /**
- * The reader of matrix. 
+ * The reader for the octave type "uint8 matrix" 
+ * reading an {@link OctaveInt} from a {@link BufferedReader}. 
  */
 public final class Uint8MatrixReader extends OctaveDataReader {
     private static final String NDIMS = "# ndims: ";

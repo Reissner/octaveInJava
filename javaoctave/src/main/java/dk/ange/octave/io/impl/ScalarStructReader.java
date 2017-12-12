@@ -26,8 +26,10 @@ import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveStruct;
 
 /**
- * Read 'scalar struct', this is an encoding similar to 'struct' 
- * introduced in octave 3.6, it is optimized to the 1x1 struct.
+ * The reader for the octave type "scalar struct" 
+ * (which is an encoding similar to "struct" 
+ * introduced in octave 3.6, optimized to the 1x1 struct) 
+ * reading an {@link OctaveObject} from a {@link BufferedReader}.
  */
 public final class ScalarStructReader extends OctaveDataReader {
     private static final String NAME = "# name: ";

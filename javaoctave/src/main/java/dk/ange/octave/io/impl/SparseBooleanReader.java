@@ -25,7 +25,8 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveSparseBoolean;
 
 /**
- * The reader of {@link OctaveSparseBoolean}. 
+ * The reader for the octave type "sparse bool matrix" 
+ * reading an {@link OctaveSparseBoolean} from a {@link BufferedReader}. 
  *
  * <pre>
  * # name: x

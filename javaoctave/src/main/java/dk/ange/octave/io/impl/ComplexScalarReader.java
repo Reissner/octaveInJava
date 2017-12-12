@@ -22,7 +22,8 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveComplex;
 
 /**
- * Reader of "complex scalar". 
+ * The reader for the octave type "complex scalar" with 'double' components 
+ * reading an {@link OctaveComplex} from a {@link BufferedReader}. 
  *
  * Format is:
  *

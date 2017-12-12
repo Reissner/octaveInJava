@@ -22,7 +22,8 @@ import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveBoolean;
 
 /**
- * The writer of OctaveBoolean. 
+ * The writer for the octave type "bool matrix" (matrix with boolean entries) 
+ * writing an {@link OctaveBoolean} to a {@link Writer}. 
  */
 public final class BooleanWriter extends OctaveDataWriter<OctaveBoolean> {
 

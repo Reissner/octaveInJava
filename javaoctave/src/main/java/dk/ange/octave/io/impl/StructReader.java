@@ -27,7 +27,8 @@ import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveStruct;
 
 /**
- * The reader of struct. 
+ * The reader for the octave type "struct" 
+ * reading an {@link OctaveStruct} from a {@link BufferedReader}. 
  */
 public final class StructReader extends OctaveDataReader {
     private static final String LENGTH = "# length: ";

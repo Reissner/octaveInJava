@@ -24,7 +24,8 @@ import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveObject;
 
 /**
- * The reader of cell. 
+ * The reader for the octave type "cell" 
+ * reading in an {@link OctaveCell} from a {@link BufferedReader}. 
  */
 public final class CellReader extends OctaveDataReader {
 

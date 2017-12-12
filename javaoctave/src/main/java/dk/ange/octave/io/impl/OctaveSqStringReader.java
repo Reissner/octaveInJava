@@ -21,7 +21,11 @@ import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.type.OctaveString;
 
 /**
- * The reader of sq_string. 
+ * The name is {@link OctaveSqStringReader} 
+ * instead of <code>StringSqReader</code> 
+ * to be consistent with {@link OctaveStringReader}. 
+ * The reader for the octave type "sq_string" 
+ * reading an {@link OctaveString} from a {@link BufferedReader}. 
  */
 public final class OctaveSqStringReader extends AbstractOctaveStringReader {
 

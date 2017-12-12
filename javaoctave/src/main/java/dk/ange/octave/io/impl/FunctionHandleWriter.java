@@ -22,7 +22,8 @@ import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveFunctionHandle;
 
 /**
- * The writer of {@link OctaveFunctionHandle}. 
+ * The writer for the octave type "function handle" 
+ * writing an {@link OctaveFunctionHandle} to a {@link Writer}. 
  */
 public final class FunctionHandleWriter 
     extends OctaveDataWriter<OctaveFunctionHandle> {

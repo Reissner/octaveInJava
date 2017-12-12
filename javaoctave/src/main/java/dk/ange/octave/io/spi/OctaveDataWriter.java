@@ -31,7 +31,7 @@ import dk.ange.octave.type.OctaveObject;
  * The according implementations are in package {@link dk.ange.octave.io.impl} 
  * and extend this class. 
  * These classes are registered in the jar-file 
- * under <code>META-INF/services/dk.ange.octave.io.OctaveDataReader</code>.
+ * under <code>META-INF/services/dk.ange.octave.io.OctaveDataWriter</code>. 
  *
  * @param <T>
  *    the type extending {@link OctaveObject} this writer can write. 

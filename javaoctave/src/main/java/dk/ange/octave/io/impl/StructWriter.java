@@ -25,7 +25,8 @@ import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveStruct;
 
 /**
- * The writer of OctaveStruct. 
+ * The writer for the octave type "struct" 
+ * writing an {@link OctaveStruct} to a {@link Writer}. 
  */
 public final class StructWriter extends OctaveDataWriter<OctaveStruct> {
 
