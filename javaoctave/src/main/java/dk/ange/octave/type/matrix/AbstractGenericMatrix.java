@@ -167,7 +167,7 @@ public abstract class AbstractGenericMatrix<D> {
      * 
      * @param pos
      */
-    public void resizeUp(final int... pos) {
+    public final void resizeUp(final int... pos) {
         if (size.length != pos.length) {
             throw new UnsupportedOperationException
 		("Change in number of dimensions not supported (" + size.length
@@ -244,7 +244,7 @@ public abstract class AbstractGenericMatrix<D> {
      * @param pos
      * @return the index into data() for the position
      */
-    public int pos2ind(final int... pos) {
+    public final int pos2ind(final int... pos) {
         int idx = 0;
         int factor = 1;
         for (int dim = 0; dim < pos.length; ++dim) {
@@ -262,11 +262,11 @@ public abstract class AbstractGenericMatrix<D> {
     /**
      * @return the data
      */
-    public D getData() {
+    public final D getData() {
         return data;
     }
 
-    public int getSizeLength() {
+    public final int getSizeLength() {
         return this.size.length;
     }
 
@@ -275,10 +275,11 @@ public abstract class AbstractGenericMatrix<D> {
      *            dimension number in 1 based numbering, 1=row, 2=column
      * @return the size in dimension i
      */
-    public int size(final int i) {
+    public final int size(final int i) {
         return this.size[i - 1];
     }
-    public int getSize(final int i) {
+
+    public final int getSize(final int i) {
         return this.size[i - 1];
     }
 

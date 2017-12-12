@@ -61,13 +61,18 @@ public final class OctaveSparseBoolean implements OctaveObject {
     public OctaveSparseBoolean(final int rows,
 			       final int columns,
 			       final int nnz) {
+	// ****         nnz=0
         this(rows, columns, 0, new int[nnz], new int[nnz], new boolean[nnz]);
     }
 
     @Override
     public OctaveSparseBoolean shallowCopy() {
-        return new OctaveSparseBoolean
-	    (rows, columns, nnz, rowIndexes, columnIndexes, data);
+        return new OctaveSparseBoolean(this.rows,
+				       this.columns,
+				       this.nnz,
+				       this.rowIndexes,
+				       this.columnIndexes,
+				       this.data);
     }
 
     /**
@@ -75,37 +80,41 @@ public final class OctaveSparseBoolean implements OctaveObject {
      * @param row
      * @param column
      */
+    @SuppressWarnings("checkstyle:nowhitespaceafter")
     public void set(final boolean value, final int row, final int column) {
-        data[nnz] = value;
-        rowIndexes[nnz] = row;
-        columnIndexes[nnz] = column;
-        ++nnz;
+        this.data         [nnz] = value;
+        this.rowIndexes   [nnz] = row;
+        this.columnIndexes[nnz] = column;
+        ++this.nnz;
     }
 
     /**
      * @return the rows
      */
     public int getRows() {
-        return rows;
+        return this.rows;
     }
 
     /**
      * @return the columns
      */
     public int getColumns() {
-        return columns;
+        return this.columns;
     }
 
     /**
      * @return the nnz
      */
     public int getNnz() {
-        return nnz;
+        return this.nnz;
     }
 
     /**
      * @return the rowIndexes
      */
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings
+    (value = "EI_EXPOSE_REP", 
+     justification = "Not woth fixing: class has to be rewritten anyway. ")
     public int[] getRowIndexes() {
         return this.rowIndexes;
     }
@@ -113,6 +122,9 @@ public final class OctaveSparseBoolean implements OctaveObject {
     /**
      * @return the columnIndexes
      */
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings
+    (value = "EI_EXPOSE_REP", 
+     justification = "Not woth fixing: class has to be rewritten anyway. ")
     public int[] getColumnIndexes() {
         return this.columnIndexes;
     }
@@ -120,6 +132,9 @@ public final class OctaveSparseBoolean implements OctaveObject {
     /**
      * @return the data
      */
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings
+    (value = "EI_EXPOSE_REP", 
+     justification = "Not woth fixing: class has to be rewritten anyway. ")
     public boolean[] getData() {
         return this.data;
     }

@@ -15,8 +15,8 @@
  */
 package dk.ange.octave.io.impl;
 
-//import java.io.BufferedReader;
-//import dk.ange.octave.type.OctaveString;
+import java.io.BufferedReader;
+import dk.ange.octave.type.OctaveString;
 
 /**
  * The reader of string. 
@@ -28,8 +28,8 @@ public final class OctaveStringReader extends AbstractOctaveStringReader {
         return "string";
     }
 
-//    @Override
-//    public OctaveString read(final BufferedReader reader) {
-//	return super.read(reader);
-//    }
+    @Override
+    public OctaveString read(final BufferedReader reader) {
+	return readImpl(reader);
+    }
 }

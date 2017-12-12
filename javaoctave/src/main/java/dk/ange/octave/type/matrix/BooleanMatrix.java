@@ -42,17 +42,17 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
     }
 
     protected final int dataLength() {
-        return data.length;
+        return this.data.length;
     }
 
     protected final void dataFillInit(final int fromIndex, final int toIndex) {
-        Arrays.fill(data, fromIndex, toIndex, false);
+        Arrays.fill(this.data, fromIndex, toIndex, false);
     }
 
     protected final boolean dataEquals(final int usedLength,
 				       final boolean[] otherData) {
         for (int i = 0; i < usedLength; i++) {
-            if (data[i] != otherData[i]) {
+            if (this.data[i] != otherData[i]) {
                 return false;
             }
         }
@@ -67,7 +67,7 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
      */
     public final void set(final boolean value, final int... pos) {
         resizeUp(pos);
-        data[pos2ind(pos)] = value;
+        this.data[pos2ind(pos)] = value;
     }
 
     /**
@@ -77,7 +77,7 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
      * @return value at pos
      */
     public final boolean get(final int... pos) {
-        return data[pos2ind(pos)];
+        return this.data[pos2ind(pos)];
     }
 
 }

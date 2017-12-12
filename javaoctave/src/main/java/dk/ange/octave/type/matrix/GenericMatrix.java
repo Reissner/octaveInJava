@@ -51,6 +51,7 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
     }
 
     @SuppressWarnings("unchecked")
+    // **** is this a bug (ClassCastException)??
     protected final T[] newD(final int size) {
         return (T[]) new Object[size];
     }
@@ -60,13 +61,13 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
     }
 
     protected final void dataFillInit(final int fromIndex, final int toIndex) {
-        Arrays.fill(data, fromIndex, toIndex, null);
+        Arrays.fill(this.data, fromIndex, toIndex, null);
     }
 
     protected final boolean dataEquals(final int usedLength,
 				       final T[] otherData) {
         for (int i = 0; i < usedLength; i++) {
-            final T o1 = data[i];
+            final T o1 = this.data[i];
             final T o2 = otherData[i];
             if (!(o1 == null ? o2 == null : o1.equals(o2))) {
                 return false;
@@ -82,9 +83,13 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
      * @param pos
      */
     // overwritten in OctaveCell 
+    // questionable: where is value==null needed? 
+    // maybe this can be excluded right here. 
+    // It is not worth fixing now because possibly redesign required. 
+    @SuppressWarnings("checkstyle:designforextension")
     public void set(final T value, final int... pos) {
         resizeUp(pos);
-        data[pos2ind(pos)] = value;
+        this.data[pos2ind(pos)] = value;
     }
 
     /**
@@ -94,8 +99,9 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
      * @return value at pos
      */
     // overwritten in OctaveCell 
+    @SuppressWarnings("checkstyle:designforextension")
     public T get(final int... pos) {
-        return data[pos2ind(pos)];
+        return this.data[pos2ind(pos)];
     }
 
 }

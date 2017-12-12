@@ -34,8 +34,8 @@ public abstract class AbstractOctaveStringReader extends OctaveDataReader {
      * Overriding this method may add just handling of <code>\\</code> 
      * or delegate to this method. 
      */
-    @Override
-    public OctaveString read(final BufferedReader reader) {
+    //@Override
+    protected final OctaveString readImpl(final BufferedReader reader) {
         final String elements = OctaveIO.readerReadLine(reader);
         final StringBuilder builder = new StringBuilder();
 	// NOTE: in java > 1.7 strings are allowed in switch 
