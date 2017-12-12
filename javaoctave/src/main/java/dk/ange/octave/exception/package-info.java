@@ -38,4 +38,6 @@ package dk.ange.octave.exception;
  *     OctaveParseException
  *   OctaveNonrecoverableException
  *     OctaveIOException
+ *     OctaveInterruptedException
+ *     OctaveCastServiceException
  */

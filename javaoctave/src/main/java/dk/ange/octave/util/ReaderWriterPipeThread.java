@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
+import dk.ange.octave.exception.OctaveIOException;
+import dk.ange.octave.exception.OctaveInterruptedException;
+
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
@@ -81,7 +84,7 @@ public final class ReaderWriterPipeThread extends Thread {
                 len = reader.read(BUF);
             } catch (final IOException e) {
                 LOG.error("Error when reading from reader", e);
-                throw new RuntimeException(e);
+                throw new OctaveIOException(e);
             }
             if (len == -1) {
                 break;
@@ -95,7 +98,7 @@ public final class ReaderWriterPipeThread extends Thread {
                 }
             } catch (final IOException e) {
                 LOG.error("Error when writing to writer", e);
-                throw new RuntimeException(e);
+                throw new OctaveIOException(e);
             }
         }
         LOG.debug("ReaderWriterPipeThread finished without error");
@@ -119,7 +122,7 @@ public final class ReaderWriterPipeThread extends Thread {
         try {
             join();
         } catch (final InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new OctaveInterruptedException(e);
         }
     }
 

@@ -71,11 +71,12 @@ public final class OctaveStruct implements OctaveObject {
      */
     public OctaveObject get(final String key) {
         final OctaveObject value = data.get(key);
-        if (value == null) {
-            return null;
-        } else {
-            return value.shallowCopy();
-        }
+	return (value == null) ? null : value.shallowCopy();
+        // if (value == null) {
+        //     return null;
+        // } else {
+        //     return value.shallowCopy();
+        // }
     }
 
     /**

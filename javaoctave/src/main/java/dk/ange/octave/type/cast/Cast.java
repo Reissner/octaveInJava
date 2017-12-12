@@ -22,15 +22,21 @@ import java.util.Map;
 import javax.imageio.spi.ServiceRegistry;
 
 import dk.ange.octave.exception.OctaveClassCastException;
+import dk.ange.octave.exception.OctaveCastServiceException;
 import dk.ange.octave.type.OctaveObject;
 
 /**
  * Helper class for the auto cast functionality. 
+ * Currently, only a single caster is implemented: 
+ * {@link DoubleToComplexCaster} but this can be dynamically extended. 
  */
 public final class Cast {
 
     private static final int PRIME = 31;
  
+    /**
+     * Maps a class pair to an according caster. 
+     */
     private static Map<ClassPair<?, ?>, Caster<?, ?>> casterMap;
 
     private Cast() {
@@ -44,7 +50,7 @@ public final class Cast {
             @SuppressWarnings("rawtypes")
             final Iterator<Caster> sp = ServiceRegistry
 		.lookupProviders(Caster.class);
-            while (sp.hasNext()) {
+           while (sp.hasNext()) {
                 register(sp.next());
             }
         }
@@ -53,10 +59,10 @@ public final class Cast {
     private static <F, T> void register(final Caster<F, T> caster) {
         final ClassPair<F, T> cp = new ClassPair<F, T>(caster.from(),
 						       caster.to());
-        if (casterMap.containsKey(cp)) {
-            throw new RuntimeException("casterMap.containsKey(cp)");
+	Caster<?, ?> overwritten = casterMap.put(cp, caster);
+        if (overwritten != null) {
+            throw new OctaveCastServiceException("casterMap.containsKey(cp)");
         }
-        casterMap.put(cp, caster);
     }
 
     /**
@@ -101,10 +107,10 @@ public final class Cast {
         }
         final Caster<F, T> caster = (Caster<F, T>) casterMap.get(cp);
         if (!caster.from().equals(cp.from)) {
-            throw new RuntimeException("!caster.from().equals(cp.from)");
+            throw new OctaveCastServiceException("!caster.from().equals(cp.from)");
         }
         if (!caster.to().equals(cp.to)) {
-            throw new RuntimeException("!caster.to().equals(cp.to)");
+            throw new OctaveCastServiceException("!caster.to().equals(cp.to)");
         }
         return caster;
     }
