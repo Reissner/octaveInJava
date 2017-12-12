@@ -15,6 +15,9 @@
  */
 package dk.ange.octave.util;
 
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * Class for holding static utility functions for string handling: quoting. 
  * 
@@ -22,7 +25,38 @@ package dk.ange.octave.util;
  */
 public final class StringUtil {
 
+    private static final Map<Character, String> CHAR2STR;
+
+    static {
+	CHAR2STR = new HashMap<Character, String>();
+	CHAR2STR.put('"',  "\\\"");
+	CHAR2STR.put('\\', "\\\\");
+	CHAR2STR.put('\n',  "\\n");
+	CHAR2STR.put('\r',  "\\r");
+	CHAR2STR.put('\f',  "\\f");
+	CHAR2STR.put('\b',  "\\b");
+	CHAR2STR.put('\t',  "\\t");
+    } // static 
+
     private StringUtil() {
+    }
+
+    @SuppressWarnings("checkstyle:magicnumber")
+    private static void appendChar(StringBuffer buf, char c) {
+	String str = CHAR2STR.get(c);
+	if (str != null) {
+	    buf.append(str);
+	    return;
+	}
+	if (c < 0x20) {
+	    buf.append("\\u00");
+	    int x = c / 0x10;
+	    buf.append((char) (x < 0xA ? x + '0' : x - 0xA + 'A'));
+	    x = c & 0xF;
+	    buf.append((char) (x < 0xA ? x + '0' : x - 0xA + 'A'));
+	} else {
+	    buf.append(c);
+	}
     }
 
     /**
@@ -35,44 +69,18 @@ public final class StringUtil {
      * @param str
      * @return the string encoded and quoted
      */
-    @SuppressWarnings("checkstyle:magicnumber")
     public static String jQuote(final String str) {
         if (str == null) {
             return "null";
         }
-        final int ln = str.length();
-        final StringBuffer b = new StringBuffer(ln + 4);
-        b.append('"');
-        for (int i = 0; i < ln; i++) {
-            final char c = str.charAt(i);
-            if (c == '"') {
-                b.append("\\\"");
-            } else if (c == '\\') {
-                b.append("\\\\");
-            } else if (c < 0x20) {
-                if (c == '\n') {
-                    b.append("\\n");
-                } else if (c == '\r') {
-                    b.append("\\r");
-                } else if (c == '\f') {
-                    b.append("\\f");
-                } else if (c == '\b') {
-                    b.append("\\b");
-                } else if (c == '\t') {
-                    b.append("\\t");
-                } else {
-                    b.append("\\u00");
-                    int x = c / 0x10;
-                    b.append((char) (x < 0xA ? x + '0' : x - 0xA + 'A'));
-                    x = c & 0xF;
-                    b.append((char) (x < 0xA ? x + '0' : x - 0xA + 'A'));
-                }
-            } else {
-                b.append(c);
-            }
+        final int len = str.length();
+        final StringBuffer buf = new StringBuffer(len + 4);
+        buf.append('"');
+        for (int i = 0; i < len; i++) {
+	    appendChar(buf, str.charAt(i));
         } // for each characters
-        b.append('"');
-        return b.toString();
+        buf.append('"');
+        return buf.toString();
     }
 
     /**
@@ -87,41 +95,14 @@ public final class StringUtil {
      * @return the string encoded and quoted: 
      *    Starts and ends with <code>"</code>
      */
-    @SuppressWarnings("checkstyle:magicnumber")
-    // **** this is a copy of the above code 
     public static String jQuote(final char[] cbuf, final int len) {
-        final StringBuffer b = new StringBuffer(len + 4);
-        b.append('"');
+        final StringBuffer buf = new StringBuffer(len + 4);
+        buf.append('"');
         for (int i = 0; i < len; i++) {
-            final char c = cbuf[i];
-            if (c == '"') {
-                b.append("\\\"");
-            } else if (c == '\\') {
-                b.append("\\\\");
-            } else if (c < 0x20) {
-                if (c == '\n') {
-                    b.append("\\n");
-                } else if (c == '\r') {
-                    b.append("\\r");
-                } else if (c == '\f') {
-                    b.append("\\f");
-                } else if (c == '\b') {
-                    b.append("\\b");
-                } else if (c == '\t') {
-                    b.append("\\t");
-                } else {
-                    b.append("\\u00");
-                    int x = c / 0x10;
-                    b.append((char) (x < 0xA ? x + '0' : x - 0xA + 'A'));
-                    x = c & 0xF;
-                    b.append((char) (x < 0xA ? x + '0' : x - 0xA + 'A'));
-                }
-            } else {
-                b.append(c);
-            }
+	    appendChar(buf, cbuf[i]);
         } // for each characters
-        b.append('"');
-        return b.toString();
+        buf.append('"');
+        return buf.toString();
     }
 
 }
