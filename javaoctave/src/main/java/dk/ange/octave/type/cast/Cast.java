@@ -107,7 +107,8 @@ public final class Cast {
         }
         final Caster<F, T> caster = (Caster<F, T>) casterMap.get(cp);
         if (!caster.from().equals(cp.from)) {
-            throw new OctaveCastServiceException("!caster.from().equals(cp.from)");
+            throw new OctaveCastServiceException
+		("!caster.from().equals(cp.from)");
         }
         if (!caster.to().equals(cp.to)) {
             throw new OctaveCastServiceException("!caster.to().equals(cp.to)");

@@ -67,7 +67,7 @@ public final class NamedThreadFactory implements ThreadFactory {
         final SecurityManager securityManager = System.getSecurityManager();
         this.group = (securityManager == null) 
 	    ? Thread.currentThread().getThreadGroup()
-	    : securityManager       .getThreadGroup() ;
+	    : securityManager       .getThreadGroup();
         this.namePrefix = Thread.currentThread().getName() + "-javaoctave-" 
 	    + prefix + "-" + POOL_NUMBER.getAndIncrement() + "-";
     }

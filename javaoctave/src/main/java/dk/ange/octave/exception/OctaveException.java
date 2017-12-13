@@ -63,7 +63,7 @@ public abstract class OctaveException extends RuntimeException {
 
     /**
      * Constructor 
-     * required by {@link  OctaveExec#reInstException(OctaveException)} 
+     * required by {@link  OctaveExec#reInstException(OctaveException)}. 
      *
      * @param message
      * @param cause
