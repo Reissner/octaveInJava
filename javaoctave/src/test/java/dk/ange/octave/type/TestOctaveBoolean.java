@@ -15,7 +15,7 @@
  */
 package dk.ange.octave.type;
 
-import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
+//import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -76,11 +76,11 @@ public class TestOctaveBoolean {
      */
     @Test public void testSizeConstructor() {
         final OctaveBoolean matrix = new OctaveBoolean(3, 6, 5, 4);
-        assertEquals(matrix.getSize().length, 4);
-        assertEquals(matrix.getSize()[0], 3);
-        assertEquals(matrix.getSize()[1], 6);
-        assertEquals(matrix.getSize()[2], 5);
-        assertEquals(matrix.getSize()[3], 4);
+        assertEquals(4, matrix.getSizeLength());
+        assertEquals(3, matrix.getSize(1));
+        assertEquals(6, matrix.getSize(2));
+        assertEquals(5, matrix.getSize(3));
+        assertEquals(4, matrix.getSize(4));
 
         try {
             new OctaveBoolean(1);
@@ -138,17 +138,17 @@ public class TestOctaveBoolean {
     /** */
     @Test public void testResize() {
         final OctaveBoolean matrix = new OctaveBoolean(0, 4);
-        assertEquals(2, matrix.getSize().length);
-        assertEquals(0, matrix.getSize()[0]);
-        assertEquals(4, matrix.getSize()[1]);
+        assertEquals(2, matrix.getSizeLength());
+        assertEquals(0, matrix.getSize(1));
+        assertEquals(4, matrix.getSize(2));
         // assertEquals(0, matrix.getData().length); is 0
         assertTrue(matrix.getData().length >= 0);
 
         matrix.set(true, 1, 1);
         assertEquals(true, matrix.get(1, 1));
-        assertEquals(2, matrix.getSize().length);
-        assertEquals(1, matrix.getSize()[0]);
-        assertEquals(4, matrix.getSize()[1]);
+        assertEquals(2, matrix.getSizeLength());
+        assertEquals(1, matrix.getSize(1));
+        assertEquals(4, matrix.getSize(2));
         // assertEquals(4, matrix.getData().length); is 8
         assertTrue(matrix.getData().length >= 4);
     }
@@ -157,11 +157,11 @@ public class TestOctaveBoolean {
     @Test public void testPerformance() {
         OctaveBoolean matrix = new OctaveBoolean(30, 0);
         final long allowedTime;
-        if (matrix instanceof HasBeenInstrumented) {
+//        if (matrix instanceof HasBeenInstrumented) {
             allowedTime = 1800;
-        } else {
-            allowedTime = 300;
-        }
+        // } else {
+        //     allowedTime = 300;
+        // }
         long t = System.currentTimeMillis();
         // 4125 was the number of containers in a real job.
         for (int pos = 1; pos <= 4125; ++pos) {

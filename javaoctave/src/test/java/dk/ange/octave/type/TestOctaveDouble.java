@@ -24,7 +24,7 @@ import static org.junit.Assert.fail;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
+//import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
 
 /**
  * Test {@link OctaveDouble}
@@ -118,11 +118,11 @@ public class TestOctaveDouble {
      */
     @Test public void testSizeConstructor() {
         final OctaveDouble matrix = new OctaveDouble(3, 6, 5, 4);
-        assertEquals(matrix.getSize().length, 4);
-        assertEquals(matrix.getSize()[0], 3);
-        assertEquals(matrix.getSize()[1], 6);
-        assertEquals(matrix.getSize()[2], 5);
-        assertEquals(matrix.getSize()[3], 4);
+        assertEquals(4, matrix.getSizeLength());
+        assertEquals(3, matrix.getSize(1));
+        assertEquals(6, matrix.getSize(2));
+        assertEquals(5, matrix.getSize(3));
+        assertEquals(4, matrix.getSize(4));
 
         final OctaveDouble matrixEmpty = new OctaveDouble(0, 0);
         assertEquals(matrixEmpty.getData().length, 0);
@@ -255,17 +255,17 @@ public class TestOctaveDouble {
     /** */
     @Test public void testResize() {
         final OctaveDouble matrix = new OctaveDouble(0, 4);
-        assertEquals(2, matrix.getSize().length);
-        assertEquals(0, matrix.getSize()[0]);
-        assertEquals(4, matrix.getSize()[1]);
+        assertEquals(2, matrix.getSizeLength());
+        assertEquals(0, matrix.getSize(1));
+        assertEquals(4, matrix.getSize(2));
         // assertEquals(0, matrix.getData().length); is 0
         assertTrue(matrix.getData().length >= 0);
 
         matrix.set(42.0, 1, 1);
         assertEquals(42.0, matrix.get(1, 1), 0.0);
-        assertEquals(2, matrix.getSize().length);
-        assertEquals(1, matrix.getSize()[0]);
-        assertEquals(4, matrix.getSize()[1]);
+        assertEquals(2, matrix.getSizeLength());
+        assertEquals(1, matrix.getSize(1));
+        assertEquals(4, matrix.getSize(2));
         // assertEquals(4, matrix.getData().length); is 8
         assertTrue(matrix.getData().length >= 4);
     }
@@ -274,11 +274,11 @@ public class TestOctaveDouble {
     @Test public void testPerformance() {
         OctaveDouble matrix = new OctaveDouble(30, 0);
         final long allowedTime;
-        if (matrix instanceof HasBeenInstrumented) {
+//        if (matrix instanceof HasBeenInstrumented) {
             allowedTime = 1800;
-        } else {
-            allowedTime = 300;
-        }
+//        } else {
+//            allowedTime = 300;
+//        }
         long t = System.currentTimeMillis();
         // 4125 was the number of containers in a real job.
         for (int pos = 1; pos <= 4125; ++pos) {
