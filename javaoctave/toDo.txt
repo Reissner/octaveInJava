@@ -3,3 +3,7 @@ Tests:
 java.io.IOException: Stream closed
 - dk.ange.octave.examples.HomeExampleTest.testWithFunctionInVariable()
 seems not to terminate: thus deactivated using annotation @Ignore 
+
+Tests:
+in classes TestOctaveBoolean and TestOctaveDouble: 
+- re-add distinction: if (matrix instanceof HasBeenInstrumented)
