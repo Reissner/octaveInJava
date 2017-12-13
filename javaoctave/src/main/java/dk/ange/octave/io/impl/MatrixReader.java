@@ -30,8 +30,6 @@ import dk.ange.octave.type.OctaveDouble;
  * reading an {@link OctaveDouble} from a {@link BufferedReader}. 
  */
 public final class MatrixReader extends AbstractPrimitiveMatrixReader {
-    //OctaveDataReader {
-    //private static final String NDIMS = "# ndims: ";
 
     @Override
     public String octaveType() {

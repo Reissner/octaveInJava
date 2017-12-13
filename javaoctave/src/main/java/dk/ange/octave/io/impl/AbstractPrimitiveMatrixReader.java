@@ -26,6 +26,7 @@ abstract class AbstractPrimitiveMatrixReader extends OctaveDataReader {
      * @param ns
      * @return product of rs
      */
+    // **** same as in AbstractGenericMatrix 
     protected static int product(final int... ns) {
         int p = 1;
         for (final int n : ns) {

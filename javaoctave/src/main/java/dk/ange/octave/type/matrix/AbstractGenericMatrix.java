@@ -154,6 +154,7 @@ public abstract class AbstractGenericMatrix<D> {
      * @param ns
      * @return product of ns
      */
+    // **** same as in AbstractPrimitiveMatrixReader 
     private static int product(final int... ns) {
         int p = 1;
         for (final int n : ns) {

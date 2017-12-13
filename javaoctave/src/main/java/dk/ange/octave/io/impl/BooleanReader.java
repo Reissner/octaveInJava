@@ -31,8 +31,6 @@ import dk.ange.octave.type.OctaveBoolean;
  * **** the class name should be BoolMatrixReader **** 
  */
 public final class BooleanReader extends AbstractPrimitiveMatrixReader {
-    //OctaveDataReader {
-    //private static final String NDIMS = "# ndims: ";
 
     @Override
     public String octaveType() {
