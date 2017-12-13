@@ -22,7 +22,6 @@ import java.io.BufferedReader;
 
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveInt;
 
 /**
@@ -39,7 +38,17 @@ public final class Uint8MatrixReader extends AbstractPrimitiveMatrixReader {
     @Override
     public OctaveInt read(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
-        return readVectorizedMatrix(reader, line);
+        // 2d or 2d+?
+        if (line.startsWith("# rows: ")) {
+            return read2dmatrix(reader, line);
+        } else if (line.startsWith("# ndims: ")) {
+            return readVectorizedMatrix(reader, line);
+        } else {
+            throw new OctaveParseException
+		("Expected '# rows: ' or '# ndims: ', but got '" + line + "'");
+        }
+
+//        return readVectorizedMatrix(reader, line);
     }
 
     private OctaveInt readVectorizedMatrix(final BufferedReader reader,
@@ -69,5 +78,42 @@ public final class Uint8MatrixReader extends AbstractPrimitiveMatrixReader {
         }
         return new OctaveInt(data, size);
     }
+
+    private OctaveInt read2dmatrix(final BufferedReader reader,
+				   final String rowsLine) {
+        // # rows: 1
+        String line = rowsLine;
+        if (!line.startsWith("# rows: ")) {
+            throw new OctaveParseException
+		("Expected '# rows: ' got '" + line + "'");
+        }
+        final int rows = Integer.parseInt(line.substring(8));
+        // # columns: 3
+        line = OctaveIO.readerReadLine(reader);
+        if (!line.startsWith("# columns: ")) {
+            throw new OctaveParseException
+		("Expected '# columns: ' got '" + line + "'");
+        }
+        final int columns = Integer.parseInt(line.substring(11));
+        // 1 2 3
+        final int[] size = new int[2];
+        size[0] = rows;
+        size[1] = columns;
+        final int[] data = new int[rows * columns];
+        for (int r = 1; r <= rows; ++r) {
+            line = OctaveIO.readerReadLine(reader);
+            final String[] split = line.split(" ");
+            if (split.length != columns + 1) {
+                throw new OctaveParseException
+		    ("Error in matrix-format: '" + line + "'");
+            }
+            for (int c = 1; c < split.length; c++) {
+                data[(r - 1) + (c - 1) * rows] = Integer.parseInt(split[c]);
+            }
+        }
+        return new OctaveInt(data, size);
+    }
+
+
 
 }
