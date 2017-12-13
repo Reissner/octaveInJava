@@ -53,8 +53,8 @@ final class OctaveReaderCallable implements Callable<Void> {
 			 final ReadFunctor readFunctor, 
 			 final String spacer) {
         this.processReader = processReader;
-        this.readFunctor = readFunctor;
-        this.spacer = spacer;
+        this.readFunctor   = readFunctor;
+        this.spacer        = spacer;
     }
 
     @Override
@@ -64,9 +64,9 @@ final class OctaveReaderCallable implements Callable<Void> {
         try {
             this.readFunctor.doReads(reader);
         } catch (final IOException e) {
-             LOG.debug(MSG_IOE_READ, e);
+	    LOG.debug(MSG_IOE_READ, e);
             throw new OctaveIOException(MSG_IOE_READ, e);
-        } finally {
+        } finally { // NOPMD
             try {
                 reader.close();
             } catch (final IOException e) {

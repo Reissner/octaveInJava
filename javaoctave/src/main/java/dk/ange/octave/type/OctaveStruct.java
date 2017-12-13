@@ -54,11 +54,13 @@ public final class OctaveStruct implements OctaveObject {
      * @param name
      * @param value
      */
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public void set(final String name, final OctaveObject value) {
         if (value == null) {
-            throw new NullPointerException("Can not set field to null");
+            throw new NullPointerException
+		("Cannot set field with null-name in octave struct. ");
         }
-        data.put(name, value);
+        this.data.put(name, value);
     }
 
     /**
@@ -72,11 +74,6 @@ public final class OctaveStruct implements OctaveObject {
     public OctaveObject get(final String key) {
         final OctaveObject value = data.get(key);
 	return (value == null) ? null : value.shallowCopy();
-        // if (value == null) {
-        //     return null;
-        // } else {
-        //     return value.shallowCopy();
-        // }
     }
 
     /**

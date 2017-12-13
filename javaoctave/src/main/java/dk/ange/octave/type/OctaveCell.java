@@ -29,6 +29,16 @@ import dk.ange.octave.type.matrix.GenericMatrix;
 public final class OctaveCell 
     extends GenericMatrix<OctaveObject> implements OctaveObject {
 
+    /**
+     * For some reason, the default value is not stored as such, 
+     * but as a <code>null</code> value. 
+     * Thus both in methods {@link #set(OctaveObject, int[])} 
+     * and in {@link #get(int[])}, the value must be reconstructed. 
+     * **** The reason for that, i cannot figure out. 
+     * Instead I would pressume, that <code>null</code> 
+     * is translated into <code>[]</code>, 
+     * as elsewhere in octave's java-interface. 
+     */
     private static final OctaveObject DEFAULT_VALUE = new OctaveDouble(0, 0);
 
     /**
@@ -53,9 +63,11 @@ public final class OctaveCell
     }
 
     @Override
-    public void set(final OctaveObject value, final int... pos) {
+    @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
+    public void set(OctaveObject value, int... pos) {
         if (value == null) {
-            throw new NullPointerException("Can not put null into OctaveCell");
+	    // **** I would pressume that one should put [] instead. 
+            throw new NullPointerException("Cannot put null into OctaveCell");
         }
         if (DEFAULT_VALUE.equals(value)) {
             super.set(null, pos);
@@ -65,13 +77,13 @@ public final class OctaveCell
     }
 
     @Override
-    public OctaveObject get(final int... pos) {
-        final OctaveObject get = super.get(pos);
-        if (get == null) {
-            return DEFAULT_VALUE.shallowCopy();
-        } else {
-            return get.shallowCopy();
+    public OctaveObject get(int... pos) {
+        OctaveObject get = super.get(pos);
+         if (get == null) {
+            get = DEFAULT_VALUE;
         }
+	return get.shallowCopy();
+
     }
 
     /**

@@ -210,7 +210,7 @@ public final class OctaveExec {
         }
     }
 
-    private RuntimeException getFromFuture(final Future<Void> future) {
+    private RuntimeException getFromFuture(Future<Void> future) {
 	try {
             future.get();
         } catch (final InterruptedException e) {
@@ -226,26 +226,45 @@ public final class OctaveExec {
 	    return new RuntimeException(MSG_EXE_NH, e);
         } catch (final CancellationException e) {
             return e;
-        } catch (final RuntimeException e) {
+        } catch (final RuntimeException e) { // NOPMD 
             LOG.error(MSG_RTE_NH, e);
             return new RuntimeException(MSG_RTE_NH, e);
         }
         return null;
     }
 
-    private OctaveException reInstException(final OctaveException inException) {
-        OctaveException outException;
+    /**
+     * Used by {@link #getFromFuture(Future)} 
+     * to reinstantiate an {@link OctaveException} 
+     * if this occurs as the cause of an {@link ExecutionException}. 
+     */
+    private OctaveException reInstException(OctaveException exc) {
+        OctaveException res;
         try {
-            outException = inException.getClass()
+            res = exc.getClass()
+		// may throw NoSuchMethodException 
+		// isa ReflectiveOperationException, 
+		// SecurityException isa RuntimeException 
 		.getConstructor(String.class, Throwable.class)
-		.newInstance(inException.getMessage(), inException);
-        } catch (final Throwable e) {
+		// may throw 
+		// IllegalArgumentException, 
+		// ReflectiveOperationException: 
+		// - IllegalAccessException: construtor inaccessible 
+		// - InstantiationException: Exception class is abstract 
+		// - InvocationTargetException: if the constructor throws an exc
+		// ExceptionInInitializerError
+		.newInstance(exc.getMessage(), exc);
+        } catch (RuntimeException e) { // NOPMD
             throw new IllegalStateException("Exception should not happen", e);
-        }
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Exception should not happen", e);
+        } catch (ExceptionInInitializerError e) {
+            throw new IllegalStateException("Error should not happen", e);
+	}
         if (isDestroyed()) {
-            outException.setDestroyed(true);
+            res.setDestroyed(true);
         }
-        return outException;
+        return res;
     }
 
     private synchronized void setDestroyed(final boolean destroyed) {
@@ -253,7 +272,7 @@ public final class OctaveExec {
     }
 
     private synchronized boolean isDestroyed() {
-        return destroyed;
+        return this.destroyed;
     }
 
     /**

@@ -45,6 +45,7 @@ public final class StructReader extends OctaveDataReader {
     }
 
     @Override
+    @SuppressWarnings("PMD.NPathComplexity")
     public OctaveStruct read(final BufferedReader reader) {
         String line;
 

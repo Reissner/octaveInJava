@@ -154,6 +154,7 @@ public final class OctaveSparseBoolean implements OctaveObject {
     }
 
     @Override
+    @SuppressWarnings("PMD.NPathComplexity")
     public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
@@ -165,22 +166,22 @@ public final class OctaveSparseBoolean implements OctaveObject {
             return false;
         }
         final OctaveSparseBoolean other = (OctaveSparseBoolean) obj;
-        if (!Arrays.equals(columnIndexes, other.columnIndexes)) {
+        if (!Arrays.equals(this.columnIndexes, other.columnIndexes)) {
             return false;
         }
-        if (columns != other.columns) {
+        if (this.columns != other.columns) {
             return false;
         }
-        if (!Arrays.equals(data, other.data)) {
+        if (!Arrays.equals(this.data, other.data)) {
             return false;
         }
-        if (nnz != other.nnz) {
+        if (this.nnz != other.nnz) {
             return false;
         }
-        if (!Arrays.equals(rowIndexes, other.rowIndexes)) {
+        if (!Arrays.equals(this.rowIndexes, other.rowIndexes)) {
             return false;
         }
-	return rows == other.rows;
+	return this.rows == other.rows;
         // if (rows != other.rows) {
         //     return false;
         // }

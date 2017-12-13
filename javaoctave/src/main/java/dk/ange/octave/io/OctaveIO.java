@@ -183,8 +183,8 @@ public final class OctaveIO {
 		    ("Too much data in input, first extra line is '" + 
 		     line + "'");
             }
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new OctaveIOException(e);
         }
         return map;
     }
