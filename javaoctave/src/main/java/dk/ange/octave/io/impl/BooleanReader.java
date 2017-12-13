@@ -22,7 +22,6 @@ import java.io.BufferedReader;
 
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveBoolean;
 
 /**
@@ -90,7 +89,6 @@ public final class BooleanReader extends AbstractPrimitiveMatrixReader {
 
     private OctaveBoolean read2dmatrix(final BufferedReader reader,
 				       final String rowsLine) {
-
         // # rows: 1
         String line = rowsLine;
         if (!line.startsWith("# rows: ")) {

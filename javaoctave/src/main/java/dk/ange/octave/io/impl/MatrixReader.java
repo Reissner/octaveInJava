@@ -22,7 +22,6 @@ import java.io.BufferedReader;
 
 import dk.ange.octave.exception.OctaveParseException;
 import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveDouble;
 
 /**
