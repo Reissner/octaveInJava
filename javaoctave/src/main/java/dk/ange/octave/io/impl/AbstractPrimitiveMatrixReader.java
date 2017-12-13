@@ -19,6 +19,9 @@ package dk.ange.octave.io.impl;
 
 import dk.ange.octave.io.spi.OctaveDataReader;
 
+/**
+ * Common Reader class for primitive java types: Boolean, Double, Integer.... 
+ */
 abstract class AbstractPrimitiveMatrixReader extends OctaveDataReader {
     protected static final String NDIMS = "# ndims: ";
 
