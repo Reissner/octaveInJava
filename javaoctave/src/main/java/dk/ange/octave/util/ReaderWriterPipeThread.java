@@ -35,9 +35,8 @@ public final class ReaderWriterPipeThread extends Thread {
     private static final Log LOG = LogFactory
 	.getLog(ReaderWriterPipeThread.class);
 
-    //private static final int BUFFERSIZE = 4 * 1024;
     @SuppressWarnings("checkstyle:magicnumber")
-    private static final char[] BUF = new char[4 * 1024];//[BUFFERSIZE];
+    private static final char[] BUF = new char[4 * 1024];
  
     private final Reader reader;
 
