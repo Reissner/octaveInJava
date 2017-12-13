@@ -29,8 +29,9 @@ import dk.ange.octave.type.OctaveDouble;
  * The reader for the octave type "matrix" (of double) 
  * reading an {@link OctaveDouble} from a {@link BufferedReader}. 
  */
-public final class MatrixReader extends OctaveDataReader {
-    private static final String NDIMS = "# ndims: ";
+public final class MatrixReader extends AbstractPrimitiveMatrixReader {
+    //OctaveDataReader {
+    //private static final String NDIMS = "# ndims: ";
 
     @Override
     public String octaveType() {
@@ -39,9 +40,8 @@ public final class MatrixReader extends OctaveDataReader {
 
     @Override
     public OctaveDouble read(final BufferedReader reader) {
-        String line;
+        String line = OctaveIO.readerReadLine(reader);
         // 2d or 2d+?
-        line = OctaveIO.readerReadLine(reader);
         if (line.startsWith("# rows: ")) {
             return read2dmatrix(reader, line);
         } else if (line.startsWith("# ndims: ")) {
@@ -54,8 +54,7 @@ public final class MatrixReader extends OctaveDataReader {
 
     private OctaveDouble readVectorizedMatrix(final BufferedReader reader, 
 					      final String ndimsLine) {
-        String line;
-        line = ndimsLine;
+        String line = ndimsLine;
         if (!line.startsWith(NDIMS)) {
             throw new OctaveParseException
 		("Expected <" + NDIMS + ">, but got <" + line + ">");
@@ -82,9 +81,9 @@ public final class MatrixReader extends OctaveDataReader {
 
     private OctaveDouble read2dmatrix(final BufferedReader reader, 
 				      final String rowsLine) {
-        String line;
+
         // # rows: 1
-        line = rowsLine;
+        String line = rowsLine;
         if (!line.startsWith("# rows: ")) {
             throw new OctaveParseException
 		("Expected <# rows: > got <" + line + ">");
@@ -115,18 +114,6 @@ public final class MatrixReader extends OctaveDataReader {
             }
         }
         return new OctaveDouble(data, size);
-    }
-
-    /**
-     * @param ns
-     * @return product of rs
-     */
-    private static int product(final int... ns) {
-        int p = 1;
-        for (final int n : ns) {
-            p *= n;
-        }
-        return p;
     }
 
 }

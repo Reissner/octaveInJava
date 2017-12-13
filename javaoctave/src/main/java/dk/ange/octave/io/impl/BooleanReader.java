@@ -30,8 +30,9 @@ import dk.ange.octave.type.OctaveBoolean;
  * reading an {@link OctaveBoolean} from a {@link BufferedReader}. 
  * **** the class name should be BoolMatrixReader **** 
  */
-public final class BooleanReader extends OctaveDataReader {
-    private static final String NDIMS = "# ndims: ";
+public final class BooleanReader extends AbstractPrimitiveMatrixReader {
+    //OctaveDataReader {
+    //private static final String NDIMS = "# ndims: ";
 
     @Override
     public String octaveType() {
@@ -54,8 +55,7 @@ public final class BooleanReader extends OctaveDataReader {
 
     private OctaveBoolean readVectorizedMatrix(final BufferedReader reader,
 					       final String ndimsLine) {
-        String line;
-        line = ndimsLine;
+        String line = ndimsLine;
         if (!line.startsWith(NDIMS)) {
             throw new OctaveParseException
 		("Expected '" + NDIMS + "', but got '" + line + "'");
@@ -92,19 +92,19 @@ public final class BooleanReader extends OctaveDataReader {
 
     private OctaveBoolean read2dmatrix(final BufferedReader reader,
 				       final String rowsLine) {
-        String line;
+
         // # rows: 1
-        line = rowsLine;
+        String line = rowsLine;
         if (!line.startsWith("# rows: ")) {
-            throw new OctaveParseException("Expected '# rows: ' got '" + 
-					   line + "'");
+            throw new OctaveParseException
+		("Expected '# rows: ' got '" + line + "'");
         }
         final int rows = Integer.parseInt(line.substring(8));
         // # columns: 3
         line = OctaveIO.readerReadLine(reader);
         if (!line.startsWith("# columns: ")) {
-            throw new OctaveParseException("Expected '# columns: ' got '" + 
-					   line + "'");
+            throw new OctaveParseException
+		("Expected '# columns: ' got '" + line + "'");
         }
         final int columns = Integer.parseInt(line.substring(11));
         // 1 2 3
@@ -124,18 +124,6 @@ public final class BooleanReader extends OctaveDataReader {
             }
         }
         return new OctaveBoolean(data, size);
-    }
-
-    /**
-     * @param ns
-     * @return product of rs
-     */
-    private static int product(final int... ns) {
-        int p = 1;
-        for (final int n : ns) {
-            p *= n;
-        }
-        return p;
     }
 
 }

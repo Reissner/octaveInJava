@@ -29,8 +29,9 @@ import dk.ange.octave.type.OctaveInt;
  * The reader for the octave type "uint8 matrix" 
  * reading an {@link OctaveInt} from a {@link BufferedReader}. 
  */
-public final class Uint8MatrixReader extends OctaveDataReader {
-    private static final String NDIMS = "# ndims: ";
+public final class Uint8MatrixReader extends AbstractPrimitiveMatrixReader {
+    //OctaveDataReader {
+    //private static final String NDIMS = "# ndims: ";
 
     @Override
     public String octaveType() {
@@ -45,8 +46,7 @@ public final class Uint8MatrixReader extends OctaveDataReader {
 
     private OctaveInt readVectorizedMatrix(final BufferedReader reader,
 					   final String ndimsLine) {
-        String line;
-        line = ndimsLine;
+        String line = ndimsLine;
         if (!line.startsWith(NDIMS)) {
             throw new OctaveParseException
 		("Expected '" + NDIMS + "', but got '" + line + "'");
@@ -70,18 +70,6 @@ public final class Uint8MatrixReader extends OctaveDataReader {
             data[idx] = Integer.parseInt(line.trim());
         }
         return new OctaveInt(data, size);
-    }
-
-    /**
-     * @param ns
-     * @return product of rs
-     */
-    private static int product(final int... ns) {
-        int p = 1;
-        for (final int n : ns) {
-            p *= n;
-        }
-        return p;
     }
 
 }
