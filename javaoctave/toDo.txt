@@ -6,4 +6,9 @@ seems not to terminate: thus deactivated using annotation @Ignore
 
 Tests:
 in classes TestOctaveBoolean and TestOctaveDouble: 
-- re-add distinction: if (matrix instanceof HasBeenInstrumented)
+- re-add distinction: if (matrix instanceof HasBeenInstrumented) 
+
+Add: 
+     for dk.ange.octave.io.impl.Uint8MatrixReader define corresponding 
+         dk.ange.octave.io.impl.Uint8MatrixWriter 
+     and add tests. 
