@@ -28,7 +28,8 @@ import dk.ange.octave.type.OctaveDouble;
  * The reader for the octave type "matrix" (of double) 
  * reading an {@link OctaveDouble} from a {@link BufferedReader}. 
  */
-public final class MatrixReader extends AbstractPrimitiveMatrixReader {
+public final class MatrixReader 
+    extends AbstractPrimitiveMatrixReader<OctaveDouble> {
 
     @Override
     public String octaveType() {
@@ -36,21 +37,8 @@ public final class MatrixReader extends AbstractPrimitiveMatrixReader {
     }
 
     @Override
-    public OctaveDouble read(final BufferedReader reader) {
-        String line = OctaveIO.readerReadLine(reader);
-        // 2d or 2d+?
-        if (line.startsWith("# rows: ")) {
-            return read2dmatrix(reader, line);
-        } else if (line.startsWith("# ndims: ")) {
-            return readVectorizedMatrix(reader, line);
-        } else {
-            throw new OctaveParseException
-		("Expected <# rows: > or <# ndims: >, but got <" + line + ">");
-        }
-    }
-
-    private OctaveDouble readVectorizedMatrix(final BufferedReader reader, 
-					      final String ndimsLine) {
+    protected OctaveDouble readVectorizedMatrix(final BufferedReader reader, 
+						final String ndimsLine) {
         String line = ndimsLine;
         if (!line.startsWith(NDIMS)) {
             throw new OctaveParseException
@@ -76,8 +64,9 @@ public final class MatrixReader extends AbstractPrimitiveMatrixReader {
         return new OctaveDouble(data, size);
     }
 
-    private OctaveDouble read2dmatrix(final BufferedReader reader, 
-				      final String rowsLine) {
+    @Override
+    protected OctaveDouble read2dmatrix(final BufferedReader reader, 
+					final String rowsLine) {
 
         // # rows: 1
         String line = rowsLine;

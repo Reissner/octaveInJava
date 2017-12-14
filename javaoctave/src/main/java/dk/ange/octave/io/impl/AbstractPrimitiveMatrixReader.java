@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Ange Optimization ApS
+ * Copyright 2017 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,42 @@
 
 package dk.ange.octave.io.impl;
 
+import java.io.BufferedReader;
+
+import dk.ange.octave.exception.OctaveParseException;
+import dk.ange.octave.io.OctaveIO;
 import dk.ange.octave.io.spi.OctaveDataReader;
+import dk.ange.octave.type.OctaveObject;
 
 /**
  * Common Reader class for primitive java types: Boolean, Double, Integer.... 
+ *
+ * @param <T>
+ *    the type to be read in. 
  */
-abstract class AbstractPrimitiveMatrixReader extends OctaveDataReader {
+abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject> 
+    extends OctaveDataReader {
     protected static final String NDIMS = "# ndims: ";
+
+    @Override
+    public T read(final BufferedReader reader) {
+        final String line = OctaveIO.readerReadLine(reader);
+        // 2d or 2d+?
+        if (line.startsWith("# rows: ")) {
+            return read2dmatrix(reader, line);
+        } else if (line.startsWith("# ndims: ")) {
+            return readVectorizedMatrix(reader, line);
+        } else {
+            throw new OctaveParseException
+		("Expected '# rows: ' or '# ndims: ', but got '" + line + "'");
+        }
+    }
+
+    protected abstract T readVectorizedMatrix(final BufferedReader reader, 
+					      final String ndimsLine);
+ 
+    protected abstract T read2dmatrix(final BufferedReader reader, 
+				      final String rowsLine);
 
     /**
      * @param ns

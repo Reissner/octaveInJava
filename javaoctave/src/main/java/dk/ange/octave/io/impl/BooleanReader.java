@@ -29,7 +29,8 @@ import dk.ange.octave.type.OctaveBoolean;
  * reading an {@link OctaveBoolean} from a {@link BufferedReader}. 
  * **** the class name should be BoolMatrixReader **** 
  */
-public final class BooleanReader extends AbstractPrimitiveMatrixReader {
+public final class BooleanReader 
+    extends AbstractPrimitiveMatrixReader<OctaveBoolean> {
 
     @Override
     public String octaveType() {
@@ -37,21 +38,8 @@ public final class BooleanReader extends AbstractPrimitiveMatrixReader {
     }
 
     @Override
-    public OctaveBoolean read(final BufferedReader reader) {
-        final String line = OctaveIO.readerReadLine(reader);
-        // 2d or 2d+?
-        if (line.startsWith("# rows: ")) {
-            return read2dmatrix(reader, line);
-        } else if (line.startsWith("# ndims: ")) {
-            return readVectorizedMatrix(reader, line);
-        } else {
-            throw new OctaveParseException
-		("Expected '# rows: ' or '# ndims: ', but got '" + line + "'");
-        }
-    }
-
-    private OctaveBoolean readVectorizedMatrix(final BufferedReader reader,
-					       final String ndimsLine) {
+    protected OctaveBoolean readVectorizedMatrix(final BufferedReader reader,
+						 final String ndimsLine) {
         String line = ndimsLine;
         if (!line.startsWith(NDIMS)) {
             throw new OctaveParseException
@@ -87,8 +75,9 @@ public final class BooleanReader extends AbstractPrimitiveMatrixReader {
         }
     }
 
-    private OctaveBoolean read2dmatrix(final BufferedReader reader,
-				       final String rowsLine) {
+    @Override
+    protected OctaveBoolean read2dmatrix(final BufferedReader reader,
+					 final String rowsLine) {
         // # rows: 1
         String line = rowsLine;
         if (!line.startsWith("# rows: ")) {
