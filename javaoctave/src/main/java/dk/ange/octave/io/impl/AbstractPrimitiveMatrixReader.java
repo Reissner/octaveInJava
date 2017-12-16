@@ -32,34 +32,84 @@ import dk.ange.octave.type.OctaveObject;
  */
 abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject> 
     extends OctaveDataReader {
-    protected static final String NDIMS = "# ndims: ";
+    protected static final String NDIMS    = "# ndims: ";
+    protected static final String NROWS    = "# rows: ";
+    protected static final String NCOLUMNS = "# columns: ";
 
     @Override
     public T read(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
         // 2d or 2d+?
-        if (line.startsWith("# rows: ")) {
+        if (line.startsWith(NROWS)) {
             return read2dmatrix(reader, line);
-        } else if (line.startsWith("# ndims: ")) {
+        } else if (line.startsWith(NDIMS)) {
             return readVectorizedMatrix(reader, line);
         } else {
             throw new OctaveParseException
-		("Expected '# rows: ' or '# ndims: ', but got '" + line + "'");
+		("Expected <" + NROWS + "> or <" + NDIMS + 
+		 ">, but got <" + line + ">. ");
         }
     }
 
-    protected abstract T readVectorizedMatrix(final BufferedReader reader, 
-					      final String ndimsLine);
+    protected abstract T readVectorizedMatrix(BufferedReader reader, 
+					      String ndimsLine);
+
+    protected int[] readSizeVectorizedMatrix(BufferedReader reader, 
+					     String ndimsLine) {
+        String line = ndimsLine;
+        if (!line.startsWith(NDIMS)) {
+            throw new OctaveParseException
+		("Expected <" + NDIMS + ">, but got <" + line + ">. ");
+        }
+        final int ndims = Integer.parseInt(line.substring(NDIMS.length()));
+        line = OctaveIO.readerReadLine(reader);
+        final String[] split = line.substring(1).split(" ");
+        if (split.length != ndims) {
+            throw new OctaveParseException
+		("Expected <" + ndims + "> dimension, but got <" + 
+		 split.length + "> (line was <" + line + ">). ");
+        }
+        final int[] size = new int[split.length];
+        for (int dim = 0; dim < split.length; dim++) {
+            size[dim] = Integer.parseInt(split[dim]);
+        }
+	return size;
+    }
+
+
  
-    protected abstract T read2dmatrix(final BufferedReader reader, 
-				      final String rowsLine);
+    protected abstract T read2dmatrix(BufferedReader reader, 
+				      String rowsLine);
+
+    protected int[] readSize2dmatrix(BufferedReader reader, 
+				     String rowsLine) {
+        // # rows: 1
+        String line = rowsLine;
+        if (!line.startsWith(NROWS)) {
+            throw new OctaveParseException
+		("Expected <" + NROWS + "> got <" + line + ">. ");
+        }
+        final int rows = Integer.parseInt(line.substring(NROWS.length()));
+        // # columns: 3
+        line = OctaveIO.readerReadLine(reader);
+        if (!line.startsWith(NCOLUMNS)) {
+            throw new OctaveParseException
+		("Expected <" + NCOLUMNS + "> got <" + line + ">. ");
+        }
+        final int columns = Integer.parseInt(line.substring(NCOLUMNS.length()));
+        // 1 2 3
+        // final int[] size = new int[2];
+        // size[0] = rows;
+        // size[1] = columns;
+        return new int[] {rows, columns};
+    }
 
     /**
      * @param ns
      * @return product of rs
      */
     // **** same as in AbstractGenericMatrix 
-    protected static int product(final int... ns) {
+    protected static final int product(final int... ns) {
         int p = 1;
         for (final int n : ns) {
             p *= n;

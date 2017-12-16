@@ -23,6 +23,10 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveObject;
 
+import static dk.ange.octave.io.impl.CellWriter.TYPE_CELL;
+import static dk.ange.octave.io.impl.CellWriter.NROWS;
+import static dk.ange.octave.io.impl.CellWriter.NCOLUMNS;
+
 /**
  * The reader for the octave type "cell" 
  * reading in an {@link OctaveCell} from a {@link BufferedReader}. 
@@ -36,11 +40,9 @@ public final class CellReader extends OctaveDataReader {
 
     @Override
     public OctaveCell read(final BufferedReader reader) {
-        String line;
-        String token;
+        String line = OctaveIO.readerReadLine(reader);
+        String token = NROWS;
 
-        line = OctaveIO.readerReadLine(reader);
-        token = "# rows: ";
         if (!line.startsWith(token)) {
             throw new OctaveParseException
 		("Expected <" + token + ">, but got <" + line + ">");
@@ -48,7 +50,7 @@ public final class CellReader extends OctaveDataReader {
         final int nrows = Integer.parseInt(line.substring(token.length()));
 
         line = OctaveIO.readerReadLine(reader);
-        token = "# columns: ";
+        token = NCOLUMNS;
         if (!line.startsWith(token)) {
             throw new OctaveParseException
 		("Expected <" + token + ">, but got <" + line + ">");

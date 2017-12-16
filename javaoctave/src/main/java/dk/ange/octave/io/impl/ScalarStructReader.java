@@ -42,13 +42,11 @@ public final class ScalarStructReader extends OctaveDataReader {
         return "scalar struct";
     }
 
-    // **** should be OctaveStuct 
     @Override
-    public OctaveObject read(final BufferedReader reader) {
-        String line;
-
+    public OctaveStruct read(final BufferedReader reader) {
+	// **** this i cannot see in Writer 
         // # ndims: 2
-        line = OctaveIO.readerReadLine(reader);
+        String line = OctaveIO.readerReadLine(reader);
         if (!N_DIMS2.equals(line)) {
             throw new OctaveParseException
 		("JavaOctave does not support matrix structs, read=" + line);
@@ -65,8 +63,8 @@ public final class ScalarStructReader extends OctaveDataReader {
         line = OctaveIO.readerReadLine(reader);
         if (line == null || !line.startsWith(LENGTH)) {
             throw new OctaveParseException
-		("Expected '" + LENGTH + "' got '" + line + "'");
-        }
+		("Expected <" + LENGTH + "> got <" + line + ">. ");
+       }
         final int length = Integer.parseInt(line.substring(LENGTH.length()));
 	// only used during conversion
 
@@ -77,19 +75,23 @@ public final class ScalarStructReader extends OctaveDataReader {
             // # name: elemmatrix
 	    // Work around differences in number of line feeds 
 	    // in octave 3.4 and 3.6
+	    // keep reading until line is non-empty
             do {
                 line = OctaveIO.readerReadLine(reader);
-            } while ("".equals(line)); // keep reading until line is non-empty
+            } while ("".equals(line));
             if (!line.startsWith(NAME)) {
                 throw new OctaveParseException
-		    ("Expected '" + NAME + "' got '" + line + "'");
+		    ("Expected <" + NAME + "> got <" + line + ">. ");
             }
             final String subname = line.substring(NAME.length());
+
+
+
 
             // data...
             final OctaveObject value = OctaveIO.read(reader);
             data.put(subname, value);
-        }
+        } // for
 
         return new OctaveStruct(data);
     }

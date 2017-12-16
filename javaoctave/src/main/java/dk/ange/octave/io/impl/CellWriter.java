@@ -29,6 +29,14 @@ import dk.ange.octave.type.OctaveObject;
  */
 public final class CellWriter extends OctaveDataWriter<OctaveCell> {
 
+    // **** same as in StructWriter 
+    protected static final String TYPE_CELL = "# type: cell";
+
+    // **** same as in AbstractPrimitive... 
+    protected static final String NROWS    = "# rows: ";
+    protected static final String NCOLUMNS = "# columns: ";
+
+
     @Override
     public Class<OctaveCell> javaType() {
         return OctaveCell.class;

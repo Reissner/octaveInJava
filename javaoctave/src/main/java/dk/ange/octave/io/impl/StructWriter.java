@@ -24,11 +24,25 @@ import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveStruct;
 
+import static dk.ange.octave.io.impl.CellWriter.NROWS;
+import static dk.ange.octave.io.impl.CellWriter.NCOLUMNS;
+
 /**
  * The writer for the octave type "struct" 
  * writing an {@link OctaveStruct} to a {@link Writer}. 
+ *
+ * The format is 
+ * <pre>
+ * # type: struct\n
+ * # length: ...\n
+ * // comment: the following is in a loop of given length 
+ * </pre>
  */
 public final class StructWriter extends OctaveDataWriter<OctaveStruct> {
+    protected static final String LENGTH = "# length: ";
+    protected static final String NAME   = "# name: ";
+
+    protected static final String TYPE_CELL = "# type: cell";
 
     @Override
     public Class<OctaveStruct> javaType() {
@@ -39,14 +53,17 @@ public final class StructWriter extends OctaveDataWriter<OctaveStruct> {
     public void write(final Writer writer,
 		      final OctaveStruct octaveStruct) throws IOException {
         final Map<String, OctaveObject> data = octaveStruct.getData();
-        writer.write("# type: struct\n# length: " + data.size() + "\n");
+        writer.write("# type: struct\n" + LENGTH + data.size() + "\n");
         for (final Map.Entry<String, OctaveObject> entry : data.entrySet()) {
             final String subname = entry.getKey();
             final OctaveObject value = entry.getValue();
-            writer.write("# name: " + subname + "\n");
-            writer.write("# type: cell\n");
-            writer.write("# rows: 1\n");
-            writer.write("# columns: 1\n");
+            writer.write(NAME + subname + "\n");
+
+	    // **** what follows seems to correspond with CellReader 
+            writer.write(TYPE_CELL + "\n");
+//            writer.write("# type: cell\n");
+            writer.write("# rows: " + 1 + "\n");
+            writer.write("# columns: " + 1 + "\n");
             OctaveIO.write(writer, "<cell-element>", value);
             writer.write("\n");
         }

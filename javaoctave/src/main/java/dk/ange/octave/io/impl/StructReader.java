@@ -26,14 +26,16 @@ import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveStruct;
 
+import static dk.ange.octave.io.impl.StructWriter.LENGTH;
+import static dk.ange.octave.io.impl.StructWriter.NAME;
+import static dk.ange.octave.io.impl.StructWriter.TYPE_CELL;
+
 /**
  * The reader for the octave type "struct" 
  * reading an {@link OctaveStruct} from a {@link BufferedReader}. 
+ * Reads the format written by {@link StructWriter}
  */
 public final class StructReader extends OctaveDataReader {
-    private static final String LENGTH = "# length: ";
-    private static final String CELL = "# type: cell";
-    private static final String NAME = "# name: ";
     private static final String N_DIMS2 = "# ndims: 2";
     private static final String V_DIMS2 = " 1 1";
 
@@ -47,16 +49,17 @@ public final class StructReader extends OctaveDataReader {
     @Override
     @SuppressWarnings("PMD.NPathComplexity")
     public OctaveStruct read(final BufferedReader reader) {
-        String line;
-
-        line = OctaveIO.readerReadLine(reader);
-        // In octave 3.6 dimension of the scalar is also written now
+        String line = OctaveIO.readerReadLine(reader);
+        // In octave 3.6 dimension of the scalar is also written now 
+	// **** this i cannot see in Writer 
         if (line != null && line.startsWith("# ndims:")) {
             if (!N_DIMS2.equals(line)) {
                 throw new OctaveParseException
 		    ("JavaOctave does not support matrix structs, read '" + 
 		     line + "'");
             }
+
+	    // 1 1
             line = OctaveIO.readerReadLine(reader);
             if (!V_DIMS2.equals(line)) {
                 throw new OctaveParseException
@@ -67,9 +70,10 @@ public final class StructReader extends OctaveDataReader {
         }
 
         // # length: 4
+//        String line = OctaveIO.readerReadLine(reader);
         if (line == null || !line.startsWith(LENGTH)) {
             throw new OctaveParseException
-		("Expected '" + LENGTH + "' got '" + line + "'");
+		("Expected <" + LENGTH + "> got <" + line + ">. ");
         }
         final int length = Integer.parseInt(line.substring(LENGTH.length()));
 	// only used during conversion
@@ -87,26 +91,30 @@ public final class StructReader extends OctaveDataReader {
             } while ("".equals(line));
             if (!line.startsWith(NAME)) {
                 throw new OctaveParseException
-		    ("Expected '" + NAME + "' got '" + line + "'");
+		    ("Expected <" + NAME + "> got <" + line + ">. ");
             }
             final String subname = line.substring(NAME.length());
 
+
+
+
             line = OctaveIO.readerReadLine(reader);
-            if (!line.equals(CELL)) {
+            if (!line.equals(TYPE_CELL)) {
                 throw new OctaveParseException
-		    ("Expected '" + CELL + "' got '" + line + "'");
+		    ("Expected '" + TYPE_CELL + "' got '" + line + "'");
             }
 
             final OctaveCell cell = CELL_READER.read(reader);
-            if (cell.size(1) == 1 && cell.size(2) == 1) {
-                final OctaveObject value = cell.get(1, 1);
-                data.put(subname, value);
-            } else {
+            if (cell.size(1) != 1 || cell.size(2) != 1) {
                 throw new OctaveParseException
 		    ("JavaOctave does not support matrix structs, size="
-                        + cell.getSize(1) + " " + cell.getSize(2) + "...");
-            }
-        }
+		     + cell.getSize(1) + " " + cell.getSize(2) + "...");
+	    }
+
+            // data...
+	    final OctaveObject value = cell.get(1, 1);
+	    data.put(subname, value);
+        } // for 
 
         return new OctaveStruct(data);
     }

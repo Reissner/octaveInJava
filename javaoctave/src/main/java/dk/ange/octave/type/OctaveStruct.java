@@ -27,8 +27,10 @@ import dk.ange.octave.type.cast.Cast;
  */
 public final class OctaveStruct implements OctaveObject {
 
+
     private static final int PRIME = 31;
 
+    // **** ER: I really have doubts that data can be null. 
     private final Map<String, OctaveObject> data;
 
     /**
@@ -37,7 +39,7 @@ public final class OctaveStruct implements OctaveObject {
     public OctaveStruct() {
 	// Use a TreeMap in order to get a stable serialization
 	// (I might want to use HashMap here and sort in OctaveIO.toText())
-        data = new TreeMap<String, OctaveObject>();
+        this.data = new TreeMap<String, OctaveObject>();
     }
 
     /**
@@ -69,10 +71,11 @@ public final class OctaveStruct implements OctaveObject {
      * {@link OctaveStruct#get(Class, String)}.
      * 
      * @param key
-     * @return shallow copy of value for this key, or null if key isn't there.
+     * @return
+     *    shallow copy of value for this key, or null if key isn't there.
      */
     public OctaveObject get(final String key) {
-        final OctaveObject value = data.get(key);
+        final OctaveObject value = this.data.get(key);
 	return (value == null) ? null : value.shallowCopy();
     }
 
@@ -94,18 +97,18 @@ public final class OctaveStruct implements OctaveObject {
      * @return reference to internal map
      */
     public Map<String, OctaveObject> getData() {
-        return data;
+        return this.data;
     }
 
     @Override
     public OctaveStruct shallowCopy() {
-        return new OctaveStruct(data);
+        return new OctaveStruct(this.data);
     }
 
     @Override
     public int hashCode() {
         int result = 1;
-        result = PRIME * result + ((data == null) ? 0 : data.hashCode());
+        result = PRIME * result + ((this.data == null) ? 0 : data.hashCode());
         return result;
     }
 
@@ -121,14 +124,18 @@ public final class OctaveStruct implements OctaveObject {
             return false;
         }
         final OctaveStruct other = (OctaveStruct) obj;
-        if (data == null) {
-            if (other.data != null) {
-                return false;
-            }
-        } else if (!data.equals(other.data)) {
-            return false;
-        }
-        return true;
+        if (this.data == null) {
+	    return other.data == null;
+            // if (other.data != null) {
+            //     return false;
+            // }
+        } else {
+	    return this.data.equals(other.data);
+	    // if (!this.data.equals(other.data)) {
+	    // 	return false;
+	    // }
+	}
+        // return true;
     }
 
 }
