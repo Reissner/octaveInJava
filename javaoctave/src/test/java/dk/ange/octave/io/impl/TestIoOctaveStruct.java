@@ -248,7 +248,8 @@ public class TestIoOctaveStruct {
         struct.set("z", new OctaveString("z"));
 
         final String text = OctaveIO.toText(struct);
-        final BufferedReader bufferedReader = new BufferedReader(new StringReader(text));
+        final BufferedReader bufferedReader = 
+	    new BufferedReader(new StringReader(text));
 
         assertEquals("# name: ans", bufferedReader.readLine());
         assertEquals(struct, OctaveIO.read(bufferedReader));
