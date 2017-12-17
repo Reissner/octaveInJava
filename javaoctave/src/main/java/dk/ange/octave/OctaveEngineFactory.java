@@ -122,6 +122,9 @@ public final class OctaveEngineFactory {
      * The validity of the argument string is not proved. 
      * Note that subsequent changes on the array <code>argsArray</code> 
      * do not have any influence on this factory. 
+     * The default options 
+     * and a discussion of necessary options are 
+     * documented with {@link #argsArray}. 
      *
      * @param argsArray
      *    the arguments as an array to set
