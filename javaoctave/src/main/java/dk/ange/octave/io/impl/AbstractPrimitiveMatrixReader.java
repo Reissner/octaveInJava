@@ -62,6 +62,7 @@ abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject>
 		("Expected <" + NDIMS + ">, but got <" + line + ">. ");
         }
         final int ndims = Integer.parseInt(line.substring(NDIMS.length()));
+
         line = OctaveIO.readerReadLine(reader);
         final String[] split = line.substring(1).split(" ");
         if (split.length != ndims) {
