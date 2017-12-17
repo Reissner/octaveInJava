@@ -40,9 +40,9 @@ import dk.ange.octave.type.OctaveObject;
  */
 public final class OctaveIO {
 
-    private static final String TYPE = "# type: ";
     private static final String GLOBAL = "global ";
-    private static final String TOKEN = "# name: ";
+    private static final String TYPE   = "# type: ";
+    private static final String TOKEN  = "# name: ";
  
     private final OctaveExec octaveExec;
 
@@ -132,11 +132,6 @@ public final class OctaveIO {
 	String type = (typeGlobal != null && typeGlobal.startsWith(GLOBAL))
 	    ? typeGlobal.substring(GLOBAL.length())
 	    : typeGlobal;
-        // if (typeGlobal != null && typeGlobal.startsWith(GLOBAL)) {
-        //     type = typeGlobal.substring(GLOBAL.length());
-        // } else {
-        //     type = typeGlobal;
-        // }
         final OctaveDataReader dataReader = 
 	    OctaveDataReader.getOctaveDataReader(type);
         if (dataReader == null) {
