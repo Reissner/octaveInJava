@@ -32,6 +32,7 @@ import dk.ange.octave.type.OctaveObject;
  */
 abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject> 
     extends OctaveDataReader {
+    // **** to be eliminated: is in according writer 
     protected static final String NDIMS    = "# ndims: ";
     protected static final String NROWS    = "# rows: ";
     protected static final String NCOLUMNS = "# columns: ";
