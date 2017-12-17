@@ -28,7 +28,8 @@ import dk.ange.octave.type.OctaveDouble;
  * The writer for the octave type "matrix" (of double) 
  * writing an {@link OctaveDouble} to a {@link Writer}. 
  */
-public final class MatrixWriter extends OctaveDataWriter<OctaveDouble> {
+public final class MatrixWriter 
+    extends AbstractPrimitiveMatrixWriter<OctaveDouble> {
 
     @Override
     public Class<OctaveDouble> javaType() {
@@ -63,7 +64,8 @@ public final class MatrixWriter extends OctaveDataWriter<OctaveDouble> {
         final int nrows = octaveMatrix.getSize(1);
 	final int ncols = octaveMatrix.getSizeLength() > 1 
 	    ? octaveMatrix.getSize(2) : 1;
-        writer.write("# rows: " + nrows + "\n# columns: " + ncols + "\n");
+        writer.write(NROWS + nrows + "\n");
+        writer.write(NCOLUMNS + ncols + "\n");
         for (int row = 0; row < nrows; row++) {
             for (int col = 0; col < ncols; col++) {
                 writer.write(" " + data[row + col * nrows]);
@@ -77,12 +79,12 @@ public final class MatrixWriter extends OctaveDataWriter<OctaveDouble> {
 	throws IOException {
 
         final double[] data = octaveMatrix.getData();
-        writer.write("# ndims: " + octaveMatrix.getSizeLength() + "\n");
+        writer.write(NDIMS + octaveMatrix.getSizeLength() + "\n");
         for (int idx = 1; idx <= octaveMatrix.getSizeLength(); idx++) {
             writer.write(" " + octaveMatrix.getSize(idx));
         }
-        for (final double d : data) {
-            writer.write("\n " + d);
+        for (final double dNum : data) {
+            writer.write("\n " + dNum);
         }
         writer.write("\n");
     }
