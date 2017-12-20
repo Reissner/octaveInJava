@@ -1,0 +1,26 @@
+<project  
+    xmlns="http://maven.apache.org/DECORATION/1.6.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd"
+    name="javaoctave">
+
+  <!--publishDate position="right"/-->
+  <!--version position="right"/-->
+
+
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-default-skin</artifactId>
+    <version>1.2</version>
+  </skin>
+
+  <body>
+    <menu name='Documentation'>
+      <item name='Introduction to the User' href='./userdoc.xhtml'/>
+    </menu>
+    <menu ref='modules'/>
+    <menu ref='parent'/>
+    <menu ref='reports'/>
+  </body>
+
+</project>
