@@ -18,7 +18,6 @@ package dk.ange.octave.io.impl;
 import java.io.IOException;
 import java.io.Writer;
 
-import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveInt;
 
 /**

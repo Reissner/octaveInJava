@@ -23,7 +23,7 @@ import dk.ange.octave.io.spi.OctaveDataReader;
 import dk.ange.octave.type.OctaveCell;
 import dk.ange.octave.type.OctaveObject;
 
-import static dk.ange.octave.io.impl.CellWriter.TYPE_CELL;
+//import static dk.ange.octave.io.impl.CellWriter.TYPE_CELL;
 import static dk.ange.octave.io.impl.CellWriter.NROWS;
 import static dk.ange.octave.io.impl.CellWriter.NCOLUMNS;
 

@@ -39,7 +39,7 @@ public final class Uint8MatrixReader
     @Override
     protected OctaveInt readVectorizedMatrix(final BufferedReader reader,
 					     final String ndimsLine) {
-	final int[] size = readSizeVectorizedMatrix(reader,ndimsLine);
+	final int[] size = readSizeVectorizedMatrix(reader, ndimsLine);
 	String line;
 
         final int[] data = new int[product(size)];
@@ -54,7 +54,7 @@ public final class Uint8MatrixReader
     @Override
     protected OctaveInt read2dmatrix(final BufferedReader reader,
 				     final String rowsLine) {
-	int[] size = readSize2dmatrix(reader,rowsLine);
+	int[] size = readSize2dmatrix(reader, rowsLine);
 	int rows = size[0];
 	int columns = size[1];
 	String line;

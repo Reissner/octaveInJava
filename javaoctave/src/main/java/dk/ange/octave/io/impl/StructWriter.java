@@ -24,8 +24,8 @@ import dk.ange.octave.io.spi.OctaveDataWriter;
 import dk.ange.octave.type.OctaveObject;
 import dk.ange.octave.type.OctaveStruct;
 
-import static dk.ange.octave.io.impl.CellWriter.NROWS;
-import static dk.ange.octave.io.impl.CellWriter.NCOLUMNS;
+// import static dk.ange.octave.io.impl.CellWriter.NROWS;
+// import static dk.ange.octave.io.impl.CellWriter.NCOLUMNS;
 
 /**
  * The writer for the octave type "struct" 
@@ -39,10 +39,10 @@ import static dk.ange.octave.io.impl.CellWriter.NCOLUMNS;
  * </pre>
  */
 public final class StructWriter extends OctaveDataWriter<OctaveStruct> {
-    protected static final String LENGTH = "# length: ";
-    protected static final String NAME   = "# name: ";
+    static final String LENGTH = "# length: ";
+    static final String NAME   = "# name: ";
 
-    protected static final String TYPE_CELL = "# type: cell";
+    static final String TYPE_CELL = "# type: cell";
 
     @Override
     public Class<OctaveStruct> javaType() {
