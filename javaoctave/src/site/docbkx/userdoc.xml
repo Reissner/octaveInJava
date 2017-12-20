@@ -3,6 +3,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
           "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <book>
+  <title>javaoctave - an introduction</title>
   <bookinfo>
     <author>
       <firstname>Ernst</firstname>
@@ -10,7 +11,6 @@
     </author>
     <edition>2017-12-17 - version 1.0</edition>
   </bookinfo>
-  <title>javaoctave - an introduction</title>
 
 <dedication>
 The original author of this software, Kim Hansen. 
@@ -20,15 +20,15 @@ The original author of this software, Kim Hansen.
 
 <para>
 This project defines <productname>javaoctave</productname>, 
-a bridge from Java to Octave, 
-allowing to comunicate with an octave engine from within java. 
+a bridge from Java to <productname>octave</productname>, 
+allowing to use an octave-engine from within java. 
 </para>
 
 <para>
 Historically, there was an octave package 
 which allowed the converse: using java from within octave. 
-In the meantime, i.e. with version at least 4.3.0+ 
-octave offers builtin support for that task. 
+In the meantime, i.e. with version at least 4.3.0+, 
+<productname>octave</productname> offers builtin support for that task. 
 In the long run, the author intends to include this software 
 into octave either. 
 This would be logical and in same as for matlab, 
@@ -38,7 +38,7 @@ which octave is supposed to clone.
 <para>
 Still history is not so far. 
 The original versions <productname>javaoctave</productname> were written 
-by Kim Hansen at Anke  Optimization ApS for the KENAI project. 
+by Kim Hansen at Ange  Optimization ApS for the KENAI project. 
 After the KENAI site disappeared, 
 </para>
 </chapter>
@@ -55,10 +55,19 @@ java jdk at least version 1.6, where tests are with java 1.8.
 octave version >3.5, where tests are with octave 4.3.0+ 
 </listitem>
 <listitem>
-this software, <productname>javaoctave</productname>, which comes as a jar-file in the maven repository. 
+this software, <productname>javaoctave</productname>, 
+is registered at <!-- maven central--> our local repository. 
+Thus containing the 
+<ulink url='ftp://www.simuline.eu/public_ftp/RepositoryTarget/dk/ange/javaoctave'>relevant jar files</ulink> for all versions. 
+
+Using javaoctave in a maven build, the dependency to 
+javaoctave is given by its <ulink url='./project-summary.html#Build_Information'>maven coordinates</ulink>. 
+
 <!-- **** details later -->
 </listitem>
 </itemizedlist>
+
+
 
 When using <productname>javaoctave</productname>, 
 it is helpful to consult this manual for the big picture 
@@ -84,7 +93,7 @@ defined in the factory.
 
 <example>
 Before an engine is created, the parameters of the factory can be modified 
-leading to an octave engine created with according parameters. 
+which causes the factory to create an octave engine with according parameters. 
 <programlisting>
 OctaveEngineFactory oef = new OctaveEngineFactory();
 oef.setArgsArray(new String[] {"--silent", "--no-init-file"})
