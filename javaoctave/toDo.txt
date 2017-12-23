@@ -12,3 +12,25 @@ Add:
      for dk.ange.octave.io.impl.Uint8MatrixReader define corresponding 
          dk.ange.octave.io.impl.Uint8MatrixWriter 
      and add tests. 
+
+Site: 
+link to "relevant jar files" still needs authentication. 
+This is not what we want. 
+Maybe talk with contabo, the provider or maybe move on 
+directly to maven central repository. 
+
+Site: 
+in the long run, write a maven plugin 
+or look whether one exists which checks links in an application. 
+
+User interface: 
+I feel OctaveEngineFactory.setArgsArray should be deprecated 
+and replaced by setOptionArray 
+
+
+site: 
+try out all code examples. 
+
+api-docs: 
+extend package exec and types 
+the latter in conjunction with the documentation site. 
