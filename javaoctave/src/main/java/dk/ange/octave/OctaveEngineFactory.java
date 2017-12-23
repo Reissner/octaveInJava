@@ -48,6 +48,20 @@ public final class OctaveEngineFactory {
      * For details, see octave user manual, version 3.4.0.+, Section 2.2.1. 
      * <p>
      * Default value of this field is default value for octave engines created.
+     * The default value consists of the following components: 
+     * <ul>
+     * <li>
+     * <code>--silent</code>: 
+     * prevents octave from printing the usual greeting and version message 
+     * at startup. 
+     * <li>
+     * <code>--no-init-file</code>, <code>--no-site-file</code> 
+     * prevents octave from reading the initialization files 
+     * <code>~/.octaverc</code>, <code>.octaverc</code> and 
+     * site-wide <code>octaverc</code>. 
+     * <li>
+     * </ul>
+     *
      * The only mandatory argument is <code>--silent</code>: 
      * If not set this, octave's greeting message causes an exception. 
      * Option <code>--no-init-file</code> makes the result independent 
@@ -55,11 +69,12 @@ public final class OctaveEngineFactory {
      * whereas <code>--no-init-file</code> and <code>--no-site-file</code> 
      * makes it independent of initialization files. 
      * Since this is used to create scripting engines, 
-     * history seems superfluous 
-     * and so <code>--no-history</code> seems appropriate. 
+     * line editing and history seem superfluous 
+     * and so <code>--no-line-editing</code> and <code>--no-history</code> 
+     * seem appropriate. 
      * Note that <code>--no-init-file</code> and <code>--no-site-file</code> 
      * may be appropriate or not. 
-     * ***** why not needed --no-gui? 
+     * ***** why not needed --no-gui? --no-window-system
      */
     private String[] argsArray = {
     	"--silent",          // greeting message causes exception **** 
