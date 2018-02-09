@@ -1,3 +1,11 @@
+JavaOctave (0.6.5)  201x-xx-xx
+
+  * make work for octave 4.3.0+.
+  * updated dependencies, in particular tests 
+  * generalized OctaveEngineFactory 
+
+ -- Ernst Reissner <ernst.reissner@simuline.eu>  Wed, 24 Oct 20xx 17:43:33 +0200
+
 JavaOctave (0.6.4)  2012-10-24
 
   * Update changelog, also for release 0.6.2 and 0.6.3.
