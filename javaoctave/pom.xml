@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <!-- coordinates for model and artifact -->
   <modelVersion>4.0.0</modelVersion>
@@ -10,7 +8,7 @@
   <!-- The Basics -->
   <groupId>dk.ange</groupId><!-- eu.simuline.octave -->
   <artifactId>javaoctave</artifactId>
-  <version>0.6.5-SNAPSHOT</version>
+  <version>0.6.5</version>
   <packaging>jar</packaging>
 
 
@@ -43,7 +41,7 @@
     <developer>
       <id>KH</id>
       <name>Kim Hansen</name>
-      <email></email>
+      <email />
       <organization>Ange Optimization ApS</organization>
       <timezone>Europe/Berlin</timezone>
     </developer>
@@ -617,19 +615,19 @@
   <!-- Environment Settings -->
   <scm>
     <connection>
-      scm:svn:https://github.com/Reissner/octaveInJava.git
+      scm:svn:https://github.com/Reissner/octaveInJava.git/tags/release-0.6.5
     </connection>
     <!--connection>
       scm:hg:https://hg.kenai.com/hg/javaoctave~source-code-repository
     </connection-->
     <developerConnection>
-      scm:svn:https://github.com/Reissner/octaveInJava.git
+      scm:svn:https://github.com/Reissner/octaveInJava.git/tags/release-0.6.5
     </developerConnection>
     <!--developerConnection>
     scm:hg:ssh://kim_i9.dk@hg.kenai.com/javaoctave~source-code-repository
     </developerConnection-->
     <tag>default</tag>
-    <url>https://github.com/Reissner/octaveInJava</url>
+    <url>https://github.com/Reissner/octaveInJava/tags/release-0.6.5</url>
     <!--url>https://hg.kenai.com/hg/javaoctave~source-code-repository</url-->
   </scm>
 
