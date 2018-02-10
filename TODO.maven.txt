@@ -1,0 +1,34 @@
+
+Remove my username from POM:
+  http://maven.apache.org/plugins/maven-release-plugin/faq.html#credentials
+
+Deploy web-site with release containing:
+  Build report
+  Test report
+  Coverage
+  JavaDoc API
+
+
+==== DONE ==============================================================================================================
+
+Source jar
+
+Create maven distribution:
+  http://java.dzone.com/tips/using-maven-repository-kenai
+    http://blog.retep.org/2009/04/24/setting-up-a-maven-repository-on-kenai/
+    http://blog.retep.org/2009/05/19/performing-maven-releases-on-kenai-with-hudson/
+
+Release
+  Release 0.6.2
+
+Test rebuild performance
+  Solution: Ignore it...
+
+Add this to jar
+    <attribute name="Implementation-Title" value="JavaOctave"/>
+    <attribute name="Implementation-Version" value="${dist}"/>
+    <attribute name="Implementation-Vendor" value="Kim Hansen, Ange Optimization ApS"/>
+    <attribute name="Bundle-License" value="http://www.apache.org/licenses/LICENSE-2.0"/>
+    <attribute name="Project-Url" value="http://kenai.com/projects/javaoctave/"/>
+  Solution: Fixed in pom.xml
+

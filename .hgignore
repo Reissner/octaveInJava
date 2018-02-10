@@ -1,0 +1,14 @@
+
+# Eclipse
+^\.metadata$
+^eclipse/eclipse\.log$
+
+# Vim
+/\.[^/]*\.swp$
+
+# Maven
+^javaoctave/target$
+
+# Gradle
+^javaoctave/\.gradle$
+

@@ -1,0 +1,8 @@
+
+http://maven.apache.org/plugins/maven-release-plugin/
+
+mvn --batch-mode release:clean
+mvn --batch-mode release:prepare
+mvn --batch-mode release:perform
+mvn --batch-mode release:clean
+

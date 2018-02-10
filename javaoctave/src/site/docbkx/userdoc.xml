@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<book>
+  <title>An Introduction to javaoctave</title>
+  <bookinfo>
+    <author>
+      <firstname>Ernst</firstname>
+      <surname>Reissner</surname>
+    </author>
+    <edition>2017-12-17 - version 1.0</edition>
+  </bookinfo>
+
+<dedication>
+The original author of this software, Kim Hansen. 
+</dedication>
+
+<chapter id="intro"><title>Introduction</title>
+
+<para>
+This project defines <productname>javaoctave</productname>, 
+a bridge from Java to <command>octave</command>, 
+allowing to use an octave-engine from within java. 
+</para>
+
+<para>
+Historically, there was an <command>octave</command> package 
+which allowed the converse: using java from within <command>octave</command>. 
+In the meantime, i.e. with version at least 4.3.0+, 
+<command>octave</command> offers builtin support for that task. 
+In the long run, the author intends to include this software 
+into <command>octave</command> either. 
+This would be logical and in same as for matlab, 
+which <command>octave</command> is supposed to clone. 
+</para>
+
+<para>
+Still history is not so far. 
+The original versions <productname>javaoctave</productname> were written 
+by Kim Hansen at <emphasis>Ange Optimization ApS</emphasis> 
+for the KENAI project. 
+After the KENAI site disappeared, 
+the author decided to go on with that task 
+since he needs that software himself. 
+
+So far there is no explicit bug tracker 
+but you can email me via <email>reissner@simuline.eu</email> 
+if something is wrong or you miss a feature. 
+</para>
+
+<chapterinfo><corpname>Ange Optimization ApS</corpname> </chapterinfo>
+</chapter>
+
+<chapter id="first"><title>First Steps</title>
+Here, it is described how <productname>javaoctave</productname> is used. 
+The prerequisites are 
+
+<itemizedlist>
+<listitem>
+java jdk at least version 1.6, where tests are with java 1.8. 
+</listitem>
+<listitem>
+octave version >3.5, where tests are with <command>octave</command> 4.3.0+. 
+</listitem>
+<listitem>
+this software, <productname>javaoctave</productname>, 
+is registered at <!-- maven central--> our local repository. 
+Thus containing the 
+<ulink 
+    url='ftp://www.simuline.eu/public_ftp/RepositoryTarget/dk/ange/javaoctave'>
+relevant jar files</ulink> for all versions. 
+
+Using javaoctave in a maven build, the dependency to javaoctave is given by its 
+<ulink url='./project-summary.html#Build_Information'>maven coordinates</ulink>. 
+
+<!-- **** details later -->
+</listitem>
+</itemizedlist>
+
+
+
+When using <productname>javaoctave</productname>, 
+it is helpful to consult this manual for the big picture 
+and the <ulink url='./apidocs/index.html'>api-docs</ulink> for details. 
+The core class of javaoctave is 
+<ulink url='./apidocs/dk/ange/octave/OctaveEngine.html'>
+<code>OctaveEngine</code></ulink> 
+which wraps an <command>octave</command> instance. 
+But to create such an engine, 
+an <ulink url='./apidocs/dk/ange/octave/OctaveEngineFactory.html'>
+<code>OctaveEngineFactory</code></ulink> is needed. 
+It is created via default constructor and can be customized 
+with setter methods before creating an <code>OctaveEngine</code>. 
+
+<example><title>OctaveEngine with default options</title>
+A minimal example to create an <code>OctaveEngine</code> is the following: 
+<programlisting>
+OctaveEngineFactory oef = new OctaveEngineFactory();
+OctaveEngine oe = oef.getScriptEngine();
+</programlisting>
+Here, the octave-engine is created with default parameters 
+defined in the factory. 
+</example>
+
+<example><title>OctaveEngine with custom options</title>
+Before an engine is created, the parameters of the factory can be modified, 
+which causes the factory to create an octave-engine with according parameters. 
+<programlisting>
+OctaveEngineFactory oef = new OctaveEngineFactory();
+oef.setArgsArray(new String[] {"--silent", "--no-init-file"})
+OctaveEngine oe = oef.getScriptEngine();
+</programlisting>
+
+Command line options are described both 
+form <ulink url='https://www.gnu.org/software/octave/doc/interpreter/Command-Line-Options.html#Command-Line-Options'>octave perspective</ulink> 
+and from <ulink url='./apidocs/dk/ange/octave/OctaveEngineFactory.html#setArgsArray-java.lang.String:A-'><productname>javaoctave</productname></ulink>. 
+Besides command line options, 
+one may set the <command>octave</command> executable, 
+the working directory and all three: 
+log writer, output and error output writer. 
+</example>
+
+After having created an octave-(script-)engine, 
+this can be used to evaluate scripts in the matlab language. 
+For a complete reference of available methods, consult the 
+<ulink url='./apidocs/dk/ange/octave/OctaveEngine.html'>apidocs</ulink>; 
+what we want to provide here is an overview. 
+The core method is <code>void eval(String script)</code> 
+which allows to execute some valid matlab code, or say script. 
+
+Essentially, this is all a user needs. 
+Nevertheless, it is both cumbersome to pass a java object to octave 
+and to read back an octave object into java. 
+Thus there are special methods 
+<itemizedlist>
+<listitem>
+<code>void put(String key, OctaveObject value)</code> 
+to pass a java object representing an octave type 
+to an octave variable 
+</listitem>
+<listitem>and 
+<code>&lt;T extends OctaveObject> T get(final Class&lt;T> castClass, final String key)</code> 
+to get back from an octave variable 
+an octave object represented by a java object with according type. 
+</listitem>
+</itemizedlist>
+Typically, evaluations are preceeded by put-commands 
+and succeeded by get-commands. 
+
+<example><title>Basic Use Case</title>
+A simple example for a cycle 
+consisting of passing data from java to <command>octave</command>, 
+performing a computation and passing back the result is the following: 
+
+<programlisting>
+oe.put("dIn", Octave.scalar(42.0));
+oe.eval("dOut=sin(dIn);");
+OctaveDouble od = oe.get(OctaveDouble.class, "dOut");
+double jd = od.get(1,1);
+</programlisting>
+Of course, <code>oe</code> is an octave engine created as described above. 
+First, <code>Octave.scalar(42.0)</code> 
+converts the java double <code>42.0</code> into an OctaveDouble 
+and <code>put</code> assigns that value to octave variable <code>dIn</code>. 
+Then <code>oe.eval("dOut=sin(dIn);");</code> evaluates the sine 
+and passes the result to octave variable <code>dOut</code>. 
+Finally, <code>OctaveDouble od = oe.get(OctaveDouble.class, "dOut");</code> 
+pushes the value <code>dOut</code> back to java 
+and to get back a double just use the getter method as shown above. 
+</example>
+
+<!--para-->
+In general, for getting and setting, 
+the package <ulink url='./apidocs/dk/ange/octave/type/package-summary.html'>
+dk.ange.octave.type</ulink> comprising types like <code>OctaveDouble</code> 
+and the utility class <code>Octave</code> are needed. 
+All required information can be found in the api-docs. 
+<!--/para-->
+
+
+<!-- 
+public methods: 
+unsafeEval(final String script)
+void unsafeEval(final Reader script)
+void eval(final String script)
+
+void put(final String key, final OctaveObject value)
+void putAll(final Map<String, OctaveObject> vars)
+OctaveObject get(final String key)
+ <T extends OctaveObject> T get(final Class<T> castClass, final String key)
+
+void close()
+void destroy()
+String getVersion()
+-->
+</chapter>
+
+
+</book>

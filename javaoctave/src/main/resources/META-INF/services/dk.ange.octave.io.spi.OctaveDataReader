@@ -1,0 +1,14 @@
+dk.ange.octave.io.impl.BooleanReader
+dk.ange.octave.io.impl.BooleanSingleReader
+dk.ange.octave.io.impl.CellReader
+dk.ange.octave.io.impl.ComplexMatrixReader
+dk.ange.octave.io.impl.ComplexScalarReader
+dk.ange.octave.io.impl.FakeRangeReader
+dk.ange.octave.io.impl.MatrixReader
+dk.ange.octave.io.impl.OctaveStringReader
+dk.ange.octave.io.impl.OctaveSqStringReader
+dk.ange.octave.io.impl.ScalarReader
+dk.ange.octave.io.impl.ScalarStructReader
+dk.ange.octave.io.impl.SparseBooleanReader
+dk.ange.octave.io.impl.StructReader
+dk.ange.octave.io.impl.Uint8MatrixReader

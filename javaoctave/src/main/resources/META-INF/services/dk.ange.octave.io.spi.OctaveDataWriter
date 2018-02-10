@@ -1,0 +1,8 @@
+dk.ange.octave.io.impl.BooleanWriter
+dk.ange.octave.io.impl.CellWriter
+dk.ange.octave.io.impl.FakeWriter
+dk.ange.octave.io.impl.FunctionHandleWriter
+dk.ange.octave.io.impl.MatrixWriter
+dk.ange.octave.io.impl.OctaveStringWriter
+dk.ange.octave.io.impl.SparseBooleanWriter
+dk.ange.octave.io.impl.StructWriter
