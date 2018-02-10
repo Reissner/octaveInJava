@@ -1,10 +1,17 @@
-JavaOctave (0.6.5)  201x-xx-xx
+JavaOctave (0.6.6)  2018-02-10
+
+  * tried maven release plugin 
+
+ -- Ernst Reissner <ernst.reissner@simuline.eu>  Wed, 24 Oct 20xx 17:43:33 +0200
+
+JavaOctave (0.6.5)  2018-02-10
 
   * make work for octave 4.3.0+.
   * updated dependencies, in particular tests 
   * generalized OctaveEngineFactory 
 
  -- Ernst Reissner <ernst.reissner@simuline.eu>  Wed, 24 Oct 20xx 17:43:33 +0200
+
 
 JavaOctave (0.6.4)  2012-10-24
 
