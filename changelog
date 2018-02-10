@@ -1,3 +1,9 @@
+JavaOctave (0.6.7)  2018-02-10
+
+  * tried maven release plugin: change from svn to git  
+  
+   -- Ernst Reissner <ernst.reissner@simuline.eu>  
+   
 JavaOctave (0.6.6)  2018-02-10
 
   * tried maven release plugin 
