@@ -615,19 +615,19 @@
   <!-- Environment Settings -->
   <scm>
     <connection>
-      scm:git:https://github.com/Reissner/octaveInJava.git/tags/release-0.6.6
+      scm:git:https://github.com/Reissner/octaveInJava.git/
     </connection>
     <!--connection>
       scm:hg:https://hg.kenai.com/hg/javaoctave~source-code-repository
     </connection-->
     <developerConnection>
-      scm:git:https://github.com/Reissner/octaveInJava.git/tags/release-0.6.6
+      scm:git:https://github.com/Reissner/octaveInJava.git/
     </developerConnection>
     <!--developerConnection>
     scm:hg:ssh://kim_i9.dk@hg.kenai.com/javaoctave~source-code-repository
     </developerConnection-->
     <tag>release-0.6.7</tag>
-    <url>https://github.com/Reissner/octaveInJava/tags/release-0.6.6</url>
+    <url>https://github.com/Reissner/octaveInJava/</url>
     <!--url>https://hg.kenai.com/hg/javaoctave~source-code-repository</url-->
   </scm>
 
