@@ -2,13 +2,13 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <!-- coordinates for model and artifact -->
+  <!-- coordinates for model and artifact xxx -->
   <modelVersion>4.0.0</modelVersion>
 
   <!-- The Basics -->
   <groupId>dk.ange</groupId><!-- eu.simuline.octave -->
   <artifactId>javaoctave</artifactId>
-  <version>0.6.6</version>
+  <version>0.6.7-SNAPSHOT</version>
   <packaging>jar</packaging>
 
 
@@ -451,11 +451,11 @@
          <version>2.10</version>
       </extension>
       <!-- Deploy via svn -->
-      <extension>
-        <groupId>org.jvnet.wagon-svn</groupId>
-        <artifactId>wagon-svn</artifactId>
+      <!--extension>
+        <groupId>org.jvnet.wagon-git</groupId>
+        <artifactId>wagon-git</artifactId>
         <version>1.9</version>
-      </extension>
+      </extension-->
     </extensions>
   </build>
 
@@ -615,13 +615,13 @@
   <!-- Environment Settings -->
   <scm>
     <connection>
-      scm:svn:https://github.com/Reissner/octaveInJava.git/tags/release-0.6.6
+      scm:git:https://github.com/Reissner/octaveInJava.git/tags/release-0.6.6
     </connection>
     <!--connection>
       scm:hg:https://hg.kenai.com/hg/javaoctave~source-code-repository
     </connection-->
     <developerConnection>
-      scm:svn:https://github.com/Reissner/octaveInJava.git/tags/release-0.6.6
+      scm:git:https://github.com/Reissner/octaveInJava.git/tags/release-0.6.6
     </developerConnection>
     <!--developerConnection>
     scm:hg:ssh://kim_i9.dk@hg.kenai.com/javaoctave~source-code-repository
