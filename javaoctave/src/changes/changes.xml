@@ -1,0 +1,206 @@
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+
+<!-- https://maven.apache.org/plugins/maven-changes-plugin/changes.html -->
+    <!-- action types: 
+	 add: added functionnality to the project.
+	 fix: bug fix for the project.
+	 update: updated some part of the project.
+	 remove: removed some functionnality from the project. -->
+  <properties>
+    <title>javaoctave</title>
+    <author email="reissner@simuline.eu">Ernst Reissner (ER)</author>
+  </properties>
+  <body>
+     <!--release version="1.0-snapshot" 
+	     date="2005-01-01" 
+	     description="First release">
+     <action dev="ER" 
+     due-to=.. due-to-email=.. issue=.. type=.. system=.. date=.. >
+        Added to this project what was extracted from general source tree. 
+      </action>
+        <fixes issue=.. />
+        <dueto name=.. email=.. />
+    </release-->
+     <release version="0.6.7-snapshot" date='' description=''>
+      <action dev="ER" type="add">
+	 Added this changes file. 
+	 Information imported from changelog manually. 
+      </action>
+      <action dev="ER" type="fix">
+	changed maven coordinates: dk.ange --> eu.simuline.octave 
+	dk.ange no longer supports this. 
+      </action>
+      <action dev="ER" type="fix">
+	moved from svn to git, because interface of github 
+	does not fully play with svn when trying to release. 
+      </action>
+     </release>
+
+    <release version="0.6.6" date='2018-02-10' description=''>
+      <action dev="ER" type="fix">
+	tried maven release plugin 
+      </action>
+    </release>
+
+    <release version="0.6.5" date='2018-02-10' description=''>
+      <action dev="ER" type="update">
+	make work for octave 4.3.0+.
+      </action>
+      <action dev="ER" type="update">
+	updated dependencies, in particular tests 
+      </action>
+      <action dev="ER" type="add">
+	generalized OctaveEngineFactory to support my own java integration. 
+      </action>
+    </release>
+
+    <release version="0.6.4" date='2012-10-24' description=''>
+      <action dev="KH" type="update">
+	Update changelog, also for release 0.6.2 and 0.6.3. 
+      </action>
+    </release>
+
+    <release version="0.6.3" date='2012-10-23' description=''>
+      <action dev="KH" type="add">
+	Deploy sources.jar file with Maven.
+      </action>
+    </release>
+
+
+    <release version="0.6.2" date='2012-10-23' description=''>
+      <action dev="KH" type="add">
+	Support reading an integer matrix (uint8)
+      </action>
+      <action dev="KH" type="update">
+	To build use maven and java 6
+      </action>
+      <action dev="KH" type="update">
+	Support Octave 3.6
+	- Handle new extra linefeeds in some of the save formats
+	- Parse 'scalar struct'
+      </action>
+    </release>
+
+    <release version="0.6.1" date='2010-03-10' description=''>
+     <action dev="KH" type="add">
+       Create some skeleton objects that can get and put 
+       sparse booleans and ranges.
+      </action>
+      <action dev="KH" type="add">
+	Create some utility functions 
+	that makes it easy to pull data out of octave.
+      </action>
+      <action dev="KH" type="fix">
+	Fix some bugs in the save format, 
+	a lot of linefeeds were placed in the wrong way.
+      </action>
+    </release>
+
+    <release version="0.6.0" date='2010-01-11' description=''>
+      <action dev="KH" type="fix">
+	Prevent engine from exiting on errors by wrapping input in eval()
+      </action>
+      <action dev="KH" type="add">
+	Handle multi line strings
+      </action>
+      <action dev="KH" type="add">
+	Test exit value from octave in OctaveExec.close()
+      </action>
+    </release>
+
+    <release version="0.5.1" date='2010-01-08' description=''>
+      <action dev="KH" type="fix">
+	Handle extra line feed from exit() in octave3.2
+      </action>
+      <action dev="KH" type="add">
+	Make data i OctaveComplex more accessible
+     </action>
+      <action dev="KH" type="add">
+	Create OctaveFunctionHandle
+     </action>
+      <action dev="KH" type="add">
+	Test under octave3.0 and octave3.2
+      </action>
+    </release>
+
+    <release version="0.5.0" date='2009-11-22' description=''>
+      <action dev="KH" type="add">
+	Create OctaveComplex as wrapper type for complex matrices.
+      </action>
+      <action dev="KH" type="add">
+	Create an auto cast functionality in JavaOctave 
+	that is similar to one in C++.  
+	It is used to transform OctaveDouble to OctaveComplex by need.
+      </action>
+      <action dev="KH" type="add">
+	Make OctaveEngine.get(), OctaveCell.get() and OctaveStruct.get() 
+	take Class objects as input 
+	and use the autocast to transform the type if needed.
+      </action>
+      <action dev="KH" type="add">
+	Group the exceptions thrown by JavaOctave 
+	into the ones that will break the octave process, 
+	and the ones that will not. 
+	Make the data reading more robust 
+	such that getting data of an unknown type 
+	will throw an exception that will not break the process.
+      </action>
+      <action dev="KH" type="add">
+	Delete OctaveScalar, use 1x1 OctaveMatrix 
+	and create then using the factory function Octave.scalar().
+      </action>
+      <action dev="KH" type="update">
+	Rename OctaveType to OctaveObject.
+      </action>
+      <action dev="KH" type="update">
+	Rename OctaveMatrix to OctaveDouble.
+      </action>
+      <action dev="KH" type="add">
+	Document how OctaveObject.shallowCopy is used.
+      </action>
+    </release>
+
+    <release version="0.4.0" date='2009-10-08' description=''>
+      <action dev="KH" type="update">
+	OctaveNdMatrix is renamed to OctaveMatrix
+      </action>
+      <action dev="KH" type="update">
+	OctaveScalar now behaves more like OctaveMatrix
+      </action>
+      <action dev="KH" type="add">
+	OctaveBoolean added to reflect the logical type in Octave
+      </action>
+      <action dev="KH" type="update">
+	Better build system and unit tests split from the main project
+      </action>
+      <action dev="KH" type="add">
+	Unit test coverage added, we are using Cobertura
+      </action>
+      <action dev="KH" type="update">
+	Switched from git to Mercurial
+      </action>
+      <action dev="KH" type="add">
+	Examples from Wiki is tested in unit tests
+      </action>
+      <action dev="KH" type="update">
+	The many fragmented OctaveMatrix tests 
+	collected into a single test of the type and an other test of io.
+      </action>
+    </release>
+
+    <release version="0.3.2" date='2009-09-17' description=''>
+      <action dev="KH" type="add">
+	This release reads sq_strings.
+      </action>
+      <action dev="KH" type="update">
+	Project has moved from Launchpad+bzr to Kenai+git.
+      </action>
+      <action dev="KH" type="update">
+	Release has been tagged in the git repo as "release-0.3.2"
+      </action>
+    </release>
+
+  </body>
+</document>
