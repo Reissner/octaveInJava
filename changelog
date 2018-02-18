@@ -1,6 +1,8 @@
 JavaOctave (0.6.7)  2018-02-10
 
   * tried maven release plugin: change from svn to git  
+  * changed maven coordinates 
+  * moved change file changelog-->to javaoctave/src/changes/changes.xml
   
    -- Ernst Reissner <ernst.reissner@simuline.eu>  
    
