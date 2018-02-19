@@ -16,13 +16,13 @@
 /**
  * @author Kim Hansen
  */
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
 import java.io.BufferedReader;
 
-import dk.ange.octave.exception.OctaveParseException;
-import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.type.OctaveDouble;
+import eu.simuline.octave.exception.OctaveParseException;
+import eu.simuline.octave.io.OctaveIO;
+import eu.simuline.octave.type.OctaveDouble;
 
 /**
  * The reader for the octave type "matrix" (of double) 

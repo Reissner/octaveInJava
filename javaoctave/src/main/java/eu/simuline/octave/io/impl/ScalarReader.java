@@ -16,14 +16,14 @@
 /**
  * @author Kim Hansen
  */
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
 import java.io.BufferedReader;
 
-import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.io.spi.OctaveDataReader;
-import dk.ange.octave.type.Octave;
-import dk.ange.octave.type.OctaveDouble;
+import eu.simuline.octave.io.OctaveIO;
+import eu.simuline.octave.io.spi.OctaveDataReader;
+import eu.simuline.octave.type.Octave;
+import eu.simuline.octave.type.OctaveDouble;
 
 /**
  * The reader for the octave type "scalar" (double) 

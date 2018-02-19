@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.type;
+package eu.simuline.octave.type;
 
-import dk.ange.octave.type.matrix.BooleanMatrix;
+import eu.simuline.octave.type.matrix.BooleanMatrix;
 
 /**
  * Represents a Boolean matrix. 

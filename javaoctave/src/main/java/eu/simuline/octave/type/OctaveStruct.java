@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.type;
+package eu.simuline.octave.type;
 
 import java.util.Map;
 import java.util.TreeMap;
 
-import dk.ange.octave.exception.OctaveClassCastException;
-import dk.ange.octave.type.cast.Cast;
+import eu.simuline.octave.exception.OctaveClassCastException;
+import eu.simuline.octave.type.cast.Cast;
 
 /**
  * 1x1 struct. JavaOctave does not support the multidimensional structs 

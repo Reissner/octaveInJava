@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.exception;
+package eu.simuline.octave.exception;
 
 /**
  * Exception thrown when parsing of the output from octave fails. 

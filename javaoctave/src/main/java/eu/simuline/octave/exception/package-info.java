@@ -30,7 +30,8 @@
  * The reason that it could be nice to distinguish between the different types 
  * of error is that the user error could be recoverable in some cases.
  */
-package dk.ange.octave.exception;
+package eu.simuline.octave.exception;
+
 /*-
  * OctaveException
  *   OctaveRecoverableException

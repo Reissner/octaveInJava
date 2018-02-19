@@ -16,7 +16,7 @@
 /**
  * @author kim
  */
-package dk.ange.octave.type;
+package eu.simuline.octave.type;
 
 /**
  * Represents an octave string. 

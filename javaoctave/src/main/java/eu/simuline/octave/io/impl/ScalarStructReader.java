@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
 import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import dk.ange.octave.exception.OctaveParseException;
-import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.io.spi.OctaveDataReader;
-import dk.ange.octave.type.OctaveObject;
-import dk.ange.octave.type.OctaveStruct;
+import eu.simuline.octave.exception.OctaveParseException;
+import eu.simuline.octave.io.OctaveIO;
+import eu.simuline.octave.io.spi.OctaveDataReader;
+import eu.simuline.octave.type.OctaveObject;
+import eu.simuline.octave.type.OctaveStruct;
 
 /**
  * The reader for the octave type "scalar struct" 

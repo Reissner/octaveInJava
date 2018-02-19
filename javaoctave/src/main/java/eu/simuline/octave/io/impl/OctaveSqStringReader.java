@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
 import java.io.BufferedReader;
 
-import dk.ange.octave.exception.OctaveParseException;
-import dk.ange.octave.type.OctaveString;
+import eu.simuline.octave.exception.OctaveParseException;
+import eu.simuline.octave.type.OctaveString;
 
 /**
  * The name is {@link OctaveSqStringReader} 

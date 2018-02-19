@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.io;
+package eu.simuline.octave.io;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
-import dk.ange.octave.exception.OctaveIOException;
-import dk.ange.octave.exec.WriteFunctor;
-import dk.ange.octave.type.OctaveObject;
+import eu.simuline.octave.exception.OctaveIOException;
+import eu.simuline.octave.exec.WriteFunctor;
+import eu.simuline.octave.type.OctaveObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

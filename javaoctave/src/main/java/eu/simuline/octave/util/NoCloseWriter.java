@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.util;
+package eu.simuline.octave.util;
 
 import java.io.IOException;
 import java.io.Writer;

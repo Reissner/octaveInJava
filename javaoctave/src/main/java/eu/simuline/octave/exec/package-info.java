@@ -16,13 +16,13 @@
 
 /**
  * Classes related with executing octave. 
- * The central class is {@link dk.ange.octave.exec.OctaveExec} 
+ * The central class is {@link eu.simuline.octave.exec.OctaveExec} 
  * executing octave. 
- * {@link dk.ange.octave.exec.OctaveExecuteReader} 
+ * {@link eu.simuline.octave.exec.OctaveExecuteReader} 
  * reads the output of the octave process, 
  * ****
  */
-package dk.ange.octave.exec;
+package eu.simuline.octave.exec;
 
 //import dk.ange.octave.exec.OctaveExec;
 //import dk.ange.octave.exec.OctaveExecuteReader;

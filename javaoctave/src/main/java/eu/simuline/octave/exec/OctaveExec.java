@@ -16,7 +16,7 @@
 /**
  * @author Kim Hansen
  */
-package dk.ange.octave.exec;
+package eu.simuline.octave.exec;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,12 +33,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import dk.ange.octave.exception.OctaveException;
-import dk.ange.octave.exception.OctaveIOException;
-import dk.ange.octave.util.NamedThreadFactory;
-import dk.ange.octave.util.NoCloseWriter;
-import dk.ange.octave.util.ReaderWriterPipeThread;
-import dk.ange.octave.util.TeeWriter;
+import eu.simuline.octave.exception.OctaveException;
+import eu.simuline.octave.exception.OctaveIOException;
+import eu.simuline.octave.util.NamedThreadFactory;
+import eu.simuline.octave.util.NoCloseWriter;
+import eu.simuline.octave.util.ReaderWriterPipeThread;
+import eu.simuline.octave.util.TeeWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,7 +52,7 @@ public final class OctaveExec {
      * System property where the executable is found. 
      */
     public static final String PROPERTY_EXECUTABLE = 
-	"dk.ange.octave.executable";
+	"eu.simuline.octave.executable";
 
     public static final String MSG_IOE_NH = 
 	"InterruptedException should not happen";
@@ -112,7 +112,7 @@ public final class OctaveExec {
      * @param octaveProgram
      *    This is the path to the octave program,
      *    if it is null the program will be found
-     *    using the system property 'dk.ange.octave.executable'
+     *    using the system property 'eu.simuline.octave.executable'
      *    and if that is not set 'octave' will be assumed to be in the PATH.
      * @param argsArray
      *    the array of arguments to start <code>octaveProgram</code> with. 

@@ -15,10 +15,10 @@
  */
 
 /**
- * The {@link dk.ange.octave.io.spi} package 
+ * The {@link eu.simuline.octave.io.spi} package 
  * contains service provider interfaces 
  * for reading and writing various kinds of 
- * {@link dk.ange.octave.type.OctaveObject}s. 
+ * {@link eu.simuline.octave.type.OctaveObject}s. 
  * The idea is described in 
  * <a href="https://docs.oracle.com/javase/tutorial/ext/basics/spi.html"> 
  * the oracle tutorial</a> and 
@@ -26,7 +26,7 @@
  * on the package {@link javax.imageio.spi}. 
  * <p>
  * The two abstract classes provided are 
- * {@link dk.ange.octave.io.spi.OctaveDataReader} and 
- * {@link dk.ange.octave.io.spi.OctaveDataWriter}. 
+ * {@link eu.simuline.octave.io.spi.OctaveDataReader} and 
+ * {@link eu.simuline.octave.io.spi.OctaveDataWriter}. 
  */
-package dk.ange.octave.io.spi;
+package eu.simuline.octave.io.spi;

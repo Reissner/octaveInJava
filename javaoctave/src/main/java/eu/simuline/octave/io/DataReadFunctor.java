@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.io;
+package eu.simuline.octave.io;
 
-import static dk.ange.octave.io.OctaveIO.readerReadLine;
+import static eu.simuline.octave.io.OctaveIO.readerReadLine;
 
 import java.io.BufferedReader;
 import java.io.Reader;
 import java.util.Map;
 
-import dk.ange.octave.exception.OctaveParseException;
-import dk.ange.octave.exec.ReadFunctor;
-import dk.ange.octave.type.OctaveObject;
+import eu.simuline.octave.exception.OctaveParseException;
+import eu.simuline.octave.exec.ReadFunctor;
+import eu.simuline.octave.type.OctaveObject;
 
 /**
  * Functor that reads a single variable. 

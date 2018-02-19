@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.exception;
+package eu.simuline.octave.exception;
 
-import dk.ange.octave.exec.OctaveExec; // for javadoc only 
+import eu.simuline.octave.exec.OctaveExec; // for javadoc only 
 
 /**
  * Base exception class for the JavaOctave project. 

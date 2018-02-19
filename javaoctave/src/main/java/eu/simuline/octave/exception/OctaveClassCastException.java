@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.exception;
+package eu.simuline.octave.exception;
 
-import dk.ange.octave.type.OctaveObject;
+import eu.simuline.octave.type.OctaveObject;
 
 /**
  * Exception thrown when a cast fails inside JavaOctave. 

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
 import java.io.BufferedReader;
 
-import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.io.spi.OctaveDataReader;
-import dk.ange.octave.type.OctaveComplex;
+import eu.simuline.octave.io.OctaveIO;
+import eu.simuline.octave.io.spi.OctaveDataReader;
+import eu.simuline.octave.type.OctaveComplex;
 
 /**
  * The reader for the octave type "complex scalar" with 'double' components 

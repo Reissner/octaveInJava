@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
 import java.io.IOException;
 import java.io.Writer;
 
-import dk.ange.octave.io.spi.OctaveDataWriter;
-import dk.ange.octave.type.OctaveFake;
+import eu.simuline.octave.io.spi.OctaveDataWriter;
+import eu.simuline.octave.type.OctaveFake;
 
 /**
  * The writer of all {@link OctaveFake} objects. 

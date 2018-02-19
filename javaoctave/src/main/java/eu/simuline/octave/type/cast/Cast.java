@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.type.cast;
+package eu.simuline.octave.type.cast;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,9 +21,9 @@ import java.util.Map;
 
 import javax.imageio.spi.ServiceRegistry;
 
-import dk.ange.octave.exception.OctaveClassCastException;
-import dk.ange.octave.exception.OctaveCastServiceException;
-import dk.ange.octave.type.OctaveObject;
+import eu.simuline.octave.exception.OctaveClassCastException;
+import eu.simuline.octave.exception.OctaveCastServiceException;
+import eu.simuline.octave.type.OctaveObject;
 
 /**
  * Helper class for the auto cast functionality. 

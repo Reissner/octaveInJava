@@ -1,12 +1,12 @@
-package dk.ange.octave;
+package eu.simuline.octave;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import dk.ange.octave.type.OctaveCell;
-import dk.ange.octave.type.OctaveString;
+import eu.simuline.octave.type.OctaveCell;
+import eu.simuline.octave.type.OctaveString;
 
 /**
  * Small utility functions that can be used with JavaOctave.

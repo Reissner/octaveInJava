@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.exception;
+package eu.simuline.octave.exception;
 
-import dk.ange.octave.OctaveEngine;
+import eu.simuline.octave.OctaveEngine;
 
 /**
  * Exception thrown when evaluation of an octave statement 

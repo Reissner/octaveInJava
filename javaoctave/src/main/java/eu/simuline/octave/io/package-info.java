@@ -17,4 +17,4 @@
 /**
  * Explanation missing. ****
  */
-package dk.ange.octave.io;
+package eu.simuline.octave.io;

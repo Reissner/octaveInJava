@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
 import java.io.IOException;
 import java.io.Writer;
 
-import dk.ange.octave.type.OctaveInt;
+import eu.simuline.octave.type.OctaveInt;
 
 /**
  * The writer for the octave type "bool matrix" (matrix with boolean entries) 

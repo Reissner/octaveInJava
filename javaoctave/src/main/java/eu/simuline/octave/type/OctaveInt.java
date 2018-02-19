@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.type;
+package eu.simuline.octave.type;
 
 import java.util.Arrays;
 
-import dk.ange.octave.type.matrix.IntMatrix;
+import eu.simuline.octave.type.matrix.IntMatrix;
 
 /**
  * Represents a matrix of ints. 

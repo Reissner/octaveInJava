@@ -16,13 +16,13 @@
 /**
  * @author Kim Hansen
  */
-package dk.ange.octave.exec;
+package eu.simuline.octave.exec;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
-import dk.ange.octave.util.IOUtils;
+import eu.simuline.octave.util.IOUtils;
 
 /**
  * Reads all from the reader and writes it to the writer. 

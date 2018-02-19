@@ -16,12 +16,12 @@
 /**
  * @author Kim Hansen
  */
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
 import java.io.IOException;
 import java.io.Writer;
 
-import dk.ange.octave.type.OctaveDouble;
+import eu.simuline.octave.type.OctaveDouble;
 
 /**
  * The writer for the octave type "matrix" (of double) 

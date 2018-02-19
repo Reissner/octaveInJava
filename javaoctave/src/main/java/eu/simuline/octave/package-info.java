@@ -20,5 +20,4 @@
  * 
  * It does not implement it as the code has to work on Java 5.0.
  */
-package dk.ange.octave;
-
+package eu.simuline.octave;

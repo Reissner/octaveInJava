@@ -1,35 +1,35 @@
 /**
  * Contains all octave types. 
- * The base interface for all types is {@link dk.ange.octave.type.OctaveObject} 
+ * The base interface for all types is {@link eu.simuline.octave.type.OctaveObject} 
  * defining a single method only: 
- * {@link dk.ange.octave.type.OctaveObject#shallowCopy()}. 
+ * {@link eu.simuline.octave.type.OctaveObject#shallowCopy()}. 
  *
- * Classes implementing {@link dk.ange.octave.type.OctaveObject}: 
+ * Classes implementing {@link eu.simuline.octave.type.OctaveObject}: 
  * <ul>
  * <li>
- * {@link dk.ange.octave.type.OctaveBoolean} extending 
- * {@link dk.ange.octave.type.matrix.BooleanMatrix}, 
+ * {@link eu.simuline.octave.type.OctaveBoolean} extending 
+ * {@link eu.simuline.octave.type.matrix.BooleanMatrix}, 
  * <li>
- * {@link dk.ange.octave.type.OctaveCell} extending 
- * {@link dk.ange.octave.type.matrix.GenericMatrix}, 
+ * {@link eu.simuline.octave.type.OctaveCell} extending 
+ * {@link eu.simuline.octave.type.matrix.GenericMatrix}, 
  * <li>
- * {@link dk.ange.octave.type.OctaveDouble} extending 
- * {@link dk.ange.octave.type.matrix.DoubleMatrix}, 
+ * {@link eu.simuline.octave.type.OctaveDouble} extending 
+ * {@link eu.simuline.octave.type.matrix.DoubleMatrix}, 
  * <li>
- * {@link dk.ange.octave.type.OctaveInt} extending 
- * {@link dk.ange.octave.type.matrix.IntMatrix}, 
+ * {@link eu.simuline.octave.type.OctaveInt} extending 
+ * {@link eu.simuline.octave.type.matrix.IntMatrix}, 
  * <li>
  * Without base class, i.e. based on object: 
- * {@link dk.ange.octave.type.OctaveSparseBoolean}, 
- * {@link dk.ange.octave.type.OctaveString}, 
- * {@link dk.ange.octave.type.OctaveStruct}, 
- * {@link dk.ange.octave.type.OctaveFunctionHandle}, 
- * {@link dk.ange.octave.type.OctaveComplex}, 
- * and special case {@link dk.ange.octave.type.OctaveFake}. 
+ * {@link eu.simuline.octave.type.OctaveSparseBoolean}, 
+ * {@link eu.simuline.octave.type.OctaveString}, 
+ * {@link eu.simuline.octave.type.OctaveStruct}, 
+ * {@link eu.simuline.octave.type.OctaveFunctionHandle}, 
+ * {@link eu.simuline.octave.type.OctaveComplex}, 
+ * and special case {@link eu.simuline.octave.type.OctaveFake}. 
  * </ul>
- * Special is {@link dk.ange.octave.type.Octave} 
+ * Special is {@link eu.simuline.octave.type.Octave} 
  * the use of which is not clear to me... 
  * Provides a single static method 
- * {@link dk.ange.octave.type.Octave#scalar(double)}. 
+ * {@link eu.simuline.octave.type.Octave#scalar(double)}. 
  */
-package dk.ange.octave.type;
+package eu.simuline.octave.type;

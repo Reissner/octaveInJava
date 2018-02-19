@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.exec;
+package eu.simuline.octave.exec;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.concurrent.Callable;
 
-import dk.ange.octave.exception.OctaveIOException;
+import eu.simuline.octave.exception.OctaveIOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

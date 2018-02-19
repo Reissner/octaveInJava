@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.exception;
+package eu.simuline.octave.exception;
 
 /**
  * An exception in the Octave engine that did not break the octave process.

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.io.spi;
+package eu.simuline.octave.io.spi;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -23,15 +23,15 @@ import java.util.Map;
 
 import javax.imageio.spi.ServiceRegistry;
 
-import dk.ange.octave.type.OctaveObject;
+import eu.simuline.octave.type.OctaveObject;
 
 /**
  * Service Provider Interface for the IO handler 
  * that can write {@link OctaveObject}s. 
- * The according implementations are in package {@link dk.ange.octave.io.impl} 
+ * The according implementations are in package {@link eu.simuline.octave.io.impl} 
  * and extend this class. 
  * These classes are registered in the jar-file 
- * under <code>META-INF/services/dk.ange.octave.io.OctaveDataWriter</code>. 
+ * under <code>META-INF/services/eu.simuline.octave.io.OctaveDataWriter</code>. 
  *
  * @param <T>
  *    the type extending {@link OctaveObject} this writer can write. 

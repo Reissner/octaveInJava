@@ -16,7 +16,7 @@
 /**
  * @author Kim Hansen
  */
-package dk.ange.octave;
+package eu.simuline.octave;
 
 import java.io.File;
 import java.io.OutputStreamWriter;

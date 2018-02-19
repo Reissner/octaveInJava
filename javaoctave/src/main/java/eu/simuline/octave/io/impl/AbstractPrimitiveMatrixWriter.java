@@ -1,8 +1,8 @@
 
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
-import dk.ange.octave.io.spi.OctaveDataWriter;
-import dk.ange.octave.type.OctaveObject;
+import eu.simuline.octave.io.spi.OctaveDataWriter;
+import eu.simuline.octave.type.OctaveObject;
 
 
 /**

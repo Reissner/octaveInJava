@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.type;
+package eu.simuline.octave.type;
 
-import dk.ange.octave.type.matrix.DoubleMatrix;
+import eu.simuline.octave.type.matrix.DoubleMatrix;
 
 /**
  * Represents a complex matrix. 
@@ -61,7 +61,7 @@ public final class OctaveComplex implements OctaveObject {
     /**
      * @param pos
      * @return the index into getReal() and getImag() for the position
-     * @see dk.ange.octave.type.matrix.AbstractGenericMatrix#pos2ind(int[])
+     * @see eu.simuline.octave.type.matrix.AbstractGenericMatrix#pos2ind(int[])
      */
     public int pos2ind(final int... pos) {
         return this.real.pos2ind(pos);

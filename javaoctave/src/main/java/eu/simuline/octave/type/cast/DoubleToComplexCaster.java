@@ -1,7 +1,7 @@
-package dk.ange.octave.type.cast;
+package eu.simuline.octave.type.cast;
 
-import dk.ange.octave.type.OctaveComplex;
-import dk.ange.octave.type.OctaveDouble;
+import eu.simuline.octave.type.OctaveComplex;
+import eu.simuline.octave.type.OctaveDouble;
 
 /**
  * Cast OctaveDouble to OctaveComplex. 

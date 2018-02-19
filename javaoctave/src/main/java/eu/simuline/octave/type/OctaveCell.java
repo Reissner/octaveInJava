@@ -16,12 +16,12 @@
 /**
  * @author Kim Hansen
  */
-package dk.ange.octave.type;
+package eu.simuline.octave.type;
 
-import dk.ange.octave.exception.OctaveClassCastException;
-import dk.ange.octave.type.cast.Cast;
-import dk.ange.octave.type.matrix.AbstractGenericMatrix;
-import dk.ange.octave.type.matrix.GenericMatrix;
+import eu.simuline.octave.exception.OctaveClassCastException;
+import eu.simuline.octave.type.cast.Cast;
+import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
+import eu.simuline.octave.type.matrix.GenericMatrix;
 
 /**
  * Nd cells. 

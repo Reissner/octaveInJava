@@ -16,7 +16,7 @@
 /**
  * @author Kim Hansen
  */
-package dk.ange.octave.util;
+package eu.simuline.octave.util;
 
 import java.io.IOException;
 import java.io.Reader;

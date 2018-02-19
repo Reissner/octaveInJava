@@ -16,7 +16,7 @@
 /**
  * @author Kim Hansen
  */
-package dk.ange.octave;
+package eu.simuline.octave;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,18 +30,18 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
 
-import dk.ange.octave.exception.OctaveEvalException;
-import dk.ange.octave.exception.OctaveClassCastException;
-import dk.ange.octave.exception.OctaveIOException;
-import dk.ange.octave.exec.OctaveExec;
-import dk.ange.octave.exec.ReadFunctor;
-import dk.ange.octave.exec.ReaderWriteFunctor;
-import dk.ange.octave.exec.WriteFunctor;
-import dk.ange.octave.exec.WriterReadFunctor;
-import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.type.OctaveObject;
-import dk.ange.octave.type.OctaveString;
-import dk.ange.octave.type.cast.Cast;
+import eu.simuline.octave.exception.OctaveEvalException;
+import eu.simuline.octave.exception.OctaveClassCastException;
+import eu.simuline.octave.exception.OctaveIOException;
+import eu.simuline.octave.exec.OctaveExec;
+import eu.simuline.octave.exec.ReadFunctor;
+import eu.simuline.octave.exec.ReaderWriteFunctor;
+import eu.simuline.octave.exec.WriteFunctor;
+import eu.simuline.octave.exec.WriterReadFunctor;
+import eu.simuline.octave.io.OctaveIO;
+import eu.simuline.octave.type.OctaveObject;
+import eu.simuline.octave.type.OctaveString;
+import eu.simuline.octave.type.cast.Cast;
 
 /**
  * The connection to an octave process.
