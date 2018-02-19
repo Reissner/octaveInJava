@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.type;
+package eu.simuline.octave.type;
 
-import dk.ange.octave.exception.OctaveClassCastException;
+import eu.simuline.octave.exception.OctaveClassCastException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

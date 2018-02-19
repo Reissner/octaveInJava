@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave;
+package eu.simuline.octave;
 
 import java.io.StringWriter;
 
@@ -24,14 +24,14 @@ import static org.junit.Assert.fail;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import dk.ange.octave.exception.OctaveEvalException;
-import dk.ange.octave.exception.OctaveIOException;
-import dk.ange.octave.exception.OctaveNonrecoverableException;
-import dk.ange.octave.exception.OctaveParseException;
-import dk.ange.octave.exception.OctaveRecoverableException;
-import dk.ange.octave.type.Octave;
-import dk.ange.octave.type.OctaveDouble;
-import dk.ange.octave.type.OctaveString;
+import eu.simuline.octave.exception.OctaveEvalException;
+import eu.simuline.octave.exception.OctaveIOException;
+import eu.simuline.octave.exception.OctaveNonrecoverableException;
+import eu.simuline.octave.exception.OctaveParseException;
+import eu.simuline.octave.exception.OctaveRecoverableException;
+import eu.simuline.octave.type.Octave;
+import eu.simuline.octave.type.OctaveDouble;
+import eu.simuline.octave.type.OctaveString;
 
 /**
  * Test

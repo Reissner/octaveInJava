@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.examples;
+package eu.simuline.octave.examples;
 
-import dk.ange.octave.OctaveEngine;
-import dk.ange.octave.OctaveEngineFactory;
-import dk.ange.octave.type.OctaveDouble;
+import eu.simuline.octave.OctaveEngine;
+import eu.simuline.octave.OctaveEngineFactory;
+import eu.simuline.octave.type.OctaveDouble;
 
 import static org.junit.Assert.assertEquals;
 

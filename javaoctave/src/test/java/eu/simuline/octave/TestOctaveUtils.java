@@ -1,4 +1,4 @@
-package dk.ange.octave;
+package eu.simuline.octave;
 
 import org.junit.Ignore;
 import org.junit.Test;

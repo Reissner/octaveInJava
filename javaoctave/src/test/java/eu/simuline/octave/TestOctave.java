@@ -16,7 +16,7 @@
 /**
  * @author Kim Hansen
  */
-package dk.ange.octave;
+package eu.simuline.octave;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,14 +31,14 @@ import static org.junit.Assert.fail;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import dk.ange.octave.exception.OctaveException;
-import dk.ange.octave.exception.OctaveIOException;
-import dk.ange.octave.type.Octave;
-import dk.ange.octave.type.OctaveDouble;
-import dk.ange.octave.type.OctaveObject;
+import eu.simuline.octave.exception.OctaveException;
+import eu.simuline.octave.exception.OctaveIOException;
+import eu.simuline.octave.type.Octave;
+import eu.simuline.octave.type.OctaveDouble;
+import eu.simuline.octave.type.OctaveObject;
 
 /**
- * Tests dk.ange.octave.Octave.*
+ * Tests eu.simuline.octave.Octave.*
  */
 public class TestOctave {
 
@@ -102,9 +102,9 @@ public class TestOctave {
      * @throws Exception
      */
     // does something like 
-    // Running dk.ange.octave.TestOctave
+    // Running eu.simuline.octave.TestOctave
     // 2017-11-28 23:52:09,016 [main-javaoctave-ReaderWriterPipeThread] 
-    // ERROR dk.ange.octave.util.ReaderWriterPipeThread 
+    // ERROR eu.simuline.octave.util.ReaderWriterPipeThread 
     // (ReaderWriterPipeThread.java:81) - Error when reading from reader
     // java.io.IOException: Stream closed
     // at java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:170)
@@ -115,7 +115,7 @@ public class TestOctave {
     // at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
     // at java.io.InputStreamReader.read(InputStreamReader.java:184)
     // at java.io.Reader.read(Reader.java:140)
-    // at dk.ange.octave.util.ReaderWriterPipeThread
+    // at eu.simuline.octave.util.ReaderWriterPipeThread
     //                                      .run(ReaderWriterPipeThread.java:79)
     @Test public void testDestroy() throws Exception {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();

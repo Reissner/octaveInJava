@@ -1,11 +1,11 @@
-package dk.ange.octave.io;
+package eu.simuline.octave.io;
 
 import java.util.Map;
 
-import dk.ange.octave.exception.OctaveParseException;
-import dk.ange.octave.type.Octave;
-import dk.ange.octave.type.OctaveDouble;
-import dk.ange.octave.type.OctaveObject;
+import eu.simuline.octave.exception.OctaveParseException;
+import eu.simuline.octave.type.Octave;
+import eu.simuline.octave.type.OctaveDouble;
+import eu.simuline.octave.type.OctaveObject;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

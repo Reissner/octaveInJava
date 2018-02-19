@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
-import dk.ange.octave.OctaveEngine;
-import dk.ange.octave.OctaveEngineFactory;
-import dk.ange.octave.type.OctaveFake;
-import dk.ange.octave.type.OctaveObject;
+import eu.simuline.octave.OctaveEngine;
+import eu.simuline.octave.OctaveEngineFactory;
+import eu.simuline.octave.type.OctaveFake;
+import eu.simuline.octave.type.OctaveObject;
 
 import org.junit.Ignore;
 import org.junit.Test;

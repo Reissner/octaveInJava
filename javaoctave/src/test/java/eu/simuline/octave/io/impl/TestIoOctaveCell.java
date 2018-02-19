@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave.io.impl;
+package eu.simuline.octave.io.impl;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
 
-import dk.ange.octave.OctaveEngine;
-import dk.ange.octave.OctaveEngineFactory;
-import dk.ange.octave.io.OctaveIO;
-import dk.ange.octave.type.Octave;
-import dk.ange.octave.type.OctaveCell;
-import dk.ange.octave.type.OctaveDouble;
-import dk.ange.octave.type.OctaveString;
+import eu.simuline.octave.OctaveEngine;
+import eu.simuline.octave.OctaveEngineFactory;
+import eu.simuline.octave.io.OctaveIO;
+import eu.simuline.octave.type.Octave;
+import eu.simuline.octave.type.OctaveCell;
+import eu.simuline.octave.type.OctaveDouble;
+import eu.simuline.octave.type.OctaveString;
 
 import static org.junit.Assert.assertEquals;
 

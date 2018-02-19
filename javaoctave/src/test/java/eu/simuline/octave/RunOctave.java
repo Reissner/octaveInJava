@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dk.ange.octave;
+package eu.simuline.octave;
 
-import dk.ange.octave.type.Octave;
-import dk.ange.octave.type.OctaveDouble;
+import eu.simuline.octave.type.Octave;
+import eu.simuline.octave.type.OctaveDouble;
 
 /**
  * @author Kim Hansen
