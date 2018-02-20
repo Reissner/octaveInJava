@@ -26,6 +26,9 @@
 
      <release version="0.6.8-snapshot" date='' description=''>
        <action dev="ER" type="update">
+	 pom: repository, organization, homepage. 
+       </action>
+       <action dev="ER" type="update">
 	 User documentation: avoid bad links. 
 	 Added better links to the relevant jar files. 
        </action>
