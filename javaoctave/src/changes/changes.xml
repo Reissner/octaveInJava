@@ -23,7 +23,18 @@
         <fixes issue=.. />
         <dueto name=.. email=.. />
     </release-->
-     <release version="0.6.7-snapshot" date='' description=''>
+
+     <release version="0.6.8-snapshot" date='' description=''>
+       <action dev="ER" type="update">
+	 User documentation: avoid bad links. 
+	 Added better links to the relevant jar files. 
+       </action>
+       <action dev="ER" type="fix">
+	 Fix code rule violations of pmd, checksyle and findbugs. 
+       </action>
+      </release>
+
+     <release version="0.6.7" date='' description=''>
       <action dev="ER" type="add">
 	 Added this changes file. 
 	 Information imported from changelog manually. 
