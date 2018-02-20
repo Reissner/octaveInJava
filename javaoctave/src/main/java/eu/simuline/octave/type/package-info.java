@@ -1,6 +1,7 @@
 /**
  * Contains all octave types. 
- * The base interface for all types is {@link eu.simuline.octave.type.OctaveObject} 
+ * The base interface for all types 
+ * is {@link eu.simuline.octave.type.OctaveObject} 
  * defining a single method only: 
  * {@link eu.simuline.octave.type.OctaveObject#shallowCopy()}. 
  *

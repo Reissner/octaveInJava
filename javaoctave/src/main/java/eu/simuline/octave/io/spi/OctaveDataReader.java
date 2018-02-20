@@ -33,7 +33,8 @@ import eu.simuline.octave.type.OctaveObject;
  * The octave type which can be read is given by {@link #octaveType()} 
  * whereas {@link #read(BufferedReader)} performs reading. 
  * <p>
- * The according implementations are in package {@link eu.simuline.octave.io.impl} 
+ * The according implementations 
+ * are in package {@link eu.simuline.octave.io.impl} 
  * and extend this class. 
  * These classes are registered in the jar-file 
  * under <code>META-INF/services/eu.simuline.octave.io.OctaveDataReader</code>. 

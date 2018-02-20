@@ -28,7 +28,8 @@ import eu.simuline.octave.type.OctaveObject;
 /**
  * Service Provider Interface for the IO handler 
  * that can write {@link OctaveObject}s. 
- * The according implementations are in package {@link eu.simuline.octave.io.impl} 
+ * The according implementations 
+ * are in package {@link eu.simuline.octave.io.impl} 
  * and extend this class. 
  * These classes are registered in the jar-file 
  * under <code>META-INF/services/eu.simuline.octave.io.OctaveDataWriter</code>. 

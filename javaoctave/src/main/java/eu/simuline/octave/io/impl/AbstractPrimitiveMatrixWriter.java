@@ -18,4 +18,8 @@ abstract class AbstractPrimitiveMatrixWriter<T extends OctaveObject>
     protected static final String NROWS    = "# rows: ";
     protected static final String NCOLUMNS = "# columns: ";
 
+    // prevents instantiation (as does keyword abstract); for pmd only 
+    protected AbstractPrimitiveMatrixWriter() {
+    }
+
 }
