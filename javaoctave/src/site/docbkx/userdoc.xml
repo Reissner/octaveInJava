@@ -12,8 +12,11 @@
     <edition>2017-12-17 - version 1.0</edition>
   </bookinfo>
 
+
+<!-- this documentation shall be filtered once **** -->
+
 <dedication>
-The original author of this software, Kim Hansen. 
+To the original author of this software, Kim Rydhof Thor Hansen. 
 </dedication>
 
 <chapter id="intro"><title>Introduction</title>
@@ -65,11 +68,18 @@ octave version >3.5, where tests are with <command>octave</command> 4.3.0+.
 </listitem>
 <listitem>
 this software, <productname>javaoctave</productname>, 
-is registered at <!-- maven central--> our local repository. 
-Thus containing the 
-<ulink 
-    url='ftp://www.simuline.eu/public_ftp/RepositoryTarget/dk/ange/javaoctave'>
-relevant jar files</ulink> for all versions. 
+is registered at sonatype <!-- maven central--> <!--our local repository-->
+the repositories given by the 
+<ulink url='./distribution-management.html'>distribution-management</ulink>, 
+thus containing among other things the relevant jar files for all versions. 
+To be more precise, these are in 
+<!-- Here, filtering would be extremely helpful (${urlSnapshotDir})-->
+<ulink url='https://oss.sonatype.org/content/repositories/snapshots/eu/simuline/octave/javaoctave'>.../eu/simuline/octave/javaoctave</ulink>. 
+For some reason, in sonatype, only the snapshot directory works. 
+
+<!--ulink 
+    url='ftp://www.simuline.eu/public_ftp/RepositoryTarget/eu/simuline/javaoctave'>
+relevant jar files</ulink-->
 
 Using javaoctave in a maven build, the dependency to javaoctave is given by its 
 <ulink url='./project-summary.html#Build_Information'>maven coordinates</ulink>. 
@@ -84,14 +94,16 @@ When using <productname>javaoctave</productname>,
 it is helpful to consult this manual for the big picture 
 and the <ulink url='./apidocs/index.html'>api-docs</ulink> for details. 
 The core class of javaoctave is 
-<ulink url='./apidocs/dk/ange/octave/OctaveEngine.html'>
+<ulink url='./apidocs/eu/simuline/octave/OctaveEngine.html'>
 <code>OctaveEngine</code></ulink> 
 which wraps an <command>octave</command> instance. 
 But to create such an engine, 
-an <ulink url='./apidocs/dk/ange/octave/OctaveEngineFactory.html'>
+an <ulink url='./apidocs/eu/simuline/octave/OctaveEngineFactory.html'>
 <code>OctaveEngineFactory</code></ulink> is needed. 
-It is created via default constructor and can be customized 
+It is created using a default constructor and can be customized 
 with setter methods before creating an <code>OctaveEngine</code>. 
+The values set 
+determine the parameters of the <code>OctaveEngine</code> created. 
 
 <example><title>OctaveEngine with default options</title>
 A minimal example to create an <code>OctaveEngine</code> is the following: 
@@ -114,7 +126,7 @@ OctaveEngine oe = oef.getScriptEngine();
 
 Command line options are described both 
 form <ulink url='https://www.gnu.org/software/octave/doc/interpreter/Command-Line-Options.html#Command-Line-Options'>octave perspective</ulink> 
-and from <ulink url='./apidocs/dk/ange/octave/OctaveEngineFactory.html#setArgsArray-java.lang.String:A-'><productname>javaoctave</productname></ulink>. 
+and from <ulink url='./apidocs/eu/simuline/octave/OctaveEngineFactory.html#setArgsArray-java.lang.String:A-'><productname>javaoctave</productname></ulink>. 
 Besides command line options, 
 one may set the <command>octave</command> executable, 
 the working directory and all three: 
@@ -124,7 +136,7 @@ log writer, output and error output writer.
 After having created an octave-(script-)engine, 
 this can be used to evaluate scripts in the matlab language. 
 For a complete reference of available methods, consult the 
-<ulink url='./apidocs/dk/ange/octave/OctaveEngine.html'>apidocs</ulink>; 
+<ulink url='./apidocs/eu/simuline/octave/OctaveEngine.html'>apidocs</ulink>; 
 what we want to provide here is an overview. 
 The core method is <code>void eval(String script)</code> 
 which allows to execute some valid matlab code, or say script. 
@@ -159,7 +171,8 @@ oe.eval("dOut=sin(dIn);");
 OctaveDouble od = oe.get(OctaveDouble.class, "dOut");
 double jd = od.get(1,1);
 </programlisting>
-Of course, <code>oe</code> is an octave engine created as described above. 
+Of course, <code>oe</code> is an octave engine 
+created as described in the above examples. 
 First, <code>Octave.scalar(42.0)</code> 
 converts the java double <code>42.0</code> into an OctaveDouble 
 and <code>put</code> assigns that value to octave variable <code>dIn</code>. 
@@ -172,8 +185,8 @@ and to get back a double just use the getter method as shown above.
 
 <!--para-->
 In general, for getting and setting, 
-the package <ulink url='./apidocs/dk/ange/octave/type/package-summary.html'>
-dk.ange.octave.type</ulink> comprising types like <code>OctaveDouble</code> 
+the package <ulink url='./apidocs/eu/simuline/octave/type/package-summary.html'>
+eu.simuline.octave.type</ulink> comprising types like <code>OctaveDouble</code> 
 and the utility class <code>Octave</code> are needed. 
 All required information can be found in the api-docs. 
 <!--/para-->
