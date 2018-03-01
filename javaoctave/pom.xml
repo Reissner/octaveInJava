@@ -372,6 +372,9 @@
 	    <goals>
 	      <goal>jar</goal>
 	    </goals>
+	    <configuration>
+	      <show>private</show>
+	    </configuration>
 	  </execution>
 	</executions>
       </plugin>
