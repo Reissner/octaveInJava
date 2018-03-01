@@ -76,16 +76,18 @@ public final class OctaveEngine {
     private final Random random = new Random();
 
     /**
-     * Creates an octave egine with the given parameters. 
+     * Creates an octave engine with the given parameters. 
      */
     OctaveEngine(final OctaveEngineFactory factory,
+		 final int numThreadsReuse,
 		 final Writer octaveInputLog,
 		 final Writer errorWriter,
 		 final File octaveProgram,
 		 final String[] argsArray,
 		 final File workingDir) {
         this.factory = factory;
-        this.octaveExec = new OctaveExec(octaveInputLog,
+        this.octaveExec = new OctaveExec(numThreadsReuse,
+					 octaveInputLog,
 					 errorWriter,
 					 octaveProgram,
 					 argsArray,
@@ -96,13 +98,15 @@ public final class OctaveEngine {
 
     // ER: see also {@link #eval(final String script)}
     /**
+     * Execute the given script. 
+     *
      * @param script
      *            the script to execute
      * @throws OctaveIOException
      *             if the script fails, this will kill the engine
      */
     public void unsafeEval(final String script) {
-        this.octaveExec.eval(new WriteFunctor() {
+        this.octaveExec.evalRW(new WriteFunctor() {
 		@Override
 		public void doWrites(final Writer writer2) throws IOException {
 		    writer2.write(script);
@@ -113,7 +117,7 @@ public final class OctaveEngine {
 
     /**
      * Returns the according read functor: 
-     * If {@link #writer} is non-zero, 
+     * If {@link #writer} is non-null, 
      * wrap it into a {@link WriterReadFunctor}. 
      * Otherwise, create functor from a reader 
      * which reads empty, i.e. without action, as long as the reader is empty. 
@@ -141,13 +145,16 @@ public final class OctaveEngine {
     }
 
     /**
+     * Execute the given script. 
+     *
      * @param script
      *            the script to execute
      * @throws OctaveIOException
      *             if the script fails, this will kill the engine
      */
     public void unsafeEval(final Reader script) {
-        this.octaveExec.eval(new ReaderWriteFunctor(script), getReadFunctor());
+        this.octaveExec.evalRW(new ReaderWriteFunctor(script), 
+			       getReadFunctor());
     }
 
     // ER: 
@@ -302,8 +309,8 @@ public final class OctaveEngine {
         final StringWriter version = new StringWriter();
 	StringReader reader =
 	    new StringReader("printf(\"%s\", OCTAVE_VERSION());");
-        this.octaveExec.eval(new ReaderWriteFunctor(reader),
-			     new WriterReadFunctor(version));
+        this.octaveExec.evalRW(new ReaderWriteFunctor(reader),
+			       new WriterReadFunctor(version));
         return version.toString();
     }
 }

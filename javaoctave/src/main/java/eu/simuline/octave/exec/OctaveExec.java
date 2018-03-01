@@ -2,7 +2,7 @@
  * Copyright 2007, 2008 Ange Optimization ApS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this file excep in compliance with the License.
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
@@ -32,6 +32,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 
 import eu.simuline.octave.exception.OctaveException;
 import eu.simuline.octave.exception.OctaveIOException;
@@ -83,10 +84,7 @@ public final class OctaveExec {
      */
     private final BufferedReader processReader;
 
-    private final ExecutorService executor = 
-	Executors.newFixedThreadPool(2, 
-				     new NamedThreadFactory(OctaveExec.class
-							    .getSimpleName()));
+    private final ExecutorService executor;
 
     /**
      * The error thread of the error stream of {@link #process} 
@@ -101,6 +99,8 @@ public final class OctaveExec {
     /**
      * Will start the octave process.
      *
+     * @param numThreadsReuse
+     *    the number of threads to be reused. 
      * @param stdinLog
      *    This writer will capture all
      *    that is written to the octave process via stdin,
@@ -126,12 +126,17 @@ public final class OctaveExec {
      *    if null the process will inherit the working dir
      *    of the current process.
      */
-    public OctaveExec(final Writer stdinLog, 
+    public OctaveExec(final int numThreadsReuse,
+		      final Writer stdinLog, 
 		      final Writer stderrLog, 
 		      final File octaveProgram,
 		      final String[] argsArray,
 		      final String[] environment, 
 		      final File workingDir) {
+	ThreadFactory threadFactory = new NamedThreadFactory();
+	this.executor = numThreadsReuse == -1
+	    ? Executors.newCachedThreadPool(threadFactory)
+	    : Executors.newFixedThreadPool(numThreadsReuse, threadFactory);
         final String[] cmdArray = new String[argsArray.length + 1];
 
 	cmdArray[0] = (octaveProgram == null)
@@ -158,6 +163,8 @@ public final class OctaveExec {
         // Connect stdin
 	Writer pw = new OutputStreamWriter(this.process.getOutputStream(),
 					   Charset.forName("UTF-8"));
+	// all written to processWriter will go to pw and, 
+	// if not null to stdinLog
 	this.processWriter = (stdinLog == null)
 	    ? pw
 	    : new TeeWriter(new NoCloseWriter(stdinLog), pw);
@@ -171,13 +178,25 @@ public final class OctaveExec {
     }
 
     /**
+     * Passes <code>input</code> to octave 
+     * and get back <code>output</code>. 
+     *
      * @param input
+     *    a write functor which represents the script 
+     *    to be executed in octave. 
      * @param output
-     */
-    public void eval(final WriteFunctor input, final ReadFunctor output) {
+     *    the read functor which reads the result of octave execution. 
+     *    After evaluation of this method, 
+     *    the <code>output</code> is asked for the result. 
+     *///<code></code>
+    // used in OctaveIO#set(Map), OctaveIO#get(String), 
+    // OctaveIO#checkIfVarExists(String) and in 
+    // OctaveEngine#unsafeEval(String) OctaveEngine#unsafeEval(Reader) and 
+    // OctaveEngine#getVersion() only 
+    public void evalRW(final WriteFunctor input, final ReadFunctor output) {
         final String spacer = generateSpacer();
         final Future<Void> writerFuture = 
-	    this.executor.submit(new OctaveWriterCallable(processWriter, 
+	    this.executor.submit(new OctaveWriterCallable(this.processWriter, 
 							  input, 
 							  spacer));
         final Future<Void> readerFuture = 
@@ -185,20 +204,21 @@ public final class OctaveExec {
 							  output, 
 							  spacer));
         final RuntimeException writerException = getFromFuture(writerFuture);
-        if (writerException instanceof CancellationException) {
-            LOG.error("Did not expect writer to be canceled", writerException);
-        }
+        // if (writerException instanceof CancellationException) {
+        //     LOG.error("Did not expect writer to be canceled", writerException);
+        // }
         if (writerException != null) {
             if (writerException instanceof CancellationException) {
                 LOG.error("Did not expect writer to be canceled", 
-			  writerException);
+	    		  writerException);
             }
-            readerFuture.cancel(true);
+            readerFuture.cancel(true);// may interrupt if running 
+throw writerException;
         }
         final RuntimeException readerException = getFromFuture(readerFuture);
-        if (writerException != null) {
-            throw writerException;
-        }
+        // if (writerException != null) {
+        //     throw writerException;
+        // }
         if (readerException != null) {
             // Only gets here when writerException==null, 
 	    // and in that case we don't expect the reader to be cancelled
@@ -210,6 +230,10 @@ public final class OctaveExec {
         }
     }
 
+    /**
+     * Completes computation on future 
+     * and returns an exception thrown or null. 
+     */
     private RuntimeException getFromFuture(Future<Void> future) {
 	try {
             future.get();
@@ -267,10 +291,16 @@ public final class OctaveExec {
         return res;
     }
 
+    /**
+     * Sets {@link #destroyed} to the parameter value given. 
+     */
     private synchronized void setDestroyed(final boolean destroyed) {
         this.destroyed = destroyed;
     }
 
+    /**
+     * Returns {@link #destroyed}. 
+     */
     private synchronized boolean isDestroyed() {
         return this.destroyed;
     }
@@ -280,11 +310,11 @@ public final class OctaveExec {
      */
     public void destroy() {
         setDestroyed(true);
-        this.executor.shutdownNow();
+        this.executor.shutdownNow();// returns list of tasks awaiting exec. 
         this.process.destroy();
         this.errorStreamThread.close();
         try {
-            processWriter.close();
+            this.processWriter.close();
         } catch (final IOException e) {
             LOG.debug("Ignored error from processWriter.close() " + 
 		      "in OctaveExec.destroy()", e);
@@ -298,8 +328,8 @@ public final class OctaveExec {
         try {
             // it is not worth it to rewrite this 
 	    // to use eval() and some specialised Functors
-            processWriter.write("exit\n");
-            processWriter.close();
+            this.processWriter.write("exit\n");
+            this.processWriter.close();
             final String read1 = this.processReader.readLine();
             // Allow a single blank line, exit in octave 3.2 returns that:
             if (read1 != null && !"".equals(read1)) {

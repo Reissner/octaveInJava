@@ -39,7 +39,6 @@ public final class OctaveEngineFactory {
     /**
      * The file containing the octave program. 
      * This field is initialize with <code>null</code>. 
-     *
      */
     private File octaveProgram = null;
 
@@ -84,6 +83,12 @@ public final class OctaveEngineFactory {
     	"--no-history"       // superfluous, because commands come from scripts 
     };
 
+    /**
+     * The number of threads to be reused. 
+     * This field is initialize with <code>2</code>. 
+     */
+    private int numThreadsReuse = 2;
+
     private File workingDir = null;
 
     /**
@@ -100,6 +105,7 @@ public final class OctaveEngineFactory {
      */
     public OctaveEngine getScriptEngine() {
         return new OctaveEngine(this, 
+				this.numThreadsReuse,
 				this.octaveInputLog, 
 				this.errWriter, 
 				this.octaveProgram, 
@@ -156,4 +162,18 @@ public final class OctaveEngineFactory {
         this.workingDir = workingDir;
     }
 
+    /**
+     * Sets the number of threads to be reused. 
+     * The default value is 2 but this can be speed optimized 
+     * depending on the hardware. 
+     * The number of threads to be created shall be positive 
+     * but the value may also be -1 indicating a cached thread pool. 
+     */
+    // **** with -1 seems not to work: cached pool 
+    public void setNumThreadsReuse(int numThreadsReuse) {
+	if (numThreadsReuse == 0 || numThreadsReuse < -1) {
+	    throw new IllegalArgumentException();
+	}
+	this.numThreadsReuse = numThreadsReuse;
+    }
 }
