@@ -36,7 +36,19 @@ import eu.simuline.octave.type.OctaveObject;
 
 // ER: Has only static methods or methods based on {@link #octaveExec} 
 /**
- * The object controlling IO of Octave data. 
+ * The object controlling IO of Octave data of {@link #octaveExec}. 
+ * The basic operations are to 
+ * <ul>
+ * <li>
+ * set a map of variable names to their values 
+ * via {@link #set(Map)} (no setting of a single value), 
+ * <li>
+ * get the value for a variable name via {@link #get(String)}, 
+ * <li>
+ * check whether a variable with a given name exists 
+ * via {@link #checkIfVarExists(String)}. 
+ * </ul>
+ * The rest are static utility methods. 
  */
 public final class OctaveIO {
 
@@ -54,12 +66,14 @@ public final class OctaveIO {
     }
 
     /**
+     * Sets the map mapping variable names to according values. 
+     *
      * @param values
      */
     public void set(final Map<String, OctaveObject> values) {
         final StringWriter outputWriter = new StringWriter();
-	this.octaveExec.eval(new DataWriteFunctor(values),
-			     new WriterReadFunctor(outputWriter));
+	this.octaveExec.evalRW(new DataWriteFunctor(values),
+			       new WriterReadFunctor(outputWriter));
         final String output = outputWriter.toString();
         if (output.length() != 0) {
             throw new IllegalStateException
@@ -68,9 +82,15 @@ public final class OctaveIO {
     }
 
     /**
+     * Gets the value of the variable <code>name</code> 
+     * or null if this variable does not exist 
+     * according to {@link #checkIfVarExists(String)}. 
+     *
      * @param name
-     * @return the value of the variable from octave 
-     *    or null if the variable does not exist
+     *    the name of a variable 
+     * @return 
+     *    the value of the variable <code>name</code> from octave 
+     *    or <code>null</code> if the variable does not exist. 
      * @throws OctaveClassCastException
      *    if the value can not be cast to T
      */
@@ -81,16 +101,24 @@ public final class OctaveIO {
         final WriteFunctor writeFunctor = 
 	    new ReaderWriteFunctor(new StringReader("save -text - " + name));
         final DataReadFunctor readFunctor = new DataReadFunctor(name);
-        this.octaveExec.eval(writeFunctor, readFunctor);
+        this.octaveExec.evalRW(writeFunctor, readFunctor);
         return readFunctor.getData();
     }
 
-    private boolean checkIfVarExists(final String name) {
+    /**
+     * Returns whether the variable <code>name</code> exists. 
+     *
+     * @param name
+     *    the name of a variable 
+     * @return 
+     *    whether the variable <code>name</code> exists. 
+     */
+     private boolean checkIfVarExists(final String name) {
         final StringWriter existResult = new StringWriter();
-        this.octaveExec.eval(new ReaderWriteFunctor
-			     (new StringReader("printf(\"%d\", exist(\"" + 
-					       name + "\",\"var\"));")),
-			     new WriterReadFunctor(existResult));
+        this.octaveExec.evalRW(new ReaderWriteFunctor
+			       (new StringReader("printf(\"%d\", exist(\"" + 
+						 name + "\",\"var\"));")),
+			       new WriterReadFunctor(existResult));
         final String s = existResult.toString();
         if ("1".equals(s)) {
             return true;

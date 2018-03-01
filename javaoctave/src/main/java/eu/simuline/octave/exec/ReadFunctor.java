@@ -30,9 +30,9 @@ public interface ReadFunctor {
      * Read the output from an eval(). 
      *
      * @param reader
-     *            Reader to read from
+     *    Reader to read from
      * @throws IOException
-     *             on IO error from reader
+     *    on IO error from reader
      */
     void doReads(Reader reader) throws IOException;
 

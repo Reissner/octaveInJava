@@ -27,6 +27,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Callable that reads from the octave process. 
+ * Used in {@link OctaveExec#evalRW(WriteFunctor, ReadFunctor)} only. 
  */
 final class OctaveReaderCallable implements Callable<Void> {
 
@@ -37,6 +38,7 @@ final class OctaveReaderCallable implements Callable<Void> {
 
     private static final Log LOG = LogFactory
 	.getLog(OctaveReaderCallable.class);
+
 
     private final BufferedReader processReader;
 
@@ -57,6 +59,16 @@ final class OctaveReaderCallable implements Callable<Void> {
         this.spacer        = spacer;
     }
 
+    /**
+     * Calling reads from an {@link OctaveExecuteReader} 
+     * made up from {@link #processReader} 
+     * with end of stream sign {@link #spacer}. 
+     * Exceptions are logged on {@link #LOG}. 
+     *
+     * @throws OctaveIOException 
+     *    if underlying readers/read functors 
+     *    have thrown an {@link IOException}. 
+     */
     @Override
     public Void call() {
         final Reader reader = new OctaveExecuteReader(this.processReader, 

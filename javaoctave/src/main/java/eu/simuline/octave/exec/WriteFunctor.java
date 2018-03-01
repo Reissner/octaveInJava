@@ -30,9 +30,9 @@ public interface WriteFunctor {
      * Write the input to an eval(). 
      *
      * @param writer
-     *            Writer to write to
+     *    Writer to write to
      * @throws IOException
-     *             on IO error from writer
+     *    on IO error from writer
      */
     void doWrites(Writer writer) throws IOException;
 

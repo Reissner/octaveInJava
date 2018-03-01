@@ -26,12 +26,19 @@ import eu.simuline.octave.exec.ReadFunctor;
 import eu.simuline.octave.type.OctaveObject;
 
 /**
- * Functor that reads a single variable. 
+ * Functor that reads a single variable named {@link #name} 
+ * into {@link #data} via {@link #doReads(Reader)}. 
  */
 final class DataReadFunctor implements ReadFunctor {
 
+    /**
+     * The name of the variable to be read. 
+     */
     private final String name;
 
+    /**
+     * After {@link #doReads(Reader)} returns, this contains the read data. 
+     */
     private OctaveObject data;
 
     /**
@@ -59,19 +66,19 @@ final class DataReadFunctor implements ReadFunctor {
             throw new OctaveParseException
 		("Expected map of size 1 but got " + map + "'");
         }
-        if (!map.containsKey(name)) {
+        if (!map.containsKey(this.name)) {
             throw new OctaveParseException
-		("Expected variable named '" + name + 
+		("Expected variable named '" + this.name + 
 		 "' but got '" + map + "'");
         }
-        data = map.get(name);
+        this.data = map.get(this.name);
     }
 
     /**
      * @return the data
      */
     public OctaveObject getData() {
-        return data;
+        return this.data;
     }
 
 }

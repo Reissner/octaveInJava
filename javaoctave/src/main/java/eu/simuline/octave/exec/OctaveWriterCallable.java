@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Callable that writes to the octave process. 
+ * Used in {@link OctaveExec#evalRW(WriteFunctor, ReadFunctor)} only. 
  */
 final class OctaveWriterCallable implements Callable<Void> {
 
@@ -37,6 +38,7 @@ final class OctaveWriterCallable implements Callable<Void> {
 
     static final String EXCEPTION_MESSAGE_SPACER = 
 	"IOException when writing spacer";
+
 
     private final Writer processWriter;
 
@@ -53,22 +55,28 @@ final class OctaveWriterCallable implements Callable<Void> {
 			 final WriteFunctor writeFunctor, 
 			 final String spacer) {
         this.processWriter = processWriter;
-        this.writeFunctor = writeFunctor;
-        this.spacer = spacer;
+        this.writeFunctor  = writeFunctor;
+        this.spacer        = spacer;
     }
 
+    /**
+     * Calling writes to {@link #processWriter}: 
+     * first according to {@link #writeFunctor} 
+     * then printf of {@link #spacer} and then flush. 
+     * Exceptions are logged on {@link #LOG}. 
+     */
     @Override
     public Void call() {
         // Write to process
         try {
-	    this.writeFunctor.doWrites(processWriter);
+	    this.writeFunctor.doWrites(this.processWriter);
         } catch (final IOException e) {
             LOG.debug(EXCEPTION_MESSAGE_FUNCTOR, e);
             throw new OctaveIOException(EXCEPTION_MESSAGE_FUNCTOR, e);
         }
         try {
 	    this.processWriter.write("\nprintf(\"\\n%s\\n\", \"" + 
-				     spacer + "\");\n");
+				     this.spacer + "\");\n");
             this.processWriter.flush();
         } catch (final IOException e) {
             LOG.debug(EXCEPTION_MESSAGE_SPACER, e);

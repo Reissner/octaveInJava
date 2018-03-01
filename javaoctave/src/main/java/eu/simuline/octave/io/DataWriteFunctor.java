@@ -38,18 +38,18 @@ final class DataWriteFunctor implements WriteFunctor {
     /**
      * A map from variable names to according octave objects. 
      */
-    private final Map<String, OctaveObject> octaveTypes;
+    private final Map<String, OctaveObject> varName2Value;
 
     /**
-     * @param octaveTypes
+     * @param varName2Value
      *    A map from variable names to according octave objects. 
      */
-    DataWriteFunctor(final Map<String, OctaveObject> octaveTypes) {
-        this.octaveTypes = octaveTypes;
+    DataWriteFunctor(final Map<String, OctaveObject> varName2Value) {
+        this.varName2Value = varName2Value;
     }
 
     /**
-     * Writes this functor representing the map {@link #octaveTypes} 
+     * Writes the name-value pairs of map {@link #varName2Value} 
      * to <code>writer</code>. 
      *
      * @param writer
@@ -63,8 +63,9 @@ final class DataWriteFunctor implements WriteFunctor {
 	    writer.write("load(\"-text\", \"-\")\n");
             // Push the data into octave
             for (final Map.Entry<String, OctaveObject> entry 
-		     : octaveTypes.entrySet()) {
-                final String name = entry.getKey();
+		     : this.varName2Value.entrySet()) {
+
+                final String        name = entry.getKey();
                 final OctaveObject value = entry.getValue();
 		if (LOG.isTraceEnabled()) {
                     LOG.trace("write: variable '" + name + 

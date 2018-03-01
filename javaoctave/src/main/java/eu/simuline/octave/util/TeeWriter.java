@@ -44,7 +44,8 @@ public final class TeeWriter extends Writer {
      * Create a writer that doesn't do anything.
      */
     public TeeWriter() {
-        this.writers = new Writer[0];
+//        this.writers = new Writer[0];
+	this(new Writer[0]);
     }
 
     /**
