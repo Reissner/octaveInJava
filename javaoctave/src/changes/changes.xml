@@ -35,6 +35,9 @@
        <action dev="ER" type="fix">
 	 Fix code rule violations of pmd, checksyle and findbugs. 
        </action>
+       <action dev="ER" type="add">
+	 New parameter to OctaveEngineFactory: numThreadsReuse
+       </action>
       </release>
 
      <release version="0.6.7" date='' description=''>
