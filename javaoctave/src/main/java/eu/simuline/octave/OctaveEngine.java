@@ -75,6 +75,13 @@ public final class OctaveEngine {
     private final Random random = new Random();
 
     /**
+     * System property where the executable is found. 
+     */
+    public static final String PROPERTY_EXECUTABLE = 
+	"eu.simuline.octave.executable";
+
+
+    /**
      * Creates an octave engine with the given parameters. 
      * The first one is nowhere used and the others are handed over 
      * to {@link OctaveExec.OctaveExec(OctaveEngineFactory, int, Writer, Writer, File, String[], File)}. 
@@ -83,16 +90,20 @@ public final class OctaveEngine {
 		 final int numThreadsReuse,
 		 final Writer octaveInputLog,
 		 final Writer errorWriter,
-		 final File octaveProgram,
+		 final File octaveProgramFile,
 		 final String[] argsArray,
 		 final String[] environment, // always invoked with null 
 		 final File workingDir) {
         this.factory = factory;
 	assert environment == null;
+
+	String octaveProgramPathCmd = (octaveProgramFile == null)
+	    ? System.getProperty(PROPERTY_EXECUTABLE, "octave")
+	    : octaveProgramFile.getPath();
         this.octaveExec = new OctaveExec(numThreadsReuse,
 					 octaveInputLog,
 					 errorWriter,
-					 octaveProgram,
+					 octaveProgramPathCmd,
 					 argsArray,
 					 environment,
 					 workingDir);

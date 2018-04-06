@@ -50,12 +50,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class OctaveExec {
 
-    /**
-     * System property where the executable is found. 
-     */
-    public static final String PROPERTY_EXECUTABLE = 
-	"eu.simuline.octave.executable";
-
     public static final String MSG_IOE_NH = 
 	"InterruptedException should not happen";
 
@@ -112,11 +106,10 @@ public final class OctaveExec {
      *    This writer will capture all
      *    that is written from the octave process on stderr,
      *    if null the data will not be captured.
-     * @param octaveProgram
-     *    This is the path to the octave program,
-     *    if it is null the program will be found
-     *    using the system property 'eu.simuline.octave.executable'
-     *    and if that is not set 'octave' will be assumed to be in the PATH.
+     * @param octaveProgramPathCmd 
+     *    This is either the path to the octave program,
+     *    or the command found by looking at the builtin variable "paths" 
+     *    reconstructing the path.
      * @param argsArray
      *    the array of arguments to start <code>octaveProgram</code> with. 
      *    CAUTION: allowed values depend on the octave version. 
@@ -134,7 +127,7 @@ public final class OctaveExec {
     public OctaveExec(final int numThreadsReuse,
 		      final Writer stdinLog, 
 		      final Writer stderrLog, 
-		      final File octaveProgram,
+		      final String octaveProgramPathCmd,
 		      final String[] argsArray,
 		      final String[] environment, // always invoked with null 
 		      final File workingDir) {
@@ -144,9 +137,7 @@ public final class OctaveExec {
 	    : Executors.newFixedThreadPool(numThreadsReuse, threadFactory);
         final String[] cmdArray = new String[argsArray.length + 1];
 
-	cmdArray[0] = (octaveProgram == null)
-	    ? System.getProperty(PROPERTY_EXECUTABLE, "octave")
-	    : octaveProgram.getPath();
+	cmdArray[0] = octaveProgramPathCmd;
 	System.arraycopy(argsArray, 0, cmdArray, 1, argsArray.length);
 
         try {
