@@ -33,9 +33,9 @@
  * which is a WriteFunctor reading from a reader 
  * and writing to a wrapped writer. 
  * <p>
- * Note that {@link eu.simuline.octave.io.DataReadFunctor} 
+ * Note that <code>eu.simuline.octave.io.DataReadFunctor</code> 
  * is the other implementation of {@link eu.simuline.octave.exec.ReadFunctor} 
- * and {@link eu.simuline.octave.io.DataWriteFunctor} 
+ * and <code>eu.simuline.octave.io.DataWriteFunctor</code> 
  * is the other implementation of {@link eu.simuline.octave.exec.WriteFunctor} 
  * the two reading and writing octave objects. 
  * <p>
