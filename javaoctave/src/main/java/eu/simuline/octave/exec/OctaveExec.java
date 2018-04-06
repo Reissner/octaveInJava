@@ -135,8 +135,8 @@ public final class OctaveExec {
 	this.executor = numThreadsReuse == -1
 	    ? Executors.newCachedThreadPool(threadFactory)
 	    : Executors.newFixedThreadPool(numThreadsReuse, threadFactory);
-        final String[] cmdArray = new String[argsArray.length + 1];
 
+        final String[] cmdArray = new String[argsArray.length + 1];
 	cmdArray[0] = octaveProgramPathCmd;
 	System.arraycopy(argsArray, 0, cmdArray, 1, argsArray.length);
 
@@ -161,7 +161,6 @@ public final class OctaveExec {
         // Connect stdin
 	Writer pw = new OutputStreamWriter(this.process.getOutputStream(),
 					   OctaveUtils.getUTF8());
-
 	// all written to processWriter will go to pw and, 
 	// if not null to stdinLog
 	this.processWriter = (stdinLog == null)
