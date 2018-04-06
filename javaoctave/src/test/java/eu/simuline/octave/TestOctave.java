@@ -168,7 +168,7 @@ public class TestOctave {
     @Test public void testConstructor() throws Exception {
         final OctaveEngineFactory octaveEngineFactory = 
 	    new OctaveEngineFactory();
-        octaveEngineFactory.setOctaveProgram(new File("octave"));
+        octaveEngineFactory.setOctaveProgramFile(new File("octave"));
         final OctaveEngine octave = octaveEngineFactory.getScriptEngine();
         octave.setWriter(null);
         octave.eval("disp('testConstructor');");

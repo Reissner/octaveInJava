@@ -38,7 +38,11 @@
        <action dev="ER" type="add">
 	 New parameter to OctaveEngineFactory: numThreadsReuse
        </action>
-      </release>
+       <action dev="ER" type="add">
+	 New parameter to OctaveEngineFactory: octaveProgramCmd 
+	 and thus renamed octaveProgram-->octaveProgramFile 
+       </action>
+     </release>
 
      <release version="0.6.7" date='' description=''>
       <action dev="ER" type="add">

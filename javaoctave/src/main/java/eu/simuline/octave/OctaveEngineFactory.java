@@ -45,6 +45,12 @@ import java.util.Arrays;
 public final class OctaveEngineFactory {
 
     /**
+     * System property where the executable is found. 
+     */
+    public static final String PROPERTY_EXECUTABLE = 
+	"eu.simuline.octave.executable";
+
+    /**
      * If this is not <code>null</code>, the octave engine created 
      * writes the output to that log writer also. 
      * By default, this is <code>null</code>. 
@@ -54,7 +60,7 @@ public final class OctaveEngineFactory {
 
     /**
      * The error writer for the octave process. 
-     * By default, this is just {@link System.err}. 
+     * By default, this is just {@link System#err}. 
      * The according setter method is {@link #setErrorWriter(Writer)}. 
      */
     private Writer errWriter = new OutputStreamWriter(System.err, 
@@ -62,12 +68,19 @@ public final class OctaveEngineFactory {
 
     /**
      * The file containing the octave program or is <code>null</code>. 
-     * In the latter case, the name of the octave program 
-     * is read from the property {@link OctaveExec#PROPERTY_EXECUTABLE} 
-     * if this is set or it is <code>octave</code>. 
+     * In the latter case, the name of the octave program command 
+     * is determined as described for {@link #octaveProgramCmd}. 
      * This field is initialize with <code>null</code>. 
      */
-    private File octaveProgram = null;
+    private File octaveProgramFile = null;
+
+    /**
+     * The command which determines the octave executable 
+     * if {@link #octaveProgramFile} is <code>null</code> 
+     * and if the property {@link #PROPERTY_EXECUTABLE} is not set. 
+     * This field is initialize with "<code>octave</code>". 
+     */
+    private String octaveProgramCmd = "octave";
 
     /**
      * The array of arguments of the octave engines created. 
@@ -149,11 +162,16 @@ public final class OctaveEngineFactory {
      *    a new OctaveEngine with the current parameters. 
      */
     public OctaveEngine getScriptEngine() {
+
+	String octaveProgramPathCmd = (this.octaveProgramFile == null)
+	    ? System.getProperty(PROPERTY_EXECUTABLE, octaveProgramCmd)
+	    : this.octaveProgramFile.getPath();
+
         return new OctaveEngine(this, 
 				this.numThreadsReuse,
 				this.octaveInputLog, 
 				this.errWriter, 
-				this.octaveProgram, 
+				octaveProgramPathCmd, 
 				argsArray.clone(),
 				this.environment,
 				this.workingDir);
@@ -180,13 +198,26 @@ public final class OctaveEngineFactory {
     }
 
     /**
-     * Setter method for {@link #octaveProgram}. 
+     * Setter method for {@link #octaveProgramFile}. 
      *
-     * @param octaveProgram
-     *    the octaveProgram to set or <code>null</code>. 
+     * @param octaveProgramFile
+     *    the octaveProgramFile to set or <code>null</code>. 
      */
-    public void setOctaveProgram(final File octaveProgram) {
-        this.octaveProgram = octaveProgram;
+    public void setOctaveProgramFile(final File octaveProgramFile) {
+        this.octaveProgramFile = octaveProgramFile;
+    }
+
+    /**
+     * Setter method for {@link #octaveProgramCmd}. 
+     * This takes effect only, 
+     * if {@link #octaveProgramFile} is <code>null</code> 
+     * and if the property {@link #PROPERTY_EXECUTABLE} is not set. 
+     *
+     * @param octaveProgramCmd
+     *    the octave program executable to set
+     */
+    public void setOctaveProgramCmd(final String octaveProgramCmd) {
+        this.octaveProgramCmd = octaveProgramCmd;
     }
 
     /**
