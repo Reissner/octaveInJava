@@ -103,7 +103,8 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
-      <scope>test</scope>
+      <!--scope>test</scope--> 
+      <!-- remove to make javadoc run import org.junit -->
     </dependency>
 
     <dependency>
@@ -244,11 +245,11 @@
         <version>2.5</version>
       </plugin>
 
-     <!-- at the moment just to enforce maven version 
+      <!-- at the moment just to enforce maven version 
 	   **** seems to be buggy and to make also update of plugins unsafe -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-enforcer-plugin</artifactId>
         <version>3.0.0-M1</version>
         <executions>
           <execution>
@@ -358,7 +359,7 @@
         <configuration>
 	  <redirectTestOutputToFile>true</redirectTestOutputToFile>
         </configuration>
-     </plugin>
+      </plugin>
 
       <!-- javadoc plugin -->
       <!-- synchronize with reporting -->
@@ -373,7 +374,26 @@
 	      <goal>jar</goal>
 	    </goals>
 	    <configuration>
+	      <sourcepath>
+		${project.basedir}/src/main/java:${project.basedir}/src/test/java
+	      </sourcepath>
+	  <tags>
+	    <tag>
+	      <name>To.Do</name>
+	      <!-- todo tag for all places -->
+	      <placement>a</placement>
+	      <head>what is to be done in the present code fragment. </head>
+	    </tag>
+	  </tags>
+	  <breakiterator>true</breakiterator>
+
+	  <links>
+	    <link>file:///usr/share/javadoc/java-1.8.0-openjdk/api/</link>
+	    <link>http://junit.sourceforge.net/javadoc</link>
+	  </links>
 	      <show>private</show>
+<!-- -Xdoclint:reference  -->
+	      <additionalparam>-Xdoclint:html -Xdoclint:reference --allow-script-in-comments</additionalparam>
 	    </configuration>
 	  </execution>
 	</executions>
@@ -652,8 +672,8 @@
 	    <link>http://junit.sourceforge.net/javadoc</link>
 	  </links>
           <show>private</show>
-	  <!-- **** myDefault should be linked to ${basedir}/config/MathJax.. -->
-	  <additionalparam>-Xdoclint:html -Xdoclint:reference --allow-script-in-comments</additionalparam>
+	  <!-- **** myDefault should be linked to ${basedir}/config/MathJax.. --><!-- - -allow-script-in-comments -->
+	  <additionalparam>-Xdoclint:html -Xdoclint:reference </additionalparam>
 	</configuration>
       </plugin>
 
