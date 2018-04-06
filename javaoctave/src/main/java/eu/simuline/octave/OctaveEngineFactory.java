@@ -18,6 +18,8 @@
  */
 package eu.simuline.octave;
 
+import eu.simuline.octave.OctaveUtils;
+
 import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -28,16 +30,41 @@ import java.util.Arrays;
 
 /**
  * Factory that creates OctaveEngines. 
+ * First of all, create an OctaveEngineFactory 
+ * using the default constructor {@link #OctaveEngineFactory()} 
+ * then, optionally, change parameters 
+ * and finally create an Octave Engine using {@link #getScriptEngine()} 
+ * with the current parameters. 
+ * To set a parameter, use the various setter methods. 
+ * In the documentation of each setter method, 
+ * also the default value is documented 
+ * which is used to create an {@link OctaveEngine} 
+ * if the setter method is not invoked. 
+ * 
  */
 public final class OctaveEngineFactory {
 
+    /**
+     * If this is not <code>null</code>, the octave engine created 
+     * writes the output to that log writer also. 
+     * By default, this is <code>null</code>. 
+     * The according setter method is {@link #setOctaveInputLog(Writer)}. 
+     */
     private Writer octaveInputLog = null;
 
+    /**
+     * The error writer for the octave process. 
+     * By default, this is just {@link System.err}. 
+     * The according setter method is {@link #setErrorWriter(Writer)}. 
+     */
     private Writer errWriter = new OutputStreamWriter(System.err, 
-						      Charset.forName("UTF-8"));
+						      OctaveUtils.getUTF8());
 
     /**
-     * The file containing the octave program. 
+     * The file containing the octave program or is <code>null</code>. 
+     * In the latter case, the name of the octave program 
+     * is read from the property {@link OctaveExec#PROPERTY_EXECUTABLE} 
+     * if this is set or it is <code>octave</code>. 
      * This field is initialize with <code>null</code>. 
      */
     private File octaveProgram = null;
@@ -83,13 +110,30 @@ public final class OctaveEngineFactory {
     	"--no-history"       // superfluous, because commands come from scripts 
     };
 
+
+    /**
+     * An array of strings of the form <code>name=value</code> 
+     * representing the environment, i.e. the set of environment variables 
+     * or <code>null</code>. 
+     * In the latter case, 
+     * the environment is inherited from the current process. 
+     * This field is initialize with <code>null</code>. 
+     */
+     private String[] environment = null;
+
+    /**
+     * The file representing the working directory or <code>null</code>. 
+     * In the latter case, 
+     * the working directory is inherited from the current process. 
+     * This field is initialize with <code>null</code>. 
+     */
+    private File workingDir = null;
+
     /**
      * The number of threads to be reused. 
      * This field is initialize with <code>2</code>. 
      */
     private int numThreadsReuse = 2;
-
-    private File workingDir = null;
 
     /**
      * Default constructor creating a factory with default parameters. 
@@ -101,7 +145,8 @@ public final class OctaveEngineFactory {
     /**
      * Returns a script engine with the parameters set for this factory. 
      *
-     * @return a new OctaveEngine
+     * @return 
+     *    a new OctaveEngine with the current parameters. 
      */
     public OctaveEngine getScriptEngine() {
         return new OctaveEngine(this, 
@@ -110,10 +155,13 @@ public final class OctaveEngineFactory {
 				this.errWriter, 
 				this.octaveProgram, 
 				argsArray.clone(),
+				this.environment,
 				this.workingDir);
     }
 
     /**
+     * Setter method for {@link #octaveInputLog}. 
+     *
      * @param octaveInputLog
      *    the octaveInputLog to set
      */
@@ -122,6 +170,8 @@ public final class OctaveEngineFactory {
     }
 
     /**
+     * Setter method for {@link #errWriter}. 
+     *
      * @param errWriter
      *    the errWriter to set
      */
@@ -130,8 +180,10 @@ public final class OctaveEngineFactory {
     }
 
     /**
+     * Setter method for {@link #octaveProgram}. 
+     *
      * @param octaveProgram
-     *            the octaveProgram to set
+     *    the octaveProgram to set or <code>null</code>. 
      */
     public void setOctaveProgram(final File octaveProgram) {
         this.octaveProgram = octaveProgram;
@@ -155,8 +207,25 @@ public final class OctaveEngineFactory {
     }
 
     /**
+     * Setter method for {@link #environment}. 
+     * Note that subsequent changes on the array <code>environment</code> 
+     * do not have any influence on this factory. 
+     * The details are documented with {@link #environment}. 
+     *
+     * @param environment
+     *    the environment or <code>null</code>. 
+     */
+    public void setEnvironment(final String[] environment) {
+        this.environment = environment == null 
+	    ? environment
+	    : Arrays.copyOf(environment, environment.length);
+    }
+
+    /**
+     * Setter method for {@link #workingDir}. 
+     *
      * @param workingDir
-     *    the workingDir to set
+     *    the workingDir to set or <code>null</code>. 
      */
     public void setWorkingDir(final File workingDir) {
         this.workingDir = workingDir;

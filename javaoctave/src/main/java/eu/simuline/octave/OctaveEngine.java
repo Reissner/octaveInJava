@@ -42,6 +42,7 @@ import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.type.OctaveObject;
 import eu.simuline.octave.type.OctaveString;
 import eu.simuline.octave.type.cast.Cast;
+import eu.simuline.octave.OctaveUtils;
 
 /**
  * The connection to an octave process.
@@ -61,13 +62,11 @@ public final class OctaveEngine {
 
     private final OctaveIO octaveIO;
 
-    // UTF-8 is a standart charset and is thus supported
     /**
-     * The writer to write to stdout with generally supported charset 
-     * <code>Charset.forName("UTF-8")}</code>. 
+     * The writer to write to stdout. 
      */
-    private Writer writer = new OutputStreamWriter(System.out,
-						   Charset.forName("UTF-8"));
+    private Writer writer = new OutputStreamWriter(System.out, 
+						   OctaveUtils.getUTF8());
 
     /**
      * Describe variable <code>random</code> here.
@@ -77,6 +76,8 @@ public final class OctaveEngine {
 
     /**
      * Creates an octave engine with the given parameters. 
+     * The first one is nowhere used and the others are handed over 
+     * to {@link OctaveExec.OctaveExec(OctaveEngineFactory, int, Writer, Writer, File, String[], File)}. 
      */
     OctaveEngine(final OctaveEngineFactory factory,
 		 final int numThreadsReuse,
@@ -84,14 +85,16 @@ public final class OctaveEngine {
 		 final Writer errorWriter,
 		 final File octaveProgram,
 		 final String[] argsArray,
+		 final String[] environment, // always invoked with null 
 		 final File workingDir) {
         this.factory = factory;
+	assert environment == null;
         this.octaveExec = new OctaveExec(numThreadsReuse,
 					 octaveInputLog,
 					 errorWriter,
 					 octaveProgram,
 					 argsArray,
-					 null, // environment
+					 environment,
 					 workingDir);
         this.octaveIO = new OctaveIO(this.octaveExec);
     }

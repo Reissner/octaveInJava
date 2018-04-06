@@ -40,6 +40,7 @@ import eu.simuline.octave.util.NamedThreadFactory;
 import eu.simuline.octave.util.NoCloseWriter;
 import eu.simuline.octave.util.ReaderWriterPipeThread;
 import eu.simuline.octave.util.TeeWriter;
+import eu.simuline.octave.OctaveUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -100,7 +101,9 @@ public final class OctaveExec {
      * Will start the octave process.
      *
      * @param numThreadsReuse
-     *    the number of threads to be reused. 
+     *    the number of threads to be reused in a fixed thread pool. 
+     *    This is either positive or <code>-1</code>, 
+     *    which means that a cached thread pool is used instead of a fixed one. 
      * @param stdinLog
      *    This writer will capture all
      *    that is written to the octave process via stdin,
@@ -118,9 +121,11 @@ public final class OctaveExec {
      *    the array of arguments to start <code>octaveProgram</code> with. 
      *    CAUTION: allowed values depend on the octave version. 
      * @param environment
-     *    The environment for the octave process,
+     *    The environment for the octave process, 
+     *    i.e. the set of values of environment variables 
      *    if null the process will inherit the environment
-     *    for the virtual machine.
+     *    for the virtual machine. 
+     *    If not null, each entry has the form <code>name=value</code>. 
      * @param workingDir
      *    This will be the working dir for the octave process,
      *    if null the process will inherit the working dir
@@ -131,7 +136,7 @@ public final class OctaveExec {
 		      final Writer stderrLog, 
 		      final File octaveProgram,
 		      final String[] argsArray,
-		      final String[] environment, 
+		      final String[] environment, // always invoked with null 
 		      final File workingDir) {
 	ThreadFactory threadFactory = new NamedThreadFactory();
 	this.executor = numThreadsReuse == -1
@@ -154,15 +159,18 @@ public final class OctaveExec {
         // Connect stderr
         this.errorStreamThread = ReaderWriterPipeThread
 	    .instantiate(new InputStreamReader(this.process.getErrorStream(), 
-					       Charset.forName("UTF-8")),
+					       OctaveUtils.getUTF8()),
 			 stderrLog);
+
         // Connect stdout
         this.processReader = new BufferedReader
 	    (new InputStreamReader(this.process.getInputStream(), 
-				   Charset.forName("UTF-8")));
+				   OctaveUtils.getUTF8()));
+
         // Connect stdin
 	Writer pw = new OutputStreamWriter(this.process.getOutputStream(),
-					   Charset.forName("UTF-8"));
+					   OctaveUtils.getUTF8());
+
 	// all written to processWriter will go to pw and, 
 	// if not null to stdinLog
 	this.processWriter = (stdinLog == null)
@@ -213,7 +221,7 @@ public final class OctaveExec {
 	    		  writerException);
             }
             readerFuture.cancel(true);// may interrupt if running 
-throw writerException;
+	    throw writerException;
         }
         final RuntimeException readerException = getFromFuture(readerFuture);
         // if (writerException != null) {
@@ -371,7 +379,7 @@ throw writerException;
 
     /**
      * @param writer
-     *            the new writer to write the error output to
+     *    the new writer to write the error output to
      */
     public void setErrorWriter(final Writer writer) {
         this.errorStreamThread.setWriter(writer);

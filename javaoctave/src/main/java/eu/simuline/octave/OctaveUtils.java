@@ -3,7 +3,10 @@ package eu.simuline.octave;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
+
 import java.util.regex.Pattern;
+
+import java.nio.charset.Charset;
 
 import eu.simuline.octave.type.OctaveCell;
 import eu.simuline.octave.type.OctaveString;
@@ -29,6 +32,14 @@ public final class OctaveUtils {
 
     private OctaveUtils() {
         throw new UnsupportedOperationException("Do not instantiate");
+    }
+
+
+    /**
+     * Returns the charset UTF-8 used throughout. 
+     */
+    public static Charset getUTF8() {
+	return Charset.forName("UTF-8");
     }
 
     /**
