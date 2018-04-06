@@ -30,7 +30,7 @@
  * which is a WriteFunctor writing to a writer 
  * what is read from a wrapped reader 
  * and {@link eu.simuline.octave.exec.WriterReadFunctor} 
- * which is a WriteFunctor reading from a reader 
+ * which is a ReadFunctor reading from a reader 
  * and writing to a wrapped writer. 
  * <p>
  * Note that <code>eu.simuline.octave.io.DataReadFunctor</code> 
@@ -44,7 +44,7 @@
  * {@link eu.simuline.octave.exec.OctaveReaderCallable} are required in 
  * {@link eu.simuline.octave.exec.OctaveExec#evalRW(WriteFunctor, ReadFunctor)} 
  * only. 
- * The first writes a command to octave, 
+ * The first one writes a command to octave, 
  * whereas the second one reads the result back. 
  */
 package eu.simuline.octave.exec;
