@@ -44,7 +44,7 @@
        </action>
      </release>
 
-     <release version="0.6.7" date='' description=''>
+     <release version="0.6.7" date='2018-02-18' description=''>
       <action dev="ER" type="add">
 	 Added this changes file. 
 	 Information imported from changelog manually. 
