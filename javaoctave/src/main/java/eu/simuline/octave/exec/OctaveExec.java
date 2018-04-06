@@ -74,11 +74,17 @@ public final class OctaveExec {
 
     /**
      * The input reader for {@link #process}. 
-     * This is used by {@link #eval(WriteFunctor, ReadFunctor)} 
+     * This is used by {@link #evalRW(WriteFunctor, ReadFunctor)} 
      * and used to close via {@link #close()}. 
      */
     private final BufferedReader processReader;
 
+    /**
+     * Used in method {@link #evalRW(WriteFunctor, ReadFunctor)} 
+     * to submit essentially the write functor which submits the input 
+     * and thereafter the read function which collects the output. 
+     * Besides this, the executor is invoked to shutdown. 
+     */
     private final ExecutorService executor;
 
     /**
