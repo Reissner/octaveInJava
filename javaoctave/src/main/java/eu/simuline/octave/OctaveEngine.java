@@ -25,7 +25,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.nio.charset.Charset;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
@@ -42,7 +42,6 @@ import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.type.OctaveObject;
 import eu.simuline.octave.type.OctaveString;
 import eu.simuline.octave.type.cast.Cast;
-import eu.simuline.octave.OctaveUtils;
 
 /**
  * The connection to an octave process.
@@ -76,24 +75,23 @@ public final class OctaveEngine {
 
     /**
      * Creates an octave engine with the given parameters. 
-     * The first one is nowhere used and the others are handed over 
-     * to {@link OctaveExec#OctaveExec(int, Writer, Writer, String, String[], String[], File)}. 
+     * The first one is nowhere used and the others are handed over to 
+     * {@link OctaveExec#OctaveExec(int,Writer,Writer,String[],String[],File)}. 
      */
     OctaveEngine(final OctaveEngineFactory factory,
 		 final int numThreadsReuse,
 		 final Writer octaveInputLog,
 		 final Writer errorWriter,
-		 final String octaveProgramPathCmd,
-		 final String[] argsArray,
+		 final String[] cmdArray,
 		 final String[] environment, // always invoked with null 
 		 final File workingDir) {
         this.factory = factory;
-	assert environment == null;
+	// assert environment == null;
+
         this.octaveExec = new OctaveExec(numThreadsReuse,
 					 octaveInputLog,
 					 errorWriter,
-					 octaveProgramPathCmd,
-					 argsArray,
+					 cmdArray,
 					 environment,
 					 workingDir);
         this.octaveIO = new OctaveIO(this.octaveExec);

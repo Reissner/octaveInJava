@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.charset.Charset;
 
 import java.util.Random;
 import java.util.concurrent.CancellationException;
@@ -111,13 +110,14 @@ public final class OctaveExec {
      * @param stderrLog
      *    This writer will capture all
      *    that is written from the octave process on stderr,
-     *    if null the data will not be captured.
-     * @param octaveProgramPathCmd 
-     *    This is either the path to the octave program,
+     *    if null the data will not be captured. 
+     * @param cmdArray
+     *    The array consisting of command and arguments: 
+     *    The 0th entry is either the path to the octave program,
      *    or the command found by looking at the builtin variable "paths" 
-     *    reconstructing the path.
-     * @param argsArray
-     *    the array of arguments to start <code>octaveProgram</code> with. 
+     *    reconstructing the path. 
+     *    starting with the 1th entry, 
+     *    may follow the array of arguments to start the octave program with. 
      *    CAUTION: allowed values depend on the octave version. 
      * @param environment
      *    The environment for the octave process, 
@@ -133,8 +133,7 @@ public final class OctaveExec {
     public OctaveExec(final int numThreadsReuse,
 		      final Writer stdinLog, 
 		      final Writer stderrLog, 
-		      final String octaveProgramPathCmd,
-		      final String[] argsArray,
+		      final String[] cmdArray,
 		      final String[] environment, // always invoked with null 
 		      final File workingDir) {
 	ThreadFactory threadFactory = new NamedThreadFactory();
@@ -142,11 +141,7 @@ public final class OctaveExec {
 	    ? Executors.newCachedThreadPool(threadFactory)
 	    : Executors.newFixedThreadPool(numThreadsReuse, threadFactory);
 
-        final String[] cmdArray = new String[argsArray.length + 1];
-	cmdArray[0] = octaveProgramPathCmd;
-	System.arraycopy(argsArray, 0, cmdArray, 1, argsArray.length);
-
-        try {
+	try {
             this.process = Runtime.getRuntime().exec(cmdArray, 
 						     environment, 
 						     workingDir);
@@ -209,14 +204,15 @@ public final class OctaveExec {
 							  spacer));
         final RuntimeException writerException = getFromFuture(writerFuture);
         // if (writerException instanceof CancellationException) {
-        //     LOG.error("Did not expect writer to be canceled", writerException);
+        //     LOG.error("Did not expect writer to be canceled", 
+	//               writerException);
         // }
         if (writerException != null) {
             if (writerException instanceof CancellationException) {
                 LOG.error("Did not expect writer to be canceled", 
 	    		  writerException);
             }
-            readerFuture.cancel(true);// may interrupt if running 
+            readerFuture.cancel(true); // may interrupt if running 
 	    throw writerException;
         }
         final RuntimeException readerException = getFromFuture(readerFuture);
@@ -314,7 +310,7 @@ public final class OctaveExec {
      */
     public void destroy() {
         setDestroyed(true);
-        this.executor.shutdownNow();// returns list of tasks awaiting exec. 
+        this.executor.shutdownNow(); // returns list of tasks awaiting exec. 
         this.process.destroy();
         this.errorStreamThread.close();
         try {

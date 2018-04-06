@@ -18,13 +18,9 @@
  */
 package eu.simuline.octave;
 
-import eu.simuline.octave.OctaveUtils;
-
 import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
-import java.nio.charset.Charset;
 
 import java.util.Arrays;
 
@@ -70,7 +66,7 @@ public final class OctaveEngineFactory {
      * The file containing the octave program or is <code>null</code>. 
      * In the latter case, the name of the octave program command 
      * is determined as described for {@link #octaveProgramCmd}. 
-     * This field is initialize with <code>null</code>. 
+     * By default, this is <code>null</code>. 
      */
     private File octaveProgramFile = null;
 
@@ -78,7 +74,7 @@ public final class OctaveEngineFactory {
      * The command which determines the octave executable 
      * if {@link #octaveProgramFile} is <code>null</code> 
      * and if the property {@link #PROPERTY_EXECUTABLE} is not set. 
-     * This field is initialize with "<code>octave</code>". 
+     * By default, this is "<code>octave</code>". 
      */
     private String octaveProgramCmd = "octave";
 
@@ -130,7 +126,7 @@ public final class OctaveEngineFactory {
      * or <code>null</code>. 
      * In the latter case, 
      * the environment is inherited from the current process. 
-     * This field is initialize with <code>null</code>. 
+     * This field is initialized with <code>null</code>. 
      */
      private String[] environment = null;
 
@@ -138,13 +134,14 @@ public final class OctaveEngineFactory {
      * The file representing the working directory or <code>null</code>. 
      * In the latter case, 
      * the working directory is inherited from the current process. 
-     * This field is initialize with <code>null</code>. 
+     * By default, this is <code>null</code>. 
      */
     private File workingDir = null;
 
     /**
-     * The number of threads to be reused. 
-     * This field is initialize with <code>2</code>. 
+     * The number of threads to be reused or 
+     * <code>-1</code> if there is no limit. 
+     * By default, this is <code>2</code>. 
      */
     private int numThreadsReuse = 2;
 
@@ -162,17 +159,21 @@ public final class OctaveEngineFactory {
      *    a new OctaveEngine with the current parameters. 
      */
     public OctaveEngine getScriptEngine() {
-
+	// determine the command/path of the octave program 
 	String octaveProgramPathCmd = (this.octaveProgramFile == null)
-	    ? System.getProperty(PROPERTY_EXECUTABLE, octaveProgramCmd)
+	    ? System.getProperty(PROPERTY_EXECUTABLE, this.octaveProgramCmd)
 	    : this.octaveProgramFile.getPath();
+
+	// determine the command array 
+	final String[] cmdArray = new String[this.argsArray.length + 1];
+	cmdArray[0] = octaveProgramPathCmd;
+	System.arraycopy(this.argsArray, 0, cmdArray, 1, this.argsArray.length);
 
         return new OctaveEngine(this, 
 				this.numThreadsReuse,
 				this.octaveInputLog, 
-				this.errWriter, 
-				octaveProgramPathCmd, 
-				argsArray.clone(),
+				this.errWriter,
+				cmdArray,
 				this.environment,
 				this.workingDir);
     }
@@ -248,7 +249,7 @@ public final class OctaveEngineFactory {
      */
     public void setEnvironment(final String[] environment) {
         this.environment = environment == null 
-	    ? environment
+	    ? null
 	    : Arrays.copyOf(environment, environment.length);
     }
 
@@ -263,11 +264,12 @@ public final class OctaveEngineFactory {
     }
 
     /**
-     * Sets the number of threads to be reused. 
+     * Sets the number of threads to be reused or <code>-1</code> 
+     * which indicates no limit. 
      * The default value is 2 but this can be speed optimized 
      * depending on the hardware. 
      * The number of threads to be created shall be positive 
-     * but the value may also be -1 indicating a cached thread pool. 
+     * or <code>-1</code> otherwise throwing an exception. 
      */
     // **** with -1 seems not to work: cached pool 
     public void setNumThreadsReuse(int numThreadsReuse) {
