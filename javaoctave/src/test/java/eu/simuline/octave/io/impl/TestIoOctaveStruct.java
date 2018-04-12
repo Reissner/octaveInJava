@@ -47,7 +47,7 @@ public class TestIoOctaveStruct {
         assertEquals("# name: mystruct\n" + 
 		     "# type: struct\n" + 
 		     "# length: 0\n", 
-		     OctaveIO.toText(struct, "mystruct"));
+		     OctaveIO.toText("mystruct", struct));
     }
 
     /**
@@ -55,8 +55,7 @@ public class TestIoOctaveStruct {
     @Test public void testSet() {
         final OctaveStruct struct1 = new OctaveStruct();
         struct1.set("a", Octave.scalar(42));
-        assertEquals("" + //
-		     "# name: mystruct\n" + //
+        assertEquals("# name: mystruct\n" + //
 		     "# type: struct\n" + //
 		     "# length: 1\n" + //
 		     "# name: a\n" + //
@@ -66,14 +65,13 @@ public class TestIoOctaveStruct {
 		     "# name: <cell-element>\n" + //
 		     "# type: scalar\n" + //
 		     "42.0\n" + //
-		     "\n" + //
-		     "", OctaveIO.toText(struct1, "mystruct"));
+		     "\n", 
+		     OctaveIO.toText("mystruct", struct1));
         final OctaveStruct struct2 = new OctaveStruct();
         final OctaveCell octaveCell = new OctaveCell(0, 0);
         octaveCell.set(Octave.scalar(42), 1, 1);
         struct2.set("mycell", octaveCell);
-        assertEquals("" + //
-		     "# name: mystruct\n" + //
+        assertEquals("# name: mystruct\n" + //
 		     "# type: struct\n" + //
 		     "# length: 1\n" + //
 		     "# name: mycell\n" + //
@@ -88,8 +86,8 @@ public class TestIoOctaveStruct {
 		     "# type: scalar\n" + //
 		     "42.0\n" + //
 		     "\n" + //
-		     "\n" + //
-		     "", OctaveIO.toText(struct2, "mystruct"));
+		     "\n", 
+		     OctaveIO.toText("mystruct", struct2));
     }
 
     /**
@@ -162,23 +160,22 @@ public class TestIoOctaveStruct {
      * Test that the reader does not understand 1x2 cells
      */
     @Test public void testMatrixStruct() {
-        final String input = "" //
-                + "# type: struct\n" //
-                + "# length: 1\n" //
-                + "# name: y\n" //
-                + "# type: cell\n" //
-                + "# rows: 1\n" //
-                + "# columns: 2\n" //
-                + "# name: <cell-element>\n" //
-                + "# type: scalar\n" //
-                + "1\n" //
-                + "\n" //
-                + "# name: <cell-element>\n" //
-                + "# type: scalar\n" //
-                + "2\n" //
-                + "\n" //
-                + "\n" //
-                + "";
+        final String input = 
+	    "# type: struct\n" + //
+	    "# length: 1\n" + //
+	    "# name: y\n" + //
+	    "# type: cell\n" + //
+	    "# rows: 1\n" + //
+	    "# columns: 2\n" + //
+	    "# name: <cell-element>\n" + //
+	    "# type: scalar\n" + //
+	    "1\n" + //
+	    "\n" + //
+	    "# name: <cell-element>\n" + //
+	    "# type: scalar\n" + //
+	    "2\n" + //
+	    "\n" + //
+	    "\n";
         try {
             OctaveIO.read(new BufferedReader(new StringReader(input)));
             fail();
@@ -194,48 +191,44 @@ public class TestIoOctaveStruct {
         final OctaveStruct struct = new OctaveStruct();
         struct.set("x", Octave.scalar(42));
 
-        assertEquals("" + //
-                "# name: ans\n" + //
-                "# type: struct\n" + //
-                "# length: 1\n" + //
+        assertEquals("# name: ans\n" + //
+		     "# type: struct\n" + //
+		     "# length: 1\n" + //
 
-                "# name: x\n" + //
-                "# type: cell\n" + //
-                "# rows: 1\n" + //
-                "# columns: 1\n" + //
-                "# name: <cell-element>\n" + //
-                "# type: scalar\n" + //
-                "42.0\n" + //
-                "\n" + //
-
-                "", OctaveIO.toText(struct));
+		     "# name: x\n" + //
+		     "# type: cell\n" + //
+		     "# rows: 1\n" + //
+		     "# columns: 1\n" + //
+		     "# name: <cell-element>\n" + //
+		     "# type: scalar\n" + //
+		     "42.0\n" + //
+		     "\n", 
+		     OctaveIO.toText(struct));
 
         struct.set("y", Octave.scalar(43));
 
-        assertEquals("" + //
-                "# name: ans\n" + //
-                "# type: struct\n" + //
-                "# length: 2\n" + //
+        assertEquals("# name: ans\n" + //
+		     "# type: struct\n" + //
+		     "# length: 2\n" + //
 
-                "# name: x\n" + //
-                "# type: cell\n" + //
-                "# rows: 1\n" + //
-                "# columns: 1\n" + //
-                "# name: <cell-element>\n" + //
-                "# type: scalar\n" + //
-                "42.0\n" + //
-                "\n" + //
+		     "# name: x\n" + //
+		     "# type: cell\n" + //
+		     "# rows: 1\n" + //
+		     "# columns: 1\n" + //
+		     "# name: <cell-element>\n" + //
+		     "# type: scalar\n" + //
+		     "42.0\n" + //
+		     "\n" + //
 
-                "# name: y\n" + //
-                "# type: cell\n" + //
-                "# rows: 1\n" + //
-                "# columns: 1\n" + //
-                "# name: <cell-element>\n" + //
-                "# type: scalar\n" + //
-                "43.0\n" + //
-                "\n" + //
-
-                "", OctaveIO.toText(struct));
+		     "# name: y\n" + //
+		     "# type: cell\n" + //
+		     "# rows: 1\n" + //
+		     "# columns: 1\n" + //
+		     "# name: <cell-element>\n" + //
+		     "# type: scalar\n" + //
+		     "43.0\n" + //
+		     "\n",  
+		     OctaveIO.toText(struct));
     }
 
     /**

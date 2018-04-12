@@ -55,7 +55,7 @@ public class TestIoOctaveString {
 		     "# type: string\n" + 
 		     "# elements: 1\n" + 
 		     "# length: 7\nmytekst\n", 
-		     OctaveIO.toText(string, "tre"));
+		     OctaveIO.toText("tre", string));
     }
 
     /**

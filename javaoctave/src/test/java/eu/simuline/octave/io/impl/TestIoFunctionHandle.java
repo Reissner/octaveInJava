@@ -36,26 +36,24 @@ public class TestIoFunctionHandle {
     @Test public void testToString() {
         final OctaveObject fh = 
 	    new OctaveFunctionHandle("@(x) sqrt (1 - x ^ 2)");
-        assertEquals("" + //
-                "# name: ans\n" + //
-                "# type: function handle\n" + //
-                "@<anonymous>\n" + //
-                "@(x) sqrt (1 - x ^ 2)\n" + //
-                "# length: 0\n" + //
-                "", OctaveIO.toText(fh));
+        assertEquals("# name: ans\n" + //
+		     "# type: function handle\n" + //
+		     "@<anonymous>\n" + //
+		     "@(x) sqrt (1 - x ^ 2)\n" + //
+		     "# length: 0\n", 
+		     OctaveIO.toText(fh));
     }
 
     /** Test */
     @Test public void testToOctave() {
         final OctaveObject fh = 
 	    new OctaveFunctionHandle("@(x) sqrt (1 - x ^ 2)");
-        assertEquals("" + //
-                "# name: fh\n" + //
-                "# type: function handle\n" + //
-                "@<anonymous>\n" + //
-                "@(x) sqrt (1 - x ^ 2)\n" + //
-                "# length: 0\n" + //
-                "", OctaveIO.toText(fh, "fh"));
+        assertEquals("# name: fh\n" + //
+		     "# type: function handle\n" + //
+		     "@<anonymous>\n" + //
+		     "@(x) sqrt (1 - x ^ 2)\n" + //
+		     "# length: 0\n", 
+		     OctaveIO.toText("fh", fh));
     }
 
     /** Test */

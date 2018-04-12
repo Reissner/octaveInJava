@@ -35,32 +35,29 @@ import org.junit.Test;
  */
 public class TestIoOctaveSparseBoolean {
 
-    private static final String TEXT_TRUE = "" + //
-            "# name: x\n" + //
-            "# type: sparse bool matrix\n" + //
-            "# nnz: 1\n" + //
-            "# rows: 1\n" + //
-            "# columns: 1\n" + //
-            "1 1 1\n" + //
-            "";
+    private static final String TEXT_TRUE = 
+	"# name: x\n" + //
+	"# type: sparse bool matrix\n" + //
+	"# nnz: 1\n" + //
+	"# rows: 1\n" + //
+	"# columns: 1\n" + //
+	"1 1 1\n";
 
-    private static final String TEXT_EMPTY = "" + //
-            "# name: x\n" + //
-            "# type: sparse bool matrix\n" + //
-            "# nnz: 0\n" + //
-            "# rows: 0\n" + //
-            "# columns: 0\n" + //
-            "";
+    private static final String TEXT_EMPTY = 
+	"# name: x\n" + //
+	"# type: sparse bool matrix\n" + //
+	"# nnz: 0\n" + //
+	"# rows: 0\n" + //
+	"# columns: 0\n";
 
     /** */
     @Test public void testReadFalse() {
-        final Map<String, OctaveObject> read = OctaveIO.readWithName("" + //
-                "# name: x\n" + //
-                "# type: sparse bool matrix\n" + //
-                "# nnz: 0\n" + //
-                "# rows: 1\n" + //
-                "# columns: 1\n" + //
-                "");
+        final Map<String, OctaveObject> read = 
+	    OctaveIO.readWithName("# name: x\n" + //
+				  "# type: sparse bool matrix\n" + //
+				  "# nnz: 0\n" + //
+				  "# rows: 1\n" + //
+				  "# columns: 1\n");
         assertTrue(read.toString(), read.containsKey("x"));
     }
 
@@ -74,7 +71,7 @@ public class TestIoOctaveSparseBoolean {
     @Test public void testWriteTrue() {
         final OctaveSparseBoolean o = new OctaveSparseBoolean(1, 1, 1);
         o.set(true, 1, 1);
-        assertEquals(TEXT_TRUE, OctaveIO.toText(o, "x"));
+        assertEquals(TEXT_TRUE, OctaveIO.toText("x", o));
     }
 
     /** */
@@ -88,7 +85,7 @@ public class TestIoOctaveSparseBoolean {
     /** */
     @Test public void testWriteEmpty() {
         final OctaveSparseBoolean o = new OctaveSparseBoolean(0, 0, 0);
-        assertEquals(TEXT_EMPTY, OctaveIO.toText(o, "x"));
+        assertEquals(TEXT_EMPTY, OctaveIO.toText("x", o));
     }
 
     /** */

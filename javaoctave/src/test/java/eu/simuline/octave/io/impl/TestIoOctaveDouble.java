@@ -38,14 +38,15 @@ public class TestIoOctaveDouble {
     /** */
     @Test public void testScalarToText() {
         final OctaveObject integer42 = Octave.scalar(42);
-        assertEquals("" // 
-                + "# name: ans\n" // 
-                + "# type: scalar\n" // 
-                + "42.0\n" // 
-        , OctaveIO.toText(integer42));
+        assertEquals("# name: ans\n" + // 
+		     "# type: scalar\n" + // 
+		     "42.0\n", 
+		     OctaveIO.toText(integer42));
         final OctaveObject integer43 = Octave.scalar(43);
-        assertEquals("# name: integer43\n# type: scalar\n43.0\n", 
-		     OctaveIO.toText(integer43, "integer43"));
+        assertEquals("# name: integer43\n" +
+		     "# type: scalar\n" +
+		     "43.0\n", 
+		     OctaveIO.toText("integer43", integer43));
     }
 
     /**
@@ -53,35 +54,33 @@ public class TestIoOctaveDouble {
      */
     @Test public void test3dToText() {
         final OctaveDouble matrix = new OctaveDouble(3, 4, 2);
-        assertEquals("" //
-                + "# name: matrix3d\n" //
-                + "# type: matrix\n" //
-                + "# ndims: 3\n" //
-                + " 3 4 2\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + "", OctaveIO.toText(matrix, "matrix3d"));
+        assertEquals("# name: matrix3d\n" + //
+		     "# type: matrix\n" + //
+		     "# ndims: 3\n" + //
+		     " 3 4 2\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n", 
+		     OctaveIO.toText("matrix3d", matrix));
         matrix.set(42.0, 1, 3, 2);
-        assertEquals("" //
-                + "# name: matrix3d\n" //
-                + "# type: matrix\n" //
-                + "# ndims: 3\n" //
-                + " 3 4 2\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + " 42.0\n 0.0\n 0.0\n" //
-                + " 0.0\n 0.0\n 0.0\n" //
-                + "", OctaveIO.toText(matrix, "matrix3d"));
+        assertEquals("# name: matrix3d\n" + //
+		     "# type: matrix\n" + //
+		     "# ndims: 3\n" + //
+		     " 3 4 2\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + //
+		     " 42.0\n 0.0\n 0.0\n" + //
+		     " 0.0\n 0.0\n 0.0\n", 
+		     OctaveIO.toText("matrix3d", matrix));
     }
 
     /**
@@ -92,7 +91,7 @@ public class TestIoOctaveDouble {
         assertEquals("# name: matrix3d\n" + 
 		     "# type: matrix\n" + 
 		     "# ndims: 3\n 0 0 0\n", 
-		     OctaveIO.toText(matrix, "matrix3d"));
+		     OctaveIO.toText("matrix3d", matrix));
     }
 
     /**
@@ -102,13 +101,11 @@ public class TestIoOctaveDouble {
         final OctaveDouble matrix = new OctaveDouble(0, 0);
         assertEquals(0, matrix.size(1));
         assertEquals(0, matrix.size(2));
-        assertEquals("" + //
-                "# name: matrix\n" + //
-                "# type: matrix\n" + //
-                "# rows: 0\n" + //
-                "# columns: 0\n" + //
-                "" //
-        , OctaveIO.toText(matrix, "matrix"));
+        assertEquals("# name: matrix\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 0\n" + //
+		     "# columns: 0\n", 
+		     OctaveIO.toText("matrix", matrix));
     }
 
     /**
@@ -119,14 +116,13 @@ public class TestIoOctaveDouble {
         final OctaveDouble matrix = new OctaveDouble(numbers, 2, 3);
         assertEquals(2, matrix.size(1));
         assertEquals(3, matrix.size(2));
-        assertEquals("" + //
-                "# name: mymatrix\n" + //
-                "# type: matrix\n" + //
-                "# rows: 2\n" + //
-                "# columns: 3\n" + //
-                " 1.0 3.0 5.0\n" + //
-                " 2.0 4.0 6.0\n" //
-        , OctaveIO.toText(matrix, "mymatrix"));
+        assertEquals("# name: mymatrix\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 2\n" + //
+		     "# columns: 3\n" + //
+		     " 1.0 3.0 5.0\n" + //
+		     " 2.0 4.0 6.0\n", 
+		     OctaveIO.toText("mymatrix", matrix));
     }
 
     /**
@@ -136,41 +132,37 @@ public class TestIoOctaveDouble {
         final OctaveDouble matrix = new OctaveDouble(2, 3);
         assertEquals(2, matrix.size(1));
         assertEquals(3, matrix.size(2));
-        assertEquals("" + //
-                "# name: matrix\n" + //
-                "# type: matrix\n" + //
-                "# rows: 2\n" + //
-                "# columns: 3\n" + //
-                " 0.0 0.0 0.0\n" + //
-                " 0.0 0.0 0.0\n" //
-        , OctaveIO.toText(matrix, "matrix"));
+        assertEquals("# name: matrix\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 2\n" + //
+		     "# columns: 3\n" + //
+		     " 0.0 0.0 0.0\n" + //
+		     " 0.0 0.0 0.0\n", 
+		     OctaveIO.toText("matrix", matrix));
         matrix.set(42, 1, 2);
-        assertEquals("" + //
-                "# name: myother\n" + //
-                "# type: matrix\n" + //
-                "# rows: 2\n" + //
-                "# columns: 3\n" + //
-                " 0.0 42.0 0.0\n" + //
-                " 0.0 0.0 0.0\n" //
-        , OctaveIO.toText(matrix, "myother"));
+        assertEquals("# name: myother\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 2\n" + //
+		     "# columns: 3\n" + //
+		     " 0.0 42.0 0.0\n" + //
+		     " 0.0 0.0 0.0\n", 
+		     OctaveIO.toText("myother", matrix));
         matrix.set(2, 2, 1);
-        assertEquals("" + //
-                "# name: myother\n" + //
-                "# type: matrix\n" + //
-                "# rows: 2\n" + //
-                "# columns: 3\n" + //
-                " 0.0 42.0 0.0\n" + //
-                " 2.0 0.0 0.0\n" //
-        , OctaveIO.toText(matrix, "myother"));
+        assertEquals("# name: myother\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 2\n" + //
+		     "# columns: 3\n" + //
+		     " 0.0 42.0 0.0\n" + //
+		     " 2.0 0.0 0.0\n", 
+		     OctaveIO.toText("myother", matrix));
         matrix.set(4.0, 2, 2);
-        assertEquals("" + //
-                "# name: myother\n" + //
-                "# type: matrix\n" + //
-                "# rows: 2\n" + //
-                "# columns: 3\n" + //
-                " 0.0 42.0 0.0\n" + //
-                " 2.0 4.0 0.0\n" //
-        , OctaveIO.toText(matrix, "myother"));
+        assertEquals("# name: myother\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 2\n" + //
+		     "# columns: 3\n" + //
+		     " 0.0 42.0 0.0\n" + //
+		     " 2.0 4.0 0.0\n", 
+		     OctaveIO.toText("myother", matrix));
     }
 
     /**
@@ -192,14 +184,13 @@ public class TestIoOctaveDouble {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("m=[1 2;3 4];");
         final OctaveDouble m = octave.get(OctaveDouble.class, "m");
-        assertEquals("" + //
-                "# name: m\n" + //
-                "# type: matrix\n" + //
-                "# rows: 2\n" + //
-                "# columns: 2\n" + //
-                " 1.0 2.0\n" + //
-                " 3.0 4.0\n" //
-        , OctaveIO.toText(m, "m"));
+        assertEquals("# name: m\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 2\n" + //
+		     "# columns: 2\n" + //
+		     " 1.0 2.0\n" + //
+		     " 3.0 4.0\n",  //
+		     OctaveIO.toText("m", m));
         octave.close();
     }
 
@@ -318,65 +309,60 @@ public class TestIoOctaveDouble {
         assertEquals(bigmatrix,    vars.get("bigmatrix"));
         octave.close();
 
-        assertEquals("" + //
-                "# name: matrixzero2d\n" + //
-                "# type: matrix\n" + //
-                "# rows: 0\n" + //
-                "# columns: 0\n" //
-        , OctaveIO.toText(matrixzero2d, "matrixzero2d"));
+        assertEquals("# name: matrixzero2d\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 0\n" + //
+		     "# columns: 0\n", //
+		     OctaveIO.toText("matrixzero2d", matrixzero2d));
 
-        assertEquals("" + //
-                "# name: matrixzero\n" + //
-                "# type: matrix\n" + //
-                "# ndims: 4\n" + //
-                " 0 0 0 0\n" // 
-        , OctaveIO.toText(matrixzero, "matrixzero"));
+        assertEquals("# name: matrixzero\n" + //
+		     "# type: matrix\n" + //
+		     "# ndims: 4\n" + //
+		     " 0 0 0 0\n",  // 
+		     OctaveIO.toText("matrixzero", matrixzero));
 
-        assertEquals("" + //
-                "# name: matrixscalar\n" + //
-                "# type: scalar\n" + //
-                "42.0\n" //
-        , OctaveIO.toText(matrixscalar, "matrixscalar"));
+        assertEquals("# name: matrixscalar\n" + //
+		     "# type: scalar\n" + //
+		     "42.0\n",  //
+		     OctaveIO.toText("matrixscalar", matrixscalar));
 
-        assertEquals("" + //
-                "# name: matrix2d\n" + //
-                "# type: matrix\n" + //
-                "# rows: 2\n" + //
-                "# columns: 3\n" + //
-                " 1.0 3.0 8.0\n" + //
-                " 2.0 5.0 13.0\n" //
-        , OctaveIO.toText(matrix2d, "matrix2d"));
+        assertEquals("# name: matrix2d\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 2\n" + //
+		     "# columns: 3\n" + //
+		     " 1.0 3.0 8.0\n" + //
+		     " 2.0 5.0 13.0\n",  //
+		     OctaveIO.toText("matrix2d", matrix2d));
 
-        assertEquals("" + //
-                "# name: bigmatrix\n" + //
-                "# type: matrix\n" + //
-                "# ndims: 4\n" + //
-                " 1 2 3 4\n" + //
-                " 1.0\n" + //
-                " 2.0\n" + //
-                " 3.0\n" + //
-                " 4.0\n" + //
-                " 5.0\n" + //
-                " 6.0\n" + //
-                " 7.0\n" + //
-                " 8.0\n" + //
-                " 9.0\n" + //
-                " 10.0\n" + //
-                " 11.0\n" + //
-                " 12.0\n" + //
-                " 13.0\n" + //
-                " 14.0\n" + //
-                " 15.0\n" + //
-                " 16.0\n" + //
-                " 17.0\n" + //
-                " 18.0\n" + //
-                " 19.0\n" + //
-                " 20.0\n" + //
-                " 21.0\n" + //
-                " 22.0\n" + //
-                " 23.0\n" + //
-                " 24.0\n" //
-        , OctaveIO.toText(bigmatrix, "bigmatrix"));
+        assertEquals("# name: bigmatrix\n" + //
+		     "# type: matrix\n" + //
+		     "# ndims: 4\n" + //
+		     " 1 2 3 4\n" + //
+		     " 1.0\n" + //
+		     " 2.0\n" + //
+		     " 3.0\n" + //
+		     " 4.0\n" + //
+		     " 5.0\n" + //
+		     " 6.0\n" + //
+		     " 7.0\n" + //
+		     " 8.0\n" + //
+		     " 9.0\n" + //
+		     " 10.0\n" + //
+		     " 11.0\n" + //
+		     " 12.0\n" + //
+		     " 13.0\n" + //
+		     " 14.0\n" + //
+		     " 15.0\n" + //
+		     " 16.0\n" + //
+		     " 17.0\n" + //
+		     " 18.0\n" + //
+		     " 19.0\n" + //
+		     " 20.0\n" + //
+		     " 21.0\n" + //
+		     " 22.0\n" + //
+		     " 23.0\n" + //
+		     " 24.0\n",  //
+		     OctaveIO.toText("bigmatrix", bigmatrix));
     }
 
     /** Test that we can get and set globals */

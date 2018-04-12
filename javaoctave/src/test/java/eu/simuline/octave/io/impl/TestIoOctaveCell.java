@@ -42,12 +42,11 @@ public class TestIoOctaveCell {
         final OctaveCell cell = new OctaveCell(0, 0);
         assertEquals(0, cell.size(1));
         assertEquals(0, cell.size(2));
-        assertEquals("" //
-                + "# name: ans\n" //
-                + "# type: cell\n" //
-                + "# rows: 0\n" //
-                + "# columns: 0\n" //
-                + "", OctaveIO.toText(cell, "ans"));
+        assertEquals("# name: ans\n" + //
+		     "# type: cell\n" + //
+		     "# rows: 0\n" + //
+		     "# columns: 0\n", 
+		     OctaveIO.toText("ans", cell));
     }
 
     /**
@@ -57,9 +56,14 @@ public class TestIoOctaveCell {
         cell.set(Octave.scalar(42), 1, 1);
         assertEquals(1, cell.size(1));
         assertEquals(1, cell.size(2));
-        assertEquals("# name: mycell2\n# type: cell\n# rows: 1\n# columns: 1\n"
-                + "# name: <cell-element>\n# type: scalar\n42.0\n\n" //
-        , OctaveIO.toText(cell, "mycell2"));
+        assertEquals("# name: mycell2\n" + 
+		     "# type: cell\n" + 
+		     "# rows: 1\n" + 
+		     "# columns: 1\n" + 
+		     "# name: <cell-element>\n" + 
+		     "# type: scalar\n" + 
+		     "42.0\n\n", 
+		     OctaveIO.toText("mycell2", cell));
     }
 
     /**
@@ -92,8 +96,8 @@ public class TestIoOctaveCell {
 		     "# type: matrix\n" + 
 		     "# rows: 0\n" + 
 		     "# columns: 0\n" + //
-		     "\n" //
-        , OctaveIO.toText(cell, "mycell22"));
+		     "\n",
+		     OctaveIO.toText("mycell22", cell));
     }
 
     /**
@@ -133,8 +137,8 @@ public class TestIoOctaveCell {
 		     "# name: <cell-element>\n# type: matrix\n" + 
 		     "# rows: 0\n# columns: 0\n" + //
 		     "# name: <cell-element>\n# type: scalar\n42.0\n" + //
-		     "\n" //
-		     , OctaveIO.toText(cell, "mycell"));
+		     "\n", 
+		     OctaveIO.toText("mycell", cell));
     }
 
     /**
@@ -185,37 +189,36 @@ public class TestIoOctaveCell {
         cell.set(octaveMatrix, 1, 2);
         assertEquals(2, cell.size(1));
         assertEquals(2, cell.size(2));
-        assertEquals("" //
-                + "# name: mycell2\n" //
-                + "# type: cell\n" //
-                + "# rows: 2\n" //
-                + "# columns: 2\n" //
+        assertEquals("# name: mycell2\n" + //
+		     "# type: cell\n" + //
+		     "# rows: 2\n" + //
+		     "# columns: 2\n" + //
 
-                + "# name: <cell-element>\n" //
-                + "# type: scalar\n" //
-                + "42.0\n" //
+		     "# name: <cell-element>\n" + //
+		     "# type: scalar\n" + //
+		     "42.0\n" + //
 
-                + "# name: <cell-element>\n" //
-                + "# type: matrix\n" //
-                + "# rows: 0\n" //
-                + "# columns: 0\n" //
+		     "# name: <cell-element>\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 0\n" + //
+		     "# columns: 0\n" + //
 
-                + "\n" //
+		     "\n" + //
 
-                + "# name: <cell-element>\n" //
-                + "# type: matrix\n" //
-                + "# rows: 2\n" //
-                + "# columns: 3\n" //
-                + " 42.0 0.0 0.0\n" //
-                + " 0.0 0.0 0.0\n" //
+		     "# name: <cell-element>\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 2\n" + //
+		     "# columns: 3\n" + //
+		     " 42.0 0.0 0.0\n" + //
+		     " 0.0 0.0 0.0\n" + //
 
-                + "# name: <cell-element>\n" //
-                + "# type: matrix\n" //
-                + "# rows: 0\n" //
-                + "# columns: 0\n" //
+		     "# name: <cell-element>\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 0\n" + //
+		     "# columns: 0\n" + //
 
-                + "\n" //
-        , OctaveIO.toText(cell, "mycell2"));
+		     "\n",
+		     OctaveIO.toText("mycell2", cell));
     }
 
     /** */
@@ -224,25 +227,23 @@ public class TestIoOctaveCell {
         cell.set(Octave.scalar(42), 1, 2);
         assertEquals(1, cell.size(1));
         assertEquals(2, cell.size(2));
-        assertEquals("" //
-                + "# name: cell12\n" //
-                + "# type: cell\n" //
-                + "# rows: 1\n" //
-                + "# columns: 2\n" //
+        assertEquals("# name: cell12\n" + //
+		     "# type: cell\n" + //
+		     "# rows: 1\n" + //
+		     "# columns: 2\n" + //
 
-                + "# name: <cell-element>\n" //
-                + "# type: matrix\n" //
-                + "# rows: 0\n" //
-                + "# columns: 0\n" //
+		     "# name: <cell-element>\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 0\n" + //
+		     "# columns: 0\n" + //
 
-                + "\n" //
+		     "\n" + //
+		     "# name: <cell-element>\n" + //
+		     "# type: scalar\n" + //
+		     "42.0\n" + //
 
-                + "# name: <cell-element>\n" //
-                + "# type: scalar\n" //
-                + "42.0\n" //
-
-                + "\n" //
-        , OctaveIO.toText(cell, "cell12"));
+		     "\n", 
+		     OctaveIO.toText("cell12", cell));
     }
 
     /** */
@@ -252,34 +253,33 @@ public class TestIoOctaveCell {
         cell.set(Octave.scalar(21), 2, 1);
         assertEquals(2, cell.size(1));
         assertEquals(2, cell.size(2));
-        assertEquals("" //
-                + "# name: cell22\n" //
-                + "# type: cell\n" //
-                + "# rows: 2\n" //
-                + "# columns: 2\n" //
+        assertEquals("# name: cell22\n" + //
+		     "# type: cell\n" + //
+		     "# rows: 2\n" + //
+		     "# columns: 2\n" + //
 
-                + "# name: <cell-element>\n" //
-                + "# type: matrix\n" //
-                + "# rows: 0\n" //
-                + "# columns: 0\n" //
+		     "# name: <cell-element>\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 0\n" + //
+		     "# columns: 0\n" + //
 
-                + "# name: <cell-element>\n" //
-                + "# type: scalar\n" //
-                + "21.0\n" //
+		     "# name: <cell-element>\n" + //
+		     "# type: scalar\n" + //
+		     "21.0\n" + //
 
-                + "\n" //
+		     "\n" + //
 
-                + "# name: <cell-element>\n" //
-                + "# type: scalar\n" //
-                + "12.0\n" //
+		     "# name: <cell-element>\n" + //
+		     "# type: scalar\n" + //
+		     "12.0\n" + //
 
-                + "# name: <cell-element>\n" //
-                + "# type: matrix\n" //
-                + "# rows: 0\n" //
-                + "# columns: 0\n" //
+		     "# name: <cell-element>\n" + //
+		     "# type: matrix\n" + //
+		     "# rows: 0\n" + //
+		     "# columns: 0\n" + //
 
-                + "\n" //
-        , OctaveIO.toText(cell, "cell22"));
+		     "\n", 
+		     OctaveIO.toText("cell22", cell));
     }
 
     /**
