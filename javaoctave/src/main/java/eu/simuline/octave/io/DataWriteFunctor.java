@@ -27,8 +27,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Write data from {@link OctaveObject}s in a {@link Map}. 
+ * Write data from {@link OctaveObject}s into a {@link Map}. 
  */
+// ER: Very strange: whereas this write functor writes a map, 
+// the according read functor reads a single variable only: 
+// see OctaveIO 
 final class DataWriteFunctor implements WriteFunctor {
 
     private static final String MSG_IOE_UNEXP = "Unexpected IOException";

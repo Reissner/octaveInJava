@@ -29,6 +29,9 @@ import eu.simuline.octave.type.OctaveObject;
  * Functor that reads a single variable named {@link #name} 
  * into {@link #data} via {@link #doReads(Reader)}. 
  */
+// ER: Very strange: whereas this read functor reads a single variable only 
+// the according write functor writes a map: 
+// see OctaveIO 
 final class DataReadFunctor implements ReadFunctor {
 
     /**
