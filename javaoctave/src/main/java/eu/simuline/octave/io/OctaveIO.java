@@ -66,7 +66,8 @@ public final class OctaveIO {
     }
 
     /**
-     * Sets the map mapping variable names to according values. 
+     * Sets the map <code>values</code> 
+     * mapping variable names to according values. 
      *
      * @param values
      */
@@ -95,7 +96,7 @@ public final class OctaveIO {
      *    if the value can not be cast to T
      */
     public OctaveObject get(final String name) {
-        if (!checkIfVarExists(name)) {
+        if (!existsVar(name)) {
             return null;
         }
         final WriteFunctor writeFunctor = 
@@ -113,27 +114,42 @@ public final class OctaveIO {
      * @return 
      *    whether the variable <code>name</code> exists. 
      */
-     private boolean checkIfVarExists(final String name) {
+    private boolean existsVar(final String name) {
+	StringReader checkCmd = new StringReader
+	    ("printf('%d', exist('" + name + "','var'));");
         final StringWriter existResult = new StringWriter();
-        this.octaveExec.evalRW(new ReaderWriteFunctor
-			       (new StringReader("printf(\"%d\", exist(\"" + 
-						 name + "\",\"var\"));")),
+        this.octaveExec.evalRW(new ReaderWriteFunctor(checkCmd),
 			       new WriterReadFunctor(existResult));
         final String s = existResult.toString();
+	// switch (s) {
+	// case "1":
+	//     return true;
+	// case "0": 
+	//     return false;
+	// default:
+	//     throw new OctaveParseException("Unexpected output '" + s + "'");
+	// }
+
         if ("1".equals(s)) {
             return true;
         } else if ("0".equals(s)) {
             return false;
         } else {
             throw new OctaveParseException("Unexpected output '" + s + "'");
-        }
+	}
     }
 
     /**
-     * Utility function.
+     * Reads a line from <code>reader</code> into a string if possible. 
+     * Returns null at th end of the stream and throws an exception 
+     * in case of io problems. 
      *
      * @param reader
-     * @return next line from reader, null at end of stream
+     *    the reader to read a line from. 
+     * @return 
+     *    next line from <code>reader</code>, <code>null</code> at end of stream
+     * @throws OctaveIOException
+     *    in case of IOException reading <code>reader</code>
      */
     public static String readerReadLine(final BufferedReader reader) {
         try {
@@ -147,10 +163,14 @@ public final class OctaveIO {
      * Read a single object from Reader. 
      *
      * @param reader
-     * @return OctaveObject read from Reader
+     * @return 
+     *    OctaveObject read from Reader
+     * @throws OctaveParseException
      */
     public static OctaveObject read(final BufferedReader reader) {
+	// may throw OctaveIOException 
         final String line = OctaveIO.readerReadLine(reader);
+	// line == null at end of stream 
         if (line == null || !line.startsWith(TYPE)) {
             throw new OctaveParseException
 		("Expected '" + TYPE + "' got '" + line + "'");
@@ -177,8 +197,9 @@ public final class OctaveIO {
      */
     public static 
 	Map<String, OctaveObject> readWithName(final BufferedReader reader) {
+	// may throw OctaveIOException 
         final String line = OctaveIO.readerReadLine(reader);
-       if (!line.startsWith(TOKEN)) {
+	if (!line.startsWith(TOKEN)) {
             throw new OctaveParseException
 		("Expected '" + TOKEN + "', but got '" + line + "'");
         }
@@ -198,6 +219,7 @@ public final class OctaveIO {
     public static Map<String, OctaveObject> readWithName(final String input) {
         final BufferedReader bufferedReader = 
 	    new BufferedReader(new StringReader(input));
+	// may throw OctaveIOException 
         final Map<String, OctaveObject> map = readWithName(bufferedReader);
         try {
             final String line = bufferedReader.readLine();
@@ -224,32 +246,32 @@ public final class OctaveIO {
      * @param <T>
      *    the type of {@link OctaveObject} to be written. 
      * @param writer
-     *    the writer to write the object <code>octaveType</code> onto. 
-     * @param octaveType
+     *    the writer to write the object <code>octValue</code> onto. 
+     * @param octValue
      *    the object to write to <code>writer</code>. 
      * @throws OctaveParseException **** appropriate type? 
-     *    if the type of <code>octaveType</code> is not registered 
+     *    if the type of <code>octValue</code> is not registered 
      *    and so there is no appropriate writer. 
      * @throws IOException
      *    if the process of writing fails. 
      */
     public static <T extends OctaveObject> void write(final Writer writer,
-						      final T octaveType) 
+						      final T octValue) 
 	throws IOException {
         final OctaveDataWriter<T> dataWriter = 
-	    OctaveDataWriter.getOctaveDataWriter(octaveType);
+	    OctaveDataWriter.getOctaveDataWriter(octValue);
         if (dataWriter == null) {
             throw new OctaveParseException
-		("Unknown type, " + octaveType.getClass());
+		("Unknown type, " + octValue.getClass());
         }
 	// may throw IOException 
-        dataWriter.write(writer, octaveType);
+        dataWriter.write(writer, octValue);
     }
 
     /**
      * ER: 
      * Writes the name <code>name</code> 
-     * and the {@link OctaveObject} <code>octaveType</code> (****bad name) 
+     * and the {@link OctaveObject} <code>octValue</code> 
      * to the writer <code>writer</code> 
      * using {@link #write(Writer, OctaveObject)}. 
 
@@ -257,7 +279,7 @@ public final class OctaveIO {
      *    the writer to write the object <code>octaveType</code> onto. 
      * @param name
      *    the name, **** of a variable 
-     * @param octaveType
+     * @param octValue
      *    the object to write to <code>writer</code>. 
      * @throws OctaveParseException **** appropriate type? 
      *    if the type of <code>octaveType</code> is not registered 
@@ -267,11 +289,11 @@ public final class OctaveIO {
      */
     public static void write(final Writer writer,
 			     final String name,
-			     final OctaveObject octaveType) throws IOException {
+			     final OctaveObject octValue) throws IOException {
 	// may throw IOException 
         writer.write("# name: " + name + "\n"); // just a comment??? **** 
 	// may throw IOException, OctaveParseException
-        write(writer, octaveType);
+        write(writer, octValue);
     }
 
     /**
@@ -279,19 +301,20 @@ public final class OctaveIO {
      * and the {@link OctaveObject} <code>octaveType</code> (****bad name) 
      * are written. 
      *
-     * @param octaveType
-     *    the object to write to <code>writer</code>. 
      * @param name
      *    the name, **** of a variable 
+     * @param octValue
+     *    the object to write to <code>writer</code>. 
      * @return 
      *    The result from saving the value octaveType 
      *    in octave -text format
      */
-    public static String toText(final OctaveObject octaveType,
-				final String name) {
+    // seems to be used only locally and in tests 
+    public static String toText(final String name,
+				final OctaveObject octValue) {
         try {
             final Writer writer = new StringWriter();
-            write(writer, name, octaveType);
+            write(writer, name, octValue);
             return writer.toString();
         } catch (final IOException e) {
             throw new OctaveIOException(e);
@@ -303,11 +326,11 @@ public final class OctaveIO {
      * (****bad name) is written without variable, 
      * i.e. with variable <code>"ans"</code>. 
      *
-     * @param octaveType
-     * @return toText(octaveType, "ans")
+     * @param octValue
+     * @return toText("ans", octValue)
      */
-    public static String toText(final OctaveObject octaveType) {
-        return toText(octaveType, "ans");
+    public static String toText(final OctaveObject octValue) {
+        return toText("ans", octValue);
     }
 
 }
