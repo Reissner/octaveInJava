@@ -97,25 +97,6 @@ public final class OctaveEngine {
         this.octaveIO = new OctaveIO(this.octaveExec);
     }
 
-    // ER: see also {@link #eval(final String script)}
-    /**
-     * Execute the given script. 
-     *
-     * @param script
-     *            the script to execute
-     * @throws OctaveIOException
-     *             if the script fails, this will kill the engine
-     */
-    public void unsafeEval(final String script) {
-        this.octaveExec.evalRW(new WriteFunctor() {
-		@Override
-		public void doWrites(final Writer writer2) throws IOException {
-		    writer2.write(script);
-		}
-	    },
-	    getReadFunctor());
-    }
-
     /**
      * Returns the according read functor: 
      * If {@link #writer} is non-null, 
@@ -156,6 +137,25 @@ public final class OctaveEngine {
     public void unsafeEval(final Reader script) {
         this.octaveExec.evalRW(new ReaderWriteFunctor(script), 
 			       getReadFunctor());
+    }
+
+    // ER: see also {@link #eval(final String script)}
+    /**
+     * Execute the given script. 
+     *
+     * @param script
+     *            the script to execute
+     * @throws OctaveIOException
+     *             if the script fails, this will kill the engine
+     */
+    public void unsafeEval(final String script) {
+        this.octaveExec.evalRW(new WriteFunctor() {
+		@Override
+		public void doWrites(final Writer writer2) throws IOException {
+		    writer2.write(script);
+		}
+	    },
+	    getReadFunctor());
     }
 
     // ER: 
