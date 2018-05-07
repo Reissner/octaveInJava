@@ -377,5 +377,4 @@ public class TestIoOctaveDouble {
 
         octave.close();
     }
-
 }

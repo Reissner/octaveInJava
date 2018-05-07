@@ -62,9 +62,9 @@ public final class ComplexMatrixReader extends OctaveDataReader {
             }
             for (int c = 1; c < split.length; c++) {
                 final int commaIndex = split[c].indexOf(',');
-                final double real = ScalarReader
+                final double real = DoubleScalarReader
 		    .parseDouble(split[c].substring(1, commaIndex));
-                final double imag = ScalarReader
+                final double imag = DoubleScalarReader
 		    .parseDouble(split[c].substring(commaIndex + 1,
 						    split[c].length() - 1));
                 complex.setReal(real, r, c);

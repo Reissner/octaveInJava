@@ -31,6 +31,7 @@ import eu.simuline.octave.exception.OctaveParseException;
 import eu.simuline.octave.exception.OctaveRecoverableException;
 import eu.simuline.octave.type.Octave;
 import eu.simuline.octave.type.OctaveDouble;
+import eu.simuline.octave.type.OctaveInt;
 import eu.simuline.octave.type.OctaveString;
 
 /**
@@ -247,7 +248,7 @@ public class TestOctaveErrors {
     @Test public void testParseException() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.put("x", Octave.scalar(1));
-        octave.eval("y = uint16(42);");
+        octave.eval("y = uint64(42);");
         assertEquals(1, octave.get(OctaveDouble.class, "x").get(1, 1), 0);
         try {
             octave.get("y");
@@ -256,6 +257,21 @@ public class TestOctaveErrors {
             assertTrue(OctaveRecoverableException.class.isInstance(e));
         }
         assertEquals(1, octave.get(OctaveDouble.class, "x").get(1, 1), 0);
+        octave.close();
+    }
+    /**
+     * Test that supported types like Uint32 throw errors when their range 
+     * extends beyond what is supported by Java's int class.
+     */
+    @Test
+    public void testNumberFormatException() {
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        octave.eval("overflow = uint32(4294967295)");
+        try {
+        	octave.get(OctaveInt.class, "overflow");
+        	fail();
+        } catch (Exception e) {
+        }
         octave.close();
     }
 

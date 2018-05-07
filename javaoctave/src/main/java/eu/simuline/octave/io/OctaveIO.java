@@ -46,7 +46,7 @@ import eu.simuline.octave.type.OctaveObject;
  * get the value for a variable name via {@link #get(String)}, 
  * <li>
  * check whether a variable with a given name exists 
- * via {@link #checkIfVarExists(String)}. 
+ * via {@link #existsVar(String)}.
  * </ul>
  * The rest are static utility methods. 
  */
@@ -85,7 +85,7 @@ public final class OctaveIO {
     /**
      * Gets the value of the variable <code>name</code> 
      * or null if this variable does not exist 
-     * according to {@link #checkIfVarExists(String)}. 
+     * according to {@link #existsVar(String)}.
      *
      * @param name
      *    the name of a variable 

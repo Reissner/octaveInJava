@@ -7,11 +7,11 @@ import eu.simuline.octave.io.spi.OctaveDataReader;
 import eu.simuline.octave.type.Octave;
 import eu.simuline.octave.type.OctaveInt;
 
-public class Uint8MatrixReader extends UnsignedIntegerMatrixReader { 
+public class Int8ScalarReader extends OctaveIntegerReader { 
 
 	@Override
 	public String octaveType() {
-		return "uint8 matrix"; //Correct when 
+		return "int8 scalar"; //Correct when 
 	}
 	
 	@Override

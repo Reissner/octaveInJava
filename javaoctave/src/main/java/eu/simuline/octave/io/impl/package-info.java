@@ -43,12 +43,12 @@
  * for reading/writing octave "cell"s 
  * represented by {@link eu.simuline.octave.type.OctaveCell}. 
  * <li>
- * {@link eu.simuline.octave.io.impl.MatrixReader}/ 
+ * {@link eu.simuline.octave.io.impl.DoubleMatrixReader}/ 
  * {@link eu.simuline.octave.io.impl.MatrixWriter} 
  * for reading/writing octave (double) "matrix"s 
  * represented by {@link eu.simuline.octave.type.OctaveDouble}. 
  * <p>
- * There is also a {@link eu.simuline.octave.io.impl.ScalarReader} 
+ * There is also a {@link eu.simuline.octave.io.impl.DoubleScalarReader} 
  * for reading  octave (double) "scalar"s 
  * whereas no <code>ScalarWriter</code> is provided. 
 
@@ -120,7 +120,7 @@
  * representing doubles and "sparse complex matrix". 
 
  * <li>
- * {@link eu.simuline.octave.io.impl.Uint8MatrixReader} 
+ * {@link eu.simuline.octave.io.impl.IntegerMatrixReader} 
  * for readingoctave (double) "uint8 matrix"s 
  * represented by {@link eu.simuline.octave.type.OctaveInt}. 
  * There is no according writer. 
