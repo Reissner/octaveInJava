@@ -22,6 +22,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import eu.simuline.octave.OctaveEngine;
+import eu.simuline.octave.OctaveEngineFactory;
+
 
 /**
  * Test {@link OctaveInt}
@@ -64,5 +67,4 @@ public class TestOctaveInt {
         matrix.set(42, 2, 5, 2, 3);
         assertEquals(42, matrix.get(2, 5, 2, 3));
     }
-
 }
