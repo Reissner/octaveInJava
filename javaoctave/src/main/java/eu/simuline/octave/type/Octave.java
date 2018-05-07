@@ -23,15 +23,32 @@ public final class Octave {
     private Octave() {
         throw new UnsupportedOperationException("Do not instantiate");
     }
-
+    
     /**
      * @param d
      * @return New OctaveDouble with a single value
      */
     public static OctaveDouble scalar(final double d) {
+    	return scalarDouble(d);
+    }
+
+    /**
+     * @param d
+     * @return New OctaveDouble with a single value
+     */
+    public static OctaveDouble scalarDouble(final double d) {
         final OctaveDouble od = new OctaveDouble(1, 1);
         od.set(d, 1, 1);
         return od;
     }
 
+    /**
+     * @param d
+     * @return New OctaveInt with a single value
+     */
+    public static OctaveInt scalarInt(final int d) {
+        final OctaveInt od = new OctaveInt(1, 1);
+        od.set(d, 1, 1);
+        return od;
+    }
 }

@@ -189,7 +189,7 @@ public final class OctaveExec {
      *    the <code>output</code> is asked for the result. 
      *///<code></code>
     // used in OctaveIO#set(Map), OctaveIO#get(String), 
-    // OctaveIO#checkIfVarExists(String) and in 
+    // OctaveIO#existsVar(String) and in
     // OctaveEngine#unsafeEval(String) OctaveEngine#unsafeEval(Reader) and 
     // OctaveEngine#getVersion() only 
     public void evalRW(final WriteFunctor input, final ReadFunctor output) {
@@ -216,9 +216,6 @@ public final class OctaveExec {
 	    throw writerException;
         }
         final RuntimeException readerException = getFromFuture(readerFuture);
-        // if (writerException != null) {
-        //     throw writerException;
-        // }
         if (readerException != null) {
             // Only gets here when writerException==null, 
 	    // and in that case we don't expect the reader to be cancelled
@@ -244,10 +241,12 @@ public final class OctaveExec {
             if (e.getCause() instanceof OctaveException) {
                 final OctaveException oe = (OctaveException) e.getCause();
                 return reInstException(oe);
+            } else if (e.getCause() instanceof NumberFormatException) {
+                final OctaveException oe = (OctaveException) e.getCause();
+                return reInstException(oe);
             }
             // Can happen when there is an error in a OctaveWriter
  	    LOG.error(MSG_EXE_NH, e);
-	    return new RuntimeException(MSG_EXE_NH, e);
         } catch (final CancellationException e) {
             return e;
         } catch (final RuntimeException e) { // NOPMD 

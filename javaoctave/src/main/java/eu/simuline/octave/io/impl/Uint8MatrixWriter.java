@@ -24,6 +24,7 @@ import eu.simuline.octave.type.OctaveInt;
  * The writer for the octave type "bool matrix" (matrix with boolean entries) 
  * writing an {@link OctaveInt} to a {@link Writer}. 
  */
+//This seems like it would be applicable to all integers...
 public final class Uint8MatrixWriter 
     extends AbstractPrimitiveMatrixWriter<OctaveInt> {
 
