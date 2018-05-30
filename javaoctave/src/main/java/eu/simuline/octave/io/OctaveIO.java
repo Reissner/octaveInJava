@@ -46,15 +46,37 @@ import eu.simuline.octave.type.OctaveObject;
  * get the value for a variable name via {@link #get(String)}, 
  * <li>
  * check whether a variable with a given name exists 
- * via {@link #checkIfVarExists(String)}. 
+ * via {@link #existsVar(String)}. 
  * </ul>
  * The rest are static utility methods. 
+ * Part is for reading objects from a reader: 
+ * <ul>
+ * <li>
+ * {@link #readerReadLine(BufferedReader)} reads a line 
+ * <li>
+ * {@link #read(BufferedReader)} reads an object 
+ * <li>
+ * {@link #readWithName(BufferedReader)} yields a singleton map name-->object, 
+ * where name is the name of a variable 
+ * <li>
+ * {@link #readWithName(String)} yields a singleton map name-->object, 
+ * as above but reading from a string. 
+ * </ul>
+ * Part is for writing: 
+ * <ul>
+ * <li>
+ * {@link #write(Writer, OctaveObject)}
+write(Writer, String, OctaveObject)
+
+toText(String, OctaveObject)
+toText(OctaveObject)
+ * </ul>
  */
 public final class OctaveIO {
 
     private static final String GLOBAL = "global ";
     private static final String TYPE   = "# type: ";
-    private static final String TOKEN  = "# name: ";
+    private static final String NAME   = "# name: ";
  
     private final OctaveExec octaveExec;
 
@@ -75,6 +97,7 @@ public final class OctaveIO {
         final StringWriter outputWriter = new StringWriter();
 	this.octaveExec.evalRW(new DataWriteFunctor(values),
 			       new WriterReadFunctor(outputWriter));
+	
         final String output = outputWriter.toString();
         if (output.length() != 0) {
             throw new IllegalStateException
@@ -85,7 +108,7 @@ public final class OctaveIO {
     /**
      * Gets the value of the variable <code>name</code> 
      * or null if this variable does not exist 
-     * according to {@link #checkIfVarExists(String)}. 
+     * according to {@link #existsVar(String)}. 
      *
      * @param name
      *    the name of a variable 
@@ -141,7 +164,7 @@ public final class OctaveIO {
 
     /**
      * Reads a line from <code>reader</code> into a string if possible. 
-     * Returns null at th end of the stream and throws an exception 
+     * Returns null at the end of the stream and throws an exception 
      * in case of io problems. 
      *
      * @param reader
@@ -149,23 +172,33 @@ public final class OctaveIO {
      * @return 
      *    next line from <code>reader</code>, <code>null</code> at end of stream
      * @throws OctaveIOException
-     *    in case of IOException reading <code>reader</code>
+     *    in case of IOException reading from <code>reader</code>. 
      */
     public static String readerReadLine(final BufferedReader reader) {
         try {
             return reader.readLine();
-        } catch (final IOException e) {
+        } catch(IOException e) {
             throw new OctaveIOException(e);
         }
     }
 
     /**
      * Read a single object from Reader. 
+     * The first line read determines the type of object 
+     * and the rest of reading is delegated to the OctaveDataReader 
+     * associated with that type given by 
+     * {@link OctaveDataReader#getOctaveDataReader(String)}. 
      *
      * @param reader
+     *    a reader starting with first line 
+     *    <code>{@link #TYPE}[global ]type</code>, 
+     *    i.e. <code>global </code> is optional 
+     *    and type is the type of the object to be read. 
      * @return 
      *    OctaveObject read from Reader
-     * @throws OctaveParseException
+     * @throws OctaveParseException **** appropriate type? 
+     *    if the type read before is not registered 
+     *    and so there is no appropriate reader. 
      */
     public static OctaveObject read(final BufferedReader reader) {
 	// may throw OctaveIOException 
@@ -177,7 +210,7 @@ public final class OctaveIO {
         }
         String typeGlobal = line.substring(TYPE.length());
         // Ignore "global " prefix to type (it is not really a type)
-	String type = (typeGlobal != null && typeGlobal.startsWith(GLOBAL))
+	String type = typeGlobal.startsWith(GLOBAL)
 	    ? typeGlobal.substring(GLOBAL.length())
 	    : typeGlobal;
         final OctaveDataReader dataReader = 
@@ -190,20 +223,29 @@ public final class OctaveIO {
     }
 
     /**
-     * Read a single object from Reader. 
+     * Read a single variable - object pair from Reader. 
+     * The variable is given by its name. 
      *
      * @param reader
-     * @return a singleton map with the name and object
+     *    a reader starting with first line <code>{@link #NAME}name</code>, 
+     *    where name is the name of the variable. 
+     *    the following lines represent the object stored in that variable. 
+     * @return 
+     *   a singleton map with the name of a variable and object stored therein. 
      */
+    // used in DataReadFunctor.doReads(Reader) only and tests. 
     public static 
 	Map<String, OctaveObject> readWithName(final BufferedReader reader) {
+
+	// read name from the first line 
 	// may throw OctaveIOException 
         final String line = OctaveIO.readerReadLine(reader);
-	if (!line.startsWith(TOKEN)) {
+	if (!line.startsWith(NAME)) {
             throw new OctaveParseException
-		("Expected '" + TOKEN + "', but got '" + line + "'");
+		("Expected '" + NAME + "', but got '" + line + "'");
         }
-        final String name = line.substring(TOKEN.length());
+        final String name = line.substring(NAME.length());
+	// read value and put into singleton map 
         return Collections.singletonMap(name, read(reader));
     }
 
@@ -212,9 +254,11 @@ public final class OctaveIO {
      * it is an error if there is data left after the object. 
      *
      * @param input
-     * @return a singleton map with the name and object
+     *    
+     * @return 
+     *    a singleton map with the name and object
      * @throws OctaveParseException
-     *             if there is data left after the object is read
+     *    if there is data left after the object is read
      */
     public static Map<String, OctaveObject> readWithName(final String input) {
         final BufferedReader bufferedReader = 
@@ -232,6 +276,24 @@ public final class OctaveIO {
             throw new OctaveIOException(e);
         }
         return map;
+    }
+
+    // newly introduced, not yet used. 
+    /**
+     * Writes a line given by <code>strWithNl</code> to <code>writer</code> 
+     * if possible. 
+     *
+     * @param writer
+     * @param strWithNl
+     * @throws OctaveIOException
+     *    in case of IOException writing to <code>writer</code>. 
+     */
+    public static void writerWriteLine(Writer writer, String strWithNl) {
+	try {
+	    writer.write(strWithNl);
+	} catch(IOException e) {
+            throw new OctaveIOException(e);
+        }
     }
 
     /**
@@ -262,7 +324,7 @@ public final class OctaveIO {
 	    OctaveDataWriter.getOctaveDataWriter(octValue);
         if (dataWriter == null) {
             throw new OctaveParseException
-		("Unknown type, " + octValue.getClass());
+		("No writer for java type " + octValue.getClass() + ". ");
         }
 	// may throw IOException 
         dataWriter.write(writer, octValue);
