@@ -53,11 +53,11 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     }
 
     protected final int dataLength() {
-        return data.length;
+        return this.data.length;
     }
 
     protected final void dataFillInit(final int fromIndex, final int toIndex) {
-        Arrays.fill(data, fromIndex, toIndex, 0);
+        Arrays.fill(this.data, fromIndex, toIndex, 0);
     }
 
     protected final boolean dataEquals(final int usedLength,
@@ -78,7 +78,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
      */
     public final void set(final double value, final int... pos) {
         resizeUp(pos);
-        data[pos2ind(pos)] = value;
+        this.data[pos2ind(pos)] = value;
     }
 
     /**
@@ -88,7 +88,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
      * @return value at pos
      */
     public final double get(final int... pos) {
-        return data[pos2ind(pos)];
+        return this.data[pos2ind(pos)];
     }
 
 }
