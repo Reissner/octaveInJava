@@ -1,5 +1,5 @@
 /**
- * Contains all octave types. 
+ * Contains all octave types which are supported. 
  * The base interface for all types 
  * is {@link eu.simuline.octave.type.OctaveObject} 
  * defining a single method only: 
