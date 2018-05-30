@@ -186,8 +186,14 @@ and to get back a double just use the getter method as shown above.
 <!--para-->
 In general, for getting and setting, 
 the package <ulink url='./apidocs/eu/simuline/octave/type/package-summary.html'>
-eu.simuline.octave.type</ulink> comprising types like <code>OctaveDouble</code> 
+eu.simuline.octave.type</ulink> 
+comprising java corresponding with octave types like <code>OctaveDouble</code> 
 and the utility class <code>Octave</code> are needed. 
+The relation between the java types 
+and the corresponding octave types is given in 
+<ulink url='./apidocs/eu/simuline/octave/io/impl/package-summary.html'>
+eu.simuline.octave.io.impl</ulink>. 
+This site also informs on the progress of implementation of the various types. 
 All required information can be found in the api-docs. 
 <!--/para-->
 

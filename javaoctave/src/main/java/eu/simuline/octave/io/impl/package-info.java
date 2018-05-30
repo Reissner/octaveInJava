@@ -109,9 +109,9 @@
  *   <tr>
  *   <th>10</th>
  *   <th>"bool"</th>
- *   <th>---</th>
+ *   <th>see 11</th>
  *   <th>{@link eu.simuline.octave.io.impl.BooleanSingleReader}</th>
- *   <th>---</th>
+ *   <th>see 11</th>
  *   </tr>
 
  *   <tr>
@@ -157,9 +157,9 @@
  *   <tr>
  *   <th>16</th>
  *   <th>"int32 scalar"</th>
- *   <th>---</th>
- *   <th>---</th>
- *   <th>---</th>
+ *   <th>see 28</th>
+ *   <th>{@link eu.simuline.octave.io.impl.Int32ScalarReader}</th>
+ *   <th>see 28</th>
  *   </tr>
 
  *   <tr>
@@ -247,8 +247,8 @@
  *   <tr>
  *   <th>26</th>
  *   <th>"uint8 matrix" Uint??</th>
- *   <th>{@link eu.simuline.octave.type.OctaveInt}</th>
- *   <th>{@link eu.simuline.octave.io.impl.Uint8MatrixReader}</th>
+ *   <th>use {@link eu.simuline.octave.type.OctaveInt} with int32</th>
+ *   <th>do not use: {@link eu.simuline.octave.io.impl.Uint8MatrixReader}</th>
  *   <th>---</th>
  *   </tr>
 
@@ -505,7 +505,9 @@
  * </tfoot>
  * </table>
  * does not take fake into account (see below). 
- * does not take integer types into account (see below). 
+ * does not take very much integer types into account (see below). 
+ * The unsigned have no correspondence in current java version, 
+ * from the signed ones we just support octave int32, i.e. java int. 
 
  * <p>
  * There three categories of basic types in octave: 

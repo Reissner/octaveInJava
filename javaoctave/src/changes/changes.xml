@@ -25,6 +25,9 @@
     </release-->
 
      <release version="0.6.8-snapshot" date='' description=''>
+       <action dev="ER" type="add">
+	 Allow interface to java int, i.e. octave int32 types. 
+       </action>
        <action dev="ER" type="update">
 	 pom: repository, organization, homepage. 
        </action>
