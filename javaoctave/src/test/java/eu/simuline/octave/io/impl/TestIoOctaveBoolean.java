@@ -214,20 +214,22 @@ public class TestIoOctaveBoolean {
      * @throws Exception
      */
     @Test public void testOctaveSetExecGet() throws Exception {
-        final boolean[] numbers = { true, false, true, false, true, false };
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        final boolean[] numbers = { true, false, true, false, true, false };
         final OctaveBoolean in = new OctaveBoolean(numbers, 2, 3);
         octave.put("in", in);
         octave.eval("out=in;");
         final OctaveBoolean out = octave.get(OctaveBoolean.class, "out");
         assertEquals(OctaveIO.toText(in), OctaveIO.toText(out));
         octave.eval("slicerow=in(2,:); slicecol=in(:,2);");
-        final OctaveBoolean slicerow = octave.get(OctaveBoolean.class, "slicerow");
-        final OctaveBoolean slicecol = octave.get(OctaveBoolean.class, "slicecol");
+        final OctaveBoolean slicerow = octave.get(OctaveBoolean.class, 
+						  "slicerow");
+        final OctaveBoolean slicecol = octave.get(OctaveBoolean.class, 
+						  "slicecol");
         assertEquals(false, slicerow.get(1, 1));
         assertEquals(false, slicerow.get(1, 2));
         assertEquals(false, slicerow.get(1, 3));
-        assertEquals(true, slicecol.get(1, 1));
+        assertEquals(true,  slicecol.get(1, 1));
         assertEquals(false, slicecol.get(2, 1));
         octave.close();
     }
@@ -251,17 +253,18 @@ public class TestIoOctaveBoolean {
         final OctaveBoolean x4 = octave.get(OctaveBoolean.class, "x4");
         octave.close();
         assertEquals(false, x1.get(1, 3));
-        assertEquals(true, x1.get(3, 1));
-        assertEquals(true, x2.get(1, 3));
+        assertEquals(true,  x1.get(3, 1));
+        assertEquals(true,  x2.get(1, 3));
         assertEquals(false, x2.get(3, 1));
-        assertEquals(true, x3.get(1, 1, 2));
-        assertEquals(true, x4.get(1, 1, 1));
+        assertEquals(true,  x3.get(1, 1, 2));
+        assertEquals(true,  x4.get(1, 1, 1));
     }
 
     /** Test */
     @Test public void testNdMatrix() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final TreeMap<String, OctaveObject> vars = new TreeMap<String, OctaveObject>();
+        final TreeMap<String, OctaveObject> vars = 
+	    new TreeMap<String, OctaveObject>();
         final boolean[] bigdata = new boolean[2 * 3 * 4];
         for (int idx = 0; idx < bigdata.length; idx++) {
             bigdata[idx] = idx % 2 == 0;
@@ -274,16 +277,21 @@ public class TestIoOctaveBoolean {
         vars.put("matrixzero", new OctaveBoolean(0, 0, 0, 0));
         vars.put("matrixzero2d", new OctaveBoolean(0, 0));
         octave.putAll(vars);
-        final OctaveBoolean matrixzero = octave.get(OctaveBoolean.class, "matrixzero");
-        final OctaveBoolean matrix2d = octave.get(OctaveBoolean.class, "matrix2d");
-        final OctaveBoolean bigmatrix = octave.get(OctaveBoolean.class, "bigmatrix");
-        final OctaveBoolean matrixzero2d = octave.get(OctaveBoolean.class, "matrixzero2d");
-        final OctaveBoolean matrixscalar = octave.get(OctaveBoolean.class, "matrixscalar");
-        assertEquals(matrixzero, vars.get("matrixzero"));
+        final OctaveBoolean matrixzero = octave.get(OctaveBoolean.class, 
+						    "matrixzero");
+        final OctaveBoolean matrix2d = octave.get(OctaveBoolean.class, 
+						  "matrix2d");
+        final OctaveBoolean bigmatrix = octave.get(OctaveBoolean.class, 
+						   "bigmatrix");
+        final OctaveBoolean matrixzero2d = octave.get(OctaveBoolean.class, 
+						      "matrixzero2d");
+        final OctaveBoolean matrixscalar = octave.get(OctaveBoolean.class, 
+						      "matrixscalar");
+        assertEquals(matrixzero,   vars.get("matrixzero"));
         assertEquals(matrixzero2d, vars.get("matrixzero2d"));
         assertEquals(matrixscalar, vars.get("matrixscalar"));
-        assertEquals(matrix2d, vars.get("matrix2d"));
-        assertEquals(bigmatrix, vars.get("bigmatrix"));
+        assertEquals(matrix2d,     vars.get("matrix2d"));
+        assertEquals(bigmatrix,    vars.get("bigmatrix"));
         octave.close();
 
         assertEquals("# name: matrixzero2d\n" + //

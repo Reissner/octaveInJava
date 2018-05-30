@@ -24,7 +24,8 @@ import java.io.Writer;
 import eu.simuline.octave.type.OctaveDouble;
 
 /**
- * The writer for the octave type "matrix" (of double) 
+ * The writer for the octave types 
+ * "matrix" (of double) and "scalar" (of double) 
  * writing an {@link OctaveDouble} to a {@link Writer}. 
  */
 public final class MatrixWriter 
@@ -41,7 +42,7 @@ public final class MatrixWriter
         if (octaveMatrix.getSizeLength() > 2) {
 	    writer.write("# type: matrix\n");
             saveDataVectorized(writer, octaveMatrix);
-         } else {
+	} else {
             if (octaveMatrix.getSizeLength() == 2 && 
 		octaveMatrix.size(1) == 1 && 
 		octaveMatrix.size(2) == 1) {

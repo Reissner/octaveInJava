@@ -15,7 +15,8 @@
  */
 package eu.simuline.octave.io.impl;
 
-import java.io.StringWriter;
+import java.io.StringWriter;// for nan and inf 
+import java.util.Map;
 import java.util.TreeMap;
 
 import eu.simuline.octave.OctaveEngine;
@@ -72,13 +73,14 @@ public class TestIoOctaveDouble {
 		     "# type: matrix\n" + //
 		     "# ndims: 3\n" + //
 		     " 3 4 2\n" + //
+		     " 0.0\n 0.0\n 0.0\n" + // matrix(x,x,1)
 		     " 0.0\n 0.0\n 0.0\n" + //
 		     " 0.0\n 0.0\n 0.0\n" + //
 		     " 0.0\n 0.0\n 0.0\n" + //
+
+		     " 0.0\n 0.0\n 0.0\n" + // matrix(x,x,2)
 		     " 0.0\n 0.0\n 0.0\n" + //
-		     " 0.0\n 0.0\n 0.0\n" + //
-		     " 0.0\n 0.0\n 0.0\n" + //
-		     " 42.0\n 0.0\n 0.0\n" + //
+		     " 42.0\n 0.0\n 0.0\n" + // matrix(1,3,2)
 		     " 0.0\n 0.0\n 0.0\n", 
 		     OctaveIO.toText("matrix3d", matrix));
     }
@@ -169,8 +171,8 @@ public class TestIoOctaveDouble {
      * @throws Exception
      */
     @Test public void testOctaveScalar() throws Exception {
-        final OctaveObject i1 = Octave.scalar(42);
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        final OctaveObject i1 = Octave.scalar(42);
         octave.put("i", i1);
         final OctaveDouble i2 = octave.get(OctaveDouble.class, "i");
         assertEquals(i1, i2);
@@ -283,7 +285,7 @@ public class TestIoOctaveDouble {
     /** Test */
     @Test public void testOctaveNdMatrix() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final TreeMap<String, OctaveObject> vars = 
+        final Map<String, OctaveObject> vars = 
 	    new TreeMap<String, OctaveObject>();
         final double[] bigdata = new double[2 * 3 * 4];
         for (int idx = 0; idx < bigdata.length; idx++) {

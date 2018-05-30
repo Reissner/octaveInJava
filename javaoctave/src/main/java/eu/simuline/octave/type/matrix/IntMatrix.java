@@ -39,6 +39,7 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
         super(data, size);
     }
 
+    // superfluous? 
     /**
      * Copy constructor. 
      * 
