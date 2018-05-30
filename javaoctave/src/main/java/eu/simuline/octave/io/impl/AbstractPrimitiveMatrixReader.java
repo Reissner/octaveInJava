@@ -37,6 +37,26 @@ abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject>
     protected static final String NROWS    = "# rows: ";
     protected static final String NCOLUMNS = "# columns: ";
 
+    /**
+     * The matrix formats, e.g. <tt>matrix</tt> come in two variants: 
+     * after line with "type" the next line either starts with 
+     * <ul>
+     * <li><tt># ndims: </tt> specifying the number of dimensions 
+     * and in the next line the lengths in all these dimensions 
+     * and all the following lines the vectorized data, 
+     * each in a separate line. 
+     * This is read by {@link #readVectorizedMatrix(BufferedReader, String)}. 
+     * <li><tt># rows: </tt> specifying the number of rows 
+     * and <tt># columns: </tt> specifying the number of columns 
+     * in the next line (which works only for matrices, i.e. up to dimension 2) 
+     * and then for each row a line follows 
+     * each of which holds the entries separated by a blank. 
+     * This is read by {@link #read2dMatrix(BufferedReader, String)}. 
+     * </ul>
+     */
+    // **** caution: this distinction is valid only for floating point types. 
+    // others use vectorized format only 
+    // **** this may indicate inappropriate design. 
     @Override
     public T read(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
@@ -55,6 +75,12 @@ abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject>
     protected abstract T readVectorizedMatrix(BufferedReader reader, 
 					      String ndimsLine);
 
+    /**
+     * Reads a line NDIMS &lt;num of dims> 
+     * followed by a line of dimensions: integers separated by blank 
+     * and returns an array with the according entries. 
+     * In particluar the length is &lt;num of dims>. 
+     */
     protected int[] readSizeVectorizedMatrix(BufferedReader reader, 
 					     String ndimsLine) {
         String line = ndimsLine;
@@ -79,10 +105,14 @@ abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject>
     }
 
 
- 
+    // maybe this just throws an exception because this case does not occur. 
     protected abstract T read2dmatrix(BufferedReader reader, 
 				      String rowsLine);
 
+    /**
+     * Reads lines NROWS &lt;num of rows> and NCOLUMNS &lt;num of cols>
+     * and returns an array {nrows ncols}. 
+     */
     protected int[] readSize2dmatrix(BufferedReader reader, 
 				     String rowsLine) {
         // # rows: 1
