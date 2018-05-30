@@ -21,8 +21,10 @@ import java.io.Writer;
 import eu.simuline.octave.type.OctaveInt;
 
 /**
- * The writer for the octave type "bool matrix" (matrix with boolean entries) 
- * writing an {@link OctaveInt} to a {@link Writer}. 
+ * This is deactivated. 
+ * writing an {@link OctaveInt} holding an uint8 to a {@link Writer}. 
+ * Note that java class {@link OctaveInt} 
+ * is registered with {@link Int32MatrixWriter}. 
  */
 public final class Uint8MatrixWriter 
     extends AbstractPrimitiveMatrixWriter<OctaveInt> {
@@ -35,30 +37,34 @@ public final class Uint8MatrixWriter
     @Override
     public void write(final Writer writer, 
 		      final OctaveInt octaveInt) throws IOException {
+
         writer.write("# type: uint8 matrix\n");
         if (octaveInt.getSizeLength() > 2) {
             saveDataVectorized(writer, octaveInt);
         } else {
-            saveData2d(writer, octaveInt);
+	    // the following does never occur. 
+	    //saveData2d(writer, octaveInt);
+            saveDataVectorized(writer, octaveInt);
         }
     }
 
     private void saveData2d(final Writer writer, 
-			    final OctaveInt octaveInt) 
+			    final OctaveInt octaveMatrix) 
 	throws IOException {
 
-        final int[] data = octaveInt.getData();
-        final int nrows = octaveInt.getSize(1);
-        final int ncols = octaveInt.getSizeLength() > 1 
-	    ? octaveInt.getSize(2) : 1;
-        writer.write(NROWS + nrows + "\n");
-        writer.write(NCOLUMNS + ncols + "\n");
-        for (int row = 0; row < nrows; row++) {
-            for (int col = 0; col < ncols; col++) {
-                writer.write(" " + data[row + col * nrows]);
-            }
-            writer.write('\n');
-        }
+	throw new IllegalStateException("Not supported by integer types");
+        // final int[] data = octaveMatrix.getData();
+        // final int nrows = octaveMatrix.getSize(1);
+        // final int ncols = octaveMatrix.getSizeLength() > 1 
+	//     ? octaveMatrix.getSize(2) : 1;
+        // writer.write(NROWS + nrows + "\n");
+        // writer.write(NCOLUMNS + ncols + "\n");
+        // for (int row = 0; row < nrows; row++) {
+        //     for (int col = 0; col < ncols; col++) {
+        //         writer.write(" " + data[row + col * nrows]);
+        //     }
+        //     writer.write('\n');
+        // }
     }
 
     private void saveDataVectorized(final Writer writer, 

@@ -25,8 +25,11 @@ import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.type.OctaveInt;
 
 /**
- * The reader for the octave type "uint8 matrix" 
+ * This is deactivated 
  * reading an {@link OctaveInt} from a {@link BufferedReader}. 
+ * Note that java class {@link OctaveInt} 
+ * is registered with {@link Int32MatrixWriter} 
+ * and thus related with {@link Int32MatrixReader}. 
  */
 public final class Uint8MatrixReader 
     extends AbstractPrimitiveMatrixReader<OctaveInt> {
@@ -54,27 +57,25 @@ public final class Uint8MatrixReader
     @Override
     protected OctaveInt read2dmatrix(final BufferedReader reader,
 				     final String rowsLine) {
-	int[] size = readSize2dmatrix(reader, rowsLine);
-	int rows = size[0];
-	int columns = size[1];
-	String line;
+	throw new IllegalStateException("Not used by integer types");
+	// int[] size = readSize2dmatrix(reader, rowsLine);
+	// int rows = size[0];
+	// int columns = size[1];
+	// String line;
 
-
-        final int[] data = new int[rows * columns];
-        for (int r = 1; r <= rows; ++r) {
-            line = OctaveIO.readerReadLine(reader);
-            final String[] split = line.split(" ");
-            if (split.length != columns + 1) {
-                throw new OctaveParseException
-		    ("Error in matrix-format: '" + line + "'");
-            }
-            for (int c = 1; c < split.length; c++) {
-                data[(r - 1) + (c - 1) * rows] = Integer.parseInt(split[c]);
-            }
-        }
-        return new OctaveInt(data, size);
+        // final int[] data = new int[rows * columns];
+        // for (int r = 1; r <= rows; ++r) {
+        //     line = OctaveIO.readerReadLine(reader);
+        //     final String[] split = line.split(" ");
+        //     if (split.length != columns + 1) {
+        //         throw new OctaveParseException
+	// 	    ("Error in matrix-format: '" + line + "'");
+        //     }
+        //     for (int c = 1; c < split.length; c++) {
+        //         data[(r - 1) + (c - 1) * rows] = Integer.parseInt(split[c]);
+        //     }
+        // }
+        // return new OctaveInt(data, size);
     }
-
-
 
 }
