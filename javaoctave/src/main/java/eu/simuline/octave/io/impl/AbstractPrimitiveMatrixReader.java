@@ -51,7 +51,7 @@ abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject>
      * in the next line (which works only for matrices, i.e. up to dimension 2) 
      * and then for each row a line follows 
      * each of which holds the entries separated by a blank. 
-     * This is read by {@link #read2dMatrix(BufferedReader, String)}. 
+     * This is read by {@link #read2dmatrix(BufferedReader, String)}. 
      * </ul>
      */
     // **** caution: this distinction is valid only for floating point types. 
