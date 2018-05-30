@@ -76,14 +76,14 @@ public abstract class AbstractGenericMatrix<D> {
     }
 
     private void checkSize() throws IllegalArgumentException {
-        if (size.length == 0) {
+        if (this.size.length == 0) {
             throw new IllegalArgumentException("no size");
         }
-        if (size.length < 2) {
+        if (this.size.length < 2) {
             throw new IllegalArgumentException
-		("size must have a least 2 dimenstions");
+		("size must have a least 2 dimensions");
         }
-        for (final int s : size) {
+        for (final int s : this.size) {
             if (s < 0) {
                 throw new IllegalArgumentException
 		    ("element in size less than zero. =" + s);
@@ -92,13 +92,13 @@ public abstract class AbstractGenericMatrix<D> {
     }
 
     private void checkDataSize() {
-        if (product(size) > dataLength()) {
+        if (product(this.size) > dataLength()) {
             final StringBuilder text = new StringBuilder();
             text.append("length of data(");
             text.append(dataLength());
             text.append(") is smaller than size([");
             boolean first = true;
-            for (final int i : size) {
+            for (final int i : this.size) {
                 if (first) {
                     first = false;
                 } else {
@@ -264,7 +264,7 @@ public abstract class AbstractGenericMatrix<D> {
      * @return the data
      */
     public final D getData() {
-        return data;
+        return this.data;
     }
 
     public final int getSizeLength() {
@@ -305,18 +305,15 @@ public abstract class AbstractGenericMatrix<D> {
             return false;
         }
         final AbstractGenericMatrix<D> other = (AbstractGenericMatrix<D>) obj;
-        if (!Arrays.equals(size, other.size)) {
+        if (!Arrays.equals(this.size, other.size)) {
+	    
             return false;
         }
-        if (data == null) {
-            if (other.data != null) {
-                return false;
-            }
-        } else if (!(data == other.data || 
-		     dataEquals(product(size), other.data))) {
-            return false;
+        if (this.data == null) {
+	    return other.data == null;
         }
-        return true;
+	return this.data == other.data 
+	    || dataEquals(product(this.size), other.data);
     }
 
 }

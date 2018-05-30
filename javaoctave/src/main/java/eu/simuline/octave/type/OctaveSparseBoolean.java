@@ -32,7 +32,7 @@ public final class OctaveSparseBoolean implements OctaveObject {
 
     // number of non-zero, i.e. of non-false, i.e. of true. 
     // meant number of entries with value true. 
-    // seems to be rowInices.length which equals columnIndices.length. 
+    // seems to be rowIndices.length which equals columnIndices.length. 
     private int nnz;
 
     private final int[] rowIndexes;

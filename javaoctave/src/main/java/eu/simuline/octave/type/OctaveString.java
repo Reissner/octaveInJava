@@ -35,15 +35,18 @@ public final class OctaveString implements OctaveObject {
     }
 
     /**
-     * @return the string
+     * Returns the string represented by this object. 
+     *
+     * @return
+     *    the string represented by this object. 
      */
     public String getString() {
-        return value;
+        return this.value;
     }
 
     /**
      * @param string
-     *            the string to set
+     *    the string to set
      */
     public void setString(final String string) {
         this.value = string;
@@ -51,9 +54,7 @@ public final class OctaveString implements OctaveObject {
 
     @Override
     public int hashCode() {
-        int result = 1;
-        result = PRIME * result + ((value == null) ? 0 : value.hashCode());
-        return result;
+        return (this.value == null) ? PRIME : this.value.hashCode();
     }
 
     @Override
@@ -61,31 +62,24 @@ public final class OctaveString implements OctaveObject {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final OctaveString other = (OctaveString) obj;
-        if (value == null) {
-            if (other.value != null) {
-                return false;
-            }
-        } else if (!value.equals(other.value)) {
-            return false;
-        }
-        return true;
+        if (this.value == null) {
+	    return other.value == null;
+	}
+	return this.value.equals(other.value);
     }
 
     @Override
     public OctaveString shallowCopy() {
-        return new OctaveString(value);
+        return new OctaveString(this.value);
     }
 
     @Override
     public String toString() {
-        return "OctaveString[" + value + "]";
+        return "OctaveString[" + this.value + "]";
     }
 
 }

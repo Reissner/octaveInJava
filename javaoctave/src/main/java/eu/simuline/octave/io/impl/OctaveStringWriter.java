@@ -24,6 +24,8 @@ import eu.simuline.octave.type.OctaveString;
 /**
  * The writer for the octave type "string" 
  * writing an {@link OctaveString} to a {@link Writer}. 
+ * The name is {@link OctaveStringWriter} instead of <code>StringWriter</code> 
+ * to avoid name clash with {@link java.io.StringWriter}. 
  */
 public final class OctaveStringWriter extends OctaveDataWriter<OctaveString> {
 
@@ -36,12 +38,10 @@ public final class OctaveStringWriter extends OctaveDataWriter<OctaveString> {
     public void write(final Writer writer,
 		      final OctaveString octaveString) throws IOException {
         final String string = octaveString.getString();
-        writer.write("" //
-                + "# type: string\n" //
-                + "# elements: 1\n" //
-                + "# length: " + string.length() + "\n" //
-                + string + "\n" //
-                + "");
+        writer.write("# type: string\n" + //
+		     "# elements: 1\n" + //
+		     "# length: " + string.length() + "\n" + //
+		     string + "\n");
     }
 
 }
