@@ -50,7 +50,7 @@ public final class Cast {
             @SuppressWarnings("rawtypes")
             final Iterator<Caster> sp = ServiceRegistry
 		.lookupProviders(Caster.class);
-           while (sp.hasNext()) {
+	    while (sp.hasNext()) {
                 register(sp.next());
             }
         }
