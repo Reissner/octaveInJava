@@ -50,6 +50,7 @@ public final class OctaveDouble extends DoubleMatrix implements OctaveObject {
         super(o);
     }
 
+    // superfluous? 
     public OctaveDouble zero() {
 	return new OctaveDouble(this.size);
     }
