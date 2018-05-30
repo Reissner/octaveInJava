@@ -34,6 +34,8 @@ public abstract class AbstractOctaveStringReader extends OctaveDataReader {
     private static final String H_ELEMENTS1 = "# elements: 1";
     private static final String H_ELEMENTS0 = "# elements: 0";
 
+    private static final String LENGTH = "# length: ";
+
     /**
      * Overriding this method may add just handling of <code>\\</code> 
      * or delegate to this method. 
@@ -45,11 +47,13 @@ public abstract class AbstractOctaveStringReader extends OctaveDataReader {
 	// NOTE: in java > 1.7 strings are allowed in switch 
 	if (H_ELEMENTS1.equals(elements)) {
             final String lengthString = OctaveIO.readerReadLine(reader);
-            if (!lengthString.startsWith("# length: ")) {
+            if (!lengthString.startsWith(LENGTH)) {
                 throw new OctaveParseException
 		    ("Parse error in String, line='" + lengthString + "'");
             }
-            final int length = Integer.parseInt(lengthString.substring(10));
+            final int length = Integer
+		.parseInt(lengthString.substring(LENGTH.length()));
+
             boolean first = true;
             while (builder.length() < length) {
                 if (!first) {
@@ -58,6 +62,7 @@ public abstract class AbstractOctaveStringReader extends OctaveDataReader {
                 builder.append(OctaveIO.readerReadLine(reader));
                 first = false;
             }
+
             if (builder.length() != length) {
                 throw new OctaveParseException
 		    ("Unexpected length of string read. expected=" + 
