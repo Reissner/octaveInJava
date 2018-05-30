@@ -46,27 +46,35 @@ public abstract class OctaveDataReader {
      * of an {@link OctaveDataReader} to the {@link OctaveDataReader} itself 
      * which is able to read the octave type from a reader. 
      */
-    private static Map<String, OctaveDataReader> readers = null;
+    private static Map<String, OctaveDataReader> READERS = null;
 
     /**
      * @param type
      * @return The OctaveDataReader or null if it does not exist
      */
     public static OctaveDataReader getOctaveDataReader(final String type) {
-        initIfNecessary();
-        return readers.get(type);
+        initReaderIfNecessary();
+        return READERS.get(type);
     }
 
-    private static synchronized void initIfNecessary() {
-        if (readers != null) {
+    private static synchronized void initReaderIfNecessary() {
+        if (READERS != null) {
             return;
         }
-	readers = new HashMap<String, OctaveDataReader>();
+	READERS = new HashMap<String, OctaveDataReader>();
 	final Iterator<OctaveDataReader> sp = 
 	    ServiceRegistry.lookupProviders(OctaveDataReader.class);
+	OctaveDataReader odr, odrOrg;
 	while (sp.hasNext()) {
-	    final OctaveDataReader odr = sp.next();
-	    readers.put(odr.octaveType(), odr);
+	    odr = sp.next();
+	    assert odr != null;
+	    odrOrg = READERS.put(odr.octaveType(), odr);
+	    if (odrOrg != null) {
+		 throw new IllegalStateException
+		     ("Octave type " + odr.octaveType()+ 
+		      " has readers of type " + odr.getClass() + 
+		      " and " + odrOrg.getClass() + ". ");
+	    }
 	}
     }
 

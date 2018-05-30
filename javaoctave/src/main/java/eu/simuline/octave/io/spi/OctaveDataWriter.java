@@ -46,32 +46,43 @@ public abstract class OctaveDataWriter<T extends OctaveObject> {
      * which is able to write the octave type to a writer. 
      */
     private static 
-	Map<Class<? extends OctaveObject>, OctaveDataWriter<?>> writers;
+	Map<Class<? extends OctaveObject>, OctaveDataWriter<?>> WRITERS;
 
     /**
      * @param <T>
-     * @param example
+     * @param type
      * @return The OctaveDataWriter or null if it does not exist
      */
     @SuppressWarnings("unchecked")
     public static <T extends OctaveObject> 
-	OctaveDataWriter<T> getOctaveDataWriter(final T example) {
-        initIfNecessary();
-        return (OctaveDataWriter<T>) writers.get(example.getClass());
+	OctaveDataWriter<T> getOctaveDataWriter(final T type) {
+        initWriterIfNecessary();
+        return (OctaveDataWriter<T>) WRITERS.get(type.getClass());
     }
 
-    private static synchronized void initIfNecessary() {
-        if (writers == null) {
-            writers = new HashMap
-		<Class<? extends OctaveObject>, OctaveDataWriter<?>>();
-            @SuppressWarnings("rawtypes")
-            final Iterator<OctaveDataWriter> sp = 
-		ServiceRegistry.lookupProviders(OctaveDataWriter.class);
-            while (sp.hasNext()) {
-                final OctaveDataWriter<?> odw = sp.next();
-                writers.put(odw.javaType(), odw);
-            }
-        }
+    //synchronized
+    private static synchronized void initWriterIfNecessary() {
+	if (WRITERS != null) {
+	    return;
+	}
+	WRITERS = new HashMap
+	    <Class<? extends OctaveObject>, OctaveDataWriter<?>>();
+	@SuppressWarnings("rawtypes")
+	final Iterator<OctaveDataWriter> sp = 
+	    ServiceRegistry.lookupProviders(OctaveDataWriter.class);
+	OctaveDataWriter<?> odw, odwOrg;
+	while (sp.hasNext()) {
+	    odw = sp.next();
+	    assert odw != null;
+	    odwOrg = WRITERS.put(odw.javaType(), odw);
+	    if (odwOrg != null) {
+		// Here, for one type more than one writer is defined. 
+		throw new IllegalStateException
+		    ("Java type " + odw.javaType()+ 
+		     " has writers of type " + odw.getClass() + 
+		     " and " + odwOrg.getClass() + ". ");
+	    }
+	}
     }
 
     /**
