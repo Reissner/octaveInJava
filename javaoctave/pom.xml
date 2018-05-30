@@ -17,7 +17,7 @@
   <description>
     A bridge from Java to Octave, 
     useful if you want to do some Octave calculations 
-    from inside a Java application.
+    from inside a Java application. 
   </description>
 
   <url>https://github.com/Reissner/octaveInJava</url>
@@ -92,6 +92,19 @@
     </urlSnapshotDir>
   </properties>
 
+  <!-- source repositories: at the moment not needed. -->
+  <repositories>
+    <repository>
+      <id>localRepository</id>
+      <!--url>file:///home/ernst/Software/RepositoryLocal/maven2/</url-->
+      <!-- in intermediate step to come for testhelpers only -->
+      <url>ftp://www.simuline.eu/public_ftp/RepositoryTarget</url>
+    </repository>
+  </repositories>
+
+
+
+
   <dependencies>
     <dependency>
       <groupId>commons-logging</groupId>
@@ -107,12 +120,12 @@
       <!-- remove to make javadoc run import org.junit -->
     </dependency>
 
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
+    <!--dependency>
+      <groupId>eu.simuline</groupId>
+      <artifactId>TestHelpers</artifactId>
+      <version>1.0-SNAPSHOT</version>
       <scope>test</scope>
-    </dependency>
+    </dependency-->
 
     <dependency>
       <groupId>net.sourceforge.cobertura</groupId>
@@ -625,10 +638,6 @@
 	<configuration>
 	  <xmlOutput>true</xmlOutput>
 	  <!--onlyAnalyze>
-	    eu.simuline.relana.expressions.*, 
-	    eu.simuline.relana.model.*, 
-	    eu.simuline.relana.sys.*, 
-	    eu.simuline.testhelpers.*, 
 	    eu.simuline.util.*, 
 	  </onlyAnalyze-->
 	  <!-- Optional directory to put findbugs xdoc xml report -->
