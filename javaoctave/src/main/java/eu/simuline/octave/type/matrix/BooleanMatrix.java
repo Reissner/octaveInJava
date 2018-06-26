@@ -45,10 +45,6 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
         return this.data.length;
     }
 
-    protected final void dataFillInit(final int fromIndex, final int toIndex) {
-        Arrays.fill(this.data, fromIndex, toIndex, false);
-    }
-
     protected final boolean dataEquals(final int usedLength,
 				       final boolean[] otherData) {
         for (int i = 0; i < usedLength; i++) {

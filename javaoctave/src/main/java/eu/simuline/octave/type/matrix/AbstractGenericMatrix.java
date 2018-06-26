@@ -15,7 +15,10 @@
  */
 package eu.simuline.octave.type.matrix;
 
+//import java.util.List;
+//import java.util.ArrayList;
 import java.util.Arrays;
+//import java.util.Collections;
 
 /**
  * A general matrix that does not even know 
@@ -24,7 +27,7 @@ import java.util.Arrays;
  * @param <D>
  *            an array
  */
-public abstract class AbstractGenericMatrix<D> {
+public abstract class AbstractGenericMatrix<D> {//, E
 
     private static final int PRIME = 31;
 
@@ -39,6 +42,8 @@ public abstract class AbstractGenericMatrix<D> {
      */
     @SuppressWarnings("checkstyle:visibilitymodifier")
     protected D data;
+    // protected D dataA;
+    // protected final List<E> dataL;
 
     /**
      * Constructor that creates new blank matrix. 
@@ -49,6 +54,11 @@ public abstract class AbstractGenericMatrix<D> {
         this.size = size.clone();
         checkSize();
         this.data = newD(product(size));
+        // this.dataA = newD(product(size));
+        // this.dataL = newL(product(size));
+	// assert this.dataA != null;
+	// assert this.dataL != null;
+	// assert dataLength() == product(size);
     }
 
     /**
@@ -56,11 +66,16 @@ public abstract class AbstractGenericMatrix<D> {
      * 
      * @param data
      * @param size
+     *    must have at least two dimensions 
      */
-    protected AbstractGenericMatrix(final D data, final int... size) {
+    protected AbstractGenericMatrix(D data, int... size) {//List<E> dataL, 
         this.size = size;
         checkSize();
         this.data = data;
+	// assert this.data != null;
+	// assert dataLength() == product(size);
+	// this.dataL = dataL;
+	// assert this.dataL != null;
         checkDataSize();
     }
 
@@ -69,26 +84,48 @@ public abstract class AbstractGenericMatrix<D> {
      * 
      * @param o
      */
-    protected AbstractGenericMatrix(final AbstractGenericMatrix<D> o) {
+    protected AbstractGenericMatrix(final AbstractGenericMatrix<D> o) {//, E
         this.size = o.size.clone();
         this.data = newD(product(size));
+//	assert this.data != null;
         System.arraycopy(o.data, 0, data, 0, product(size));
+//	assert dataLength() == product(this.size);
+//	this.dataL = o.dataL.clone();
+//	this.dataL = new ArrayList<E>(o.dataL);
     }
 
+    /**
+     * Checks the field {@link #size}: dimension at lest two 
+     * and each entry non-negative. 
+     */
     private void checkSize() throws IllegalArgumentException {
-        if (this.size.length == 0) {
-            throw new IllegalArgumentException("no size");
-        }
-        if (this.size.length < 2) {
-            throw new IllegalArgumentException
+	switch (this.size.length) {
+	case 0:
+	    throw new IllegalArgumentException("no size");
+	case 1:
+	    throw new IllegalArgumentException
 		("size must have a least 2 dimensions");
-        }
-        for (final int s : this.size) {
-            if (s < 0) {
-                throw new IllegalArgumentException
-		    ("element in size less than zero. =" + s);
-            }
-        }
+	default:
+	    for (final int s : this.size) {
+		if (s < 0) {
+		    throw new IllegalArgumentException
+			("element in size less than zero. =" + s);
+		}
+	    }
+	}
+        // if (this.size.length == 0) {
+        //     throw new IllegalArgumentException("no size");
+        // }
+        // if (this.size.length < 2) {
+        //     throw new IllegalArgumentException
+	// 	("size must have a least 2 dimensions");
+        // }
+        // for (final int s : this.size) {
+        //     if (s < 0) {
+        //         throw new IllegalArgumentException
+	// 	    ("element in size less than zero. =" + s);
+        //     }
+        // }
     }
 
     private void checkDataSize() {
@@ -122,21 +159,13 @@ public abstract class AbstractGenericMatrix<D> {
      */
     protected abstract D newD(int size);
 
+    // protected abstract List<E> newL(int size);
+
     /**
      * @return data_.length
      */
+    // used in checkDataSize only 
     protected abstract int dataLength();
-
-    /**
-     * Fill data with the default value from fromIndex inclusively 
-     * to toIndex exclusively. 
-     * 
-     * Arrays.fill(data, fromIndex, toIndex, default);
-     * 
-     * @param fromIndex
-     * @param toIndex
-     */
-    protected abstract void dataFillInit(int fromIndex, int toIndex);
 
     /**
      * Returns whether data of this and <code>otherData</code> 
@@ -148,6 +177,7 @@ public abstract class AbstractGenericMatrix<D> {
      * @return
      *    whether the used part of data is equal to otherData
      */
+    // used in equals only 
     protected abstract boolean dataEquals(int usedLength, D otherData);
 
     /**
@@ -158,87 +188,91 @@ public abstract class AbstractGenericMatrix<D> {
     private static int product(final int... ns) {
         int p = 1;
         for (final int n : ns) {
+	    // **** here a check against overflow is required. 
             p *= n;
         }
         return p;
     }
 
     /**
-     * Resize matrix up to include pos. 
+     * Resize matrix up to include pos if necessary, 
+     * i.e. if an entry of <code>pos</code> is greater 
+     * than the according entry in {@link #size}. 
      * 
      * @param pos
+     *    an index vector with same dimension as {@link #size} 
+     * @throws UnsupportedOperationException
+     *   if <code>pos</code> has dimension other than that of {@link #size}. 
      */
     public final void resizeUp(final int... pos) {
-        if (size.length != pos.length) {
+        if (this.size.length != pos.length) {
             throw new UnsupportedOperationException
 		("Change in number of dimensions not supported (" + size.length
 		 + "!=" + pos.length + ")");
 	}
-        // Resize by each dimension. 
-	// This is not the optimal way to do it, but it works.
-        for (int dim = 0; dim < size.length; ++dim) {
-            if (pos[dim] > size[dim]) {
-                resizeAlongOneDimension(dim, pos[dim]);
-            }
-        }
-    }
 
-    /**
-     * Do the resizing along a single dimension. 
-     * 
-     * @param dim
-     * @param newSizeDim
-     */
-    private void resizeAlongOneDimension(final int dim, final int newSizeDim) {
-        // Calculate block size and used length of old and new array
-        int oldBlockSize = size[dim];
-        int newBlockSize = newSizeDim;
-        for (int d = 0; d < dim; ++d) {
-            oldBlockSize *= size[d];
-            newBlockSize *= size[d];
-        }
-        int oldLength = oldBlockSize;
-        int newLength = newBlockSize;
-        for (int d = dim + 1; d < size.length; ++d) {
-            oldLength *= size[d];
-            newLength *= size[d];
-        }
+	if (this.size.length == 0) {
+	    // no entry and thus no resize 
+	    return;
+	}
 
-        // Set size
-        size[dim] = newSizeDim;
+	int[] orgSize = new int[this.size.length];
+	System.arraycopy(this.size, 0 , orgSize, 0, this.size.length);
+	boolean resizeNeeded = false;
+	for (int idx = 0; idx < this.size.length; idx++) {
+	    if (pos[idx] > this.size[idx]) {
+		this.size[idx] = pos[idx];
+		resizeNeeded = true;
+	    }
+	}
+	// Here, this.size is updated whereas orgSize contains original size
 
-        // Do nothing when resizing to yet another zero element matrix
-        if (newLength == 0) {
-            return;
-        }
+	if (!resizeNeeded) {
+	    return;
+	}
 
-        // Move data around
-        if (dataLength() < newLength) {
-            // Create new array and copy data into it
-            final D newData = newD(newLength * 2);
-            int newOffset = 0;
-            for (int oldOffset = 0; 
-		 oldOffset < oldLength; 
-		 oldOffset += oldBlockSize) {
-                System.arraycopy(data, oldOffset, 
-				 newData, newOffset, oldBlockSize);
-                newOffset += newBlockSize;
-            }
-            data = newData;
-        } else {
-            // Move around the data in the old array
-            int newOffset = newLength - newBlockSize;
-            for (int oldOffset = oldLength - oldBlockSize; 
-		 oldOffset > 0; 
-		 oldOffset -= oldBlockSize) {
-                System.arraycopy(data, oldOffset, 
-				 data, newOffset, oldBlockSize);
-                newOffset -= newBlockSize;
-            }
-            // Don't need to move block 0 around, 
-	    // but has to init the new part of it
-            dataFillInit(oldBlockSize, newBlockSize);
-        }
+	// Here, orgSize[0] is defined 
+	final int cpyLen    = orgSize[0];
+	int osp = product(orgSize);
+	int nsp = product(this.size);
+
+	// initialize resulting array with default values 
+	D dataOut = newD(nsp);
+	int idxSrc = 0;
+	int idxTrg = 0;
+	int[] idxTrgMulti = new int[orgSize.length];// 0th entry not used 
+	int idxIdx;
+	int lenUnitGap;
+	while (idxSrc < osp) {
+	    System.arraycopy(this.data, idxSrc, dataOut, idxTrg, cpyLen);
+	    idxSrc += cpyLen;
+
+	    // update idxTrgMulti and idxTrg 
+	    idxIdx = 1;
+	    lenUnitGap = this.size[0];
+	    while (idxIdx < orgSize.length 
+	    	   &&  idxTrgMulti[idxIdx] >= orgSize[idxIdx]-1) {
+	    	assert idxTrgMulti[idxIdx] == orgSize[idxIdx]-1;
+
+		idxTrg -= lenUnitGap * idxTrgMulti[idxIdx];
+	    	idxTrgMulti[idxIdx] = 0;
+
+		lenUnitGap *= this.size[idxIdx];
+	    	idxIdx++;
+	    }
+	    assert idxIdx == orgSize.length 
+	    	||  idxTrgMulti[idxIdx] < orgSize[idxIdx];
+//	    assert idxIdx < orgSize.length;
+	    if (idxIdx >= orgSize.length) {
+		break;
+	    }
+	    // update top 
+
+	    idxTrg += lenUnitGap;
+	    idxTrgMulti[idxIdx]++;
+	}
+
+	this.data = dataOut;
     }
 
     /**
@@ -249,13 +283,13 @@ public abstract class AbstractGenericMatrix<D> {
         int idx = 0;
         int factor = 1;
         for (int dim = 0; dim < pos.length; ++dim) {
-            if (pos[dim] > size[dim]) {
+            if (pos[dim] > this.size[dim]) {
                 throw new IndexOutOfBoundsException
 		    ("pos exceeded dimension for dimension " + 
-		     dim + " (" + pos[dim] + " > " + size[dim] + ")");
+		     dim + " (" + pos[dim] + " > " + this.size[dim] + ")");
             }
             idx += (pos[dim] - 1) * factor;
-            factor *= size[dim];
+            factor *= this.size[dim];
         }
         return idx;
     }
@@ -287,33 +321,36 @@ public abstract class AbstractGenericMatrix<D> {
     @Override
     public final int hashCode() {
         int result = 1;
-        result = PRIME * result + ((data == null) ? 0 : data.hashCode());
-        result = PRIME * result + Arrays.hashCode(size);
+        result = PRIME * result + 
+	    ((this.data == null) ? 0 : this.data.hashCode());
+        result = PRIME * result + Arrays.hashCode(this.size);
         return result;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public final boolean equals(final Object obj) {
+System.out.println("equals:");
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final AbstractGenericMatrix<D> other = (AbstractGenericMatrix<D>) obj;
         if (!Arrays.equals(this.size, other.size)) {
-	    
-            return false;
+	    return false;
         }
-        if (this.data == null) {
-	    return other.data == null;
-        }
+        // if (this.data == null) {
+	//     return other.data == null;
+        // }
+	
 	return this.data == other.data 
 	    || dataEquals(product(this.size), other.data);
     }
 
+
+    public static void main(String[] args) {
+	System.out.println("R"+product());
+    }
 }

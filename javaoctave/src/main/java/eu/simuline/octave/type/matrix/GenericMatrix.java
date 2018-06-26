@@ -60,10 +60,6 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
         return data.length;
     }
 
-    protected final void dataFillInit(final int fromIndex, final int toIndex) {
-        Arrays.fill(this.data, fromIndex, toIndex, null);
-    }
-
     protected final boolean dataEquals(final int usedLength,
 				       final T[] otherData) {
         for (int i = 0; i < usedLength; i++) {

@@ -56,14 +56,10 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
         return this.data.length;
     }
 
-    protected final void dataFillInit(final int fromIndex, final int toIndex) {
-        Arrays.fill(this.data, fromIndex, toIndex, 0);
-    }
-
     protected final boolean dataEquals(final int usedLength,
 				       final double[] otherData) {
         for (int i = 0; i < usedLength; i++) {
-            if (data[i] != otherData[i]) {
+            if (this.data[i] != otherData[i]) {
                 return false;
             }
         }
