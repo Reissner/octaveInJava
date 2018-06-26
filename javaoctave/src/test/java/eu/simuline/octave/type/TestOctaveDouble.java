@@ -15,6 +15,8 @@
  */
 package eu.simuline.octave.type;
 
+import        eu.simuline.testhelpers.Actions;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
@@ -23,6 +25,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 //import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
 
@@ -232,6 +236,7 @@ public class TestOctaveDouble {
     /** */
     @Test public void testGrowth() {
         final OctaveDouble matrix = new OctaveDouble(3, 3, 3, 3);
+	// test set and get without resize 
         matrix.set(42.0, 2, 2, 2, 2);
         matrix.set( 1.0, 3, 2, 2, 2);
         matrix.set( 2.0, 2, 3, 2, 2);
@@ -243,13 +248,24 @@ public class TestOctaveDouble {
         assertEquals( 3.0, matrix.get(2, 2, 3, 2), 0.0);
         assertEquals( 4.0, matrix.get(2, 2, 2, 3), 0.0);
 
+	// test set and get with resize 
         matrix.set(Math.PI, 4, 5, 7, 6);
-        assertEquals(42.0, matrix.get(2, 2, 2, 2), 0.0);
-        assertEquals( 1.0, matrix.get(3, 2, 2, 2), 0.0);
-        assertEquals( 2.0, matrix.get(2, 3, 2, 2), 0.0);
-        assertEquals( 3.0, matrix.get(2, 2, 3, 2), 0.0);
-        assertEquals( 4.0, matrix.get(2, 2, 2, 3), 0.0);
-        assertEquals(Math.PI, matrix.get(4, 5, 7, 6), 0.0);
+        // assertEquals(42.0, matrix.get(2, 2, 2, 2), 0.0);
+        // assertEquals( 1.0, matrix.get(3, 2, 2, 2), 0.0);
+        // assertEquals( 2.0, matrix.get(2, 3, 2, 2), 0.0);
+        // assertEquals( 3.0, matrix.get(2, 2, 3, 2), 0.0);
+        // assertEquals( 4.0, matrix.get(2, 2, 2, 3), 0.0);
+        // assertEquals(Math.PI, matrix.get(4, 5, 7, 6), 0.0);
+
+
+	final OctaveDouble matrixB = new OctaveDouble(4, 5, 7, 6);
+        matrixB.set(42.0, 2, 2, 2, 2);
+        matrixB.set( 1.0, 3, 2, 2, 2);
+        matrixB.set( 2.0, 2, 3, 2, 2);
+        matrixB.set( 3.0, 2, 2, 3, 2);
+        matrixB.set( 4.0, 2, 2, 2, 3);
+        matrixB.set(Math.PI, 4, 5, 7, 6);
+ 	assertEquals(matrixB, matrix);
     }
 
     /** */
@@ -275,7 +291,7 @@ public class TestOctaveDouble {
         OctaveDouble matrix = new OctaveDouble(30, 0);
         final long allowedTime;
 //        if (matrix instanceof HasBeenInstrumented) {
-            allowedTime = 1800;
+	allowedTime = 1800;//1800;
 //        } else {
 //            allowedTime = 300;
 //        }
@@ -318,4 +334,17 @@ public class TestOctaveDouble {
         assertEquals(33.0, d.get(2, 2), 0.0);
     }
 
+    /* -------------------------------------------------------------------- *
+     * framework.                                                           *
+     * -------------------------------------------------------------------- */
+
+
+    /**
+     * Runs the test case.
+     *
+     * Uncomment either the textual UI, Swing UI, or AWT UI.
+     */
+    public static void main(String[] args) {
+	Actions.runFromMain();
+    }
 }

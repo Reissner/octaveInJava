@@ -29,7 +29,9 @@ import org.junit.Test;
  */
 public class TestOctaveBoolean {
 
-    /** Test */
+    /**
+     * Test 
+     */
     @Test public void testGetAndSet() {
         final OctaveBoolean matrix = new OctaveBoolean(3, 6, 5, 4);
         matrix.set(true, 2, 5, 2, 3);
@@ -115,6 +117,7 @@ public class TestOctaveBoolean {
      */
     @Test public void testGrowth() {
         final OctaveBoolean matrix = new OctaveBoolean(3, 3, 3, 3);
+	// test set and get without resize 
         matrix.set(true, 2, 2, 2, 2);
         matrix.set(true, 3, 2, 2, 2);
         matrix.set(true, 2, 3, 2, 2);
@@ -126,13 +129,24 @@ public class TestOctaveBoolean {
         assertEquals(true, matrix.get(2, 2, 3, 2));
         assertEquals(true, matrix.get(2, 2, 2, 3));
 
+	// test set and get with resize 
         matrix.set(true, 4, 5, 7, 6);
-        assertEquals(true, matrix.get(2, 2, 2, 2));
-        assertEquals(true, matrix.get(3, 2, 2, 2));
-        assertEquals(true, matrix.get(2, 3, 2, 2));
-        assertEquals(true, matrix.get(2, 2, 3, 2));
-        assertEquals(true, matrix.get(2, 2, 2, 3));
-        assertEquals(true, matrix.get(4, 5, 7, 6));
+        // assertEquals(true, matrix.get(2, 2, 2, 2));
+        // assertEquals(true, matrix.get(3, 2, 2, 2));
+        // assertEquals(true, matrix.get(2, 3, 2, 2));
+        // assertEquals(true, matrix.get(2, 2, 3, 2));
+        // assertEquals(true, matrix.get(2, 2, 2, 3));
+        // assertEquals(true, matrix.get(4, 5, 7, 6));
+
+
+	final OctaveBoolean matrixB = new OctaveBoolean(4, 5, 7, 6);
+        matrixB.set(true, 2, 2, 2, 2);
+        matrixB.set(true, 3, 2, 2, 2);
+        matrixB.set(true, 2, 3, 2, 2);
+        matrixB.set(true, 2, 2, 3, 2);
+        matrixB.set(true, 2, 2, 2, 3);
+        matrixB.set(true, 4, 5, 7, 6);
+	assertEquals(matrixB, matrix);
     }
 
     /** */

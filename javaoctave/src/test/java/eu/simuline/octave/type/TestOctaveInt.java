@@ -65,4 +65,40 @@ public class TestOctaveInt {
         assertEquals(42, matrix.get(2, 5, 2, 3));
     }
 
+    /** */
+    @Test public void testGrowth() {
+        final OctaveInt matrix = new OctaveInt(3, 3, 3, 3);
+	// test set and get without resize 
+        matrix.set(42, 2, 2, 2, 2);
+        matrix.set( 1, 3, 2, 2, 2);
+        matrix.set( 2, 2, 3, 2, 2);
+        matrix.set( 3, 2, 2, 3, 2);
+        matrix.set( 4, 2, 2, 2, 3);
+        assertEquals(42, matrix.get(2, 2, 2, 2));
+        assertEquals( 1, matrix.get(3, 2, 2, 2));
+        assertEquals( 2, matrix.get(2, 3, 2, 2));
+        assertEquals( 3, matrix.get(2, 2, 3, 2));
+        assertEquals( 4, matrix.get(2, 2, 2, 3));
+
+	// test set and get with resize 
+        matrix.set(314, 4, 5, 7, 6);
+        // assertEquals(42, matrix.get(2, 2, 2, 2));
+        // assertEquals( 1, matrix.get(3, 2, 2, 2));
+        // assertEquals( 2, matrix.get(2, 3, 2, 2));
+        // assertEquals( 3, matrix.get(2, 2, 3, 2));
+        // assertEquals( 4, matrix.get(2, 2, 2, 3));
+        // assertEquals(Math.PI, matrix.get(4, 5, 7, 6));
+
+	final OctaveInt matrixB = new OctaveInt(4, 5, 7, 6);
+        matrixB.set(42, 2, 2, 2, 2);
+        matrixB.set( 1, 3, 2, 2, 2);
+        matrixB.set( 2, 2, 3, 2, 2);
+        matrixB.set( 3, 2, 2, 3, 2);
+        matrixB.set( 4, 2, 2, 2, 3);
+        matrixB.set(314, 4, 5, 7, 6);
+ 	assertEquals(matrixB, matrix);
+    }
+
+
+
 }
