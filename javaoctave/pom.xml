@@ -98,7 +98,7 @@
       <id>localRepository</id>
       <!--url>file:///home/ernst/Software/RepositoryLocal/maven2/</url-->
       <!-- in intermediate step to come for testhelpers only -->
-      <url>ftp://www.simuline.eu/public_ftp/RepositoryTarget</url>
+      <url>https://www.simuline.eu/RepositoryMaven</url>
     </repository>
   </repositories>
 
@@ -120,12 +120,12 @@
       <!-- remove to make javadoc run import org.junit -->
     </dependency>
 
-    <!--dependency>
+    <dependency>
       <groupId>eu.simuline</groupId>
       <artifactId>TestHelpers</artifactId>
       <version>1.0-SNAPSHOT</version>
-      <scope>test</scope>
-    </dependency-->
+      <!--scope>test</scope-->
+    </dependency>
 
     <dependency>
       <groupId>net.sourceforge.cobertura</groupId>
