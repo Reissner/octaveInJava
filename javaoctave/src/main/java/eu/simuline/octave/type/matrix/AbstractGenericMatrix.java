@@ -330,7 +330,6 @@ public abstract class AbstractGenericMatrix<D> {//, E
     @SuppressWarnings("unchecked")
     @Override
     public final boolean equals(final Object obj) {
-System.out.println("equals:");
         if (this == obj) {
             return true;
         }
@@ -341,9 +340,6 @@ System.out.println("equals:");
         if (!Arrays.equals(this.size, other.size)) {
 	    return false;
         }
-        // if (this.data == null) {
-	//     return other.data == null;
-        // }
 	
 	return this.data == other.data 
 	    || dataEquals(product(this.size), other.data);

@@ -48,7 +48,8 @@ public class TestVersion {
         final Set<String> knownVersions = new HashSet<String>
 	    (Arrays.asList("3.0.5", "3.2.3", "3.2.4", "3.6.2", "3.8.2", 
 			   // added by E.R.
-			   "4.3.0+"));
+			   "4.3.0+",
+			   "4.4.0", "5.0.0"));
         assertTrue("Version '" + version + "' is not known", 
 		   knownVersions.contains(version));
     }
