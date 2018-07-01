@@ -24,6 +24,7 @@ import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.io.spi.OctaveDataReader;
 import eu.simuline.octave.type.Octave;
 import eu.simuline.octave.type.OctaveDouble;
+import eu.simuline.octave.util.StringUtil;
 
 /**
  * The reader for the octave type "scalar" (double) 
@@ -40,25 +41,9 @@ public final class ScalarReader extends OctaveDataReader {
     public OctaveDouble read(final BufferedReader reader) {
         String line;
         line = OctaveIO.readerReadLine(reader);
-        final double value = ScalarReader.parseDouble(line);
+        final double value = StringUtil.parseDouble(line);
         return Octave.scalar(value);
     }
 
-    /**
-     * This is almost the same as Double.parseDouble(), 
-     * but it handles a few more versions of infinity. 
-     *
-     * @param string
-     * @return The parsed Double
-     */
-    public static double parseDouble(final String string) {
-        if ("Inf".equals(string)) {
-            return Double.POSITIVE_INFINITY;
-        }
-        if ("-Inf".equals(string)) {
-            return Double.NEGATIVE_INFINITY;
-        }
-        return Double.parseDouble(string);
-    }
 
 }

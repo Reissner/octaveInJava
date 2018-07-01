@@ -15,12 +15,13 @@
  */
 package eu.simuline.octave.type.matrix;
 
-import java.util.Arrays;
+import eu.simuline.octave.util.StringUtil;
 
 /**
  * General matrix with double values. 
  */
-public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
+// used as superclass of class OctaveDouble and within OctaveComplex only 
+public abstract class DoubleMatrix extends AbstractGenericMatrix<double[]> {
 
     /**
      * @param size
@@ -52,7 +53,7 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
         return new double[size];
     }
 
-    protected final int dataLength() {
+    public final int dataLength() {
         return this.data.length;
     }
 
@@ -67,14 +68,31 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     }
 
     /**
-     * Set the value. 
+     * Set the value resizing by need. 
      * 
      * @param value
      * @param pos
+     * @see #setPlain(double, int)
      */
     public final void set(final double value, final int... pos) {
         resizeUp(pos);
-        this.data[pos2ind(pos)] = value;
+        setPlain(value, pos2ind(pos));
+    }
+
+    /**
+     * Set the value assuming resize is not necessary. 
+     * 
+     * @param value
+     * @param pos
+     * @see #set(double, int[])
+     */
+    public final void setPlain(final double value, final int pos) {
+        this.data[pos] = value;
+    }
+
+    // api-docs inherited from AbstractGenericMatrix 
+    public final void setPlain(final String value, final int pos) {
+        this.data[pos] = StringUtil.parseDouble(value);
     }
 
     /**
@@ -86,5 +104,4 @@ public class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     public final double get(final int... pos) {
         return this.data[pos2ind(pos)];
     }
-
 }

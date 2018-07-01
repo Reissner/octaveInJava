@@ -15,14 +15,13 @@
  */
 package eu.simuline.octave.type.matrix;
 
-import java.util.Arrays;
-
 /**
  * General matrix with Object values. 
  * 
  * @param <T>
  *    Type of the values
  */
+// used as superclass of class OctaveCell only 
 public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
 
     /**
@@ -56,7 +55,7 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
         return (T[]) new Object[size];
     }
 
-    protected final int dataLength() {
+    public final int dataLength() {
         return data.length;
     }
 
@@ -73,10 +72,11 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
     }
 
     /**
-     * Set the value. 
+     * Set the value resizing by need. 
      * 
      * @param value
      * @param pos
+     * @see #setPlain(Object, int)
      */
     // overwritten in OctaveCell 
     // questionable: where is value==null needed? 
@@ -85,7 +85,23 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
     @SuppressWarnings("checkstyle:designforextension")
     public void set(final T value, final int... pos) {
         resizeUp(pos);
-        this.data[pos2ind(pos)] = value;
+        setPlain(value, pos2ind(pos));
+    }
+
+    /**
+     * Set the value assuming resize is not necessary. 
+     * 
+     * @param value
+     * @param pos
+     * @see #set(Object, int[])
+     */
+    public final void setPlain(final T value, final int pos) {
+         this.data[pos] = value;
+    }
+
+    // api-docs inherited from AbstractGenericMatrix 
+    public void setPlain(final String value, final int pos) {
+	throw new UnsupportedOperationException();
     }
 
     /**

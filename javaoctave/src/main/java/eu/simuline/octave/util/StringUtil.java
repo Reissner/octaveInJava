@@ -19,7 +19,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * Class for holding static utility functions for string handling: quoting. 
+ * Class for holding static utility functions for string handling: quoting 
+ * and for parsing numbers. 
  * 
  * @author Kim Hansen
  */
@@ -105,4 +106,34 @@ public final class StringUtil {
         return buf.toString();
     }
 
+    // does not fit: whereas parseBoolean throws OctaveParseExeption, 
+    // parseDouble does not. 
+    public static boolean parseBoolean(String line) {
+	line = line.trim();
+        if ("0".equals(line)) {
+            return false;
+        }
+	if ("1".equals(line)) {
+            return true;
+        }
+	throw new NumberFormatException("Invalid input, '" + line + "'");
+	//throw new OctaveParseException("Invalid input, '" + line + "'");
+    }
+
+    /**
+     * This is almost the same as Double.parseDouble(), 
+     * but it handles a few more versions of infinity. 
+     *
+     * @param string
+     * @return The parsed Double
+     */
+    public static double parseDouble(final String string) {
+        if ("Inf".equals(string)) {
+            return Double.POSITIVE_INFINITY;
+        }
+        if ("-Inf".equals(string)) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        return Double.parseDouble(string);
+    }
 }

@@ -15,12 +15,11 @@
  */
 package eu.simuline.octave.type.matrix;
 
-import java.util.Arrays;
-
 /**
  * General matrix of <code>int</code> values. 
  */
-public class IntMatrix extends AbstractGenericMatrix<int[]> {
+// used as superclass of class OctaveInt only 
+public abstract class IntMatrix extends AbstractGenericMatrix<int[]> {
 
     /**
      * @param size
@@ -53,7 +52,7 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
         return new int[size];
     }
 
-    protected final int dataLength() {
+    public final int dataLength() {
         return this.data.length;
     }
 
@@ -68,14 +67,31 @@ public class IntMatrix extends AbstractGenericMatrix<int[]> {
     }
 
     /**
-     * Set the value. 
+     * Set the value resizing by need. 
      * 
      * @param value
      * @param pos
+     * @see #setPlain(int, int)
      */
     public final void set(final int value, final int... pos) {
         resizeUp(pos);
-        this.data[pos2ind(pos)] = value;
+        setPlain(value, pos2ind(pos));
+    }
+
+    /**
+     * Set the value assuming resize is not necessary. 
+     * 
+     * @param value
+     * @param pos
+     * @see #set(int, int[])
+     */
+    public final void setPlain(final int value, final int pos) {
+        this.data[pos] = value;
+    }
+
+    // api-docs inherited from AbstractGenericMatrix 
+    public final void setPlain(final String value, final int pos) {
+	this.data[pos] = Integer.parseInt(value.trim());
     }
 
     /**

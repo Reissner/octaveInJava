@@ -22,20 +22,27 @@ import java.io.BufferedReader;
 import eu.simuline.octave.exception.OctaveParseException;
 import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.io.spi.OctaveDataReader;
-import eu.simuline.octave.type.OctaveObject;
+import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
 
 /**
  * Common Reader class for primitive java types: Boolean, Double, Integer.... 
  *
  * @param <T>
- *    the type to be read in. 
+ *    the type to be read in which has to extend {@link AbstractGenericMatrix}. 
+ * @param <D>
+ *    see type parameter of {@link AbstractGenericMatrix}. 
  */
-abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject> 
+abstract class AbstractPrimitiveMatrixReader
+    <T extends AbstractGenericMatrix<D>, D> 
     extends OctaveDataReader {
+
     // **** to be eliminated: is in according writer 
     protected static final String NDIMS    = "# ndims: ";
     protected static final String NROWS    = "# rows: ";
     protected static final String NCOLUMNS = "# columns: ";
+
+
+    abstract T createOctaveValue(int[] size);
 
     /**
      * The matrix formats, e.g. <tt>matrix</tt> come in two variants: 
@@ -62,9 +69,11 @@ abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject>
         final String line = OctaveIO.readerReadLine(reader);
         // 2d or 2d+?
         if (line.startsWith(NROWS)) {
+	    // this case does not occur for int types, 
+	    //just for float (including complex) and bool 
             return read2dmatrix(reader, line);
         } else if (line.startsWith(NDIMS)) {
-            return readVectorizedMatrix(reader, line);
+	    return readVectorizedMatrix(reader, line);
         } else {
             throw new OctaveParseException
 		("Expected <" + NROWS + "> or <" + NDIMS + 
@@ -72,8 +81,19 @@ abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject>
         }
     }
 
-    protected abstract T readVectorizedMatrix(BufferedReader reader, 
-					      String ndimsLine);
+    private T readVectorizedMatrix(BufferedReader reader, 
+				   String dimsLine) {
+	int[] size = readSizeVectorizedMatrix(reader, dimsLine);
+ 	T res = createOctaveValue(size);
+  	String line;
+	// **** in the long run dataLength is not what we need 
+	// active entries only 
+        for (int idx = 0; idx < res.dataLength(); idx++) {
+            line = OctaveIO.readerReadLine(reader);
+ 	    res.setPlain(line, idx);
+	}
+        return res;
+    }
 
     /**
      * Reads a line NDIMS &lt;num of dims> 
@@ -81,8 +101,8 @@ abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject>
      * and returns an array with the according entries. 
      * In particluar the length is &lt;num of dims>. 
      */
-    protected int[] readSizeVectorizedMatrix(BufferedReader reader, 
-					     String ndimsLine) {
+    private int[] readSizeVectorizedMatrix(BufferedReader reader, 
+					   String ndimsLine) {
         String line = ndimsLine;
         if (!line.startsWith(NDIMS)) {
             throw new OctaveParseException
@@ -106,8 +126,28 @@ abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject>
 
 
     // maybe this just throws an exception because this case does not occur. 
-    protected abstract T read2dmatrix(BufferedReader reader, 
-				      String rowsLine);
+    private T read2dmatrix(BufferedReader reader, 
+			   String rowsLine) {
+	int[] size = readSize2dmatrix(reader, rowsLine);
+	T res = createOctaveValue(size);
+
+	int rows    = size[0];
+	int columns = size[1];
+	String line;
+
+	for (int r = 1; r <= rows; ++r) {
+            line = OctaveIO.readerReadLine(reader);
+            final String[] split = line.split(" ");
+            if (split.length != columns + 1) {
+                throw new OctaveParseException
+		    ("Error in matrix-format: '" + line + "'");
+            }
+            for (int c = 1; c < split.length; c++) {
+		res.setPlain(split[c], (r - 1) + (c - 1) * rows);
+            }
+        }
+        return res;
+    }
 
     /**
      * Reads lines NROWS &lt;num of rows> and NCOLUMNS &lt;num of cols>
@@ -135,18 +175,4 @@ abstract class AbstractPrimitiveMatrixReader<T extends OctaveObject>
         // size[1] = columns;
         return new int[] {rows, columns};
     }
-
-    /**
-     * @param ns
-     * @return product of rs
-     */
-    // **** same as in AbstractGenericMatrix 
-    protected static final int product(final int... ns) {
-        int p = 1;
-        for (final int n : ns) {
-            p *= n;
-        }
-        return p;
-    }
-
 }

@@ -18,11 +18,9 @@
  */
 package eu.simuline.octave.io.impl;
 
-import java.io.BufferedReader;
-
-import eu.simuline.octave.exception.OctaveParseException;
-import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.type.OctaveInt;
+
+import java.io.BufferedReader;
 
 /**
  * This is deactivated 
@@ -32,50 +30,14 @@ import eu.simuline.octave.type.OctaveInt;
  * and thus related with {@link Int32MatrixReader}. 
  */
 public final class Uint8MatrixReader 
-    extends AbstractPrimitiveMatrixReader<OctaveInt> {
+    extends AbstractPrimitiveMatrixReader<OctaveInt, int[]> {
 
     @Override
     public String octaveType() {
         return "uint8 matrix";
     }
 
-    @Override
-    protected OctaveInt readVectorizedMatrix(final BufferedReader reader,
-					     final String ndimsLine) {
-	final int[] size = readSizeVectorizedMatrix(reader, ndimsLine);
-	String line;
-
-        final int[] data = new int[product(size)];
-        for (int idx = 0; idx < data.length; idx++) {
-            line = OctaveIO.readerReadLine(reader);
-            // In octave <= 3.6 it was: data[idx] = line.codePointAt(1);
-            data[idx] = Integer.parseInt(line.trim());
-        }
-        return new OctaveInt(data, size);
+    OctaveInt createOctaveValue(int[] size) {
+	return new OctaveInt(size);
     }
-
-    @Override
-    protected OctaveInt read2dmatrix(final BufferedReader reader,
-				     final String rowsLine) {
-	throw new IllegalStateException("Not used by integer types");
-	// int[] size = readSize2dmatrix(reader, rowsLine);
-	// int rows = size[0];
-	// int columns = size[1];
-	// String line;
-
-        // final int[] data = new int[rows * columns];
-        // for (int r = 1; r <= rows; ++r) {
-        //     line = OctaveIO.readerReadLine(reader);
-        //     final String[] split = line.split(" ");
-        //     if (split.length != columns + 1) {
-        //         throw new OctaveParseException
-	// 	    ("Error in matrix-format: '" + line + "'");
-        //     }
-        //     for (int c = 1; c < split.length; c++) {
-        //         data[(r - 1) + (c - 1) * rows] = Integer.parseInt(split[c]);
-        //     }
-        // }
-        // return new OctaveInt(data, size);
-    }
-
 }

@@ -23,6 +23,7 @@ import eu.simuline.octave.io.OctaveIO;
 
 import eu.simuline.octave.io.spi.OctaveDataReader;
 import eu.simuline.octave.type.OctaveSparseBoolean;
+import eu.simuline.octave.util.StringUtil;
 
 /**
  * The reader for the octave type "sparse bool matrix" 
@@ -70,7 +71,7 @@ public final class SparseBooleanReader extends OctaveDataReader {
             try {
                 final int row       = Integer.parseInt(split[0]);
                 final int column    = Integer.parseInt(split[1]);
-                final boolean value = BooleanReader.parseBoolean(split[2]);
+                final boolean value = StringUtil.parseBoolean(split[2]);
                 sparse.set(value, row, column);
             } catch (final NumberFormatException e) {
                 throw new OctaveParseException(e);

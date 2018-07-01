@@ -15,23 +15,25 @@
  */
 package eu.simuline.octave.type;
 
-import eu.simuline.octave.type.matrix.DoubleMatrix;
-
 /**
  * Represents a complex matrix. 
  */
+// **** seems as if could be more close to OctaveDouble 
+// implementing AbstractGenericMatrix or maybe even GenericMatrix 
+// caution with OctaveCell using AbstractGenericMatrix
+// using also an according reader 
 public final class OctaveComplex implements OctaveObject {
 
-    private final DoubleMatrix real;
+    private final OctaveDouble real;
 
-    private final DoubleMatrix imag;
+    private final OctaveDouble imag;
 
     /**
      * @param size
      */
     public OctaveComplex(final int... size) {
-        this.real = new DoubleMatrix(size);
-        this.imag = new DoubleMatrix(size);
+        this.real = new OctaveDouble(size);
+        this.imag = new OctaveDouble(size);
     }
 
     /**
@@ -40,12 +42,12 @@ public final class OctaveComplex implements OctaveObject {
      * @param o
      */
     public OctaveComplex(final OctaveComplex o) {
-        this.real = new DoubleMatrix(o.real);
-        this.imag = new DoubleMatrix(o.imag);
+        this.real = new OctaveDouble(o.real);
+        this.imag = new OctaveDouble(o.imag);
     }
 
     public OctaveComplex(OctaveDouble r) {
-	this.real = new DoubleMatrix(r);
+	this.real = new OctaveDouble(r);
 	this.imag = r.zero();
     }
 
@@ -112,7 +114,7 @@ public final class OctaveComplex implements OctaveObject {
      * @return the array of imaginary value stored in the matrix
      */
     public double[] getImag() {
-        return imag.getData();
+        return this.imag.getData();
     }
 
     @Override

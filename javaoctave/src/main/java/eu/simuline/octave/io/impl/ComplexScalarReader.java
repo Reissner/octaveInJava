@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.io.spi.OctaveDataReader;
 import eu.simuline.octave.type.OctaveComplex;
+import eu.simuline.octave.util.StringUtil;
 
 /**
  * The reader for the octave type "complex scalar" with 'double' components 
@@ -39,13 +40,14 @@ public final class ComplexScalarReader extends OctaveDataReader {
         return "complex scalar";
     }
 
+    // **** parsing of complex numbers shall be done in StringUtil centralized 
     @Override
     public OctaveComplex read(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
         final int commaIndex = line.indexOf(',');
-        final double real = ScalarReader
+        final double real = StringUtil
 	    .parseDouble(line.substring(1, commaIndex));
-        final double imag = ScalarReader
+        final double imag = StringUtil
 	    .parseDouble(line.substring(commaIndex + 1, line.length() - 1));
         final OctaveComplex complex = new OctaveComplex(1, 1);
         complex.setReal(real, 1, 1);

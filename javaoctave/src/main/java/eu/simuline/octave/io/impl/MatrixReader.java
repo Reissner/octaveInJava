@@ -18,59 +18,23 @@
  */
 package eu.simuline.octave.io.impl;
 
-import java.io.BufferedReader;
-
-import eu.simuline.octave.exception.OctaveParseException;
-import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.type.OctaveDouble;
+
+import java.io.BufferedReader;
 
 /**
  * The reader for the octave type "matrix" (of double) 
  * reading an {@link OctaveDouble} from a {@link BufferedReader}. 
  */
 public final class MatrixReader 
-    extends AbstractPrimitiveMatrixReader<OctaveDouble> {
+    extends AbstractPrimitiveMatrixReader<OctaveDouble, double[]> {
 
     @Override
     public String octaveType() {
         return "matrix";
     }
 
-    @Override
-    protected OctaveDouble readVectorizedMatrix(final BufferedReader reader, 
-						final String ndimsLine) {
-	final int[] size = readSizeVectorizedMatrix(reader, ndimsLine);
-	String line;
-        final double[] data = new double[product(size)];
-        for (int idx = 0; idx < data.length; idx++) {
-            line = OctaveIO.readerReadLine(reader);
-            data[idx] = ScalarReader.parseDouble(line);
-        }
-        return new OctaveDouble(data, size);
+    OctaveDouble createOctaveValue(int[] size) {
+	return new OctaveDouble(size);
     }
-
-    @Override
-    protected OctaveDouble read2dmatrix(final BufferedReader reader, 
-					final String rowsLine) {
-	int[] size = readSize2dmatrix(reader, rowsLine);
-	int rows = size[0];
-	int columns = size[1];
-	String line;
-
-        final double[] data = new double[rows * columns];
-        for (int r = 1; r <= rows; ++r) {
-            line = OctaveIO.readerReadLine(reader);
-            final String[] split = line.split(" ");
-            if (split.length != columns + 1) {
-                throw new OctaveParseException
-		    ("Error in matrix-format: '" + line + "'");
-            }
-            for (int c = 1; c < split.length; c++) {
-                data[(r - 1) + (c - 1) * rows] = ScalarReader
-		    .parseDouble(split[c]);
-            }
-        }
-        return new OctaveDouble(data, size);
-    }
-
 }

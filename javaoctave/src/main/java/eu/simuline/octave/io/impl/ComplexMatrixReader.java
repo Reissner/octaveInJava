@@ -21,6 +21,7 @@ import eu.simuline.octave.exception.OctaveParseException;
 import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.io.spi.OctaveDataReader;
 import eu.simuline.octave.type.OctaveComplex;
+import eu.simuline.octave.util.StringUtil;
 
 /**
  * Reader for the octave type "complex matrix" 
@@ -37,6 +38,8 @@ import eu.simuline.octave.type.OctaveComplex;
  *  (2.2,0) (0,2.2)
  * </pre>
  */
+// **** seems as if this is not general enough. 
+// **** should be subclass of AbstractGenericReader? 
 public final class ComplexMatrixReader extends OctaveDataReader {
 
 
@@ -62,9 +65,9 @@ public final class ComplexMatrixReader extends OctaveDataReader {
             }
             for (int c = 1; c < split.length; c++) {
                 final int commaIndex = split[c].indexOf(',');
-                final double real = ScalarReader
+                final double real = StringUtil
 		    .parseDouble(split[c].substring(1, commaIndex));
-                final double imag = ScalarReader
+                final double imag = StringUtil
 		    .parseDouble(split[c].substring(commaIndex + 1,
 						    split[c].length() - 1));
                 complex.setReal(real, r, c);

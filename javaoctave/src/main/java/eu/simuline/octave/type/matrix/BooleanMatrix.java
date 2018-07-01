@@ -15,12 +15,12 @@
  */
 package eu.simuline.octave.type.matrix;
 
-import java.util.Arrays;
+import eu.simuline.octave.util.StringUtil;
 
 /**
  * General matrix with boolean values. 
  */
-public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
+public abstract class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
 
     /**
      * @param size
@@ -41,7 +41,7 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
         return new boolean[size];
     }
 
-    protected final int dataLength() {
+    public final int dataLength() {
         return this.data.length;
     }
 
@@ -56,14 +56,31 @@ public class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
     }
 
     /**
-     * Set the value. 
+     * Set the value resizing by need. 
      * 
      * @param value
      * @param pos
+     * @see #setPlain(boolean, int)
      */
     public final void set(final boolean value, final int... pos) {
         resizeUp(pos);
-        this.data[pos2ind(pos)] = value;
+        setPlain(value, pos2ind(pos));
+    }
+
+    /**
+     * Set the value assuming resize is not necessary. 
+     * 
+     * @param value
+     * @param pos
+     * @see #set(boolean, int[])
+     */
+    public final void setPlain(final boolean value, final int pos) {
+        this.data[pos] = value;
+    }
+
+    // api-docs inherited from AbstractGenericMatrix 
+    public final void setPlain(final String value, final int pos) {
+	this.data[pos] = StringUtil.parseBoolean(value);
     }
 
     /**

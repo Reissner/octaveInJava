@@ -15,6 +15,8 @@
  */
 package eu.simuline.octave.type.matrix;
 
+import eu.simuline.octave.type.OctaveObject;
+
 //import java.util.List;
 //import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,12 +24,13 @@ import java.util.Arrays;
 
 /**
  * A general matrix that does not even know 
- * that it is an array it stores its data in.
+ * that it is an array it stores its  in.
  * 
  * @param <D>
  *            an array
  */
-public abstract class AbstractGenericMatrix<D> {//, E
+// used as superclass of classes of this package only 
+public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
 
     private static final int PRIME = 31;
 
@@ -68,7 +71,7 @@ public abstract class AbstractGenericMatrix<D> {//, E
      * @param size
      *    must have at least two dimensions 
      */
-    protected AbstractGenericMatrix(D data, int... size) {//List<E> dataL, 
+    protected AbstractGenericMatrix(D data, int... size) { //List<E> dataL, 
         this.size = size;
         checkSize();
         this.data = data;
@@ -84,7 +87,7 @@ public abstract class AbstractGenericMatrix<D> {//, E
      * 
      * @param o
      */
-    protected AbstractGenericMatrix(final AbstractGenericMatrix<D> o) {//, E
+    protected AbstractGenericMatrix(final AbstractGenericMatrix<D> o) { //, E
         this.size = o.size.clone();
         this.data = newD(product(size));
 //	assert this.data != null;
@@ -113,19 +116,6 @@ public abstract class AbstractGenericMatrix<D> {//, E
 		}
 	    }
 	}
-        // if (this.size.length == 0) {
-        //     throw new IllegalArgumentException("no size");
-        // }
-        // if (this.size.length < 2) {
-        //     throw new IllegalArgumentException
-	// 	("size must have a least 2 dimensions");
-        // }
-        // for (final int s : this.size) {
-        //     if (s < 0) {
-        //         throw new IllegalArgumentException
-	// 	    ("element in size less than zero. =" + s);
-        //     }
-        // }
     }
 
     private void checkDataSize() {
@@ -157,6 +147,7 @@ public abstract class AbstractGenericMatrix<D> {//, E
      * @param size
      * @return new D[size]
      */
+    // used in constructors and resizeUp only 
     protected abstract D newD(int size);
 
     // protected abstract List<E> newL(int size);
@@ -164,8 +155,8 @@ public abstract class AbstractGenericMatrix<D> {//, E
     /**
      * @return data_.length
      */
-    // used in checkDataSize only 
-    protected abstract int dataLength();
+    // used in checkDataSize and in MatrixReader only 
+    public abstract int dataLength();
 
     /**
      * Returns whether data of this and <code>otherData</code> 
@@ -179,6 +170,22 @@ public abstract class AbstractGenericMatrix<D> {//, E
      */
     // used in equals only 
     protected abstract boolean dataEquals(int usedLength, D otherData);
+
+    /**
+     * Sets the entry with plain position <code>pos</code> 
+     * to value parsing the string <code>value</code>. 
+     * Note that this base class cannot provide setter methods 
+     * for java's primitive data types. 
+     *
+     * @param value
+     *    
+     * @param pos
+     *    see e.g. {@link GenericMatrix#setPlain(String, int)} 
+     *    and {@link DoubleMatrix#setPlain(String, int)} 
+     */
+    // throws UnsupportedOperationException for GenericMatrix by default 
+    // design ok? **** 
+    public abstract void setPlain(String value, int pos);
 
     /**
      * @param ns
@@ -216,8 +223,7 @@ public abstract class AbstractGenericMatrix<D> {//, E
 	    return;
 	}
 
-	int[] orgSize = new int[this.size.length];
-	System.arraycopy(this.size, 0 , orgSize, 0, this.size.length);
+	int[] orgSize = this.size.clone();
 	boolean resizeNeeded = false;
 	for (int idx = 0; idx < this.size.length; idx++) {
 	    if (pos[idx] > this.size[idx]) {
@@ -233,14 +239,13 @@ public abstract class AbstractGenericMatrix<D> {//, E
 
 	// Here, orgSize[0] is defined 
 	final int cpyLen    = orgSize[0];
-	int osp = product(orgSize);
-	int nsp = product(this.size);
+	final int osp = product(orgSize);
 
 	// initialize resulting array with default values 
-	D dataOut = newD(nsp);
+	D dataOut = newD(product(this.size));
 	int idxSrc = 0;
 	int idxTrg = 0;
-	int[] idxTrgMulti = new int[orgSize.length];// 0th entry not used 
+	int[] idxTrgMulti = new int[orgSize.length]; // 0th entry not used 
 	int idxIdx;
 	int lenUnitGap;
 	while (idxSrc < osp) {
@@ -251,8 +256,8 @@ public abstract class AbstractGenericMatrix<D> {//, E
 	    idxIdx = 1;
 	    lenUnitGap = this.size[0];
 	    while (idxIdx < orgSize.length 
-	    	   &&  idxTrgMulti[idxIdx] >= orgSize[idxIdx]-1) {
-	    	assert idxTrgMulti[idxIdx] == orgSize[idxIdx]-1;
+	    	   &&  idxTrgMulti[idxIdx] >= orgSize[idxIdx] - 1) {
+	    	assert idxTrgMulti[idxIdx] == orgSize[idxIdx] - 1;
 
 		idxTrg -= lenUnitGap * idxTrgMulti[idxIdx];
 	    	idxTrgMulti[idxIdx] = 0;
@@ -270,7 +275,7 @@ public abstract class AbstractGenericMatrix<D> {//, E
 
 	    idxTrg += lenUnitGap;
 	    idxTrgMulti[idxIdx]++;
-	}
+	} // while 
 
 	this.data = dataOut;
     }
@@ -297,6 +302,7 @@ public abstract class AbstractGenericMatrix<D> {//, E
     /**
      * @return the data
      */
+    // used in tests, in Writer classes and in OctaveComplex only 
     public final D getData() {
         return this.data;
     }
@@ -345,8 +351,10 @@ public abstract class AbstractGenericMatrix<D> {//, E
 	    || dataEquals(product(this.size), other.data);
     }
 
+    // to implement OctaveObject 
+    public abstract OctaveObject shallowCopy();
 
     public static void main(String[] args) {
-	System.out.println("R"+product());
+	System.out.println("R" + product());
     }
 }

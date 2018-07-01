@@ -18,11 +18,9 @@
  */
 package eu.simuline.octave.io.impl;
 
-import java.io.BufferedReader;
-
-import eu.simuline.octave.exception.OctaveParseException;
-import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.type.OctaveBoolean;
+
+import java.io.BufferedReader;
 
 /**
  * The reader for the octave type "bool matrix" (matrix with boolean entries) 
@@ -30,57 +28,14 @@ import eu.simuline.octave.type.OctaveBoolean;
  * **** the class name should be BoolMatrixReader **** 
  */
 public final class BooleanReader 
-    extends AbstractPrimitiveMatrixReader<OctaveBoolean> {
+    extends AbstractPrimitiveMatrixReader<OctaveBoolean, boolean[]> {
 
     @Override
     public String octaveType() {
         return "bool matrix";
     }
 
-    @Override
-    protected OctaveBoolean readVectorizedMatrix(final BufferedReader reader,
-						 final String ndimsLine) {
-	final int[] size = readSizeVectorizedMatrix(reader, ndimsLine);
-	String line;
-        final boolean[] data = new boolean[product(size)];
-        for (int idx = 0; idx < data.length; idx++) {
-            line = OctaveIO.readerReadLine(reader);
-            data[idx] = parseBoolean(line.trim());
-        }
-        return new OctaveBoolean(data, size);
+    OctaveBoolean createOctaveValue(int[] size) {
+	return new OctaveBoolean(size);
     }
-
-    static boolean parseBoolean(final String line) {
-        if ("0".equals(line)) {
-            return false;
-        }
-	if ("1".equals(line)) {
-            return true;
-        }
-	throw new OctaveParseException("Invalid input, '" + line + "'");
-    }
-
-    @Override
-    protected OctaveBoolean read2dmatrix(final BufferedReader reader,
-					 final String rowsLine) {
-	int[] size = readSize2dmatrix(reader, rowsLine);
-	int rows = size[0];
-	int columns = size[1];
-	String line;
-
-        final boolean[] data = new boolean[rows * columns];
-        for (int r = 1; r <= rows; ++r) {
-            line = OctaveIO.readerReadLine(reader);
-            final String[] split = line.split(" ");
-            if (split.length != columns + 1) {
-                throw new OctaveParseException
-		    ("Error in matrix-format: '" + line + "'");
-            }
-            for (int c = 1; c < split.length; c++) {
-                data[(r - 1) + (c - 1) * rows] = parseBoolean(split[c]);
-            }
-        }
-        return new OctaveBoolean(data, size);
-    }
-
 }

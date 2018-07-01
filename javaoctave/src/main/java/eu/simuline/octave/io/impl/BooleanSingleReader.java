@@ -36,7 +36,7 @@ public final class BooleanSingleReader extends OctaveDataReader {
     public OctaveBoolean read(final BufferedReader reader) {
         final String line = OctaveIO.readerReadLine(reader);
         final OctaveBoolean ret = new OctaveBoolean(1, 1);
-        ret.set(BooleanReader.parseBoolean(line), 1, 1);
+	ret.setPlain(line, 0);
         return ret;
     }
 
