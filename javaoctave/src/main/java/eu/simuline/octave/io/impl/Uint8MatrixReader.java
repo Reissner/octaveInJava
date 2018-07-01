@@ -30,7 +30,7 @@ import java.io.BufferedReader;
  * and thus related with {@link Int32MatrixReader}. 
  */
 public final class Uint8MatrixReader 
-    extends AbstractPrimitiveMatrixReader<OctaveInt, int[]> {
+    extends AbstractPrimitiveMatrixReader<OctaveInt> {
 
     @Override
     public String octaveType() {

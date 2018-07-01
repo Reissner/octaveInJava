@@ -28,7 +28,7 @@ import java.io.BufferedReader;
  * **** the class name should be BoolMatrixReader **** 
  */
 public final class BooleanReader 
-    extends AbstractPrimitiveMatrixReader<OctaveBoolean, boolean[]> {
+    extends AbstractPrimitiveMatrixReader<OctaveBoolean> {
 
     @Override
     public String octaveType() {

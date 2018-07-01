@@ -29,11 +29,9 @@ import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
  *
  * @param <T>
  *    the type to be read in which has to extend {@link AbstractGenericMatrix}. 
- * @param <D>
- *    see type parameter of {@link AbstractGenericMatrix}. 
  */
 abstract class AbstractPrimitiveMatrixReader
-    <T extends AbstractGenericMatrix<D>, D> 
+    <T extends AbstractGenericMatrix<?>> 
     extends OctaveDataReader {
 
     // **** to be eliminated: is in according writer 

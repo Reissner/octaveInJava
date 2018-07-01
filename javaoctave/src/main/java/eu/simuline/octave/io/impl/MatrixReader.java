@@ -27,7 +27,7 @@ import java.io.BufferedReader;
  * reading an {@link OctaveDouble} from a {@link BufferedReader}. 
  */
 public final class MatrixReader 
-    extends AbstractPrimitiveMatrixReader<OctaveDouble, double[]> {
+    extends AbstractPrimitiveMatrixReader<OctaveDouble> {
 
     @Override
     public String octaveType() {
