@@ -18,32 +18,23 @@
  */
 package eu.simuline.octave.io.impl;
 
-import java.io.BufferedReader;
-
-import eu.simuline.octave.io.OctaveIO;
-import eu.simuline.octave.io.spi.OctaveDataReader;
-import eu.simuline.octave.type.Octave;
 import eu.simuline.octave.type.OctaveDouble;
-import eu.simuline.octave.util.StringUtil;
+
+import java.io.BufferedReader;
 
 /**
  * The reader for the octave type "scalar" (double) 
  * reading an {@link OctaveDouble} from a {@link BufferedReader}. 
  */
-public final class ScalarReader extends OctaveDataReader {
+public final class ScalarReader 
+    extends AbstractPrimitiveScalarReader<OctaveDouble> {
 
     @Override
     public String octaveType() {
         return "scalar";
     }
 
-    @Override
-    public OctaveDouble read(final BufferedReader reader) {
-        String line;
-        line = OctaveIO.readerReadLine(reader);
-        final double value = StringUtil.parseDouble(line);
-        return Octave.scalar(value);
+    OctaveDouble createOctaveScalar() {
+	return new OctaveDouble(1, 1);
     }
-
-
 }

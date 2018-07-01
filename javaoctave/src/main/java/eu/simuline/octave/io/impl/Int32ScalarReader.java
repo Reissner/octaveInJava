@@ -18,8 +18,6 @@
  */
 package eu.simuline.octave.io.impl;
 
-import eu.simuline.octave.io.OctaveIO;
-import eu.simuline.octave.io.spi.OctaveDataReader;
 import eu.simuline.octave.type.OctaveInt;
 
 import java.io.BufferedReader;
@@ -28,18 +26,15 @@ import java.io.BufferedReader;
  * The reader for the octave type "int32 scalar" 
  * reading an {@link OctaveInt} from a {@link BufferedReader}. 
  */
-public final class Int32ScalarReader extends OctaveDataReader {
+public final class Int32ScalarReader 
+    extends AbstractPrimitiveScalarReader<OctaveInt> {
 
     @Override
     public String octaveType() {
         return "int32 scalar";
     }
 
-    @Override
-    public OctaveInt read(final BufferedReader reader) {
-        String line = OctaveIO.readerReadLine(reader);
-        final OctaveInt ret = new OctaveInt(1, 1);
-        ret.set(Integer.parseInt(line), 1, 1);
-        return ret;
+    OctaveInt createOctaveScalar() {
+	return new OctaveInt(1, 1);
     }
 }

@@ -15,7 +15,10 @@
  */
 package eu.simuline.octave.io.impl;
 
+import eu.simuline.octave.io.OctaveIO;
+import eu.simuline.octave.io.spi.OctaveDataReader;
 import eu.simuline.octave.type.OctaveBoolean;
+import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
 
 import java.io.BufferedReader;
 
@@ -23,15 +26,17 @@ import java.io.BufferedReader;
  * The reader for the octave type (scalar) "bool" 
  * reading an {@link OctaveBoolean} from a {@link BufferedReader}. 
  */
-public final class BooleanSingleReader 
-    extends AbstractPrimitiveScalarReader<OctaveBoolean> {
+abstract class AbstractPrimitiveScalarReader
+    <T extends AbstractGenericMatrix<?>> 
+    extends OctaveDataReader {
 
     @Override
-    public String octaveType() {
-        return "bool";
+    public final T read(final BufferedReader reader) {
+        final String line = OctaveIO.readerReadLine(reader);
+        final T ret = createOctaveScalar();
+	ret.setPlain(line, 0);
+        return ret;
     }
 
-    OctaveBoolean createOctaveScalar() {
-	return new OctaveBoolean(1, 1);
-    }
+    abstract T createOctaveScalar();
 }

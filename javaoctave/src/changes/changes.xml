@@ -33,8 +33,14 @@
 	 eliminated abstract method dataFillInit. 
        </action>
        <action dev="ER" type="fix">
-	 Redesign of AbstractPrimitiveMatrixReader: 
-	 prelude to make it more easily extenable. 
+	 Redesign of AbstractPrimitiveMatrixReader and subclasses: 
+	 prelude to simplify adding new subclasses. 
+       </action>
+       <action dev="ER" type="fix">
+	 Redesign of on scalar readers: 
+	 added base class AbstractPrimitiveScalarReader 
+	 and take the old classes as subclasses. 
+	 prelude to simplify adding new scalar readers as subclasses. 
        </action>
        <action dev="ER" type="add">
 	 make work for octave 4.4.0 (identifying itself as 5.0.0)
