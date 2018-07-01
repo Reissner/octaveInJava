@@ -28,6 +28,7 @@ public final class Octave {
      * @param d
      * @return New OctaveDouble with a single value
      */
+    // used in tests only 
     public static OctaveDouble scalar(final double d) {
         final OctaveDouble od = new OctaveDouble(1, 1);
         od.set(d, 1, 1);
