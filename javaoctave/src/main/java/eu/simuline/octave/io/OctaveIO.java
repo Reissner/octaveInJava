@@ -177,7 +177,7 @@ public final class OctaveIO {
     public static String readerReadLine(final BufferedReader reader) {
         try {
             return reader.readLine();
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new OctaveIOException(e);
         }
     }
@@ -291,7 +291,7 @@ public final class OctaveIO {
     public static void writerWriteLine(Writer writer, String strWithNl) {
 	try {
 	    writer.write(strWithNl);
-	} catch(IOException e) {
+	} catch (IOException e) {
             throw new OctaveIOException(e);
         }
     }

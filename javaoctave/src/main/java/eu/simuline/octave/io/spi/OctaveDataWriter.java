@@ -46,7 +46,7 @@ public abstract class OctaveDataWriter<T extends OctaveObject> {
      * which is able to write the octave type to a writer. 
      */
     private static 
-	Map<Class<? extends OctaveObject>, OctaveDataWriter<?>> WRITERS;
+	Map<Class<? extends OctaveObject>, OctaveDataWriter<?>> wRITERS;
 
     /**
      * @param <T>
@@ -57,15 +57,15 @@ public abstract class OctaveDataWriter<T extends OctaveObject> {
     public static <T extends OctaveObject> 
 	OctaveDataWriter<T> getOctaveDataWriter(final T type) {
         initWriterIfNecessary();
-        return (OctaveDataWriter<T>) WRITERS.get(type.getClass());
+        return (OctaveDataWriter<T>) wRITERS.get(type.getClass());
     }
 
     //synchronized
     private static synchronized void initWriterIfNecessary() {
-	if (WRITERS != null) {
+	if (wRITERS != null) {
 	    return;
 	}
-	WRITERS = new HashMap
+	wRITERS = new HashMap
 	    <Class<? extends OctaveObject>, OctaveDataWriter<?>>();
 	@SuppressWarnings("rawtypes")
 	final Iterator<OctaveDataWriter> sp = 
@@ -74,11 +74,11 @@ public abstract class OctaveDataWriter<T extends OctaveObject> {
 	while (sp.hasNext()) {
 	    odw = sp.next();
 	    assert odw != null;
-	    odwOrg = WRITERS.put(odw.javaType(), odw);
+	    odwOrg = wRITERS.put(odw.javaType(), odw);
 	    if (odwOrg != null) {
 		// Here, for one type more than one writer is defined. 
 		throw new IllegalStateException
-		    ("Java type " + odw.javaType()+ 
+		    ("Java type " + odw.javaType() + 
 		     " has writers of type " + odw.getClass() + 
 		     " and " + odwOrg.getClass() + ". ");
 	    }
