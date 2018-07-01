@@ -24,7 +24,20 @@
         <dueto name=.. email=.. />
     </release-->
 
-     <release version="0.6.8-snapshot" date='' description=''>
+     <release version="0.6.9-snapshot" date='' description=''>
+       <action dev="ER" type="fix">
+	 bug in AbstractGenericMatrix.resizeUp with side effect (see below)
+       </action>
+       <action dev="ER" type="fix">
+	 first step to redesign AbstractGenericMatrix: 
+	 eliminated abstract method dataFillInit. 
+       </action>
+       <action dev="ER" type="add">
+	 make work for octave 4.4.0 (identifying itself as 5.0.0)
+       </action>
+     </release>
+
+     <release version="0.6.8" date='' description=''>
        <action dev="ER" type="add">
 	 Allow interface to java int, i.e. octave int32 types. 
        </action>
