@@ -45,32 +45,19 @@ public final class Int32MatrixWriter
 	} else {
 	    writer.write("# type: int32 matrix\n");
 	    saveDataVectorized(writer, octaveMatrix);
-	    // the following does never occur. 
-	    //               saveData2d(writer, octaveMatrix);
+	    // **** note: unlike for floating types and bool, 
+	    // there is no special case for 2 dimensions, i.e. matrices 
+	    // using saveData2d(writer, octaveInt);
 	}
     }
 
     // never used because for integer types format does not support this. 
     // **** existence of this method signifies odd design 
-    private void saveData2d(final Writer writer, 
-			    final OctaveInt octaveMatrix) 
-	throws IOException {
-	throw new IllegalStateException("Not supported by integer types");
-
-	
-        // final int[] data = octaveMatrix.getData();
-        // final int nrows = octaveMatrix.getSize(1);
-        // final int ncols = octaveMatrix.getSizeLength() > 1 
-	//     ? octaveMatrix.getSize(2) : 1;
-        // writer.write(NROWS + nrows + "\n");
-        // writer.write(NCOLUMNS + ncols + "\n");
-        // for (int row = 0; row < nrows; row++) {
-        //     for (int col = 0; col < ncols; col++) {
-        //         writer.write(" " + data[row + col * nrows]);
-        //     }
-        //     writer.write('\n');
-        // }
-    }
+    // private void saveData2d(final Writer writer, 
+    // 			    final OctaveInt octaveMatrix) 
+    // 	throws IOException {
+    // 	throw new IllegalStateException("Not supported by integer types");
+    // }
 
     private void saveDataVectorized(final Writer writer, 
 				    final OctaveInt octaveMatrix) 

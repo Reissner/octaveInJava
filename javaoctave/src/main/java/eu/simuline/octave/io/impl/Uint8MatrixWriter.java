@@ -39,33 +39,19 @@ public final class Uint8MatrixWriter
 		      final OctaveInt octaveInt) throws IOException {
 
         writer.write("# type: uint8 matrix\n");
-        if (octaveInt.getSizeLength() > 2) {
-            saveDataVectorized(writer, octaveInt);
-        } else {
-	    // the following does never occur. 
-	    //saveData2d(writer, octaveInt);
-            saveDataVectorized(writer, octaveInt);
-        }
+	saveDataVectorized(writer, octaveInt);
+	// **** note: unlike for floating types and bool, 
+	// there is no special case for 2 dimensions, i.e. matrices 
+	// using saveData2d(writer, octaveInt);
+	saveDataVectorized(writer, octaveInt);
     }
 
-    private void saveData2d(final Writer writer, 
-			    final OctaveInt octaveMatrix) 
-	throws IOException {
+    // private void saveData2d(final Writer writer, 
+    // 			    final OctaveInt octaveMatrix) 
+    // 	throws IOException {
 
-	throw new IllegalStateException("Not supported by integer types");
-        // final int[] data = octaveMatrix.getData();
-        // final int nrows = octaveMatrix.getSize(1);
-        // final int ncols = octaveMatrix.getSizeLength() > 1 
-	//     ? octaveMatrix.getSize(2) : 1;
-        // writer.write(NROWS + nrows + "\n");
-        // writer.write(NCOLUMNS + ncols + "\n");
-        // for (int row = 0; row < nrows; row++) {
-        //     for (int col = 0; col < ncols; col++) {
-        //         writer.write(" " + data[row + col * nrows]);
-        //     }
-        //     writer.write('\n');
-        // }
-    }
+    // 	throw new IllegalStateException("Not supported by integer types");
+    // }
 
     private void saveDataVectorized(final Writer writer, 
 				    final OctaveInt octaveMatrix) 
