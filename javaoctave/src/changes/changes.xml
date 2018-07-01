@@ -32,8 +32,16 @@
 	 first step to redesign AbstractGenericMatrix: 
 	 eliminated abstract method dataFillInit. 
        </action>
+       <action dev="ER" type="fix">
+	 Redesign of AbstractPrimitiveMatrixReader: 
+	 prelude to make it more easily extenable. 
+       </action>
        <action dev="ER" type="add">
 	 make work for octave 4.4.0 (identifying itself as 5.0.0)
+       </action>
+       <action dev="ER" type="add">
+	 besides user documentation also added rudimentary implementors note 
+	 documenting the save/load-format. 
        </action>
      </release>
 

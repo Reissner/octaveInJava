@@ -2,8 +2,8 @@
 
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
           "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
-<book>
-  <title>An Introduction to javaoctave</title>
+<book id='UserGuide'>
+  <title>An Introduction to javaoctave for the User</title>
   <bookinfo>
     <author>
       <firstname>Ernst</firstname>

@@ -17,7 +17,8 @@
   <body>
     <menu name='Documentation'>
       <item name='Introduction to the User' href='./userdoc.xhtml'/>
-    </menu>
+      <item name='Note on implementation'   href='./impldoc.xhtml'/>
+   </menu>
     <menu ref='modules'/>
     <menu ref='parent'/>
     <menu ref='reports'/>
