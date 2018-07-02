@@ -23,8 +23,11 @@ import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
 import java.io.BufferedReader;
 
 /**
- * The reader for the octave type (scalar) "bool" 
- * reading an {@link OctaveBoolean} from a {@link BufferedReader}. 
+ * Common Reader class for scalars of primitive java types: 
+ * Boolean, Double, Integer.... 
+ *
+ * @param <T>
+ *    the type to be read in which has to extend {@link AbstractGenericMatrix}. 
  */
 abstract class AbstractPrimitiveScalarReader
     <T extends AbstractGenericMatrix<?>> 

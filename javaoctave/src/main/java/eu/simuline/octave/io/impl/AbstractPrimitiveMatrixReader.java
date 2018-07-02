@@ -25,7 +25,8 @@ import eu.simuline.octave.io.spi.OctaveDataReader;
 import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
 
 /**
- * Common Reader class for primitive java types: Boolean, Double, Integer.... 
+ * Common Reader class for matrices of primitive java types: 
+ * Boolean, Double, Integer.... 
  *
  * @param <T>
  *    the type to be read in which has to extend {@link AbstractGenericMatrix}. 
