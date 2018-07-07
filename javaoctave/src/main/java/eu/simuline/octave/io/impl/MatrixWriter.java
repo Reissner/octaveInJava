@@ -45,27 +45,4 @@ public final class MatrixWriter
     protected String octaveScalarType() {
         return "scalar";
     }
-
-
-
-
-    @Override
-    public void write(final Writer writer, 
-		      final OctaveDouble octaveMatrix) throws IOException {
-        if (octaveMatrix.getSizeLength() > 2) {
-	    writer.write("# type: " + octaveMatrixType() + "\n");
-            saveDataVectorized(writer, octaveMatrix);
-	} else {
-            if (octaveMatrix.getSizeLength() == 2 && 
-		octaveMatrix.size(1) == 1 && 
-		octaveMatrix.size(2) == 1) {
-
-                writer.write("# type: " + octaveScalarType() + "\n");
-		writer.write(octaveMatrix.getPlainString(0) + "\n");
-            } else {
-                writer.write("# type: " + octaveMatrixType() + "\n");
-                saveData2d(writer, octaveMatrix);
-            }
-        }
-    }
 }
