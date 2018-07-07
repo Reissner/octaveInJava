@@ -69,7 +69,8 @@ abstract class AbstractPrimitiveMatrixReader
         // 2d or 2d+?
         if (line.startsWith(NROWS)) {
 	    // this case does not occur for int types, 
-	    //just for float (including complex) and bool 
+	    // just for float (including complex) and bool 
+	    // **** so this implementation may read things which do not occur 
             return read2dmatrix(reader, line);
         } else if (line.startsWith(NDIMS)) {
 	    return readVectorizedMatrix(reader, line);

@@ -44,23 +44,4 @@ public final class Uint8MatrixWriter
         return "uint8 scalar";
     }
 
-    @Override
-    public void write(final Writer writer, 
-		      final OctaveInt octaveMatrix) throws IOException {
-	if (octaveMatrix.getSizeLength() == 2 && 
-	    octaveMatrix.size(1) == 1 && 
-	    octaveMatrix.size(2) == 1) {
-
-	    writer.write("# type: " + octaveScalarType() + "\n");
-	    writer.write(octaveMatrix.getPlainString(0) + "\n");
-	    //writer.write(octaveMatrix.get(1, 1) + "\n");
-	} else {
-	    writer.write("# type: " + octaveMatrixType() + "\n");
-	    // **** note: unlike for floating types and bool, 
-	    // there is no special case for 2 dimensions, i.e. matrices 
-	    // using saveData2d(writer, octaveMatrix);
-	    saveDataVectorized(writer, octaveMatrix);
-	}
-    }
-
 }

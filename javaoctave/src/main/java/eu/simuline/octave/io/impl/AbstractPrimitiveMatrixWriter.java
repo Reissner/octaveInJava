@@ -30,6 +30,29 @@ abstract class AbstractPrimitiveMatrixWriter
 
     protected abstract String octaveScalarType();
 
+    // is used for integer types only, for logical and floating point, 
+    // it is overwritten 
+    public void write(final Writer writer, 
+		      final T octaveMatrix) throws IOException {
+	if (octaveMatrix.getSizeLength() == 2 && 
+	    octaveMatrix.size(1) == 1 && 
+	    octaveMatrix.size(2) == 1) {
+
+	    writer.write("# type: " + octaveScalarType() + "\n");
+	    writer.write(octaveMatrix.getPlainString(0) + "\n");
+	} else {
+	    writer.write("# type: " + octaveMatrixType() + "\n");
+	    // **** note: unlike for floating types and bool, 
+	    // for integer types, 
+	    // there is no special case for 2 dimensions, i.e. matrices 
+	    // using saveData2d(writer, octaveMatrix);
+	    saveDataVectorized(writer, octaveMatrix);
+	}
+    }
+
+
+
+
     protected void saveDataVectorized(final Writer writer, 
 				      final T octaveMatrix) 
 	throws IOException {
