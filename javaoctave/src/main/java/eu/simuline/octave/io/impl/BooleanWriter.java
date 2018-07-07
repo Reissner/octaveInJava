@@ -35,6 +35,18 @@ public final class BooleanWriter
     }
 
     @Override
+    protected String octaveMatrixType() {
+        return "bool matrix";
+    }
+
+    @Override
+    protected String octaveScalarType() {
+        return "bool";
+    }
+
+
+
+    @Override
     public void write(final Writer writer, 
 		      final OctaveBoolean octaveMatrix) throws IOException {
         if (octaveMatrix.getSizeLength() > 2) {

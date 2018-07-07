@@ -22,4 +22,10 @@ abstract class AbstractPrimitiveMatrixWriter<T extends OctaveObject>
     protected AbstractPrimitiveMatrixWriter() {
     }
 
+    protected abstract String octaveMatrixType();
+
+    protected abstract String octaveScalarType();
+
+ 
+
 }

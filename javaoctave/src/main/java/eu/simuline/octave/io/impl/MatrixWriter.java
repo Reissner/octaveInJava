@@ -37,6 +37,19 @@ public final class MatrixWriter
     }
 
     @Override
+    protected String octaveMatrixType() {
+        return "matrix";
+    }
+
+    @Override
+    protected String octaveScalarType() {
+        return "scalar";
+    }
+
+
+
+
+    @Override
     public void write(final Writer writer, 
 		      final OctaveDouble octaveMatrix) throws IOException {
         if (octaveMatrix.getSizeLength() > 2) {

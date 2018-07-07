@@ -33,6 +33,19 @@ public final class Int32MatrixWriter
     }
 
     @Override
+    protected String octaveMatrixType() {
+        return "int32 matrix";
+    }
+
+    @Override
+    protected String octaveScalarType() {
+        return "int32 scalar";
+    }
+
+
+
+
+    @Override
     public void write(final Writer writer, 
 		      final OctaveInt octaveMatrix) throws IOException {
 
