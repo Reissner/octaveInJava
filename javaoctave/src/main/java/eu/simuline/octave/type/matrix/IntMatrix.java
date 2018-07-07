@@ -104,4 +104,9 @@ public abstract class IntMatrix extends AbstractGenericMatrix<int[]> {
         return this.data[pos2ind(pos)];
     }
 
+    public String getPlainString(int pos) {
+	return Integer.toString(this.data[pos]);
+    }
+
+
 }

@@ -42,7 +42,6 @@ public final class Int32MatrixWriter
         return "int32 scalar";
     }
 
-
     @Override
     public void write(final Writer writer, 
 		      final OctaveInt octaveMatrix) throws IOException {
@@ -51,9 +50,8 @@ public final class Int32MatrixWriter
 	    octaveMatrix.size(2) == 1) {
 
 	    writer.write("# type: " + octaveScalarType() + "\n");
-	    writer.write(octaveMatrix.get(1, 1) + "\n");
+	    writer.write(octaveMatrix.getPlainString(0) + "\n");
 	} else {
-
 	    writer.write("# type: " + octaveMatrixType() + "\n");
 	    // **** note: unlike for floating types and bool, 
 	    // there is no special case for 2 dimensions, i.e. matrices 
@@ -80,10 +78,11 @@ public final class Int32MatrixWriter
             writer.write(" " + octaveMatrix.getSize(idx));
         }
 
-        final int[] data = octaveMatrix.getData();
-        for (final int iNum : data) {
-            writer.write("\n " + iNum);
-        }
+	int len = octaveMatrix.dataSize();
+        for (int idx = 0; idx < len; idx++) {
+            writer.write("\n " + octaveMatrix.getPlainString(idx));
+	}
+
         writer.write("\n");
     }
 

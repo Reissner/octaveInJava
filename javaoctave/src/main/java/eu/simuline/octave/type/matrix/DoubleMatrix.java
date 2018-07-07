@@ -104,4 +104,9 @@ public abstract class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     public final double get(final int... pos) {
         return this.data[pos2ind(pos)];
     }
+
+    public String getPlainString(int pos) {
+	return Double.toString(this.data[pos]);
+    }
+
 }

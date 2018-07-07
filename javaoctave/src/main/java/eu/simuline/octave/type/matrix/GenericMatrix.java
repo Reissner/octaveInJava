@@ -117,4 +117,7 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
         return this.data[pos2ind(pos)];
     }
 
+    public String getPlainString(int pos) {
+	return this.data[pos].toString();
+    }
 }

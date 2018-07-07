@@ -61,7 +61,7 @@ public final class MatrixWriter
 		octaveMatrix.size(2) == 1) {
 
                 writer.write("# type: " + octaveScalarType() + "\n");
-                writer.write(octaveMatrix.get(1, 1) + "\n");
+		writer.write(octaveMatrix.getPlainString(0) + "\n");
             } else {
                 writer.write("# type: " + octaveMatrixType() + "\n");
                 saveData2d(writer, octaveMatrix);
@@ -73,15 +73,15 @@ public final class MatrixWriter
 			    final OctaveDouble octaveMatrix) 
 	throws IOException {
 
-        final double[] data = octaveMatrix.getData();
-        final int nrows = octaveMatrix.getSize(1);
+	final int nrows = octaveMatrix.getSize(1);
 	final int ncols = octaveMatrix.getSizeLength() > 1 
 	    ? octaveMatrix.getSize(2) : 1;
         writer.write(NROWS + nrows + "\n");
         writer.write(NCOLUMNS + ncols + "\n");
         for (int row = 0; row < nrows; row++) {
             for (int col = 0; col < ncols; col++) {
-                writer.write(" " + data[row + col * nrows]);
+		writer.write(" " + 
+			     octaveMatrix.getPlainString(row + col * nrows));
             }
             writer.write('\n');
         }
@@ -96,10 +96,11 @@ public final class MatrixWriter
             writer.write(" " + octaveMatrix.getSize(idx));
         }
 
-        final double[] data = octaveMatrix.getData();
-        for (final double dNum : data) {
-            writer.write("\n " + dNum);
-        }
+	int len = octaveMatrix.dataSize();
+        for (int idx = 0; idx < len; idx++) {
+            writer.write("\n " + octaveMatrix.getPlainString(idx));
+	}
+
         writer.write("\n");
     }
 

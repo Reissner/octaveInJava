@@ -159,6 +159,13 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
     public abstract int dataLength();
 
     /**
+     * The number of data entries, which is at most {@link #dataLength()}. 
+     */
+    public int dataSize() {
+	return product(this.size);
+    }
+
+    /**
      * Returns whether data of this and <code>otherData</code> 
      * are equal in the first <code>usedLength</code> entries. 
      * Here, two null-values are considered equal. 
@@ -306,6 +313,11 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
         return this.data;
     }
 
+    /**
+     * Returns the string representation of the given plain position. 
+     */
+    public abstract String getPlainString(int pos);
+
     public final int getSizeLength() {
         return this.size.length;
     }
@@ -356,4 +368,5 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
     public static void main(String[] args) {
 	System.out.println("R" + product());
     }
+
 }
