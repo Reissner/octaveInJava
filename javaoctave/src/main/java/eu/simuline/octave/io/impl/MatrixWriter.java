@@ -18,10 +18,10 @@
  */
 package eu.simuline.octave.io.impl;
 
+import eu.simuline.octave.type.OctaveDouble;
+
 import java.io.IOException;
 import java.io.Writer;
-
-import eu.simuline.octave.type.OctaveDouble;
 
 /**
  * The writer for the octave types 
@@ -40,17 +40,17 @@ public final class MatrixWriter
     public void write(final Writer writer, 
 		      final OctaveDouble octaveMatrix) throws IOException {
         if (octaveMatrix.getSizeLength() > 2) {
-	    writer.write("# type: matrix\n");
+	    writer.write("# type: " + "matrix" + "\n");
             saveDataVectorized(writer, octaveMatrix);
 	} else {
             if (octaveMatrix.getSizeLength() == 2 && 
 		octaveMatrix.size(1) == 1 && 
 		octaveMatrix.size(2) == 1) {
 
-                writer.write("# type: scalar\n");
+                writer.write("# type: " + "scalar" + "\n");
                 writer.write(octaveMatrix.get(1, 1) + "\n");
             } else {
-                writer.write("# type: matrix\n");
+                writer.write("# type: " + "matrix" + "\n");
                 saveData2d(writer, octaveMatrix);
             }
         }

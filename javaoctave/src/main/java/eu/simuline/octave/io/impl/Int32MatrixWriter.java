@@ -40,10 +40,10 @@ public final class Int32MatrixWriter
 	    octaveMatrix.size(1) == 1 && 
 	    octaveMatrix.size(2) == 1) {
 
-	    writer.write("# type: int32 scalar\n");
+	    writer.write("# type: " + "int32 scalar" + "\n");
 	    writer.write(octaveMatrix.get(1, 1) + "\n");
 	} else {
-	    writer.write("# type: int32 matrix\n");
+	    writer.write("# type: " + "int32 matrix" + "\n");
 	    saveDataVectorized(writer, octaveMatrix);
 	    // **** note: unlike for floating types and bool, 
 	    // there is no special case for 2 dimensions, i.e. matrices 
