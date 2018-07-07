@@ -26,8 +26,14 @@ abstract class AbstractPrimitiveMatrixWriter
     protected AbstractPrimitiveMatrixWriter() {
     }
 
+    // **** indicates that it would be a good idea 
+    // to merge reader and writer 
+    // and to have one OctaveObject for each octave type. 
     protected abstract String octaveMatrixType();
 
+    // **** indicates that it would be a good idea 
+    // to merge reader and writer 
+    // and to have one OctaveObject for each octave type. 
     protected abstract String octaveScalarType();
 
     // is used for integer types only, for logical and floating point, 
@@ -50,9 +56,6 @@ abstract class AbstractPrimitiveMatrixWriter
 	}
     }
 
-
-
-
     protected void saveDataVectorized(final Writer writer, 
 				      final T octaveMatrix) 
 	throws IOException {
@@ -69,6 +72,5 @@ abstract class AbstractPrimitiveMatrixWriter
 
         writer.write("\n");
     }
-
 
 }
