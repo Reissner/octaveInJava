@@ -49,6 +49,10 @@
 	 besides user documentation also added rudimentary implementors note 
 	 documenting the save/load-format. 
        </action>
+       <action dev="ER" type="add">
+	 in BooleanWriter added support for writing scalars.  
+       </action>
+
      </release>
 
      <release version="0.6.8" date='' description=''>
