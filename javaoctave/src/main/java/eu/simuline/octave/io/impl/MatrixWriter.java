@@ -53,17 +53,17 @@ public final class MatrixWriter
     public void write(final Writer writer, 
 		      final OctaveDouble octaveMatrix) throws IOException {
         if (octaveMatrix.getSizeLength() > 2) {
-	    writer.write("# type: " + "matrix" + "\n");
+	    writer.write("# type: " + octaveMatrixType() + "\n");
             saveDataVectorized(writer, octaveMatrix);
 	} else {
             if (octaveMatrix.getSizeLength() == 2 && 
 		octaveMatrix.size(1) == 1 && 
 		octaveMatrix.size(2) == 1) {
 
-                writer.write("# type: " + "scalar" + "\n");
+                writer.write("# type: " + octaveScalarType() + "\n");
                 writer.write(octaveMatrix.get(1, 1) + "\n");
             } else {
-                writer.write("# type: " + "matrix" + "\n");
+                writer.write("# type: " + octaveMatrixType() + "\n");
                 saveData2d(writer, octaveMatrix);
             }
         }
@@ -91,11 +91,12 @@ public final class MatrixWriter
 				    final OctaveDouble octaveMatrix) 
 	throws IOException {
 
-        final double[] data = octaveMatrix.getData();
         writer.write(NDIMS + octaveMatrix.getSizeLength() + "\n");
         for (int idx = 1; idx <= octaveMatrix.getSizeLength(); idx++) {
             writer.write(" " + octaveMatrix.getSize(idx));
         }
+
+        final double[] data = octaveMatrix.getData();
         for (final double dNum : data) {
             writer.write("\n " + dNum);
         }

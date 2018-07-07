@@ -43,26 +43,25 @@ public final class Int32MatrixWriter
     }
 
 
-
-
     @Override
     public void write(final Writer writer, 
 		      final OctaveInt octaveMatrix) throws IOException {
-
 	if (octaveMatrix.getSizeLength() == 2 && 
 	    octaveMatrix.size(1) == 1 && 
 	    octaveMatrix.size(2) == 1) {
 
-	    writer.write("# type: " + "int32 scalar" + "\n");
+	    writer.write("# type: " + octaveScalarType() + "\n");
 	    writer.write(octaveMatrix.get(1, 1) + "\n");
 	} else {
-	    writer.write("# type: " + "int32 matrix" + "\n");
-	    saveDataVectorized(writer, octaveMatrix);
+
+	    writer.write("# type: " + octaveMatrixType() + "\n");
 	    // **** note: unlike for floating types and bool, 
 	    // there is no special case for 2 dimensions, i.e. matrices 
-	    // using saveData2d(writer, octaveInt);
+	    // using saveData2d(writer, octaveMatrix);
+	    saveDataVectorized(writer, octaveMatrix);
 	}
     }
+
 
     // never used because for integer types format does not support this. 
     // **** existence of this method signifies odd design 
@@ -76,11 +75,12 @@ public final class Int32MatrixWriter
 				    final OctaveInt octaveMatrix) 
 	throws IOException {
 
-        final int[] data = octaveMatrix.getData();
         writer.write(NDIMS + octaveMatrix.getSizeLength() + "\n");
         for (int idx = 1; idx <= octaveMatrix.getSizeLength(); idx++) {
             writer.write(" " + octaveMatrix.getSize(idx));
         }
+
+        final int[] data = octaveMatrix.getData();
         for (final int iNum : data) {
             writer.write("\n " + iNum);
         }

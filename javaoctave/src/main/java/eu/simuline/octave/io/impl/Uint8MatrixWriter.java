@@ -54,11 +54,11 @@ public final class Uint8MatrixWriter
 	    octaveMatrix.size(1) == 1 && 
 	    octaveMatrix.size(2) == 1) {
 
-	    writer.write("# type: " + "uint8 scalar" + "\n");
+	    writer.write("# type: " + octaveScalarType() + "\n");
 	    writer.write(octaveMatrix.get(1, 1) + "\n");
 	} else {
 
-	    writer.write("# type: " + "uint8 matrix" + "\n");
+	    writer.write("# type: " + octaveMatrixType() + "\n");
 	    // **** note: unlike for floating types and bool, 
 	    // there is no special case for 2 dimensions, i.e. matrices 
 	    // using saveData2d(writer, octaveMatrix);
@@ -77,11 +77,12 @@ public final class Uint8MatrixWriter
 				    final OctaveInt octaveMatrix) 
 	throws IOException {
 
-        final int[] data = octaveMatrix.getData();
         writer.write(NDIMS + octaveMatrix.getSizeLength() + "\n");
         for (int idx = 1; idx <= octaveMatrix.getSizeLength(); idx++) {
             writer.write(" " + octaveMatrix.getSize(idx));
         }
+
+        final int[] data = octaveMatrix.getData();
         for (final int iNum : data) {
             writer.write("\n " + iNum);
         }
