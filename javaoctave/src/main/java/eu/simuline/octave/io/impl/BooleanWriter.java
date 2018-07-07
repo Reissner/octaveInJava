@@ -36,33 +36,33 @@ public final class BooleanWriter
 
     @Override
     public void write(final Writer writer, 
-		      final OctaveBoolean octaveBoolean) throws IOException {
-        if (octaveBoolean.getSizeLength() > 2) {
+		      final OctaveBoolean octaveMatrix) throws IOException {
+        if (octaveMatrix.getSizeLength() > 2) {
 	    writer.write("# type: " + "bool matrix" + "\n");
-            saveDataVectorized(writer, octaveBoolean);
+            saveDataVectorized(writer, octaveMatrix);
         } else {
-            if (octaveBoolean.getSizeLength() == 2 && 
-		octaveBoolean.size(1) == 1 && 
-		octaveBoolean.size(2) == 1) {
+            if (octaveMatrix.getSizeLength() == 2 && 
+		octaveMatrix.size(1) == 1 && 
+		octaveMatrix.size(2) == 1) {
 
                 writer.write("# type: " + "bool" + "\n");
-		writer.write(StringUtil.toString(octaveBoolean.get(1, 1))
+		writer.write(StringUtil.toString(octaveMatrix.get(1, 1))
 			     + "\n");
             } else {
 		writer.write("# type: " + "bool matrix" + "\n");
-		saveData2d(writer, octaveBoolean);
+		saveData2d(writer, octaveMatrix);
 	    }
         }
     }
 
     private void saveData2d(final Writer writer, 
-			    final OctaveBoolean octaveBoolean) 
+			    final OctaveBoolean octaveMatrix) 
 	throws IOException {
 
-        final boolean[] data = octaveBoolean.getData();
-        final int nrows = octaveBoolean.getSize(1);
-        final int ncols = octaveBoolean.getSizeLength() > 1 
-	    ? octaveBoolean.getSize(2) : 1;
+        final boolean[] data = octaveMatrix.getData();
+        final int nrows = octaveMatrix.getSize(1);
+        final int ncols = octaveMatrix.getSizeLength() > 1 
+	    ? octaveMatrix.getSize(2) : 1;
         writer.write(NROWS + nrows + "\n");
         writer.write(NCOLUMNS + ncols + "\n");
         for (int row = 0; row < nrows; row++) {

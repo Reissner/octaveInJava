@@ -36,12 +36,12 @@ public final class Uint8MatrixWriter
 
     @Override
     public void write(final Writer writer, 
-		      final OctaveInt octaveInt) throws IOException {
+		      final OctaveInt octaveMatrix) throws IOException {
         writer.write("# type: " + "uint8 matrix" + "\n");
 	// **** note: unlike for floating types and bool, 
 	// there is no special case for 2 dimensions, i.e. matrices 
-	// using saveData2d(writer, octaveInt);
-	saveDataVectorized(writer, octaveInt);
+	// using saveData2d(writer, octaveMatrix);
+	saveDataVectorized(writer, octaveMatrix);
     }
 
     // private void saveData2d(final Writer writer, 
