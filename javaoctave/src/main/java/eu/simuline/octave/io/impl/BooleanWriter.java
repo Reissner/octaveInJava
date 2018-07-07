@@ -27,7 +27,7 @@ import java.io.Writer;
  * writing an {@link OctaveBoolean} to a {@link Writer}. 
  */
 public final class BooleanWriter 
-    extends AbstractPrimitiveMatrixWriter<OctaveBoolean> {
+    extends AbstractLogicalFloatingPointWriter<OctaveBoolean> {
 
     @Override
     public Class<OctaveBoolean> javaType() {
@@ -63,23 +63,4 @@ public final class BooleanWriter
 	    }
         }
     }
-
-    private void saveData2d(final Writer writer, 
-			    final OctaveBoolean octaveMatrix) 
-	throws IOException {
-
-        final int nrows = octaveMatrix.getSize(1);
-        final int ncols = octaveMatrix.getSizeLength() > 1 
-	    ? octaveMatrix.getSize(2) : 1;
-        writer.write(NROWS + nrows + "\n");
-        writer.write(NCOLUMNS + ncols + "\n");
-        for (int row = 0; row < nrows; row++) {
-            for (int col = 0; col < ncols; col++) {
-               writer.write(" " + 
-			    octaveMatrix.getPlainString(row + col * nrows));
-            }
-            writer.write('\n');
-        }
-    }
-
 }
