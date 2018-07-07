@@ -44,4 +44,7 @@ public class TestOctaveUtils {
         octave.close();
     }
 
+    public static void main(String[] args) {
+    }
+
 }
