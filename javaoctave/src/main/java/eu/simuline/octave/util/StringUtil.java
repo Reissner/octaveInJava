@@ -121,6 +121,14 @@ public final class StringUtil {
     }
 
     /**
+     * Returns the string representation of booleans in octave: 
+     * 1 for true and 0 for false. 
+     */
+    public static String toString(boolean bool) {
+	return bool ? "1" : "0";
+    }
+
+    /**
      * This is almost the same as Double.parseDouble(), 
      * but it handles a few more versions of infinity. 
      *

@@ -167,10 +167,8 @@ public class TestIoOctaveBoolean {
         assertEquals(1, matrix.size(1));
         assertEquals(1, matrix.size(2));
         assertEquals("# name: matrix\n" + //
-		     "# type: bool matrix\n" + //
-		     "# rows: 1\n" + //
-		     "# columns: 1\n" + //
-		     " 1\n",  //
+		     "# type: bool\n" + //
+		     "1\n",  //
 		     OctaveIO.toText("matrix", matrix));
         matrix.set(true, 3, 1);
         assertEquals(3, matrix.size(1));
@@ -307,10 +305,8 @@ public class TestIoOctaveBoolean {
 		     OctaveIO.toText("matrixzero", matrixzero));
 
         assertEquals("# name: matrixscalar\n" + //
-		     "# type: bool matrix\n" + //
-		     "# rows: 1\n" + //
-		     "# columns: 1\n" + //
-		     " 1\n",  //
+		     "# type: bool\n" + //
+		     "1\n",  //
 		     OctaveIO.toText("matrixscalar", matrixscalar));
 
         assertEquals("# name: matrix2d\n" + //
@@ -405,6 +401,9 @@ public class TestIoOctaveBoolean {
         assertEquals(bool, octave.get("x"));
 
         octave.close();
+    }
+
+    public void main(String[] args) {
     }
 
 }

@@ -15,13 +15,15 @@
  */
 package eu.simuline.octave.io.impl;
 
+import eu.simuline.octave.type.OctaveBoolean;
+import eu.simuline.octave.util.StringUtil;
+
 import java.io.IOException;
 import java.io.Writer;
 
-import eu.simuline.octave.type.OctaveBoolean;
-
 /**
  * The writer for the octave type "bool matrix" (matrix with boolean entries) 
+ * and "bool", which is short for "bool scalar", 
  * writing an {@link OctaveBoolean} to a {@link Writer}. 
  */
 public final class BooleanWriter 
@@ -35,11 +37,21 @@ public final class BooleanWriter
     @Override
     public void write(final Writer writer, 
 		      final OctaveBoolean octaveBoolean) throws IOException {
-        writer.write("# type: bool matrix\n");
         if (octaveBoolean.getSizeLength() > 2) {
+	    writer.write("# type: " + "bool matrix" + "\n");
             saveDataVectorized(writer, octaveBoolean);
         } else {
-            saveData2d(writer, octaveBoolean);
+            if (octaveBoolean.getSizeLength() == 2 && 
+		octaveBoolean.size(1) == 1 && 
+		octaveBoolean.size(2) == 1) {
+
+                writer.write("# type: " + "bool" + "\n");
+		writer.write(StringUtil.toString(octaveBoolean.get(1, 1))
+			     + "\n");
+            } else {
+		writer.write("# type: " + "bool matrix" + "\n");
+		saveData2d(writer, octaveBoolean);
+	    }
         }
     }
 
@@ -55,7 +67,7 @@ public final class BooleanWriter
         writer.write(NCOLUMNS + ncols + "\n");
         for (int row = 0; row < nrows; row++) {
             for (int col = 0; col < ncols; col++) {
-                writer.write(" " + (data[row + col * nrows] ? "1" : "0"));
+                writer.write(" " + StringUtil.toString(data[row + col * nrows]));
             }
             writer.write('\n');
         }
@@ -71,7 +83,7 @@ public final class BooleanWriter
             writer.write(" " + octaveMatrix.getSize(idx));
         }
         for (final boolean b : data) {
-            writer.write("\n " + (b ? "1" : "0"));
+            writer.write("\n " + StringUtil.toString(b));
         }
         writer.write("\n");
     }
