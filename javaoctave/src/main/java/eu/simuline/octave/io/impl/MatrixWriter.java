@@ -87,21 +87,4 @@ public final class MatrixWriter
         }
     }
 
-    private void saveDataVectorized(final Writer writer,
-				    final OctaveDouble octaveMatrix) 
-	throws IOException {
-
-        writer.write(NDIMS + octaveMatrix.getSizeLength() + "\n");
-        for (int idx = 1; idx <= octaveMatrix.getSizeLength(); idx++) {
-            writer.write(" " + octaveMatrix.getSize(idx));
-        }
-
-	int len = octaveMatrix.dataSize();
-        for (int idx = 0; idx < len; idx++) {
-            writer.write("\n " + octaveMatrix.getPlainString(idx));
-	}
-
-        writer.write("\n");
-    }
-
 }

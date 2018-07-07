@@ -63,28 +63,4 @@ public final class Uint8MatrixWriter
 	}
     }
 
-    // private void saveData2d(final Writer writer, 
-    // 			    final OctaveInt octaveMatrix) 
-    // 	throws IOException {
-
-    // 	throw new IllegalStateException("Not supported by integer types");
-    // }
-
-    private void saveDataVectorized(final Writer writer, 
-				    final OctaveInt octaveMatrix) 
-	throws IOException {
-
-        writer.write(NDIMS + octaveMatrix.getSizeLength() + "\n");
-        for (int idx = 1; idx <= octaveMatrix.getSizeLength(); idx++) {
-            writer.write(" " + octaveMatrix.getSize(idx));
-        }
-
-	int len = octaveMatrix.dataSize();
-        for (int idx = 0; idx < len; idx++) {
-            writer.write("\n " + octaveMatrix.getPlainString(idx));
-	}
-
-        writer.write("\n");
-    }
-
 }
