@@ -17,7 +17,6 @@ package eu.simuline.octave.io.impl;
 
 import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.io.spi.OctaveDataReader;
-import eu.simuline.octave.type.OctaveBoolean;
 import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
 
 import java.io.BufferedReader;

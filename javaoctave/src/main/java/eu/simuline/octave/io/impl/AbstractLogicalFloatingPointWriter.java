@@ -6,13 +6,12 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * Describe class AbstractLogicalFloatingPointWriter here.
+ * Common Writer class for logical and floating point types: 
+ * Boolean, Double, ...
  *
- *
- * Created: Sun Jul  8 00:33:34 2018
- *
- * @author <a href="mailto:ernst.reissner@simuline.eu">Ernst Reissner</a>
- * @version 1.0
+ * @param <T>
+ *    the type to be written out 
+ *    which has to extend {@link AbstractGenericMatrix}. 
  */
 abstract class AbstractLogicalFloatingPointWriter 
     <T extends AbstractGenericMatrix<?>> 
@@ -39,9 +38,8 @@ abstract class AbstractLogicalFloatingPointWriter
         }
     }
 
-
-    protected void saveData2d(final Writer writer, 
-			      final T octaveMatrix) 
+    private void saveData2d(final Writer writer, 
+			    final T octaveMatrix) 
 	throws IOException {
 
         final int nrows = octaveMatrix.getSize(1);

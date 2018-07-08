@@ -2,7 +2,6 @@
 package eu.simuline.octave.io.impl;
 
 import eu.simuline.octave.io.spi.OctaveDataWriter;
-import eu.simuline.octave.type.OctaveObject;
 import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
 
 import java.io.IOException;
@@ -12,7 +11,8 @@ import java.io.Writer;
  * Common Writer class for primitive java types: Boolean, Double, Integer.... 
  *
  * @param <T>
- *    the type to be read in. 
+ *    the type to be written out 
+ *    which has to extend {@link AbstractGenericMatrix}. 
  */
 abstract class AbstractPrimitiveMatrixWriter
     <T extends AbstractGenericMatrix<?>> 
