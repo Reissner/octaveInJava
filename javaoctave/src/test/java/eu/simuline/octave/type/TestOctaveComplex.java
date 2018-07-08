@@ -63,8 +63,8 @@ public class TestOctaveComplex {
         assertEquals( 0.0, complex.getReal(2, 2), 0.0);
         assertEquals( 0.0, complex.getImag(2, 2), 0.0);
 
-        assertEquals(22.0, complex.getReal()[complex.pos2ind(1, 2)], 0.0);
-        assertEquals(33.0, complex.getImag()[complex.pos2ind(2, 1)], 0.0);
+        // assertEquals(22.0, complex.getReal()[complex.pos2ind(1, 2)], 0.0);
+        // assertEquals(33.0, complex.getImag()[complex.pos2ind(2, 1)], 0.0);
     }
 
     private void checkSize(final OctaveComplex complex, 

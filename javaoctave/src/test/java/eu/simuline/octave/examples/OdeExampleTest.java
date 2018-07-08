@@ -34,9 +34,8 @@ public class OdeExampleTest extends TestCase {
         octave.eval("t = lsode(@(x,t) x**2+t**2, 0, x);");
         final OctaveDouble t = octave.get(OctaveDouble.class, "t");
         octave.close();
-        final double[] result = t.getData();
         // End web text
-        assertEquals(101, result.length);
+        assertEquals(101, t.dataLength());
     }
 
 }

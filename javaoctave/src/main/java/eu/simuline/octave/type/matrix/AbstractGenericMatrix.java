@@ -17,10 +17,7 @@ package eu.simuline.octave.type.matrix;
 
 import eu.simuline.octave.type.OctaveObject;
 
-//import java.util.List;
-//import java.util.ArrayList;
 import java.util.Arrays;
-//import java.util.Collections;
 
 /**
  * A general matrix that does not even know 
@@ -160,8 +157,9 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
 
     /**
      * The number of data entries, which is at most {@link #dataLength()}. 
+     * Note that it is heavy load to compute this at the moment. 
      */
-    public int dataSize() {
+    public final int dataSize() {
 	return product(this.size);
     }
 
@@ -305,13 +303,14 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
         return idx;
     }
 
-    /**
-     * @return the data
-     */
-    // used in tests, in Writer classes and in OctaveComplex only 
-    public final D getData() {
-        return this.data;
-    }
+    // /**
+    //  * @return the data
+    //  * @deprecated
+    //  */
+    // // used nowhere 
+    // public final D getDataA() {
+    //     return this.data;
+    // }
 
     /**
      * Returns the string representation of the given plain position. 
