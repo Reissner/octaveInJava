@@ -83,6 +83,7 @@
        <action dev="ER" type="update">
 	 renamed AbstractGenericMatrix.getData()-->getDataA() 
 	 and set deprecated. 
+      </action>
      </release>
 
      <release version="0.6.7" date='2018-02-18' description=''>
