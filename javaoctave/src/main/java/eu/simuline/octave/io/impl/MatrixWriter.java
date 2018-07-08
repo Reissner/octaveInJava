@@ -20,7 +20,6 @@ package eu.simuline.octave.io.impl;
 
 import eu.simuline.octave.type.OctaveDouble;
 
-import java.io.IOException;
 import java.io.Writer;
 
 /**

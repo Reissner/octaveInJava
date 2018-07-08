@@ -100,7 +100,7 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
     }
 
     // api-docs inherited from AbstractGenericMatrix 
-    public void setPlain(final String value, final int pos) {
+    public final void setPlain(final String value, final int pos) {
 	throw new UnsupportedOperationException();
     }
 
@@ -117,7 +117,7 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
         return this.data[pos2ind(pos)];
     }
 
-    public String getPlainString(int pos) {
+    public final String getPlainString(int pos) {
 	return this.data[pos].toString();
     }
 }

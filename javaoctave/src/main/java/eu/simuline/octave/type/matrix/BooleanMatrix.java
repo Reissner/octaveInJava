@@ -93,7 +93,7 @@ public abstract class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
         return this.data[pos2ind(pos)];
     }
 
-    public String getPlainString(int pos) {
+    public final String getPlainString(int pos) {
 	return StringUtil.toString(this.data[pos]);
     }
 

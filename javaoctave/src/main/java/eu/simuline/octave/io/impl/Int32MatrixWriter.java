@@ -15,11 +15,10 @@
  */
 package eu.simuline.octave.io.impl;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import eu.simuline.octave.type.OctaveInt;
 
+import java.io.Writer;
+ 
 /**
  * The writer for the octave type "int32 matrix" 
  * writing an {@link OctaveInt} to a {@link Writer}. 

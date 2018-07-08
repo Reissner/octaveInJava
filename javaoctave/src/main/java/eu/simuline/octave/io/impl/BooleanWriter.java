@@ -16,9 +16,7 @@
 package eu.simuline.octave.io.impl;
 
 import eu.simuline.octave.type.OctaveBoolean;
-import eu.simuline.octave.util.StringUtil;
 
-import java.io.IOException;
 import java.io.Writer;
 
 /**
