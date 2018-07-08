@@ -52,6 +52,10 @@
        <action dev="ER" type="add">
 	 in BooleanWriter added support for writing scalars.  
        </action>
+       <action dev="ER" type="fix">
+	 Redesign of AbstractPrimitiveMatrixWriter and subclasses: 
+	 prelude to simplify adding new subclasses. 
+       </action>
 
      </release>
 
@@ -76,6 +80,9 @@
 	 New parameter to OctaveEngineFactory: octaveProgramCmd 
 	 and thus renamed octaveProgram-->octaveProgramFile 
        </action>
+       <action dev="ER" type="update">
+	 renamed AbstractGenericMatrix.getData()-->getDataA() 
+	 and set deprecated. 
      </release>
 
      <release version="0.6.7" date='2018-02-18' description=''>
