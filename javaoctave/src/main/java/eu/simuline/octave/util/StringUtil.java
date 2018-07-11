@@ -129,6 +129,14 @@ public final class StringUtil {
     }
 
     /**
+     * Returns the string representation of the object <code>obj</code> 
+     * which is defined also for null returning just "null". 
+     */
+    public static <T> String toString(T obj) {
+	return obj == null ? "null" : obj.toString();
+    }
+
+    /**
      * This is almost the same as Double.parseDouble(), 
      * but it handles a few more versions of infinity. 
      *
