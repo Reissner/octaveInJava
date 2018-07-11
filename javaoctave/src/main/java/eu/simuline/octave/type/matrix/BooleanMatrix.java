@@ -110,15 +110,15 @@ public abstract class BooleanMatrix
      * @return value at pos
      */
     public final boolean get(final int... pos) {
-	assert this.dataL.get(pos2ind(pos)) == this.dataA[pos2ind(pos)];
-        return this.dataA[pos2ind(pos)];
-	//this.dataD.get(pos2ind(pos));
+	assert this.dataL.getBoolean(pos2ind(pos)) == this.dataA[pos2ind(pos)];
+        //return this.dataA[pos2ind(pos)];
+	return this.dataL.getBoolean(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
-	assert this.dataL.get(pos) == this.dataA[pos];
-	//StringUtil.toString(this.dataL.get(pos));
-	return StringUtil.toString(this.dataA[pos]);
+	assert this.dataL.getBoolean(pos) == this.dataA[pos];
+	return StringUtil.toString(this.dataL.getBoolean(pos));
+//	return StringUtil.toString(this.dataA[pos]);
     }
 
 

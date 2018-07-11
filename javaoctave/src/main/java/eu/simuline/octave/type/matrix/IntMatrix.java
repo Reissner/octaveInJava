@@ -121,15 +121,15 @@ public abstract class IntMatrix
      * @return value at pos
      */
     public final int get(final int... pos) {
-	assert this.dataL.get(pos2ind(pos)) == this.dataA[pos2ind(pos)];
-        return this.dataA[pos2ind(pos)];
-	//this.dataL.get(pos2ind(pos));
+	assert this.dataL.getInt(pos2ind(pos)) == this.dataA[pos2ind(pos)];
+        //return this.dataA[pos2ind(pos)];
+	return this.dataL.getInt(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
-	assert this.dataL.get(pos) == this.dataA[pos];
-	//Integer.toString(this.dataL.get(pos));
-	return Integer.toString(this.dataA[pos]);
+	assert this.dataL.getInt(pos) == this.dataA[pos];
+	return Integer.toString(this.dataL.getInt(pos));
+	//return Integer.toString(this.dataA[pos]);
     }
 
 

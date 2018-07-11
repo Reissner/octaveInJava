@@ -20,6 +20,7 @@ import eu.simuline.octave.util.StringUtil;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * General matrix with Object values 
@@ -141,15 +142,19 @@ public abstract class GenericMatrix<T>
     // see set(...)
     @SuppressWarnings("checkstyle:designforextension")
     public T get(final int... pos) {
-        return this.dataA[pos2ind(pos)];
-	//this.dataL.get(pos2ind(pos));
+	assert Objects.equals(this.dataA[pos2ind(pos)], 
+			      this.dataL.get(pos2ind(pos)));
+        //return this.dataA[pos2ind(pos)];
+	return this.dataL.get(pos2ind(pos));
     }
 
-    // **** may this be null? 
+    // **** may dataL be null??  
     public final String getPlainString(int pos) {
 	StringUtil.toString(this.dataL.get(pos));
-	//	assert this.dataD.get(pos).toString().equals(this.dataA[pos].toString());
-	//this.dataL.get(pos).toString();
-	return this.dataA[pos].toString();
+	assert      StringUtil.toString(this.dataL.get(pos))
+	    .equals(StringUtil.toString(this.dataA[pos]));
+	return StringUtil.toString(this.dataL.get(pos));
+	//return this.dataA[pos].toString();
+	//return StringUtil.toString(this.dataA[pos]);
     }
 }

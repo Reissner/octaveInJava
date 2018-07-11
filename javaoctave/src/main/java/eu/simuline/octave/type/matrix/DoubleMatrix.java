@@ -119,18 +119,18 @@ public abstract class DoubleMatrix
      * @return value at pos
      */
     public final double get(final int... pos) {
-	assert (Double.isNaN(this.dataL.get(pos2ind(pos))) && Double.isNaN(this.dataA[pos2ind(pos)]))
-	    || this.dataL.get(pos2ind(pos)) == this.dataA[pos2ind(pos)];
-        return this.dataA[pos2ind(pos)];
-	//this.dataD.get(pos2ind(pos));
+	assert (Double.isNaN(this.dataL.getDouble(pos2ind(pos))) && Double.isNaN(this.dataA[pos2ind(pos)]))
+	    || this.dataL.getDouble(pos2ind(pos)) == this.dataA[pos2ind(pos)];
+        //return this.dataA[pos2ind(pos)];
+	return this.dataL.getDouble(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
 	
-	assert (Double.isNaN(this.dataL.get(pos)) && Double.isNaN(this.dataA[pos]))
-	    || this.dataL.get(pos) == this.dataA[pos];
-	//Double.toString(this.dataD.get(pos));
-	return Double.toString(this.dataA[pos]);
+	assert (Double.isNaN(this.dataL.getDouble(pos)) && Double.isNaN(this.dataA[pos]))
+	    || this.dataL.getDouble(pos) == this.dataA[pos];
+	return Double.toString(this.dataL.getDouble(pos));
+	//return Double.toString(this.dataA[pos]);
     }
 
 }
