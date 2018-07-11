@@ -27,6 +27,8 @@ public final class OctaveDouble extends DoubleMatrix implements OctaveObject {
      * 
      * @param size
      */
+    // used by OctaveComplex, Octave, OctaveDouble, OctaveCell, 
+    // Reader and Writer
     public OctaveDouble(final int... size) {
         super(size);
     }
@@ -37,6 +39,7 @@ public final class OctaveDouble extends DoubleMatrix implements OctaveObject {
      * @param data
      * @param size
      */
+    // used by the end user only 
     public OctaveDouble(final double[] data, final int... size) {
         super(data, size);
     }
@@ -46,6 +49,7 @@ public final class OctaveDouble extends DoubleMatrix implements OctaveObject {
      * 
      * @param o
      */
+    // used by OctaveComplex, OctaveDouble
     public OctaveDouble(final OctaveDouble o) {
         super(o);
     }

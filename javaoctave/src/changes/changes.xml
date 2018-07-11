@@ -56,6 +56,10 @@
 	 Redesign of AbstractPrimitiveMatrixWriter and subclasses: 
 	 prelude to simplify adding new subclasses. 
        </action>
+       <action dev="ER" type="fix">
+	 in GenericMatrix: take null objects into account 
+	 adding StringUtil.toString(T obj). 
+       </action>
 
      </release>
 

@@ -15,7 +15,7 @@ import java.io.Writer;
  *    which has to extend {@link AbstractGenericMatrix}. 
  */
 abstract class AbstractPrimitiveMatrixWriter
-    <T extends AbstractGenericMatrix<?>> 
+    <T extends AbstractGenericMatrix<?,?>> 
     extends OctaveDataWriter<T> {
 
     protected static final String NDIMS    = "# ndims: ";

@@ -18,6 +18,7 @@ package eu.simuline.octave.type.matrix;
 import eu.simuline.octave.type.OctaveObject;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A general matrix that does not even know 
@@ -27,7 +28,8 @@ import java.util.Arrays;
  *            an array
  */
 // used as superclass of classes of this package only 
-public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
+public abstract class AbstractGenericMatrix<D, L extends List<?>> 
+    implements OctaveObject { //, E
 
     private static final int PRIME = 31;
 
@@ -41,9 +43,9 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
      * The data, vectorized.
      */
     @SuppressWarnings("checkstyle:visibilitymodifier")
-    protected D data;
-    // protected D dataA;
-    // protected final List<E> dataL;
+    // protected D data;
+    protected D dataA;
+    protected L dataL;//final 
 
     /**
      * Constructor that creates new blank matrix. 
@@ -53,9 +55,9 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
     protected AbstractGenericMatrix(final int... size) {
         this.size = size.clone();
         checkSize();
-        this.data = newD(product(size));
-        // this.dataA = newD(product(size));
-        // this.dataL = newL(product(size));
+	int size1 = product(size);
+        this.dataA = newD(size1);
+	this.dataL = newL(size1);
 	// assert this.dataA != null;
 	// assert this.dataL != null;
 	// assert dataLength() == product(size);
@@ -64,14 +66,16 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
     /**
      * Constructor that reuses data in the new object. 
      * 
-     * @param data
+     * @param dataA
+     *    data as an array 
      * @param size
      *    must have at least two dimensions 
      */
-    protected AbstractGenericMatrix(D data, int... size) { //List<E> dataL, 
+    protected AbstractGenericMatrix(D dataA, int... size) { //List<E> dataL, 
         this.size = size;
         checkSize();
-        this.data = data;
+        this.dataA = dataA;// **** dataL not initialized 
+	this.dataL = newL(this.dataA, product(size));
 	// assert this.data != null;
 	// assert dataLength() == product(size);
 	// this.dataL = dataL;
@@ -84,11 +88,13 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
      * 
      * @param o
      */
-    protected AbstractGenericMatrix(final AbstractGenericMatrix<D> o) { //, E
+    protected AbstractGenericMatrix(final AbstractGenericMatrix<D, L> o) { //, E
         this.size = o.size.clone();
-        this.data = newD(product(size));
-//	assert this.data != null;
-        System.arraycopy(o.data, 0, data, 0, product(size));
+	int size1 = product(this.size);
+        this.dataA = newD(size1);
+ //	assert this.data != null;
+        System.arraycopy(o.dataA, 0, this.dataA, 0, size1);
+	this.dataL = newL(this.dataA, size1);
 //	assert dataLength() == product(this.size);
 //	this.dataL = o.dataL.clone();
 //	this.dataL = new ArrayList<E>(o.dataL);
@@ -107,6 +113,7 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
 		("size must have a least 2 dimensions");
 	default:
 	    for (final int s : this.size) {
+		// **** what does s=0 mean?
 		if (s < 0) {
 		    throw new IllegalArgumentException
 			("element in size less than zero. =" + s);
@@ -115,6 +122,10 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
 	}
     }
 
+    /**
+     * Check that the overall size given by the product of {@link #size} 
+     * does not exceed the length of {@link #dataA}. 
+     */
     private void checkDataSize() {
         if (product(this.size) > dataLength()) {
             final StringBuilder text = new StringBuilder();
@@ -147,7 +158,8 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
     // used in constructors and resizeUp only 
     protected abstract D newD(int size);
 
-    // protected abstract List<E> newL(int size);
+    protected abstract L newL(int size);
+    protected abstract L newL(D data, int size);
 
     /**
      * @return data_.length
@@ -215,6 +227,7 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
      * @throws UnsupportedOperationException
      *   if <code>pos</code> has dimension other than that of {@link #size}. 
      */
+    // could be protected if not used in OctaveComplex
     public final void resizeUp(final int... pos) {
         if (this.size.length != pos.length) {
             throw new UnsupportedOperationException
@@ -253,7 +266,7 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
 	int idxIdx;
 	int lenUnitGap;
 	while (idxSrc < osp) {
-	    System.arraycopy(this.data, idxSrc, dataOut, idxTrg, cpyLen);
+	    System.arraycopy(this.dataA, idxSrc, dataOut, idxTrg, cpyLen);
 	    idxSrc += cpyLen;
 
 	    // update idxTrgMulti and idxTrg 
@@ -281,7 +294,8 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
 	    idxTrgMulti[idxIdx]++;
 	} // while 
 
-	this.data = dataOut;
+	this.dataA = dataOut;
+	this.dataL = newL(this.dataA, product(this.size));
     }
 
     /**
@@ -338,7 +352,8 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
     public final int hashCode() {
         int result = 1;
         result = PRIME * result + 
-	    ((this.data == null) ? 0 : this.data.hashCode());
+	    ((this.dataA == null) ? 0 : this.dataA.hashCode());
+//	    ((this.dataL == null) ? 0 : this.dataL.hashCode());
         result = PRIME * result + Arrays.hashCode(this.size);
         return result;
     }
@@ -352,13 +367,17 @@ public abstract class AbstractGenericMatrix<D> implements OctaveObject { //, E
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final AbstractGenericMatrix<D> other = (AbstractGenericMatrix<D>) obj;
+        final AbstractGenericMatrix<D, List<?>> other = 
+	    (AbstractGenericMatrix<D, List<?>>) obj;
         if (!Arrays.equals(this.size, other.size)) {
 	    return false;
         }
 	
-	return this.data == other.data 
-	    || dataEquals(product(this.size), other.data);
+	assert dataEquals(product(this.size), other.dataA) 
+	    == this.dataL.equals(other.dataL);
+	return //this.dataA == other.dataA 
+	    //|| 
+dataEquals(product(this.size), other.dataA);
     }
 
     // to implement OctaveObject 

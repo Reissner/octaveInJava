@@ -15,29 +15,40 @@
  */
 package eu.simuline.octave.type.matrix;
 
+import eu.simuline.octave.util.StringUtil;
+
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
+import java.util.List;
+
 /**
- * General matrix with Object values. 
+ * General matrix with Object values 
+ * which serves also as base class for 
+ * {@link eu.simuline.octave.type.OctaveCell}. 
  * 
  * @param <T>
  *    Type of the values
  */
 // used as superclass of class OctaveCell only 
-public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
+public abstract class GenericMatrix<T> 
+    extends AbstractGenericMatrix<T[], List<T>> {
 
     /**
      * @param size
      */
+    // used in OctaveCell(int...), 
     protected GenericMatrix(final int... size) {
         super(size);
     }
 
     /**
-     * @param data
+     * @param dataA
      * @param size
      */
+    // used by end users 
     @SuppressWarnings("unchecked")
-    protected GenericMatrix(final Object[] data, final int... size) {
-        super((T[]) data, size);
+    protected GenericMatrix(final Object[] dataA, final int... size) {
+        super((T[]) dataA, size);
     }
 
     /**
@@ -45,7 +56,8 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
      * 
      * @param o
      */
-    protected GenericMatrix(final AbstractGenericMatrix<T[]> o) {
+    // used in OctaveCell(final AbstractGenericMatrix), 
+    protected GenericMatrix(final AbstractGenericMatrix<T[], List<T>> o) {
         super(o);
     }
 
@@ -55,15 +67,29 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
         return (T[]) new Object[size];
     }
 
+    protected final ObjectArrayList<T> newL(final int size) {
+        ObjectArrayList<T> list = new ObjectArrayList<T>(size);
+	list.size(size);
+	return list;
+    }
+
+    protected final ObjectArrayList<T> newL(T[] data, final int size) {
+	ObjectArrayList<T> list = new ObjectArrayList<T>(data);
+	list.size(size);
+	return list;
+     }
+
     public final int dataLength() {
-        return data.length;
+        return this.dataA.length;
     }
 
     protected final boolean dataEquals(final int usedLength,
 				       final T[] otherData) {
         for (int i = 0; i < usedLength; i++) {
-            final T o1 = this.data[i];
-            final T o2 = otherData[i];
+            final T o1 = this.dataA[i];
+            final T o2 = otherData [i];
+	    assert (o1 == null) == (this.dataL.get(i) == null);
+	    assert (o1 == null) || o1.equals(this.dataL.get(i));
             if (!(o1 == null ? o2 == null : o1.equals(o2))) {
                 return false;
             }
@@ -96,7 +122,8 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
      * @see #set(Object, int[])
      */
     public final void setPlain(final T value, final int pos) {
-         this.data[pos] = value;
+         this.dataA[pos] = value;
+	 this.dataL.set(pos, value);
     }
 
     // api-docs inherited from AbstractGenericMatrix 
@@ -114,10 +141,15 @@ public abstract class GenericMatrix<T> extends AbstractGenericMatrix<T[]> {
     // see set(...)
     @SuppressWarnings("checkstyle:designforextension")
     public T get(final int... pos) {
-        return this.data[pos2ind(pos)];
+        return this.dataA[pos2ind(pos)];
+	//this.dataL.get(pos2ind(pos));
     }
 
+    // **** may this be null? 
     public final String getPlainString(int pos) {
-	return this.data[pos].toString();
+	StringUtil.toString(this.dataL.get(pos));
+	//	assert this.dataD.get(pos).toString().equals(this.dataA[pos].toString());
+	//this.dataL.get(pos).toString();
+	return this.dataA[pos].toString();
     }
 }

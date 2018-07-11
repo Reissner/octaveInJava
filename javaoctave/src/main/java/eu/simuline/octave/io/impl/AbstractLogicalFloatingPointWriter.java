@@ -14,7 +14,7 @@ import java.io.Writer;
  *    which has to extend {@link AbstractGenericMatrix}. 
  */
 abstract class AbstractLogicalFloatingPointWriter 
-    <T extends AbstractGenericMatrix<?>> 
+    <T extends AbstractGenericMatrix<?,?>> 
     extends AbstractPrimitiveMatrixWriter<T> {
 
 

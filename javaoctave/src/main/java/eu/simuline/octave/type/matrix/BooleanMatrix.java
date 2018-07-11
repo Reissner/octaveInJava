@@ -17,38 +17,56 @@ package eu.simuline.octave.type.matrix;
 
 import eu.simuline.octave.util.StringUtil;
 
+import it.unimi.dsi.fastutil.booleans.BooleanArrayList;
+
 /**
  * General matrix with boolean values. 
  */
-public abstract class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
+public abstract class BooleanMatrix 
+    extends AbstractGenericMatrix<boolean[], BooleanArrayList> {
 
     /**
      * @param size
      */
+    // used in OctaveBoolean(int...) which in turn is used in readers 
     protected BooleanMatrix(final int... size) {
         super(size);
     }
 
     /**
-     * @param data
+     * @param dataA
      * @param size
      */
-    protected BooleanMatrix(final boolean[] data, final int... size) {
-        super(data, size);
+    protected BooleanMatrix(final boolean[] dataA, final int... size) {
+        super(dataA, size);
     }
 
     protected final boolean[] newD(final int size) {
         return new boolean[size];
     }
 
+    protected final BooleanArrayList​ newL(final int size) {
+	BooleanArrayList​ list = new BooleanArrayList​(size);
+	list.size(size);
+	return list;
+    }
+
+    protected final BooleanArrayList​ newL(boolean[] data, final int size) {
+	BooleanArrayList​ list = new BooleanArrayList​(data);
+	list.size(size);
+	return list;
+    }
+
     public final int dataLength() {
-        return this.data.length;
+	//assert this.dataA.length == this.dataL.elements().length;
+        return this.dataA.length;
     }
 
     protected final boolean dataEquals(final int usedLength,
 				       final boolean[] otherData) {
         for (int i = 0; i < usedLength; i++) {
-            if (this.data[i] != otherData[i]) {
+ 	    assert this.dataA[i] == this.dataL.get(i);
+	    if (this.dataA[i] != otherData[i]) {
                 return false;
             }
         }
@@ -75,12 +93,14 @@ public abstract class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
      * @see #set(boolean, int[])
      */
     public final void setPlain(final boolean value, final int pos) {
-        this.data[pos] = value;
+        this.dataA[pos] = value;
+	this.dataL.set(pos, value);
     }
 
     // api-docs inherited from AbstractGenericMatrix 
     public final void setPlain(final String value, final int pos) {
-	this.data[pos] = StringUtil.parseBoolean(value);
+	this.dataA[pos] = StringUtil.parseBoolean(value);
+	this.dataL.set(pos, StringUtil.parseBoolean(value));
     }
 
     /**
@@ -90,11 +110,15 @@ public abstract class BooleanMatrix extends AbstractGenericMatrix<boolean[]> {
      * @return value at pos
      */
     public final boolean get(final int... pos) {
-        return this.data[pos2ind(pos)];
+	assert this.dataL.get(pos2ind(pos)) == this.dataA[pos2ind(pos)];
+        return this.dataA[pos2ind(pos)];
+	//this.dataD.get(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
-	return StringUtil.toString(this.data[pos]);
+	assert this.dataL.get(pos) == this.dataA[pos];
+	//StringUtil.toString(this.dataL.get(pos));
+	return StringUtil.toString(this.dataA[pos]);
     }
 
 

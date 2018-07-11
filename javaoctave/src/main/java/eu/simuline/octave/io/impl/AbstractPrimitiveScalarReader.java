@@ -29,7 +29,7 @@ import java.io.BufferedReader;
  *    the type to be read in which has to extend {@link AbstractGenericMatrix}. 
  */
 abstract class AbstractPrimitiveScalarReader
-    <T extends AbstractGenericMatrix<?>> 
+    <T extends AbstractGenericMatrix<?,?>> 
     extends OctaveDataReader {
 
     @Override

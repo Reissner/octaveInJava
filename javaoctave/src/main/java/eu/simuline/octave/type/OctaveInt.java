@@ -27,6 +27,7 @@ public final class OctaveInt extends IntMatrix implements OctaveObject {
      * 
      * @param size
      */
+    // used by reader 
     public OctaveInt(final int... size) {
         super(size);
     }
@@ -37,6 +38,7 @@ public final class OctaveInt extends IntMatrix implements OctaveObject {
      * @param data
      * @param size
      */
+    // used by shallowCopy, end user, tests 
     public OctaveInt(final int[] data, final int... size) {
         super(data, size);
     }

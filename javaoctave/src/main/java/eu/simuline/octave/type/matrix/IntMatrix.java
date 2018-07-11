@@ -15,11 +15,14 @@
  */
 package eu.simuline.octave.type.matrix;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+
 /**
  * General matrix of <code>int</code> values. 
  */
 // used as superclass of class OctaveInt only 
-public abstract class IntMatrix extends AbstractGenericMatrix<int[]> {
+public abstract class IntMatrix 
+    extends AbstractGenericMatrix<int[], IntArrayList> {
 
     /**
      * @param size
@@ -31,11 +34,11 @@ public abstract class IntMatrix extends AbstractGenericMatrix<int[]> {
     /**
      * Constructor that reuses the input data. 
      * 
-     * @param data
+     * @param dataA
      * @param size
      */
-    public IntMatrix(final int[] data, final int... size) {
-        super(data, size);
+    public IntMatrix(final int[] dataA, final int... size) {
+        super(dataA, size);
     }
 
     // superfluous? 
@@ -52,14 +55,29 @@ public abstract class IntMatrix extends AbstractGenericMatrix<int[]> {
         return new int[size];
     }
 
+    protected final IntArrayList​ newL(final int size) {
+	IntArrayList​ list = new IntArrayList​(size);
+	list.size(size);
+	return list;
+    }
+
+    protected final IntArrayList​ newL(int[] data, final int size) {
+	IntArrayList​ list = new IntArrayList​(data);
+	list.size(size);
+	return list;
+    }
+
+
+
     public final int dataLength() {
-        return this.data.length;
+        return this.dataA.length;
     }
 
     protected final boolean dataEquals(final int usedLength,
 				       final int[] otherData) {
         for (int i = 0; i < usedLength; i++) {
-            if (this.data[i] != otherData[i]) {
+	    assert this.dataA[i] == this.dataL.get(i);
+            if (this.dataA[i] != otherData[i]) {
                 return false;
             }
         }
@@ -86,12 +104,14 @@ public abstract class IntMatrix extends AbstractGenericMatrix<int[]> {
      * @see #set(int, int[])
      */
     public final void setPlain(final int value, final int pos) {
-        this.data[pos] = value;
+        this.dataA[pos] = value;
+	this.dataL.set(pos, value);
     }
 
     // api-docs inherited from AbstractGenericMatrix 
     public final void setPlain(final String value, final int pos) {
-	this.data[pos] = Integer.parseInt(value.trim());
+	this.dataA[pos] = Integer.parseInt(value.trim());
+	this.dataL.set(pos, Integer.parseInt(value.trim()));
     }
 
     /**
@@ -101,11 +121,15 @@ public abstract class IntMatrix extends AbstractGenericMatrix<int[]> {
      * @return value at pos
      */
     public final int get(final int... pos) {
-        return this.data[pos2ind(pos)];
+	assert this.dataL.get(pos2ind(pos)) == this.dataA[pos2ind(pos)];
+        return this.dataA[pos2ind(pos)];
+	//this.dataL.get(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
-	return Integer.toString(this.data[pos]);
+	assert this.dataL.get(pos) == this.dataA[pos];
+	//Integer.toString(this.dataL.get(pos));
+	return Integer.toString(this.dataA[pos]);
     }
 
 

@@ -28,6 +28,7 @@ public final class OctaveBoolean extends BooleanMatrix implements OctaveObject {
     /**
      * @param size
      */
+    // Used in BooleanReader, BooleanSingleReader
     public OctaveBoolean(final int... size) {
         super(size);
     }
@@ -36,13 +37,14 @@ public final class OctaveBoolean extends BooleanMatrix implements OctaveObject {
      * @param data
      * @param size
      */
+    // used in shallowCopy(), used by end user 
     public OctaveBoolean(final boolean[] data, final int... size) {
         super(data, size);
     }
 
     @Override
     public OctaveBoolean shallowCopy() {
-        return new OctaveBoolean(this.data, this.size);
+        return new OctaveBoolean(this.dataA, this.size);
     }
 
 }

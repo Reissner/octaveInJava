@@ -16,12 +16,14 @@
 package eu.simuline.octave.type.matrix;
 
 import eu.simuline.octave.util.StringUtil;
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 
 /**
  * General matrix with double values. 
  */
 // used as superclass of class OctaveDouble and within OctaveComplex only 
-public abstract class DoubleMatrix extends AbstractGenericMatrix<double[]> {
+public abstract class DoubleMatrix 
+    extends AbstractGenericMatrix<double[], DoubleArrayList> {
 
     /**
      * @param size
@@ -33,11 +35,11 @@ public abstract class DoubleMatrix extends AbstractGenericMatrix<double[]> {
     /**
      * Constructor that reuses the input data. 
      * 
-     * @param data
+     * @param dataA
      * @param size
      */
-    public DoubleMatrix(final double[] data, final int... size) {
-        super(data, size);
+    public DoubleMatrix(final double[] dataA, final int... size) {
+        super(dataA, size);
     }
 
     /**
@@ -53,14 +55,27 @@ public abstract class DoubleMatrix extends AbstractGenericMatrix<double[]> {
         return new double[size];
     }
 
+    protected final DoubleArrayList​ newL(final int size) {
+	DoubleArrayList​ list = new DoubleArrayList​(size);
+	list.size(size);
+	return list;
+    }
+
+    protected final DoubleArrayList​ newL(double[] data, final int size) {
+	DoubleArrayList​ list = new DoubleArrayList​(data);
+	list.size(size);
+	return list;
+     }
+
     public final int dataLength() {
-        return this.data.length;
+        return this.dataA.length;
     }
 
     protected final boolean dataEquals(final int usedLength,
 				       final double[] otherData) {
         for (int i = 0; i < usedLength; i++) {
-            if (this.data[i] != otherData[i]) {
+	    assert this.dataA[i] == this.dataL.get(i);
+            if (this.dataA[i] != otherData[i]) {
                 return false;
             }
         }
@@ -87,12 +102,14 @@ public abstract class DoubleMatrix extends AbstractGenericMatrix<double[]> {
      * @see #set(double, int[])
      */
     public final void setPlain(final double value, final int pos) {
-        this.data[pos] = value;
+        this.dataA[pos] = value;
+	this.dataL.set(pos, value);
     }
 
     // api-docs inherited from AbstractGenericMatrix 
     public final void setPlain(final String value, final int pos) {
-        this.data[pos] = StringUtil.parseDouble(value);
+        this.dataA[pos] = StringUtil.parseDouble(value);
+	this.dataL.set(pos, StringUtil.parseDouble(value));
     }
 
     /**
@@ -102,11 +119,18 @@ public abstract class DoubleMatrix extends AbstractGenericMatrix<double[]> {
      * @return value at pos
      */
     public final double get(final int... pos) {
-        return this.data[pos2ind(pos)];
+	assert (Double.isNaN(this.dataL.get(pos2ind(pos))) && Double.isNaN(this.dataA[pos2ind(pos)]))
+	    || this.dataL.get(pos2ind(pos)) == this.dataA[pos2ind(pos)];
+        return this.dataA[pos2ind(pos)];
+	//this.dataD.get(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
-	return Double.toString(this.data[pos]);
+	
+	assert (Double.isNaN(this.dataL.get(pos)) && Double.isNaN(this.dataA[pos]))
+	    || this.dataL.get(pos) == this.dataA[pos];
+	//Double.toString(this.dataD.get(pos));
+	return Double.toString(this.dataA[pos]);
     }
 
 }
