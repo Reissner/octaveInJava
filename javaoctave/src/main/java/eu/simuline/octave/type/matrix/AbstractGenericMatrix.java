@@ -373,11 +373,10 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	    return false;
         }
 	
+	assert this.dataL.size() == product(this.size);
 	assert dataEquals(product(this.size), other.dataA) 
 	    == this.dataL.equals(other.dataL);
-	return //this.dataA == other.dataA 
-	    //|| 
-dataEquals(product(this.size), other.dataA);
+	return dataEquals(product(this.size), other.dataA);
     }
 
     // to implement OctaveObject 
