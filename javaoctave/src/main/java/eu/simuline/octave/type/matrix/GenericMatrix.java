@@ -80,24 +80,6 @@ public abstract class GenericMatrix<T>
 	return data.length;
      }
 
-    public final int dataLength() {
-        return this.dataA.length;
-    }
-
-    protected final boolean dataEquals(final int usedLength,
-				       final T[] otherData) {
-        for (int i = 0; i < usedLength; i++) {
-            final T o1 = this.dataA[i];
-            final T o2 = otherData [i];
-	    assert (o1 == null) == (this.dataL.get(i) == null);
-	    assert (o1 == null) || o1.equals(this.dataL.get(i));
-            if (!(o1 == null ? o2 == null : o1.equals(o2))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     /**
      * Set the value resizing by need. 
      * 

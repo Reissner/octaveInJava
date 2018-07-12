@@ -57,22 +57,6 @@ public abstract class BooleanMatrix
 	return data.length;
     }
 
-    public final int dataLength() {
-	//assert this.dataA.length == this.dataL.elements().length;
-        return this.dataA.length;
-    }
-
-    protected final boolean dataEquals(final int usedLength,
-				       final boolean[] otherData) {
-        for (int i = 0; i < usedLength; i++) {
- 	    assert this.dataA[i] == this.dataL.get(i);
-	    if (this.dataA[i] != otherData[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     /**
      * Set the value resizing by need. 
      * 

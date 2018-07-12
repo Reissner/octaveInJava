@@ -160,12 +160,6 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
     protected abstract int newL(D data, int size);
 
     /**
-     * @return data_.length
-     */
-    // used in checkDataSize and in MatrixReader only 
-    public abstract int dataLength();
-
-    /**
      * The number of data entries. 
      * Note that it is heavy load to compute this at the moment. 
      */
@@ -174,19 +168,6 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	//return product(this.size);
  	return this.dataL.size();
     }
-
-    /**
-     * Returns whether data of this and <code>otherData</code> 
-     * are equal in the first <code>usedLength</code> entries. 
-     * Here, two null-values are considered equal. 
-     *
-     * @param usedLength
-     * @param otherData
-     * @return
-     *    whether the used part of data is equal to otherData
-     */
-    // used in equals only 
-    protected abstract boolean dataEquals(int usedLength, D otherData);
 
     /**
      * Sets the entry with plain position <code>pos</code> 
@@ -374,9 +355,10 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         }
 	
 	assert this.dataL.size() == product(this.size);
-	assert dataEquals(product(this.size), other.dataA) 
-	    == this.dataL.equals(other.dataL);
-	return dataEquals(product(this.size), other.dataA);
+	// assert dataEquals(product(this.size), other.dataA) 
+	//     == this.dataL.equals(other.dataL);
+	return this.dataL.equals(other.dataL);
+	    //dataEquals(product(this.size), other.dataA);
     }
 
     // to implement OctaveObject 
