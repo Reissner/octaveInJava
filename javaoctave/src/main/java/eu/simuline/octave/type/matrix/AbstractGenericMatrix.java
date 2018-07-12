@@ -74,7 +74,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         this.size = size;
         checkSize();
         this.dataA = dataA;// **** dataL not initialized 
-	int dataLength = newL(this.dataA, product(size));
+	int dataLength = newL(dataA, product(size));
 	// assert this.data != null;
 	// this.dataL = dataL;
 	// assert this.dataL != null;
@@ -121,7 +121,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 
     /**
      * Check that the overall size given by the product of {@link #size} 
-     * does not exceed the length of {@link #dataA}. 
+     * does not exceed the length of the backed array. 
      */
     private void checkDataSize(int dataLength) {
         if (product(this.size) > dataLength) {
@@ -298,15 +298,6 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         return idx;
     }
 
-    // /**
-    //  * @return the data
-    //  * @deprecated
-    //  */
-    // // used nowhere 
-    // public final D getDataA() {
-    //     return this.data;
-    // }
-
     /**
      * Returns the string representation of the given plain position. 
      */
@@ -333,8 +324,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
     public final int hashCode() {
         int result = 1;
         result = PRIME * result + 
-	    ((this.dataA == null) ? 0 : this.dataA.hashCode());
-//	    ((this.dataL == null) ? 0 : this.dataL.hashCode());
+	    ((this.dataL == null) ? 0 : this.dataL.hashCode());
         result = PRIME * result + Arrays.hashCode(this.size);
         return result;
     }
