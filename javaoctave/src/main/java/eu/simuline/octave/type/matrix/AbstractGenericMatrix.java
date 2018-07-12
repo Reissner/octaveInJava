@@ -60,7 +60,6 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	this.dataL = newL(size1);
 	// assert this.dataA != null;
 	// assert this.dataL != null;
-	// assert dataLength() == product(size);
     }
 
     /**
@@ -75,12 +74,11 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         this.size = size;
         checkSize();
         this.dataA = dataA;// **** dataL not initialized 
-	this.dataL = newL(this.dataA, product(size));
+	int dataLength = newL(this.dataA, product(size));
 	// assert this.data != null;
-	// assert dataLength() == product(size);
 	// this.dataL = dataL;
 	// assert this.dataL != null;
-        checkDataSize(dataLength());
+        checkDataSize(dataLength);
     }
 
     /**
@@ -94,8 +92,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         this.dataA = newD(size1);
  //	assert this.data != null;
         System.arraycopy(o.dataA, 0, this.dataA, 0, size1);
-	this.dataL = newL(this.dataA, size1);
-//	assert dataLength() == product(this.size);
+	newL(this.dataA, size1);
 //	this.dataL = o.dataL.clone();
 //	this.dataL = new ArrayList<E>(o.dataL);
     }
@@ -130,7 +127,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         if (product(this.size) > dataLength) {
             final StringBuilder text = new StringBuilder();
             text.append("length of data(");
-            text.append(dataLength());
+            text.append(dataLength);
             text.append(") is smaller than size([");
             boolean first = true;
             for (final int i : this.size) {
@@ -159,8 +156,8 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
     protected abstract D newD(int size);
 
     protected abstract L newL(int size);
-    // as a side effect sets dataL
-    protected abstract L newL(D data, int size);
+    // as a side effect sets dataL and returns length of array 'data'
+    protected abstract int newL(D data, int size);
 
     /**
      * @return data_.length
@@ -169,7 +166,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
     public abstract int dataLength();
 
     /**
-     * The number of data entries, which is at most {@link #dataLength()}. 
+     * The number of data entries. 
      * Note that it is heavy load to compute this at the moment. 
      */
     public final int dataSize() {
@@ -298,7 +295,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	} // while 
 
 	this.dataA = dataOut;
-	this.dataL = newL(this.dataA, product(this.size));
+	newL(this.dataA, product(this.size));
     }
 
     /**

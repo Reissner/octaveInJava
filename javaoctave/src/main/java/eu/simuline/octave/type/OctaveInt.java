@@ -59,18 +59,4 @@ public final class OctaveInt extends IntMatrix implements OctaveObject {
 //        return new OctaveInt(this.data, this.size);
     }
 
-    // @Override
-    // @SuppressWarnings("checkstyle:magicnumber")
-    // // 10 is some number, immaterial. 
-    // public String toString() {
-    // 	StringBuilder res = new StringBuilder();
-    //     res.append("OctaveInt[size=");
-    // 	res.append(Arrays.toString(size));
-    // 	res.append(", data=");
-    //     res.append(Arrays.toString(Arrays.copyOf(this.data, 
-    // 						 Math.min(dataLength(), 10))));
-    // 	res.append(']');
-    // 	return res.toString();
-    // }
-
 }

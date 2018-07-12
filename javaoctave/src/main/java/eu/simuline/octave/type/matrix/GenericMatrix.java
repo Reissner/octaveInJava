@@ -74,10 +74,10 @@ public abstract class GenericMatrix<T>
 	return list;
     }
 
-    protected final ObjectArrayList<T> newL(T[] data, final int size) {
+    protected final int newL(T[] data, final int size) {
 	this.dataL = new ObjectArrayList<T>(data);
 	this.dataL.size(size);
-	return this.dataL;
+	return data.length;
      }
 
     public final int dataLength() {
