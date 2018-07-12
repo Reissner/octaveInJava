@@ -80,7 +80,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	// assert dataLength() == product(size);
 	// this.dataL = dataL;
 	// assert this.dataL != null;
-        checkDataSize();
+        checkDataSize(dataLength());
     }
 
     /**
@@ -126,8 +126,8 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
      * Check that the overall size given by the product of {@link #size} 
      * does not exceed the length of {@link #dataA}. 
      */
-    private void checkDataSize() {
-        if (product(this.size) > dataLength()) {
+    private void checkDataSize(int dataLength) {
+        if (product(this.size) > dataLength) {
             final StringBuilder text = new StringBuilder();
             text.append("length of data(");
             text.append(dataLength());
@@ -159,6 +159,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
     protected abstract D newD(int size);
 
     protected abstract L newL(int size);
+    // as a side effect sets dataL
     protected abstract L newL(D data, int size);
 
     /**
@@ -172,7 +173,9 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
      * Note that it is heavy load to compute this at the moment. 
      */
     public final int dataSize() {
-	return product(this.size);
+	assert product(this.size) == this.dataL.size();
+	//return product(this.size);
+ 	return this.dataL.size();
     }
 
     /**

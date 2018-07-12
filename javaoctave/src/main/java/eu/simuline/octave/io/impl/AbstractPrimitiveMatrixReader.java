@@ -88,7 +88,7 @@ abstract class AbstractPrimitiveMatrixReader
   	String line;
 	// **** in the long run dataLength is not what we need 
 	// active entries only 
-        for (int idx = 0; idx < res.dataLength(); idx++) {
+	for (int idx = 0; idx < res.dataSize(); idx++) {
             line = OctaveIO.readerReadLine(reader);
  	    res.setPlain(line, idx);
 	}

@@ -156,7 +156,7 @@ public class TestOctaveBoolean {
         assertEquals(0, matrix.getSize(1));
         assertEquals(4, matrix.getSize(2));
         // assertEquals(0, matrix.getData().length); is 0
-        assertTrue(matrix.dataLength() >= 0);
+	assertTrue(matrix.dataSize() >= 0);
 
         matrix.set(true, 1, 1);
         assertEquals(true, matrix.get(1, 1));
@@ -164,7 +164,7 @@ public class TestOctaveBoolean {
         assertEquals(1, matrix.getSize(1));
         assertEquals(4, matrix.getSize(2));
         // assertEquals(4, matrix.getData().length); is 8
-        assertTrue(matrix.dataLength() >= 4);
+        assertTrue(matrix.dataSize() >= 4);
     }
 
     /** Test Performance of Resize */

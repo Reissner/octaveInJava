@@ -62,9 +62,9 @@ public abstract class DoubleMatrix
     }
 
     protected final DoubleArrayList​ newL(double[] data, final int size) {
-	DoubleArrayList​ list = new DoubleArrayList​(data);
-	list.size(size);
-	return list;
+	this.dataL = new DoubleArrayList​(data);
+	this.dataL.size(size);
+	return this.dataL;
      }
 
     public final int dataLength() {

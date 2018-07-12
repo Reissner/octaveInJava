@@ -129,7 +129,7 @@ public class TestOctaveDouble {
         assertEquals(4, matrix.getSize(4));
 
         final OctaveDouble matrixEmpty = new OctaveDouble(0, 0);
-        assertEquals(matrixEmpty.dataLength(), 0);
+	assertEquals(matrixEmpty.dataSize(), 0);
 
         try {
             new OctaveDouble(1);
@@ -275,7 +275,7 @@ public class TestOctaveDouble {
         assertEquals(0, matrix.getSize(1));
         assertEquals(4, matrix.getSize(2));
         // assertEquals(0, matrix.dataLength()); is 0
-        assertTrue(matrix.dataLength() >= 0);
+        assertTrue(matrix.dataSize() >= 0);
 
         matrix.set(42.0, 1, 1);
         assertEquals(42.0, matrix.get(1, 1), 0.0);
@@ -283,7 +283,7 @@ public class TestOctaveDouble {
         assertEquals(1, matrix.getSize(1));
         assertEquals(4, matrix.getSize(2));
         // assertEquals(4, matrix.dataLength()); is 8
-        assertTrue(matrix.dataLength() >= 4);
+        assertTrue(matrix.dataSize() >= 4);
     }
 
     /** Test Performance of Resize */

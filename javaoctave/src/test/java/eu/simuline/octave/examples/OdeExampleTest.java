@@ -35,7 +35,7 @@ public class OdeExampleTest extends TestCase {
         final OctaveDouble t = octave.get(OctaveDouble.class, "t");
         octave.close();
         // End web text
-        assertEquals(101, t.dataLength());
+        assertEquals(101, t.dataSize());
     }
 
 }

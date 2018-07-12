@@ -56,9 +56,9 @@ public abstract class IntMatrix
     }
 
     protected final IntArrayList​ newL(final int size) {
-	IntArrayList​ list = new IntArrayList​(size);
-	list.size(size);
-	return list;
+	this.dataL = new IntArrayList​(size);
+	this.dataL.size(size);
+	return this.dataL;
     }
 
     protected final IntArrayList​ newL(int[] data, final int size) {

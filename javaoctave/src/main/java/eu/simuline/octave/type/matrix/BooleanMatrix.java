@@ -52,9 +52,9 @@ public abstract class BooleanMatrix
     }
 
     protected final BooleanArrayList​ newL(boolean[] data, final int size) {
-	BooleanArrayList​ list = new BooleanArrayList​(data);
-	list.size(size);
-	return list;
+	this.dataL = new BooleanArrayList​(data);
+	this.dataL.size(size);
+	return this.dataL;
     }
 
     public final int dataLength() {

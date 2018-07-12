@@ -23,6 +23,8 @@ import eu.simuline.octave.type.cast.Cast;
 import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
 import eu.simuline.octave.type.matrix.GenericMatrix;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
 import java.util.List;
 
 /**
@@ -60,7 +62,7 @@ public final class OctaveCell
         super(size);
     }
 
-    private OctaveCell(final AbstractGenericMatrix<OctaveObject[], List<OctaveObject>> o) {
+    private OctaveCell(final AbstractGenericMatrix<OctaveObject[], ObjectArrayList<OctaveObject>> o) {
         super(o);
     }
 
