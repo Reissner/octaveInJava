@@ -13,3 +13,5 @@ eu.simuline.octave.io.impl.SparseBooleanReader
 eu.simuline.octave.io.impl.StructReader
 eu.simuline.octave.io.impl.Int32MatrixReader
 eu.simuline.octave.io.impl.Int32ScalarReader
+eu.simuline.octave.io.impl.Int64MatrixReader
+eu.simuline.octave.io.impl.Int64ScalarReader

@@ -7,3 +7,4 @@ eu.simuline.octave.io.impl.OctaveStringWriter
 eu.simuline.octave.io.impl.SparseBooleanWriter
 eu.simuline.octave.io.impl.StructWriter
 eu.simuline.octave.io.impl.Int32MatrixWriter
+eu.simuline.octave.io.impl.Int64MatrixWriter

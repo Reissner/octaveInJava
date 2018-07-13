@@ -24,7 +24,13 @@
         <dueto name=.. email=.. />
     </release-->
 
-     <release version="0.6.9-snapshot" date='' description=''>
+     <release version="0.7.1-snapshot" date='' description=''>
+       <action dev="ER" type="add">
+	 added support for octave type int64 and java type long. 
+       </action>
+     </release>
+
+     <release version="0.7.0" date='2018-07-13' description=''>
        <action dev="ER" type="fix">
 	 bug in AbstractGenericMatrix.resizeUp with side effect (see below)
        </action>
