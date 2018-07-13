@@ -70,8 +70,8 @@ public class TestOctaveComplex {
     private void checkSize(final OctaveComplex complex, 
 			   final int i, 
 			   final int j) {
-        assertEquals(i, complex.size(1));
-        assertEquals(j, complex.size(2));
+        assertEquals(i, complex.getSize(1));
+        assertEquals(j, complex.getSize(2));
         complex.getReal(i, j);
         complex.getImag(i, j);
         failGet(complex, i + 1, j);

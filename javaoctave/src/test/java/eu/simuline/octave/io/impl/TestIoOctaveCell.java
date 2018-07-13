@@ -40,8 +40,8 @@ public class TestIoOctaveCell {
      */
     @Test public void testConstructor() {
         final OctaveCell cell = new OctaveCell(0, 0);
-        assertEquals(0, cell.size(1));
-        assertEquals(0, cell.size(2));
+        assertEquals(0, cell.getSize(1));
+        assertEquals(0, cell.getSize(2));
         assertEquals("# name: ans\n" + //
 		     "# type: cell\n" + //
 		     "# rows: 0\n" + //
@@ -54,8 +54,8 @@ public class TestIoOctaveCell {
     @Test public void testConstructorValue() {
         final OctaveCell cell = new OctaveCell(0, 0);
         cell.set(Octave.scalar(42), 1, 1);
-        assertEquals(1, cell.size(1));
-        assertEquals(1, cell.size(2));
+        assertEquals(1, cell.getSize(1));
+        assertEquals(1, cell.getSize(2));
         assertEquals("# name: mycell2\n" + 
 		     "# type: cell\n" + 
 		     "# rows: 1\n" + 
@@ -70,8 +70,8 @@ public class TestIoOctaveCell {
      */
     @Test public void testConstructorIntInt() {
         final OctaveCell cell = new OctaveCell(2, 2);
-        assertEquals(2, cell.size(1));
-        assertEquals(2, cell.size(2));
+        assertEquals(2, cell.getSize(1));
+        assertEquals(2, cell.getSize(2));
         assertEquals("# name: mycell22\n" + 
 		     "# type: cell\n" + 
 		     "# rows: 2\n" + 
@@ -104,11 +104,11 @@ public class TestIoOctaveCell {
      */
     @Test public void testSetIntInt() {
         final OctaveCell cell = new OctaveCell(0, 0);
-        assertEquals(0, cell.size(1));
-        assertEquals(0, cell.size(2));
+        assertEquals(0, cell.getSize(1));
+        assertEquals(0, cell.getSize(2));
         cell.set(Octave.scalar(42), 3, 4);
-        assertEquals(3, cell.size(1));
-        assertEquals(4, cell.size(2));
+        assertEquals(3, cell.getSize(1));
+        assertEquals(4, cell.getSize(2));
         assertEquals("# name: mycell\n# type: cell\n" + 
 		     "# rows: 3\n# columns: 4\n" + //
 		     "# name: <cell-element>\n# type: matrix\n" + 
@@ -187,8 +187,8 @@ public class TestIoOctaveCell {
         final OctaveCell cell = new OctaveCell(2, 2);
         cell.set(Octave.scalar(42), 1, 1);
         cell.set(octaveMatrix, 1, 2);
-        assertEquals(2, cell.size(1));
-        assertEquals(2, cell.size(2));
+        assertEquals(2, cell.getSize(1));
+        assertEquals(2, cell.getSize(2));
         assertEquals("# name: mycell2\n" + //
 		     "# type: cell\n" + //
 		     "# rows: 2\n" + //
@@ -225,8 +225,8 @@ public class TestIoOctaveCell {
     @Test public void testCell12() {
         final OctaveCell cell = new OctaveCell(0, 0);
         cell.set(Octave.scalar(42), 1, 2);
-        assertEquals(1, cell.size(1));
-        assertEquals(2, cell.size(2));
+        assertEquals(1, cell.getSize(1));
+        assertEquals(2, cell.getSize(2));
         assertEquals("# name: cell12\n" + //
 		     "# type: cell\n" + //
 		     "# rows: 1\n" + //
@@ -251,8 +251,8 @@ public class TestIoOctaveCell {
         final OctaveCell cell = new OctaveCell(0, 0);
         cell.set(Octave.scalar(12), 1, 2);
         cell.set(Octave.scalar(21), 2, 1);
-        assertEquals(2, cell.size(1));
-        assertEquals(2, cell.size(2));
+        assertEquals(2, cell.getSize(1));
+        assertEquals(2, cell.getSize(2));
         assertEquals("# name: cell22\n" + //
 		     "# type: cell\n" + //
 		     "# rows: 2\n" + //
@@ -289,8 +289,8 @@ public class TestIoOctaveCell {
         final OctaveCell cell = new OctaveCell(0, 0);
         cell.set(Octave.scalar(12), 1, 2);
         cell.set(Octave.scalar(21), 2, 1);
-        assertEquals(2, cell.size(1));
-        assertEquals(2, cell.size(2));
+        assertEquals(2, cell.getSize(1));
+        assertEquals(2, cell.getSize(2));
 
         final String text = OctaveIO.toText(cell);
         final BufferedReader bufferedReader = 

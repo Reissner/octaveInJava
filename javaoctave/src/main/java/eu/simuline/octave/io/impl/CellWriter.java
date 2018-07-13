@@ -45,8 +45,8 @@ public final class CellWriter extends OctaveDataWriter<OctaveCell> {
     @Override
     public void write(final Writer writer,
 		      final OctaveCell octaveCell) throws IOException {
-        final int rows = octaveCell.size(1);
-        final int columns = octaveCell.size(2);
+        final int rows    = octaveCell.getSize(1);
+        final int columns = octaveCell.getSize(2);
         writer.write("# type: cell\n");
         writer.write("# rows: " + rows + "\n");
         writer.write("# columns: " + columns + "\n");

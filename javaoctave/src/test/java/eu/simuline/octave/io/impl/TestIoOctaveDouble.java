@@ -101,8 +101,8 @@ public class TestIoOctaveDouble {
      */
     @Test public void testEmpty2dToText() throws Exception {
         final OctaveDouble matrix = new OctaveDouble(0, 0);
-        assertEquals(0, matrix.size(1));
-        assertEquals(0, matrix.size(2));
+        assertEquals(0, matrix.getSize(1));
+        assertEquals(0, matrix.getSize(2));
         assertEquals("# name: matrix\n" + //
 		     "# type: matrix\n" + //
 		     "# rows: 0\n" + //
@@ -116,8 +116,8 @@ public class TestIoOctaveDouble {
     @Test public void test2dToText() throws Exception {
         final double[] numbers = { 1, 2, 3, 4, 5, 6 };
         final OctaveDouble matrix = new OctaveDouble(numbers, 2, 3);
-        assertEquals(2, matrix.size(1));
-        assertEquals(3, matrix.size(2));
+        assertEquals(2, matrix.getSize(1));
+        assertEquals(3, matrix.getSize(2));
         assertEquals("# name: mymatrix\n" + //
 		     "# type: matrix\n" + //
 		     "# rows: 2\n" + //
@@ -132,8 +132,8 @@ public class TestIoOctaveDouble {
      */
     @Test public void test2dToTextB() throws Exception {
         final OctaveDouble matrix = new OctaveDouble(2, 3);
-        assertEquals(2, matrix.size(1));
-        assertEquals(3, matrix.size(2));
+        assertEquals(2, matrix.getSize(1));
+        assertEquals(3, matrix.getSize(2));
         assertEquals("# name: matrix\n" + //
 		     "# type: matrix\n" + //
 		     "# rows: 2\n" + //

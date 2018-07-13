@@ -26,8 +26,8 @@ abstract class AbstractLogicalFloatingPointWriter
             saveDataVectorized(writer, octaveMatrix);
         } else {
             if (octaveMatrix.getSizeLength() == 2 && 
-		octaveMatrix.size(1) == 1 && 
-		octaveMatrix.size(2) == 1) {
+		octaveMatrix.getSize(1) == 1 && 
+		octaveMatrix.getSize(2) == 1) {
 
                 writer.write("# type: " + octaveScalarType() + "\n");
 		writer.write(octaveMatrix.getPlainString(0) + "\n");

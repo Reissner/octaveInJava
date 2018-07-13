@@ -105,7 +105,7 @@ public final class StructReader extends OctaveDataReader {
             }
 
             final OctaveCell cell = CELL_READER.read(reader);
-            if (cell.size(1) != 1 || cell.size(2) != 1) {
+            if (cell.getSize(1) != 1 || cell.getSize(2) != 1) {
                 throw new OctaveParseException
 		    ("JavaOctave does not support matrix structs, size="
 		     + cell.getSize(1) + " " + cell.getSize(2) + "...");

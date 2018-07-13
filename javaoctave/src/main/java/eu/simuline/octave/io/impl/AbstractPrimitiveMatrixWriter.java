@@ -41,8 +41,8 @@ abstract class AbstractPrimitiveMatrixWriter
     public void write(final Writer writer, 
 		      final T octaveMatrix) throws IOException {
 	if (octaveMatrix.getSizeLength() == 2 && 
-	    octaveMatrix.size(1) == 1 && 
-	    octaveMatrix.size(2) == 1) {
+	    octaveMatrix.getSize(1) == 1 && 
+	    octaveMatrix.getSize(2) == 1) {
 
 	    writer.write("# type: " + octaveScalarType() + "\n");
 	    writer.write(octaveMatrix.getPlainString(0) + "\n");

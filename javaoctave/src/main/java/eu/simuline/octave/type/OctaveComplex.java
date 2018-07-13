@@ -56,8 +56,8 @@ public final class OctaveComplex implements OctaveObject {
      *            dimension number in 1 based numbering, 1=row, 2=column
      * @return the size in dimension i
      */
-    public int size(final int i) {
-        return this.real.size(i);
+    public int getSize(final int i) {
+        return this.real.getSize(i);
     }
 
     /**

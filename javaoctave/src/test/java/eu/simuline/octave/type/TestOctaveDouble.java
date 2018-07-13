@@ -111,11 +111,11 @@ public class TestOctaveDouble {
     @Test public void testSizeConstructorModify() {
         final int[] size = new int[] { 2, 2 };
         final OctaveDouble matrix = new OctaveDouble(size);
-        assertEquals(2, matrix.size(1), 0.0);
-        assertEquals(2, matrix.size(2), 0.0);
+        assertEquals(2, matrix.getSize(1));
+        assertEquals(2, matrix.getSize(2));
         size[1] = 3;
-        assertEquals(2, matrix.size(1), 0.0);
-        assertEquals(2, matrix.size(2), 0.0);
+        assertEquals(2, matrix.getSize(1));
+        assertEquals(2, matrix.getSize(2));
     }
 
     /**
@@ -196,20 +196,20 @@ public class TestOctaveDouble {
         final OctaveDouble a = new OctaveDouble(2, 2);
         final OctaveDouble b = a.shallowCopy();
         assertEquals(a, b);
-        assertEquals(2, a.size(1));
-        assertEquals(2, a.size(2));
-        assertEquals(2, b.size(1));
-        assertEquals(2, b.size(2));
+        assertEquals(2, a.getSize(1));
+        assertEquals(2, a.getSize(2));
+        assertEquals(2, b.getSize(1));
+        assertEquals(2, b.getSize(2));
         a.set(33, 2, 3);
-        assertEquals(2, a.size(1));
-        assertEquals(3, a.size(2));
-        assertEquals(2, b.size(1));
-        assertEquals(2, b.size(2));
+        assertEquals(2, a.getSize(1));
+        assertEquals(3, a.getSize(2));
+        assertEquals(2, b.getSize(1));
+        assertEquals(2, b.getSize(2));
         b.set(44, 3, 2);
-        assertEquals(2, a.size(1));
-        assertEquals(3, a.size(2));
-        assertEquals(3, b.size(1));
-        assertEquals(2, b.size(2));
+        assertEquals(2, a.getSize(1));
+        assertEquals(3, a.getSize(2));
+        assertEquals(3, b.getSize(1));
+        assertEquals(2, b.getSize(2));
     }
 
     /**

@@ -121,8 +121,8 @@ public class TestIoOctaveInt {
      */
     @Ignore @Test public void testEmpty2dToText() throws Exception {
         final OctaveInt matrix = new OctaveInt(0, 0);
-        assertEquals(0, matrix.size(1));
-        assertEquals(0, matrix.size(2));
+        assertEquals(0, matrix.getSize(1));
+        assertEquals(0, matrix.getSize(2));
         assertEquals("# name: matrix\n" + //
 		     "# type: int32 matrix\n" + //
 		     "# rows: 0\n" + //
@@ -136,8 +136,8 @@ public class TestIoOctaveInt {
     @Ignore @Test public void test2dToText() throws Exception {
         final int[] numbers = { 1, 2, 3, 4, 5, 6 };
         final OctaveInt matrix = new OctaveInt(numbers, 2, 3);
-        assertEquals(2, matrix.size(1));
-        assertEquals(3, matrix.size(2));
+        assertEquals(2, matrix.getSize(1));
+        assertEquals(3, matrix.getSize(2));
         assertEquals("# name: mymatrix\n" + //
 		     "# type: int32 matrix\n" + //
 		     "# rows: 2\n" + //
@@ -153,8 +153,8 @@ public class TestIoOctaveInt {
      */
     @Ignore @Test public void test2dToTextB() throws Exception {
         final OctaveInt matrix = new OctaveInt(2, 3);
-        assertEquals(2, matrix.size(1));
-        assertEquals(3, matrix.size(2));
+        assertEquals(2, matrix.getSize(1));
+        assertEquals(3, matrix.getSize(2));
         assertEquals("# name: matrix\n" + //
 		     "# type: int32 matrix\n" + //
 		     "# rows: 2\n" + //

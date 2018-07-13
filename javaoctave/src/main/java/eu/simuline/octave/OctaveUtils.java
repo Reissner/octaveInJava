@@ -67,7 +67,7 @@ public final class OctaveUtils {
         octave.eval("clear " + varName);
         final Collection<String> collection = new HashSet<String>();
         final Pattern pattern = Pattern.compile("javaoctave_[0-9a-f]{12}_eval");
-        for (int i = 1; i <= data.size(2); ++i) {
+        for (int i = 1; i <= data.getSize(2); ++i) {
             final String name = data.get(OctaveString.class, 1, i).getString();
             if (varName.equals(name) || 
 		NARGIN .equals(name) || 

@@ -85,8 +85,8 @@ public class TestIoOctaveBoolean {
      */
     @Test public void testConstructor2() throws Exception {
         final OctaveBoolean matrix = new OctaveBoolean(0, 0);
-        assertEquals(0, matrix.size(1));
-        assertEquals(0, matrix.size(2));
+        assertEquals(0, matrix.getSize(1));
+        assertEquals(0, matrix.getSize(2));
         assertEquals("# name: matrix\n" + //
 		     "# type: bool matrix\n" + //
 		     "# rows: 0\n" + //
@@ -100,8 +100,8 @@ public class TestIoOctaveBoolean {
     @Test public void testConstructorMatrix() throws Exception {
         final boolean[] numbers = { true, true, false, false, true, true };
         final OctaveBoolean matrix = new OctaveBoolean(numbers, 2, 3);
-        assertEquals(2, matrix.size(1));
-        assertEquals(3, matrix.size(2));
+        assertEquals(2, matrix.getSize(1));
+        assertEquals(3, matrix.getSize(2));
         assertEquals("# name: mymatrix\n" + //
 		     "# type: bool matrix\n" + //
 		     "# rows: 2\n" + //
@@ -116,8 +116,8 @@ public class TestIoOctaveBoolean {
      */
     @Test public void testConstructorIntInt() throws Exception {
         final OctaveBoolean matrix = new OctaveBoolean(2, 3);
-        assertEquals(2, matrix.size(1));
-        assertEquals(3, matrix.size(2));
+        assertEquals(2, matrix.getSize(1));
+        assertEquals(3, matrix.getSize(2));
         assertEquals("# name: matrix\n" + //
 		     "# type: bool matrix\n" + //
 		     "# rows: 2\n" + //
@@ -156,23 +156,23 @@ public class TestIoOctaveBoolean {
      */
     @Test public void testGrowth() throws Exception {
         final OctaveBoolean matrix = new OctaveBoolean(0, 0);
-        assertEquals(0, matrix.size(1));
-        assertEquals(0, matrix.size(2));
+        assertEquals(0, matrix.getSize(1));
+        assertEquals(0, matrix.getSize(2));
         assertEquals("# name: matrix\n" + //
 		     "# type: bool matrix\n" + //
 		     "# rows: 0\n" + //
 		     "# columns: 0\n",  //
 		     OctaveIO.toText("matrix", matrix));
         matrix.set(true, 1, 1);
-        assertEquals(1, matrix.size(1));
-        assertEquals(1, matrix.size(2));
+        assertEquals(1, matrix.getSize(1));
+        assertEquals(1, matrix.getSize(2));
         assertEquals("# name: matrix\n" + //
 		     "# type: bool\n" + //
 		     "1\n",  //
 		     OctaveIO.toText("matrix", matrix));
         matrix.set(true, 3, 1);
-        assertEquals(3, matrix.size(1));
-        assertEquals(1, matrix.size(2));
+        assertEquals(3, matrix.getSize(1));
+        assertEquals(1, matrix.getSize(2));
         assertEquals("# name: matrix\n" + //
 		     "# type: bool matrix\n" + //
 		     "# rows: 3\n" + //
@@ -199,8 +199,8 @@ public class TestIoOctaveBoolean {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
         octave.eval("m=[true false;false true];");
         final OctaveBoolean m = octave.get(OctaveBoolean.class, "m");
-        assertEquals(2, m.size(1));
-        assertEquals(2, m.size(2));
+        assertEquals(2, m.getSize(1));
+        assertEquals(2, m.getSize(2));
         assertEquals(true, m.get(1, 1));
         assertEquals(false, m.get(1, 2));
         assertEquals(false, m.get(2, 1));
