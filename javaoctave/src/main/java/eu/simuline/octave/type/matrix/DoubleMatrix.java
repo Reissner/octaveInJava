@@ -51,10 +51,6 @@ public abstract class DoubleMatrix
         super(o);
     }
 
-    protected final double[] newD(final int size) {
-        return new double[size];
-    }
-
     protected final DoubleArrayList​ newL(final int size) {
 	DoubleArrayList​ list = new DoubleArrayList​(size);
 	list.size(size);

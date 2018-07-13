@@ -50,10 +50,6 @@ public abstract class IntMatrix
         super(o);
     }
 
-    protected final int[] newD(final int size) {
-        return new int[size];
-    }
-
     protected final IntArrayList​ newL(final int size) {
 	IntArrayList​ list = new IntArrayList​(size);
 	list.size(size);

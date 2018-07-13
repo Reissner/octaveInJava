@@ -129,7 +129,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         }
     }
 
-    /*
+    /**
      * Returns a new data store with given size 
      * and entries carrying the default value. 
      * The latter depends on the types: false for boolean, 
@@ -138,10 +138,8 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
      * @param size
      * @return new D[size]
      */
-    // used in constructors and resizeUp only 
-    protected abstract D newD(int size);
-
     protected abstract L newL(int size);
+
     // as a side effect sets dataL and returns length of array 'data'
     protected abstract int newL(D data, int size);
 
@@ -153,7 +151,10 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
  	return this.dataL.size();
     }
 
-
+    /**
+     * Returns the data store as an array. 
+     * There are subclasses with array of primitive types. 
+     */
     protected abstract D getDataA();
 
     /**

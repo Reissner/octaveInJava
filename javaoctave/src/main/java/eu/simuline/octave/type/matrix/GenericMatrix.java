@@ -62,12 +62,6 @@ public abstract class GenericMatrix<T>
         super(o);
     }
 
-    @SuppressWarnings("unchecked")
-    // **** is this a bug (ClassCastException)??
-    protected final T[] newD(final int size) {
-        return (T[]) new Object[size];
-    }
-
     // api-docs inherited from base class 
     protected final ObjectArrayList<T> newL(final int size) {
         ObjectArrayList<T> list = new ObjectArrayList<T>(size);

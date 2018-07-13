@@ -45,10 +45,6 @@ public abstract class BooleanMatrix
         super(o);
     }
 
-    protected final boolean[] newD(final int size) {
-        return new boolean[size];
-    }
-
     protected final BooleanArrayList​ newL(final int size) {
 	BooleanArrayList​ list = new BooleanArrayList​(size);
 	list.size(size);
