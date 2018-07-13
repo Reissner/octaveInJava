@@ -68,23 +68,24 @@ public abstract class GenericMatrix<T>
         return (T[]) new Object[size];
     }
 
+    // api-docs inherited from base class 
     protected final ObjectArrayList<T> newL(final int size) {
         ObjectArrayList<T> list = new ObjectArrayList<T>(size);
 	list.size(size);
 	return list;
     }
 
+    // api-docs inherited from base class 
     protected final int newL(T[] data, final int size) {
 	this.dataL = new ObjectArrayList<T>(data);
 	this.dataL.size(size);
 	return data.length;
     }
 
+    // api-docs inherited from base class 
     protected T[] getDataA() {
 	return this.dataL.elements();
     }
-
-
 
     /**
      * Set the value resizing by need. 
@@ -111,7 +112,6 @@ public abstract class GenericMatrix<T>
      * @see #set(Object, int[])
      */
     public final void setPlain(final T value, final int pos) {
-         this.dataA[pos] = value;
 	 this.dataL.set(pos, value);
     }
 
@@ -130,16 +130,11 @@ public abstract class GenericMatrix<T>
     // see set(...)
     @SuppressWarnings("checkstyle:designforextension")
     public T get(final int... pos) {
-	assert Objects.equals(this.dataA[pos2ind(pos)], 
-			      this.dataL.get(pos2ind(pos)));
 	return this.dataL.get(pos2ind(pos));
     }
 
     // **** may dataL be null??  
     public final String getPlainString(int pos) {
-	StringUtil.toString(this.dataL.get(pos));
-	assert      StringUtil.toString(this.dataL.get(pos))
-	    .equals(StringUtil.toString(this.dataA[pos]));
 	return StringUtil.toString(this.dataL.get(pos));
     }
 }

@@ -41,6 +41,10 @@ public abstract class BooleanMatrix
         super(dataA, size);
     }
 
+    protected BooleanMatrix(BooleanMatrix o) {
+        super(o);
+    }
+
     protected final boolean[] newD(final int size) {
         return new boolean[size];
     }
@@ -52,9 +56,9 @@ public abstract class BooleanMatrix
     }
 
     protected final int newL(boolean[] data, final int size) {
-	this.dataL = new BooleanArrayList​(data);
-	this.dataL.size(size);
-	return data.length;
+    	this.dataL = new BooleanArrayList​(data);
+    	this.dataL.size(size);
+    	return data.length;
     }
 
     protected boolean[] getDataA() {
@@ -81,13 +85,11 @@ public abstract class BooleanMatrix
      * @see #set(boolean, int[])
      */
     public final void setPlain(final boolean value, final int pos) {
-        this.dataA[pos] = value;
 	this.dataL.set(pos, value);
     }
 
     // api-docs inherited from AbstractGenericMatrix 
     public final void setPlain(final String value, final int pos) {
-	this.dataA[pos] = StringUtil.parseBoolean(value);
 	this.dataL.set(pos, StringUtil.parseBoolean(value));
     }
 
@@ -98,12 +100,10 @@ public abstract class BooleanMatrix
      * @return value at pos
      */
     public final boolean get(final int... pos) {
-	assert this.dataL.getBoolean(pos2ind(pos)) == this.dataA[pos2ind(pos)];
  	return this.dataL.getBoolean(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
-	assert this.dataL.getBoolean(pos) == this.dataA[pos];
 	return StringUtil.toString(this.dataL.getBoolean(pos));
     }
 

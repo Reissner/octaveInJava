@@ -92,13 +92,11 @@ public abstract class DoubleMatrix
      * @see #set(double, int[])
      */
     public final void setPlain(final double value, final int pos) {
-        this.dataA[pos] = value;
 	this.dataL.set(pos, value);
     }
 
     // api-docs inherited from AbstractGenericMatrix 
     public final void setPlain(final String value, final int pos) {
-        this.dataA[pos] = StringUtil.parseDouble(value);
 	this.dataL.set(pos, StringUtil.parseDouble(value));
     }
 
@@ -109,15 +107,10 @@ public abstract class DoubleMatrix
      * @return value at pos
      */
     public final double get(final int... pos) {
-	assert (Double.isNaN(this.dataL.getDouble(pos2ind(pos))) && Double.isNaN(this.dataA[pos2ind(pos)]))
-	    || this.dataL.getDouble(pos2ind(pos)) == this.dataA[pos2ind(pos)];
 	return this.dataL.getDouble(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
-	
-	assert (Double.isNaN(this.dataL.getDouble(pos)) && Double.isNaN(this.dataA[pos]))
-	    || this.dataL.getDouble(pos) == this.dataA[pos];
 	return Double.toString(this.dataL.getDouble(pos));
     }
 

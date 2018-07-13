@@ -43,9 +43,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
      * The data, vectorized.
      */
     @SuppressWarnings("checkstyle:visibilitymodifier")
-    // protected D data;
-    protected D dataA;
-    protected L dataL;//final 
+     protected L dataL;//final 
 
     /**
      * Constructor that creates new blank matrix. 
@@ -56,10 +54,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         this.size = size.clone();
         checkSize();
 	int size1 = product(size);
-        this.dataA = newD(size1);
 	this.dataL = newL(size1);
-	// assert this.dataA != null;
-	// assert this.dataL != null;
     }
 
     /**
@@ -73,12 +68,8 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
     protected AbstractGenericMatrix(D dataA, int... size) { //List<E> dataL, 
         this.size = size;
         checkSize();
-        this.dataA = dataA;// **** dataL not initialized 
 	int dataLength = newL(dataA, product(size));
-	// assert this.data != null;
-	// this.dataL = dataL;
-	// assert this.dataL != null;
-        checkDataSize(dataLength);
+	checkDataSize(dataLength);
     }
 
     /**
@@ -89,13 +80,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
     protected AbstractGenericMatrix(final AbstractGenericMatrix<D, L> o) { //, E
         this.size = o.size.clone();
 	int size1 = product(this.size);
-        this.dataA = newD(size1);
- //	assert this.data != null;
-        System.arraycopy(o.dataA, 0, this.dataA, 0, size1);
 	newL(o.getDataA(), size1);
-	//****newL(this.dataA, size1);
-//	this.dataL = o.dataL.clone();
-//	this.dataL = new ArrayList<E>(o.dataL);
     }
 
     /**
@@ -144,7 +129,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         }
     }
 
-    /**
+    /*
      * Returns a new data store with given size 
      * and entries carrying the default value. 
      * The latter depends on the types: false for boolean, 
@@ -165,8 +150,6 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
      * Note that it is heavy load to compute this at the moment. 
      */
     public final int dataSize() {
-	assert product(this.size) == this.dataL.size();
-	//return product(this.size);
  	return this.dataL.size();
     }
 
@@ -239,14 +222,11 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	    return;
 	}
 
-	//assert Arrays.equals()
-
 	// Here, orgSize[0] is defined 
 	final int cpyLen    = orgSize[0];
 	final int osp = product(orgSize);
 
 	// initialize resulting array with default values 
-	D dataOutA = newD(product(this.size));
 	D dataInL  = getDataA();
 	this.dataL = newL(product(this.size));
 	int idxSrc = 0;
@@ -255,8 +235,6 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	int idxIdx;
 	int lenUnitGap;
 	while (idxSrc < osp) {
-	    System.arraycopy(this.dataA,            idxSrc, 
-			     dataOutA, idxTrg, cpyLen);
 	    System.arraycopy(dataInL, idxSrc, 
 			     getDataA(), idxTrg, cpyLen);
 	    idxSrc += cpyLen;
@@ -285,9 +263,6 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	    idxTrg += lenUnitGap;
 	    idxTrgMulti[idxIdx]++;
 	} // while 
-
-	this.dataA = dataOutA;
-	//newL(this.dataA, product(this.size));
     }
 
     /**

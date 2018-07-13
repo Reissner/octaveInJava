@@ -41,7 +41,6 @@ public abstract class IntMatrix
         super(dataA, size);
     }
 
-    // superfluous? 
     /**
      * Copy constructor. 
      * 
@@ -91,13 +90,11 @@ public abstract class IntMatrix
      * @see #set(int, int[])
      */
     public final void setPlain(final int value, final int pos) {
-        this.dataA[pos] = value;
 	this.dataL.set(pos, value);
     }
 
     // api-docs inherited from AbstractGenericMatrix 
     public final void setPlain(final String value, final int pos) {
-	this.dataA[pos] = Integer.parseInt(value.trim());
 	this.dataL.set(pos, Integer.parseInt(value.trim()));
     }
 
@@ -108,14 +105,10 @@ public abstract class IntMatrix
      * @return value at pos
      */
     public final int get(final int... pos) {
-	assert this.dataL.getInt(pos2ind(pos)) == this.dataA[pos2ind(pos)];
 	return this.dataL.getInt(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
-	assert this.dataL.getInt(pos) == this.dataA[pos];
 	return Integer.toString(this.dataL.getInt(pos));
     }
-
-
 }

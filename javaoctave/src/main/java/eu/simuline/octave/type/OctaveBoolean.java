@@ -41,10 +41,15 @@ public final class OctaveBoolean extends BooleanMatrix implements OctaveObject {
     public OctaveBoolean(final boolean[] data, final int... size) {
         super(data, size);
     }
+    public OctaveBoolean(OctaveBoolean o) {
+        super(o);
+    }
+
+
 
     @Override
     public OctaveBoolean shallowCopy() {
-        return new OctaveBoolean(this.dataA, this.size);
+        return new OctaveBoolean(this);
     }
 
 }
