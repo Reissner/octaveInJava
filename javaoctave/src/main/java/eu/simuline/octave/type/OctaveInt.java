@@ -56,7 +56,10 @@ public final class OctaveInt extends IntMatrix implements OctaveObject {
     @Override
     public OctaveInt shallowCopy() {
         return new OctaveInt(this);
-//        return new OctaveInt(this.data, this.size);
+    }
+
+    public void main(String[] args) {
+
     }
 
 }
