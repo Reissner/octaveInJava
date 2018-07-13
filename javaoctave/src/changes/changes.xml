@@ -57,8 +57,15 @@
 	 prelude to simplify adding new subclasses. 
        </action>
        <action dev="ER" type="fix">
+	 Redesign of Matrix types, except Complex ones: 
+	 prelude to simplify adding new subclasses. 
+       </action>
+       <action dev="ER" type="fix">
 	 in GenericMatrix: take null objects into account 
 	 adding StringUtil.toString(T obj). 
+       </action>
+       <action dev="ER" type="fix">
+	 eliminated cast (T[]). 
        </action>
 
      </release>
