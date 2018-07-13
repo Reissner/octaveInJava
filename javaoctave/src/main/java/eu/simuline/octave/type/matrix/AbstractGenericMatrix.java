@@ -68,7 +68,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
     protected AbstractGenericMatrix(D dataA, int... size) { //List<E> dataL, 
         this.size = size;
         checkSize();
-	int dataLength = newL(dataA, product(size));
+	int dataLength = initL(dataA, product(size));
 	checkDataSize(dataLength);
     }
 
@@ -80,7 +80,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
     protected AbstractGenericMatrix(final AbstractGenericMatrix<D, L> o) { //, E
         this.size = o.size.clone();
 	int size1 = product(this.size);
-	newL(o.getDataA(), size1);
+	initL(o.getDataA(), size1);
     }
 
     /**
@@ -141,7 +141,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
     protected abstract L newL(int size);
 
     // as a side effect sets dataL and returns length of array 'data'
-    protected abstract int newL(D data, int size);
+    protected abstract int initL(D data, int size);
 
     /**
      * The number of data entries. 

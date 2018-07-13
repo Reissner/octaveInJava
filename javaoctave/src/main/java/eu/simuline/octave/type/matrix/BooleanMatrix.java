@@ -51,7 +51,7 @@ public abstract class BooleanMatrix
 	return list;
     }
 
-    protected final int newL(boolean[] data, final int size) {
+    protected final int initL(boolean[] data, final int size) {
     	this.dataL = new BooleanArrayList​(data);
     	this.dataL.size(size);
     	return data.length;

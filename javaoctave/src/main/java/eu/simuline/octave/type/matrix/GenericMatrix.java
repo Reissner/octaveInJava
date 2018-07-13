@@ -70,7 +70,7 @@ public abstract class GenericMatrix<T>
     }
 
     // api-docs inherited from base class 
-    protected final int newL(T[] data, final int size) {
+    protected final int initL(T[] data, final int size) {
 	this.dataL = new ObjectArrayList<T>(data);
 	this.dataL.size(size);
 	return data.length;
