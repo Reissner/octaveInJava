@@ -130,7 +130,7 @@
     <dependency>
       <groupId>eu.simuline</groupId>
       <artifactId>TestHelpers</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0</version>
       <!--scope>test</scope-->
     </dependency>
 
