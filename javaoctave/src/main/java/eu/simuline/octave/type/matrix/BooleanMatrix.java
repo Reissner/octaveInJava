@@ -57,6 +57,10 @@ public abstract class BooleanMatrix
 	return data.length;
     }
 
+    protected boolean[] getDataA() {
+	return this.dataL.elements();
+    }
+
     /**
      * Set the value resizing by need. 
      * 
@@ -95,14 +99,12 @@ public abstract class BooleanMatrix
      */
     public final boolean get(final int... pos) {
 	assert this.dataL.getBoolean(pos2ind(pos)) == this.dataA[pos2ind(pos)];
-        //return this.dataA[pos2ind(pos)];
-	return this.dataL.getBoolean(pos2ind(pos));
+ 	return this.dataL.getBoolean(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
 	assert this.dataL.getBoolean(pos) == this.dataA[pos];
 	return StringUtil.toString(this.dataL.getBoolean(pos));
-//	return StringUtil.toString(this.dataA[pos]);
     }
 
 

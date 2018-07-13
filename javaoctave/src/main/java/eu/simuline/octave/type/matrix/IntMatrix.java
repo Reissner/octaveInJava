@@ -67,6 +67,10 @@ public abstract class IntMatrix
 	return data.length;
     }
 
+    protected int[] getDataA() {
+	return this.dataL.elements();
+    }
+
     /**
      * Set the value resizing by need. 
      * 
@@ -105,14 +109,12 @@ public abstract class IntMatrix
      */
     public final int get(final int... pos) {
 	assert this.dataL.getInt(pos2ind(pos)) == this.dataA[pos2ind(pos)];
-        //return this.dataA[pos2ind(pos)];
 	return this.dataL.getInt(pos2ind(pos));
     }
 
     public final String getPlainString(int pos) {
 	assert this.dataL.getInt(pos) == this.dataA[pos];
 	return Integer.toString(this.dataL.getInt(pos));
-	//return Integer.toString(this.dataA[pos]);
     }
 
 

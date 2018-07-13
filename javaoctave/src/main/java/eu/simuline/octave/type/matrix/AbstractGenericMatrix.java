@@ -92,7 +92,8 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         this.dataA = newD(size1);
  //	assert this.data != null;
         System.arraycopy(o.dataA, 0, this.dataA, 0, size1);
-	newL(this.dataA, size1);
+	newL(o.getDataA(), size1);
+	//****newL(this.dataA, size1);
 //	this.dataL = o.dataL.clone();
 //	this.dataL = new ArrayList<E>(o.dataL);
     }
@@ -169,6 +170,9 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
  	return this.dataL.size();
     }
 
+
+    protected abstract D getDataA();
+
     /**
      * Sets the entry with plain position <code>pos</code> 
      * to value parsing the string <code>value</code>. 
@@ -235,19 +239,26 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	    return;
 	}
 
+	//assert Arrays.equals()
+
 	// Here, orgSize[0] is defined 
 	final int cpyLen    = orgSize[0];
 	final int osp = product(orgSize);
 
 	// initialize resulting array with default values 
-	D dataOut = newD(product(this.size));
+	D dataOutA = newD(product(this.size));
+	D dataInL  = getDataA();
+	this.dataL = newL(product(this.size));
 	int idxSrc = 0;
 	int idxTrg = 0;
 	int[] idxTrgMulti = new int[orgSize.length]; // 0th entry not used 
 	int idxIdx;
 	int lenUnitGap;
 	while (idxSrc < osp) {
-	    System.arraycopy(this.dataA, idxSrc, dataOut, idxTrg, cpyLen);
+	    System.arraycopy(this.dataA,            idxSrc, 
+			     dataOutA, idxTrg, cpyLen);
+	    System.arraycopy(dataInL, idxSrc, 
+			     getDataA(), idxTrg, cpyLen);
 	    idxSrc += cpyLen;
 
 	    // update idxTrgMulti and idxTrg 
@@ -275,8 +286,8 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	    idxTrgMulti[idxIdx]++;
 	} // while 
 
-	this.dataA = dataOut;
-	newL(this.dataA, product(this.size));
+	this.dataA = dataOutA;
+	//newL(this.dataA, product(this.size));
     }
 
     /**
@@ -312,10 +323,6 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
      *            dimension number in 1 based numbering, 1=row, 2=column
      * @return the size in dimension i
      */
-    public final int size(final int i) {
-        return this.size[i - 1];
-    }
-
     public final int getSize(final int i) {
         return this.size[i - 1];
     }
@@ -345,10 +352,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
         }
 	
 	assert this.dataL.size() == product(this.size);
-	// assert dataEquals(product(this.size), other.dataA) 
-	//     == this.dataL.equals(other.dataL);
 	return this.dataL.equals(other.dataL);
-	    //dataEquals(product(this.size), other.dataA);
     }
 
     // to implement OctaveObject 

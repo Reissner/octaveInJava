@@ -78,7 +78,13 @@ public abstract class GenericMatrix<T>
 	this.dataL = new ObjectArrayList<T>(data);
 	this.dataL.size(size);
 	return data.length;
-     }
+    }
+
+    protected T[] getDataA() {
+	return this.dataL.elements();
+    }
+
+
 
     /**
      * Set the value resizing by need. 
@@ -126,7 +132,6 @@ public abstract class GenericMatrix<T>
     public T get(final int... pos) {
 	assert Objects.equals(this.dataA[pos2ind(pos)], 
 			      this.dataL.get(pos2ind(pos)));
-        //return this.dataA[pos2ind(pos)];
 	return this.dataL.get(pos2ind(pos));
     }
 
@@ -136,7 +141,5 @@ public abstract class GenericMatrix<T>
 	assert      StringUtil.toString(this.dataL.get(pos))
 	    .equals(StringUtil.toString(this.dataA[pos]));
 	return StringUtil.toString(this.dataL.get(pos));
-	//return this.dataA[pos].toString();
-	//return StringUtil.toString(this.dataA[pos]);
     }
 }

@@ -65,7 +65,12 @@ public abstract class DoubleMatrix
 	this.dataL = new DoubleArrayList​(data);
 	this.dataL.size(size);
 	return data.length;
-     }
+    }
+
+    protected double[] getDataA() {
+	return this.dataL.elements();
+    }
+
 
     /**
      * Set the value resizing by need. 
@@ -106,7 +111,6 @@ public abstract class DoubleMatrix
     public final double get(final int... pos) {
 	assert (Double.isNaN(this.dataL.getDouble(pos2ind(pos))) && Double.isNaN(this.dataA[pos2ind(pos)]))
 	    || this.dataL.getDouble(pos2ind(pos)) == this.dataA[pos2ind(pos)];
-        //return this.dataA[pos2ind(pos)];
 	return this.dataL.getDouble(pos2ind(pos));
     }
 
@@ -115,7 +119,6 @@ public abstract class DoubleMatrix
 	assert (Double.isNaN(this.dataL.getDouble(pos)) && Double.isNaN(this.dataA[pos]))
 	    || this.dataL.getDouble(pos) == this.dataA[pos];
 	return Double.toString(this.dataL.getDouble(pos));
-	//return Double.toString(this.dataA[pos]);
     }
 
 }
