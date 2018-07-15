@@ -9,16 +9,16 @@
  * <ul>
  * <li>
  * {@link eu.simuline.octave.type.OctaveBoolean} extending 
- * {@link eu.simuline.octave.type.matrix.BooleanMatrix}, 
+ * {@link eu.simuline.octave.type.matrix.AbstractGenericMatrix}, 
+ * <li>
+ * {@link eu.simuline.octave.type.OctaveDouble} extending 
+ * {@link eu.simuline.octave.type.matrix.AbstractGenericMatrix}, 
+ * <li>
+ * {@link eu.simuline.octave.type.OctaveInt} extending 
+ * {@link eu.simuline.octave.type.matrix.AbstractGenericMatrix}, 
  * <li>
  * {@link eu.simuline.octave.type.OctaveCell} extending 
  * {@link eu.simuline.octave.type.matrix.GenericMatrix}, 
- * <li>
- * {@link eu.simuline.octave.type.OctaveDouble} extending 
- * {@link eu.simuline.octave.type.matrix.DoubleMatrix}, 
- * <li>
- * {@link eu.simuline.octave.type.OctaveInt} extending 
- * {@link eu.simuline.octave.type.matrix.IntMatrix}, 
  * <li>
  * Without base class, i.e. based on object: 
  * {@link eu.simuline.octave.type.OctaveSparseBoolean}, 

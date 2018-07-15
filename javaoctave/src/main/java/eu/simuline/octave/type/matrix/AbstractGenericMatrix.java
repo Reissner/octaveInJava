@@ -16,6 +16,7 @@
 package eu.simuline.octave.type.matrix;
 
 import eu.simuline.octave.type.OctaveObject;
+import eu.simuline.octave.type.OctaveDouble;
 
 import java.util.Arrays;
 import java.util.List;
@@ -167,7 +168,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
      *    
      * @param pos
      *    see e.g. {@link GenericMatrix#setPlain(String, int)} 
-     *    and {@link DoubleMatrix#setPlain(String, int)} 
+     *    and {@link OctaveDouble#setPlain(String, int)} 
      */
     // throws UnsupportedOperationException for GenericMatrix by default 
     // design ok? **** 

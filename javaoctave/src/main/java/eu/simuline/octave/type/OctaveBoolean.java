@@ -15,7 +15,11 @@
  */
 package eu.simuline.octave.type;
 
-import eu.simuline.octave.type.matrix.BooleanMatrix;
+import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
+
+import eu.simuline.octave.util.StringUtil;
+
+import it.unimi.dsi.fastutil.booleans.BooleanArrayList;
 
 /**
  * Represents a Boolean matrix. 
@@ -23,7 +27,8 @@ import eu.simuline.octave.type.matrix.BooleanMatrix;
  *
  * @see OctaveSparseBoolean
  */
-public final class OctaveBoolean extends BooleanMatrix implements OctaveObject {
+public final class OctaveBoolean 
+    extends AbstractGenericMatrix<boolean[], BooleanArrayList> {
 
     /**
      * @param size
@@ -41,12 +46,78 @@ public final class OctaveBoolean extends BooleanMatrix implements OctaveObject {
     public OctaveBoolean(final boolean[] data, final int... size) {
         super(data, size);
     }
-    public OctaveBoolean(OctaveBoolean o) {
+
+    private OctaveBoolean(OctaveBoolean o) {
         super(o);
+    }
+
+    protected final BooleanArrayList​ newL(final int size) {
+	BooleanArrayList​ list = new BooleanArrayList​(size);
+	list.size(size);
+	return list;
+    }
+
+    protected final int initL(boolean[] data, final int size) {
+    	this.dataL = new BooleanArrayList​(data);
+    	this.dataL.size(size);
+    	return data.length;
+    }
+
+    protected boolean[] getDataA() {
+	return this.dataL.elements();
+    }
+
+    /**
+     * Set the value resizing by need. 
+     * 
+     * @param value
+     * @param pos
+     * @see #setPlain(boolean, int)
+     */
+    public final void set(final boolean value, final int... pos) {
+        resizeUp(pos);
+        setPlain(value, pos2ind(pos));
+    }
+
+    /**
+     * Set the value assuming resize is not necessary. 
+     * 
+     * @param value
+     * @param pos
+     * @see #set(boolean, int[])
+     */
+    public final void setPlain(final boolean value, final int pos) {
+	this.dataL.set(pos, value);
+    }
+
+    // api-docs inherited from AbstractGenericMatrix 
+    public final void setPlain(final String value, final int pos) {
+	this.dataL.set(pos, StringUtil.parseBoolean(value));
+    }
+
+    /**
+     * Get the value. 
+     * 
+     * @param pos
+     * @return value at pos
+     */
+    public final boolean get(final int... pos) {
+ 	return this.dataL.getBoolean(pos2ind(pos));
+    }
+
+    public final String getPlainString(int pos) {
+	return StringUtil.toString(this.dataL.getBoolean(pos));
     }
 
 
 
+
+
+
+
+
+
+    // api-docs inherited from OctaveObject
     @Override
     public OctaveBoolean shallowCopy() {
         return new OctaveBoolean(this);

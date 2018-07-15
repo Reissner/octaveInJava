@@ -15,12 +15,17 @@
  */
 package eu.simuline.octave.type;
 
-import eu.simuline.octave.type.matrix.DoubleMatrix;
+import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
+
+import eu.simuline.octave.util.StringUtil;
+
+import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 
 /**
  * Represents a matrix of doubles. 
  */
-public final class OctaveDouble extends DoubleMatrix implements OctaveObject {
+public final class OctaveDouble 
+    extends AbstractGenericMatrix<double[], DoubleArrayList> {
 
     /**
      * Create new matrix. 
@@ -50,15 +55,75 @@ public final class OctaveDouble extends DoubleMatrix implements OctaveObject {
      * @param o
      */
     // used by OctaveComplex, OctaveDouble
-    public OctaveDouble(final OctaveDouble o) {
+    protected OctaveDouble(final OctaveDouble o) {
         super(o);
     }
 
-    // superfluous? 
+    protected final DoubleArrayList​ newL(final int size) {
+	DoubleArrayList​ list = new DoubleArrayList​(size);
+	list.size(size);
+	return list;
+    }
+
+    protected final int initL(double[] data, final int size) {
+	this.dataL = new DoubleArrayList​(data);
+	this.dataL.size(size);
+	return data.length;
+    }
+
+    protected double[] getDataA() {
+	return this.dataL.elements();
+    }
+
+
+    /**
+     * Set the value resizing by need. 
+     * 
+     * @param value
+     * @param pos
+     * @see #setPlain(double, int)
+     */
+    public final void set(final double value, final int... pos) {
+        resizeUp(pos);
+        setPlain(value, pos2ind(pos));
+    }
+
+    /**
+     * Set the value assuming resize is not necessary. 
+     * 
+     * @param value
+     * @param pos
+     * @see #set(double, int[])
+     */
+    public final void setPlain(final double value, final int pos) {
+	this.dataL.set(pos, value);
+    }
+
+    // api-docs inherited from AbstractGenericMatrix 
+    public final void setPlain(final String value, final int pos) {
+	this.dataL.set(pos, StringUtil.parseDouble(value));
+    }
+
+    /**
+     * Get the value. 
+     * 
+     * @param pos
+     * @return value at pos
+     */
+    public final double get(final int... pos) {
+	return this.dataL.getDouble(pos2ind(pos));
+    }
+
+    public final String getPlainString(int pos) {
+	return Double.toString(this.dataL.getDouble(pos));
+    }
+
+    // **** needed at least for OctaveComplex, 
     public OctaveDouble zero() {
 	return new OctaveDouble(this.size);
     }
 
+    // api-docs inherited from OctaveObject
     @Override
     public OctaveDouble shallowCopy() {
         return new OctaveDouble(this);
