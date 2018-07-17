@@ -28,6 +28,9 @@
        <action dev="ER" type="add">
 	 added support for octave type int64 and java type long. 
        </action>
+       <action dev="ER" type="add">
+	 factory method Octave.bool(boolean). 
+       </action>
        <action dev="ER" type="fix">
 	 Redesign: eliminated classes Boolean/Double/Int/LongMatrix, 
 	 including them in sole derived classes. 

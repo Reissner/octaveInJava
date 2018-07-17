@@ -20,19 +20,44 @@ package eu.simuline.octave.type;
  */
 public final class Octave {
 
+    /**
+     * Constant true of corresponding with octave bool. 
+     */
+    private final static OctaveBoolean TRUE = 
+	new OctaveBoolean(new boolean[] {true}, 1, 1);
+
+    /**
+     * Constant false of corresponding with octave bool. 
+     */
+    private final static OctaveBoolean FALSE = 
+	new OctaveBoolean(new boolean[] {false}, 1, 1);
+
     private Octave() {
         throw new UnsupportedOperationException("Do not instantiate");
     }
 
     /**
+     * Returns java counterparts of octave scalars. 
+     *
      * @param d
      * @return New OctaveDouble with a single value
      */
-    // used in tests only 
+    // used by user and in tests only 
     public static OctaveDouble scalar(final double d) {
         final OctaveDouble od = new OctaveDouble(1, 1);
         od.set(d, 1, 1);
         return od;
+    }
+
+    /**
+     * Returns java counterparts of octave bools. 
+     *
+     * @param b
+     * @return New OctaveBoolean with a single value
+     */
+    // used by user only 
+    public static OctaveBoolean bool(final boolean b) {
+        return b ? TRUE : FALSE;
     }
 
 }
