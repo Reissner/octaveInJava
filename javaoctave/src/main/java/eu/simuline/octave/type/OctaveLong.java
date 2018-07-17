@@ -15,12 +15,15 @@
  */
 package eu.simuline.octave.type;
 
-import eu.simuline.octave.type.matrix.LongMatrix;
+import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
+
+import it.unimi.dsi.fastutil.longs.LongArrayList;
 
 /**
  * Represents a matrix of ints. 
  */
-public final class OctaveLong extends LongMatrix implements OctaveObject {
+public final class OctaveLong 
+    extends AbstractGenericMatrix<long[], LongArrayList>  {
 
     /**
      * Create new matrix. 
@@ -52,6 +55,69 @@ public final class OctaveLong extends LongMatrix implements OctaveObject {
     public OctaveLong(final OctaveLong o) {
         super(o);
     }
+
+
+
+    protected final LongArrayList​ newL(final int size) {
+	LongArrayList​ list = new LongArrayList​(size);
+	list.size(size);
+	return list;
+    }
+
+    protected final int initL(long[] data, final int size) {
+	this.dataL = new LongArrayList​(data);
+	this.dataL.size(size);
+	return data.length;
+    }
+
+    protected long[] getDataA() {
+	return this.dataL.elements();
+    }
+
+    /**
+     * Set the value resizing by need. 
+     * 
+     * @param value
+     * @param pos
+     * @see #setPlain(long, int)
+     */
+    public final void set(final long value, final int... pos) {
+        resizeUp(pos);
+        setPlain(value, pos2ind(pos));
+    }
+
+    /**
+     * Set the value assuming resize is not necessary. 
+     * 
+     * @param value
+     * @param pos
+     * @see #set(long, int[])
+     */
+    public final void setPlain(final long value, final int pos) {
+	this.dataL.set(pos, value);
+    }
+
+    // api-docs inherited from AbstractGenericMatrix 
+    public final void setPlain(final String value, final int pos) {
+	this.dataL.set(pos, Long.parseLong(value.trim()));
+    }
+
+    /**
+     * Get the value. 
+     * 
+     * @param pos
+     * @return value at pos
+     */
+    public final long get(final int... pos) {
+	return this.dataL.getLong(pos2ind(pos));
+    }
+
+    // api-docs inherited from AbstractGenericMatrix 
+    public final String getPlainString(int pos) {
+	return Long.toString(this.dataL.getLong(pos));
+    }
+
+
 
     @Override
     public OctaveLong shallowCopy() {

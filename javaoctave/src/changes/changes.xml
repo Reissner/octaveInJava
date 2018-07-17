@@ -29,7 +29,7 @@
 	 added support for octave type int64 and java type long. 
        </action>
        <action dev="ER" type="fix">
-	 Redesign: eliminated classes Boolean/Double/IntMatrix, 
+	 Redesign: eliminated classes Boolean/Double/Int/LongMatrix, 
 	 including them in sole derived classes. 
        </action>
      </release>
