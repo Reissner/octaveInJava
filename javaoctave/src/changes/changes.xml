@@ -32,6 +32,9 @@
 	 Redesign: eliminated classes Boolean/Double/Int/LongMatrix, 
 	 including them in sole derived classes. 
        </action>
+       <action dev="ER" type="fix">
+	 Renamed abstract class GenericMatrix-->AbstractObjectMatrix. 
+       </action>
      </release>
 
      <release version="0.7.0" date='2018-07-13' description=''>
