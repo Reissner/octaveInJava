@@ -21,7 +21,7 @@ package eu.simuline.octave.type;
 import eu.simuline.octave.exception.OctaveClassCastException;
 import eu.simuline.octave.type.cast.Cast;
 import eu.simuline.octave.type.matrix.AbstractGenericMatrix;
-import eu.simuline.octave.type.matrix.GenericMatrix;
+import eu.simuline.octave.type.matrix.AbstractObjectMatrix;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
@@ -31,7 +31,7 @@ import java.util.List;
  * Nd cells. 
  */
 public final class OctaveCell 
-    extends GenericMatrix<OctaveObject> implements OctaveObject {
+    extends AbstractObjectMatrix<OctaveObject> implements OctaveObject {
 
     /**
      * For some reason, the default value is not stored as such, 

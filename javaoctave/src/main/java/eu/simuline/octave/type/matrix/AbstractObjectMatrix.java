@@ -31,14 +31,14 @@ import java.util.Objects;
  *    Type of the values
  */
 // used as superclass of class OctaveCell only 
-public abstract class GenericMatrix<T> 
+public abstract class AbstractObjectMatrix<T> 
     extends AbstractGenericMatrix<T[], ObjectArrayList<T>> {
 
     /**
      * @param size
      */
     // used in OctaveCell(int...), 
-    protected GenericMatrix(final int... size) {
+    protected AbstractObjectMatrix(final int... size) {
         super(size);
     }
 
@@ -48,7 +48,7 @@ public abstract class GenericMatrix<T>
      */
     // used by end users 
     @SuppressWarnings("unchecked")
-    protected GenericMatrix(final Object[] dataA, final int... size) {
+    protected AbstractObjectMatrix(final Object[] dataA, final int... size) {
         super((T[]) dataA, size);
     }
 
@@ -58,7 +58,7 @@ public abstract class GenericMatrix<T>
      * @param o
      */
     // used in OctaveCell(final AbstractGenericMatrix), 
-    protected GenericMatrix(final AbstractGenericMatrix<T[], ObjectArrayList<T>> o) {
+    protected AbstractObjectMatrix(final AbstractGenericMatrix<T[], ObjectArrayList<T>> o) {
         super(o);
     }
 
