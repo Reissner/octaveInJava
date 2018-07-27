@@ -109,14 +109,6 @@ public final class OctaveBoolean
 	return StringUtil.toString(this.dataL.getBoolean(pos));
     }
 
-
-
-
-
-
-
-
-
     // api-docs inherited from OctaveObject
     @Override
     public OctaveBoolean shallowCopy() {
