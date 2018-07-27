@@ -26,7 +26,9 @@ import java.util.List;
  * that it is an array it stores its  in.
  * 
  * @param <D>
- *            an array
+ *    an array type, partially of primitive element type 
+ * @param <L> 
+ *    a list corresponding with the array of type D
  */
 // used as superclass of classes of this package only 
 public abstract class AbstractGenericMatrix<D, L extends List<?>> 
@@ -167,7 +169,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
      * @param value
      *    
      * @param pos
-     *    see e.g. {@link GenericMatrix#setPlain(String, int)} 
+     *    see e.g. {@link AbstractObjectMatrix#setPlain(String, int)} 
      *    and {@link OctaveDouble#setPlain(String, int)} 
      */
     // throws UnsupportedOperationException for GenericMatrix by default 

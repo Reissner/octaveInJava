@@ -18,7 +18,7 @@
  * {@link eu.simuline.octave.type.matrix.AbstractGenericMatrix}, 
  * <li>
  * {@link eu.simuline.octave.type.OctaveCell} extending 
- * {@link eu.simuline.octave.type.matrix.GenericMatrix}, 
+ * {@link eu.simuline.octave.type.matrix.AbstractObjectMatrix}, 
  * <li>
  * Without base class, i.e. based on object: 
  * {@link eu.simuline.octave.type.OctaveSparseBoolean}, 

@@ -2,14 +2,10 @@
  * Representations of matrices: 
  * {@link eu.simuline.octave.type.matrix.AbstractGenericMatrix} 
  * is the abstract base class of all of them. 
- * {@link eu.simuline.octave.type.OctaveBoolean} 
- * represents matrices with boolean entries, 
- * {@link eu.simuline.octave.type.OctaveDouble} 
- * represents matrices with double entries, 
- * {@link eu.simuline.octave.type.OctaveInt} 
- * represents matrices with int entries. 
- * Besides these primitive types, 
- * {@link eu.simuline.octave.type.matrix.GenericMatrix} 
+ * Note the class parameters are list and according array 
+ * with element type maybe primitive. 
+ * For non-primitive types, which are rarely used, 
+ * {@link eu.simuline.octave.type.matrix.AbstractObjectMatrix} 
  * provides matrices with object type. 
  *
  * ***** redesign required. 
