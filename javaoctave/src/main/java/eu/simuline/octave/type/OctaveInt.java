@@ -55,14 +55,14 @@ public final class OctaveInt
         super(o);
     }
 
-    protected final IntArrayList​ newL(final int size) {
-	IntArrayList​ list = new IntArrayList​(size);
+    protected final IntArrayList newL(final int size) {
+	IntArrayList list = new IntArrayList(size);
 	list.size(size);
 	return list;
     }
 
     protected final int initL(int[] data, final int size) {
-	this.dataL = new IntArrayList​(data);
+	this.dataL = new IntArrayList(data);
 	this.dataL.size(size);
 	return data.length;
     }

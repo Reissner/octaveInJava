@@ -58,14 +58,14 @@ public final class OctaveLong
 
 
 
-    protected final LongArrayList​ newL(final int size) {
-	LongArrayList​ list = new LongArrayList​(size);
+    protected final LongArrayList newL(final int size) {
+	LongArrayList list = new LongArrayList(size);
 	list.size(size);
 	return list;
     }
 
     protected final int initL(long[] data, final int size) {
-	this.dataL = new LongArrayList​(data);
+	this.dataL = new LongArrayList(data);
 	this.dataL.size(size);
 	return data.length;
     }

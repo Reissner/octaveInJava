@@ -59,14 +59,14 @@ public final class OctaveDouble
         super(o);
     }
 
-    protected final DoubleArrayList​ newL(final int size) {
-	DoubleArrayList​ list = new DoubleArrayList​(size);
+    protected final DoubleArrayList newL(final int size) {
+	DoubleArrayList list = new DoubleArrayList(size);
 	list.size(size);
 	return list;
     }
 
     protected final int initL(double[] data, final int size) {
-	this.dataL = new DoubleArrayList​(data);
+	this.dataL = new DoubleArrayList(data);
 	this.dataL.size(size);
 	return data.length;
     }

@@ -51,14 +51,14 @@ public final class OctaveBoolean
         super(o);
     }
 
-    protected final BooleanArrayList​ newL(final int size) {
-	BooleanArrayList​ list = new BooleanArrayList​(size);
+    protected final BooleanArrayList newL(final int size) {
+	BooleanArrayList list = new BooleanArrayList(size);
 	list.size(size);
 	return list;
     }
 
     protected final int initL(boolean[] data, final int size) {
-    	this.dataL = new BooleanArrayList​(data);
+    	this.dataL = new BooleanArrayList(data);
     	this.dataL.size(size);
     	return data.length;
     }
