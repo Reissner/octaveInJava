@@ -23,6 +23,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Factory that creates OctaveEngines. 
@@ -36,12 +37,20 @@ import java.util.Arrays;
  * also the default value is documented 
  * which is used to create an {@link OctaveEngine} 
  * if the setter method is not invoked. 
+ * Note that setter methods return the factory after modification 
+ * and so setter methods may be queued also. 
  * 
  */
 public final class OctaveEngineFactory {
 
     /**
-     * System property where the executable is found. 
+     * The custom system property 
+     * which determines where the executable is found if {@link #octaveProgramFile} is not set. 
+     * A custom property is set when invoking the runtime with the option <code>-D</code> 
+     * For example <code>java -Deu.simuline.octave.executable=myoctave Application</code> 
+     * runs class <code>Application</code> 
+     * setting the system property <code>eu.simuline.octave.executable</code> 
+     * to 
      */
     public static final String PROPERTY_EXECUTABLE = 
 	"eu.simuline.octave.executable";
@@ -56,7 +65,7 @@ public final class OctaveEngineFactory {
 
     /**
      * The error writer for the octave process. 
-     * By default, this is just {@link System#err}. 
+     * By default, this is just {@link System#err}. <!-- TBD: clarify encoding -->
      * The according setter method is {@link #setErrorWriter(Writer)}. 
      */
     private Writer errWriter = new OutputStreamWriter(System.err, 
@@ -67,6 +76,7 @@ public final class OctaveEngineFactory {
      * In the latter case, the name of the octave program command 
      * is determined as described for {@link #octaveProgramCmd}. 
      * By default, this is <code>null</code>. 
+     * The according setter method is {@link #setOctaveProgramFile(File)}. 
      */
     private File octaveProgramFile = null;
 
@@ -75,12 +85,13 @@ public final class OctaveEngineFactory {
      * if {@link #octaveProgramFile} is <code>null</code> 
      * and if the property {@link #PROPERTY_EXECUTABLE} is not set. 
      * By default, this is "<code>octave</code>". 
+     * The according setter method is {@link #setOctaveProgramCmd(String)}. 
      */
     private String octaveProgramCmd = "octave";
 
     /**
      * The array of arguments of the octave engines created. 
-     * For details, see octave user manual, version 3.4.0.+, Section 2.2.1. 
+     * For details, see octave user manual, version 5.2.0, Section 2.1.1. 
      * <p>
      * Default value of this field is default value for octave engines created.
      * The default value consists of the following components: 
@@ -109,7 +120,11 @@ public final class OctaveEngineFactory {
      * seem appropriate. 
      * Note that <code>--no-init-file</code> and <code>--no-site-file</code> 
      * may be appropriate or not. 
-     * ***** why not needed --no-gui? --no-window-system
+     * Instead of combining <code>--no-init-file</code> and <code>--no-site-file</code> 
+     * equivalently one can specify <code>--norc</code>. 
+     * As this is the default,  <code>--no-gui?</code> is not needed. 
+     * TBD: discuss --no-window-system
+     * Note that this array may be empty but can never be <code>null</code>. 
      */
     private String[] argsArray = {
     	"--silent",          // greeting message causes exception **** 
@@ -182,10 +197,13 @@ public final class OctaveEngineFactory {
      * Setter method for {@link #octaveInputLog}. 
      *
      * @param octaveInputLog
-     *    the octaveInputLog to set
+     *    the octave input log to set or <code>null</code> if no such log is wanted. 
+     * @return
+     *    this octave engine factory after modification. 
      */
-    public void setOctaveInputLog(final Writer octaveInputLog) {
+    public OctaveEngineFactory setOctaveInputLog(final Writer octaveInputLog) {
         this.octaveInputLog = octaveInputLog;
+        return this;
     }
 
     /**
@@ -193,9 +211,13 @@ public final class OctaveEngineFactory {
      *
      * @param errWriter
      *    the errWriter to set
+     *    This may be null TBC 
+     * @return
+     *    this octave engine factory after modification. 
      */
-    public void setErrorWriter(final Writer errWriter) {
+    public OctaveEngineFactory setErrorWriter(final Writer errWriter) {
         this.errWriter = errWriter;
+        return this;
     }
 
     /**
@@ -203,9 +225,12 @@ public final class OctaveEngineFactory {
      *
      * @param octaveProgramFile
      *    the octaveProgramFile to set or <code>null</code>. 
+     * @return
+     *    this octave engine factory after modification. 
      */
-    public void setOctaveProgramFile(final File octaveProgramFile) {
+    public OctaveEngineFactory setOctaveProgramFile(final File octaveProgramFile) {
         this.octaveProgramFile = octaveProgramFile;
+        return this;
     }
 
     /**
@@ -216,11 +241,19 @@ public final class OctaveEngineFactory {
      *
      * @param octaveProgramCmd
      *    the octave program executable to set
+     * @return
+     *    this octave engine factory after modification. 
+     * @throws NullPointerException
+     *    if <code>octaveProgramCmd</code> is <code>null</code>. 
      */
-    public void setOctaveProgramCmd(final String octaveProgramCmd) {
+    public OctaveEngineFactory setOctaveProgramCmd(final String octaveProgramCmd) {
+	Objects.requireNonNull(octaveProgramCmd, 
+		"Octave command shall be non-null. ");
         this.octaveProgramCmd = octaveProgramCmd;
+        return this;
     }
 
+    // TBD: optional: check that each entry does not contain a blank
     /**
      * Sets an array of arguments <code>argsArray</code> 
      * used when creating an {@link OctaveEngine}. 
@@ -233,9 +266,19 @@ public final class OctaveEngineFactory {
      *
      * @param argsArray
      *    the arguments as an array to set
+     * @return
+     *   this octave engine factory after modification. 
+     * @throws NullPointerException
+     *    if <code>argsArray</code> is <code>null</code> 
+     *    or contains a <code>null</code> entry. 
      */
-    public void setArgsArray(final String[] argsArray) {
+    public OctaveEngineFactory setArgsArray(final String[] argsArray) {
+        // TBD: better to see the index where the null occurs. 
+        if (Arrays.stream(argsArray).anyMatch(p -> p == null)) {
+            throw new NullPointerException();
+        }
         this.argsArray = Arrays.copyOf(argsArray, argsArray.length);
+        return this;
     }
 
     /**
@@ -245,22 +288,41 @@ public final class OctaveEngineFactory {
      * The details are documented with {@link #environment}. 
      *
      * @param environment
-     *    the environment or <code>null</code>. 
+     *    the environment 
+     *    <ul>
+     *    <li>as an array of entries 
+     *    of the form <code>name=value</code> </li>
+     *    <li>or <code>null</code> signifying 
+     *    that the environment is inherited from the invoking process. </li>  
+     * @return
+     *   this octave engine factory after modification. 
      */
-    public void setEnvironment(final String[] environment) {
-        this.environment = environment == null 
-	    ? null
-	    : Arrays.copyOf(environment, environment.length);
+    public OctaveEngineFactory setEnvironment(final String[] environment) {
+	if (environment == null) {
+	    this.environment = null;
+	    return this;
+	}
+        // TBD: better to see the index where the null occurs. 
+	// TBD: check the form 'name=value'
+        if (Arrays.stream(environment).anyMatch(p -> p == null)) {
+            throw new NullPointerException();
+        }
+        this.environment = Arrays.copyOf(environment, environment.length);
+        return this;
     }
 
     /**
      * Setter method for {@link #workingDir}. 
      *
      * @param workingDir
-     *    the workingDir to set or <code>null</code>. 
+     *    the working directory to set 
+     *    or <code>null</code> signifying the current directory. 
+     * @return
+     *   this octave engine factory after modification. 
      */
-    public void setWorkingDir(final File workingDir) {
+    public OctaveEngineFactory setWorkingDir(final File workingDir) {
         this.workingDir = workingDir;
+        return this;
     }
 
     /**
@@ -270,12 +332,20 @@ public final class OctaveEngineFactory {
      * depending on the hardware. 
      * The number of threads to be created shall be positive 
      * or <code>-1</code> otherwise throwing an exception. 
+     * 
+     * @param numThreadsReuse
+     *    the number of threads for reuse which is positive or <code>-1</code>
+     * @return
+     *   this octave engine factory after modification. 
      */
-    // **** with -1 seems not to work: cached pool 
-    public void setNumThreadsReuse(int numThreadsReuse) {
+    // TBC**** with -1 seems not to work: cached pool 
+    public OctaveEngineFactory setNumThreadsReuse(int numThreadsReuse) {
 	if (numThreadsReuse == 0 || numThreadsReuse < -1) {
-	    throw new IllegalArgumentException();
+	    throw new IllegalArgumentException
+	    ("Expected positive number of threads or -1 but found " + 
+	    numThreadsReuse + ". ");
 	}
 	this.numThreadsReuse = numThreadsReuse;
+        return this;
     }
 }

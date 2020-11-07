@@ -22,7 +22,9 @@
       </action>
         <fixes issue=.. />
         <dueto name=.. email=.. />
-    </release-->
+	</release-->
+
+     <!-- TBD: research on .classpath -->
 
      <release version="0.7.1-snapshot" date='' description=''>
        <action dev="ER" type="add">
@@ -41,11 +43,16 @@
        <action dev="ER" type="update">
 	 Version of octave. 
        </action>
-       <!--action dev="ER" type="add">
+       <action dev="ER" type="add">
 	 In OctaveEngineFactory: endowed setter methods
 	 with return value of type OctaveEngineFactory
 	 to enable scaling. 
-       </action-->
+       </action>
+       <action dev="ER" type="add">
+	 In OctaveEngineFactory: added checks
+	 to ensure that no unwanted null values 
+	 are introduced into the system. 
+       </action>
  
      </release>
 

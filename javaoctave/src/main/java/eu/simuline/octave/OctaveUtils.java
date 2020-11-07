@@ -35,6 +35,7 @@ public final class OctaveUtils {
     }
 
 
+    // TBD: maybe better a final static field. 
     /**
      * Returns the charset UTF-8 used throughout. 
      */

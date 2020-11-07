@@ -19,6 +19,7 @@
 To the original author of this software, Kim Rydhof Thor Hansen. 
 </dedication>
 
+
 <chapter id="intro"><title>Introduction</title>
 
 <para>
@@ -32,10 +33,13 @@ Historically, there was an <command>octave</command> package
 which allowed the converse: using java from within <command>octave</command>. 
 In the meantime, i.e. with version at least 4.3.0+, 
 <command>octave</command> offers builtin support for that task. 
-In the long run, the author intends to include this software 
-into <command>octave</command> either. 
-This would be logical and in same as for matlab, 
-which <command>octave</command> is supposed to clone. 
+In the long run, the maintainer of <productname>javaoctave</productname> 
+intends to include this software into <command>octave</command> either. 
+Then octave can be invoked from within java and vice versa. 
+As matlab offers both and <command>octave</command> 
+is supposed to clone matlab, 
+it would be strictly speaking necessary, 
+to include a bridge like <productname>javaoctave</productname> into octave. 
 </para>
 
 <para>
@@ -44,12 +48,15 @@ The original versions <productname>javaoctave</productname> were written
 by Kim Hansen at <emphasis>Ange Optimization ApS</emphasis> 
 for the KENAI project. 
 After the KENAI site disappeared, 
-the author decided to go on with that task 
-since he needs that software himself. 
+the current maintainer of <productname>javaoctave</productname> 
+decided to go on with that task since he needs that software himself. 
 
 So far there is no explicit bug tracker 
 but you can email me via <email>reissner@simuline.eu</email> 
 if something is wrong or you miss a feature. 
+
+After this project has reached some maturity, 
+the current maintainer is going to pass all software to octave. 
 </para>
 
 <chapterinfo><corpname>Ange Optimization ApS</corpname> </chapterinfo>
@@ -61,10 +68,10 @@ The prerequisites are
 
 <itemizedlist>
 <listitem>
-java jdk at least version 1.6, where tests are with java 1.8. 
+java jdk at least version 6, where tests are with java 11. 
 </listitem>
 <listitem>
-octave version >3.5, where tests are with <command>octave</command> 4.3.0+. 
+octave version >3.5, where tests are with <command>octave</command> 5.2.0. 
 </listitem>
 <listitem>
 this software, <productname>javaoctave</productname>, 
@@ -108,17 +115,23 @@ determine the parameters of the <code>OctaveEngine</code> created.
 <example><title>OctaveEngine with default options</title>
 A minimal example to create an <code>OctaveEngine</code> is the following: 
 <programlisting>
+import eu.simuline.octave.OctaveEngineFactory;
+import eu.simuline.octave.OctaveEngine;
+... 
 OctaveEngineFactory oef = new OctaveEngineFactory();
 OctaveEngine oe = oef.getScriptEngine();
 </programlisting>
 Here, the octave-engine is created with default parameters 
-defined in the factory. 
+defined in the factory.
 </example>
 
 <example><title>OctaveEngine with custom options</title>
 Before an engine is created, the parameters of the factory can be modified, 
 which causes the factory to create an octave-engine with according parameters. 
 <programlisting>
+import eu.simuline.octave.OctaveEngineFactory;
+import eu.simuline.octave.OctaveEngine;
+... 
 OctaveEngineFactory oef = new OctaveEngineFactory();
 oef.setArgsArray(new String[] {"--silent", "--no-init-file"})
 OctaveEngine oe = oef.getScriptEngine();
@@ -126,12 +139,61 @@ OctaveEngine oe = oef.getScriptEngine();
 
 Command line options are described both 
 form <ulink url='https://www.gnu.org/software/octave/doc/interpreter/Command-Line-Options.html#Command-Line-Options'>octave perspective</ulink> 
-and from <ulink url='./apidocs/eu/simuline/octave/OctaveEngineFactory.html#setArgsArray-java.lang.String:A-'><productname>javaoctave</productname></ulink>. 
+and from 
+<ulink url='./apidocs/eu/simuline/octave/OctaveEngineFactory.html#setArgsArray(java.lang.String[])'>
+  <productname>javaoctave</productname> perspective</ulink>.
+  CAUTION: <code>OctaveEngineFactory</code> has default arguments
+  which are suited to invocation from as a script engine
+  and not all options allowed by octave are usable in the context
+  
 Besides command line options, 
 one may set the <command>octave</command> executable, 
-the working directory and all three: 
-log writer, output and error output writer. 
+either by an executable file, by a system property or by a command. 
+The latter is the active by default with default value <command>octave</command>. 
+Together with the command line arguments described below, 
+this defines the invocation of the underying octave engine. 
+In addition, it is possible to define the environment 
+and the working directory, both by default inherited from the invoking process.  
+
+The octave process is connected via an input writer 
+and a reader for output and error, respectively. 
+Whereas the output writer is not configurable, 
+for the input a writer for logging may be configured (default none), 
+and and also error output may be configured (by default tied to <code>System.err</code>). 
+
+Finally, it is possible for to define a threadpool for accessing octave: 
+By default it is a fixed thread pool with 2 threads, but one may also configure the number 
+or define a cached thread pool. 
 </example>
+
+<example><title>OctaveEngine with a combination of custom options</title>
+Of course all the kinds of parameters of a factory may be combined. 
+To that end, the setter methods return the original factory to allow stacking. 
+<programlisting>
+import eu.simuline.octave.OctaveEngineFactory;
+import eu.simuline.octave.OctaveEngine;
+... 
+OctaveEngineFactory oef = new OctaveEngineFactory();
+oef.setArgsArray(new String[] {"--silent", "--no-init-file"})
+   .setEnvironment(new String[] {"JAVA_ROOT=/usr/lib64/jvm/java", 
+                                 "LANG=en_US.UTF-8"});
+OctaveEngine oe = oef.getScriptEngine();
+</programlisting>
+
+or 
+<programlisting>
+import eu.simuline.octave.OctaveEngineFactory;
+import eu.simuline.octave.OctaveEngine;
+... 
+OctaveEngine oe = new OctaveEngineFactory()
+   .setArgsArray(new String[] {"--silent", "--no-init-file"})
+   .setEnvironment(new String[] {"JAVA_ROOT=/usr/lib64/jvm/java", 
+                                 "LANG=en_US.UTF-8"})
+   .getScriptEngine();
+</programlisting>
+</example>
+
+
 
 After having created an octave-(script-)engine, 
 this can be used to evaluate scripts in the matlab language. 
@@ -174,8 +236,11 @@ double jd = od.get(1,1);
 Of course, <code>oe</code> is an octave engine 
 created as described in the above examples. 
 First, <code>Octave.scalar(42.0)</code> 
-converts the java double <code>42.0</code> into an OctaveDouble 
-and <code>put</code> assigns that value to octave variable <code>dIn</code>. 
+converts the java double <code>42.0</code> into an <code>OctaveDouble</code>, 
+which is still a java class 
+in javaoctave package <code>eu.simuline.type</code> 
+but corresponds with an octave type which allows <code>put</code> 
+to assign that value to octave variable <code>dIn</code>. 
 Then <code>oe.eval("dOut=sin(dIn);");</code> evaluates the sine 
 and passes the result to octave variable <code>dOut</code>. 
 Finally, <code>OctaveDouble od = oe.get(OctaveDouble.class, "dOut");</code> 
@@ -183,21 +248,441 @@ pushes the value <code>dOut</code> back to java
 and to get back a double just use the getter method as shown above. 
 </example>
 
-<!--para-->
-In general, for getting and setting, 
+
+The last thing to do within a <productname>javaoctave</productname> session is releasing the resources 
+normally via <code>oe.close()</code> and in exceptional cases via <code>oe.destroy()</code>. 
+</chapter>
+
+<chapter id="getSet"><title>Putting and Getting Values</title>
+
+
+<para>
+In general, for getting and setting (to be more precise putting) values, 
 the package <ulink url='./apidocs/eu/simuline/octave/type/package-summary.html'>
-eu.simuline.octave.type</ulink> 
-comprising java corresponding with octave types like <code>OctaveDouble</code> 
-and the utility class <code>Octave</code> are needed. 
-The relation between the java types 
+eu.simuline.octave.type</ulink> is needed,
+comprising java classes 
+corresponding with octave types like <code>OctaveDouble</code> 
+and the utility class <code>Octave</code>. 
+Except <code>Octave</code>, 
+the class names have the form <code>OctaveXXX</code>, 
+where <code>XXX</code> indicates the octave type 
+or a java type corresponding with that octave type. 
+</para>
+
+<para>
+The relation between the java types <code>in eu.simuline.octave.type</code>
 and the corresponding octave types is given in 
 <ulink url='./apidocs/eu/simuline/octave/io/impl/package-summary.html'>
 eu.simuline.octave.io.impl</ulink>. 
 This site also informs on the progress of implementation of the various types. 
 All required information can be found in the api-docs. 
-<!--/para-->
+For a deeper understanding see the implmentation documentation 
+<ulink url='./impldoc.xhtml#getSetVar'>implmentation documentation</ulink>. 
+</para>
+
+<para>
+The following sections treat various categories of octave types 
+and, if existent, introduce the corresponding java types 
+in package <code>eu.simuline.octave.type</code>. 
+We now give a short introduction to each of it. 
+</para>
+
+<table>
+<title>TOT: Table of types</title>
+<tgroup cols='4' align='left'>
+<thead><row>
+<entry>index </entry>
+<entry>octave type</entry>
+<entry><code>eu.simuline.octave.type</code></entry>
+<entry>section</entry>
+</row></thead>
+<tbody>
+<row>
+<entry>1 </entry>
+<entry>unknown class</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>cell</entry>
+<entry>OctaveCell</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>(double) scalar</entry>
+<entry>OctaveDouble</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry>complex (double) scalar</entry>
+<entry>OctaveComplex</entry>
+<entry><xref linkend='typesComplex'/></entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry>(double) matrix</entry>
+<entry>OctaveDouble</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry>(double) diagonal matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesMatrixSpec'/></entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry>complex (double) matrix</entry>
+<entry>OctaveComplex</entry>
+<entry><xref linkend='typesComplex'/></entry>
+</row>
+<row>
+<entry>8 </entry>
+<entry>complex (double) diagonal matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesMatrixSpec'/></entry>
+</row>
+<row>
+<entry>9 </entry>
+<entry>range</entry>
+<entry>(OctaveFake)</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>10</entry>
+<entry>bool (scalar)</entry>
+<entry>OctaveBoolean</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>11</entry>
+<entry>bool matrix</entry>
+<entry>OctaveBoolean</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>12</entry>
+<entry>string</entry>
+<entry>OctaveString</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>13</entry>
+<entry>sq_string</entry>
+<entry>OctaveString</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>14</entry>
+<entry>int8 scalar</entry>
+<entry>---</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>15</entry>
+<entry>int16 scalar</entry>
+<entry>---</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>16</entry>
+<entry>int32 scalar</entry>
+<entry>OctaveInt</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>17</entry>
+<entry>int64 scalar</entry>
+<entry>OctaveLong</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>18</entry>
+<entry>uint8 scalar</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>19</entry>
+<entry>uint16 scalar</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>20</entry>
+<entry>uint32 scalar</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>21</entry>
+<entry>uint64 scalar</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>22</entry>
+<entry>int8 matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>23</entry>
+<entry>int16 matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>24</entry>
+<entry>int32 matrix</entry>
+<entry>OctaveInt</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>25</entry>
+<entry>int64 matrix</entry>
+<entry>OctaveLong</entry>
+<entry><xref linkend='typesBasic'/></entry>
+</row>
+<row>
+<entry>26</entry>
+<entry>uint8 matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>27</entry>
+<entry>uint16 matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>28</entry>
+<entry>uint32 matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>29</entry>
+<entry>uint64 matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>30</entry>
+<entry>sparse bool matrix</entry>
+<entry>OctaveSparseBoolean</entry>
+<entry><xref linkend='typesMatrixSpec'/></entry>
+</row>
+<row>
+<entry>31</entry>
+<entry>sparse (double) matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesMatrixSpec'/></entry>
+</row>
+<row>
+<entry>32</entry>
+<entry>sparse complex (double) matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesMatrixSpec'/></entry>
+</row>
+<row>
+<entry>33</entry>
+<entry>struct</entry>
+<entry>OctaveStruct</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>34</entry>
+<entry>scalar struct</entry>
+<entry>OctaveStruct</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>35</entry>
+<entry>class</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>36</entry>
+<entry>cs-list</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>37</entry>
+<entry>magic colon</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+<row>
+<entry>38</entry>
+<entry>built-in function</entry>
+<entry>---</entry>
+<entry><xref linkend='typesDrop'/></entry>
+</row>
+</tbody>
+</tgroup>
+<!--caption>Types in Octave and in <code>eu.simuline.octave.type</code></caption-->
+</table>
+
+<para>
+Since octave is numeric software, 
+octave's 'numerological' types, i.e. numerical types and the logical types 
+are most important. 
+A subset of these has a counterpart in java, 
+and these are the types we start with in <xref linkend='typesBasic'/>. 
 
 
+</para>
+
+
+<sect1 id="typesBasic"><title>Basic Java Types: Scalars and Matrices</title>
+</sect1>
+
+Most basic java types are numerological: 
+<itemizedlist>
+<listitem>
+the boolean type <code>boolean</code> 
+corresponding with the octave type <code>bool</code>
+, 
+</listitem>
+<listitem>
+the signed integer types 
+<code>byte</code>, <code>short</code>, <code>int</code> and <code>long</code> 
+corresponding with the octave types <code>int8</code>, <code>int16</code>, 
+<code>int32</code> and <code>int64</code> and 
+</listitem>
+<listitem>
+the floating point types <code>float</code> and <code>double</code> 
+corresponding with the octave types <code>float</code> and <code>double</code>, 
+respectively. 
+</listitem>
+</itemizedlist>
+
+
+<para>
+The classes in 
+</para>
+
+
+
+<para>
+One difference between java and octave is, 
+that the octave types may be matrices in any dimension 
+indcluding scalars as special case, 
+whereas the java types are scalars only. 
+Thus the octave types must be declared 
+as <code>scalar</code> or <code>matrix</code>. 
+So the complete type is e.g. <code>float scalar</code> 
+or <code>float matrix</code>. 
+Since <code>double</code> is the type which is most frequiently used, 
+<code>double scalar</code> is written as <code>scalar</code> 
+<code>double matrix</code> is written as <code>matrix</code>. 
+Likewise, <code>bool scalar</code> is written as <code>bool</code>. 
+</para>
+
+
+<para>
+Also in java integer types are always signed, 
+whereas octave offers for each siged type an according unsigned type. 
+</para>
+
+<para>
+It would be a good design decision for the types 
+in package <code>eu.simuline.octave.type</code> 
+to provide for each octave type an according java type. 
+On the other hand, scalars may be held in 1x1 matrices 
+and so the types in <code>eu.simuline.octave.type</code> 
+need not necessarily contain scalar types. 
+The current implementation of <productname>javaoctave</productname> 
+uses matrix types to hold scalar objects also. 
+So getting octave scalars results in java matrices 
+and putting a matrix results in a scalar if the matrix is 1x1. 
+</para>
+
+<para>
+Thus the class names <code>OctaveXXX</code> do not contain 
+neither <code>Scalar</code> nor <code>Matrix</code>. 
+Instead, <code>XXX</code> is just the java type 
+corresponding with the according octave type. 
+</para>
+
+
+
+
+
+
+
+<sect1 id="utilOctave"><title>The utility class <code>Octave</code></title>
+
+
+<para>
+As described in <xref linkend="typesBasic"/> 
+all basic types including <code>scalar (doube)</code> and 
+<code>(scalar) bool</code> 
+can be exchanged between octave and java. 
+Nevertheless, putting values of these types 
+requires invocation of a quite complex constructor 
+because there is no explicit scalar type 
+but only a matrix type which also represents scalars as 1x1 matrices. 
+Thus we habe to invoke <code>new OctaveDouble(new double[] {d}, 1, 1)</code> 
+to create an octave double with value <code>d</code>. 
+For convenience we use method <code>Octave.scalar(double d)</code> instead. 
+</para>
+
+<para>
+Likewise this is true for the type <code>(scalar) bool</code> 
+but here is the additional aspect, that it is not desirable 
+to create more instances of scalars 
+representing nothing but <code>true</code> or <code>false</code>. 
+Method <code>Octave.bool(boolean)</code> creates octave booleans 
+conveniently without creating superfluous instances. 
+</para>
+
+
+</sect1>
+
+<sect1 id="typesComplex"><title>Complex Types</title>
+</sect1>
+
+<sect1 id="typesMatrixSpec"><title>Special Matrix Types</title>
+(double) diagonal matrix, complex (double) diagonal matrix
+sparse bool matrix, 
+Also mention that this can be extended using 
+techniques described in <xref linkend='typesExt'/>.
+</sect1>
+
+
+<sect1 id="typesTBD"><title>Types not yet described</title>
+cell, range, string, sq_string, ...
+(scalar) struct (maybe should not be implemented). 
+At least, class should be treated like struct
+</sect1>
+
+<sect1 id="typesDrop"><title>Types that shall/may not be implemented</title>
+unknown type, 
+class (should be treated same as struct)
+cs-list (comma separated list) maybe cannot assigned to a variable, 
+magic colon (e.g. y(:) or y(2:3))
+<sect2 id="unsignedInt"><title>Unsigned Integer Types</title>
+uint8, uint16, uint32, uint64, both scalar and matrix. 
+</sect2>
+
+</sect1>
+
+<sect1 id="typesExt"><title>Extending this Software to further types</title>
+</sect1>
+
+
+
+
+
+</chapter>
 <!-- 
 public methods: 
 unsafeEval(final String script)
@@ -213,7 +698,7 @@ void close()
 void destroy()
 String getVersion()
 -->
-</chapter>
+
 
 
 </book>
