@@ -52,6 +52,9 @@ public final class OctaveEngine {
 
     // ER: nowhere used except in method getFactory() 
     // which is in turn nowhere used. 
+    /**
+    * @deprecated
+    */
     private final OctaveEngineFactory factory;
 
     /**
@@ -62,7 +65,7 @@ public final class OctaveEngine {
     private final OctaveIO octaveIO;
 
     /**
-     * The writer to write to stdout. 
+     * The writer to write to {@link System#out}. 
      */
     private Writer writer = new OutputStreamWriter(System.out, 
 						   OctaveUtils.getUTF8());
@@ -77,19 +80,32 @@ public final class OctaveEngine {
      * Creates an octave engine with the given parameters. 
      * The first one is nowhere used and the others are handed over to 
      * {@link OctaveExec#OctaveExec(int,Writer,Writer,String[],String[],File)}. 
+     * 
+     * @param factory
+     *    the factory used to create this engine. 
+     * @param numThreadsReuse
+     *    TBC
+     * @param octaveInputLog
+     *    a writer to log octave's standard output to, if not <code>null</code>. 
+     * @param errorWriter
+     *     a writer to log octave's error output to ,if not <code>null</code>. 
+     * @param cmdArray
+     *    an array with 0th entry the command 
+     *    and the rest (optional) command line parameters. 
+     *    
      */
     OctaveEngine(final OctaveEngineFactory factory,
 		 final int numThreadsReuse,
-		 final Writer octaveInputLog,
-		 final Writer errorWriter,
+		 final Writer octaveInputLog, // may be null 
+		 final Writer errorWriter,// may be null 
 		 final String[] cmdArray,
-		 final String[] environment, // always invoked with null 
+		 final String[] environment, // may be null 
 		 final File workingDir) {
         this.factory = factory;
 	// assert environment == null;
 
         this.octaveExec = new OctaveExec(numThreadsReuse,
-					 octaveInputLog,
+					 octaveInputLog, // may be null
 					 errorWriter,
 					 cmdArray,
 					 environment,
@@ -209,9 +225,9 @@ public final class OctaveEngine {
      * Sets a value in octave.
      *
      * @param key
-     *            the name of the variable
+     *     the name of the variable to be set to value <code>value</code>. 
      * @param value
-     *            the value to set
+     *     the value to set for the variable <code>key</code>
      */
     public void put(final String key, final OctaveObject value) {
         this.octaveIO.set(Collections.singletonMap(key, value));
@@ -223,7 +239,8 @@ public final class OctaveEngine {
      * that octave had for any of the keys currently in the specified map. 
      *
      * @param vars
-     *            the variables to be stored in octave
+     *    a map from variable names to according values 
+     *    o be stored in the according variables in octave. 
      */
     public void putAll(final Map<String, OctaveObject> vars) {
         this.octaveIO.set(vars);
@@ -257,6 +274,7 @@ public final class OctaveEngine {
     // ER: nowhere used
     /**
      * @return the factory that created this object
+     * @deprecated
      */
     public OctaveEngineFactory getFactory() {
         return this.factory;

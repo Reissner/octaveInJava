@@ -38,6 +38,15 @@
        <action dev="ER" type="fix">
 	 Renamed abstract class GenericMatrix-->AbstractObjectMatrix. 
        </action>
+       <action dev="ER" type="update">
+	 Version of octave. 
+       </action>
+       <!--action dev="ER" type="add">
+	 In OctaveEngineFactory: endowed setter methods
+	 with return value of type OctaveEngineFactory
+	 to enable scaling. 
+       </action-->
+ 
      </release>
 
      <release version="0.7.0" date='2018-07-13' description=''>
