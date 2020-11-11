@@ -46,30 +46,6 @@ public final class OctaveUtils {
         throw new UnsupportedOperationException("Do not instantiate");
     }
 
-
-    // TBD: maybe better a final static field. 
-    /**
-     * Returns the charset UTF-8 used throughout. 
-     */
-    public static Charset getUTF8() {
-	// TBD: Treat: the following exceptions may be thrown: 
-	// - IllegalCharsetNameException - If the given charset name is illegal
-	//   cannot occur
-	// - IllegalArgumentException - If the given charsetName is null
-	//   cannot occur 
-	// - UnsupportedCharsetException - If not supported 
-        //   by in this instance of the Java virtual machine
-	//   cannot occur either, because UTF-8 is required 
-	//   to be available on all VMs (standard charset).
-	//   These are  US-ASCII, ISO-8859-1, 
-	//   UTF-8, UTF-16, UTF-16BE, UTF-16LE
-	//   For all of those, there is a constant 
-	//   with the according name in class java.nio.charset.StandardCharsets
-	//   on could also use "" for defaultcharset: 
-	//  public static Charset defaultCharset()
-	return Charset.forName("UTF-8");
-    }
-
     /**
      * Returns a collection of variables defined 
      * @param octave

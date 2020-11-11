@@ -25,6 +25,18 @@
 	</release-->
 
      <!-- TBD: research on .classpath -->
+     <!-- TBD: for now we must keep applicability to older versions of octave 
+	  but in the long run, we must ensure really: 
+	  - try to get older manuals in order to keep javaoctave
+	  - set up tests with various versions of octave. 
+	    see TestVersion.testKnownVersion() 
+	    All the known versions shall be supported. 
+	  applicable to those versions. -->
+     <!-- TBD: find out how attributes shall be defined on java objects: 
+	  isa, ismatrix, isstruct, iscell,.... -->
+     <!-- TBD: find out how conversion functions 
+	  shall be defined on java objects: 
+	  isa, ismatrix, isstruct, iscell,.... -->
 
      <release version="0.7.1-snapshot" date='' description=''>
        <action dev="ER" type="add">
@@ -53,7 +65,11 @@
 	 to ensure that no unwanted null values 
 	 are introduced into the system. 
        </action>
- 
+       <action dev="ER" type="add">
+	 In OctaveEngineFactory: added setter method for encoding.
+	 Also made some rework and tiny bugfix. 
+       </action>
+
      </release>
 
      <release version="0.7.0" date='2018-07-13' description=''>

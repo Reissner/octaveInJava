@@ -22,6 +22,9 @@ import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -62,14 +65,21 @@ public final class OctaveEngineFactory {
      * The according setter method is {@link #setOctaveInputLog(Writer)}. 
      */
     private Writer octaveInputLog = null;
-
+    
+    /**
+     * The character set used to transform input stream , 
+     * output stream and error stream for 'octave process'. 
+     * The default value is {@link StandardCharsets#UTF_8} 
+     * which is the only value for octave TBD: reference. 
+     */
+    public Charset charset = StandardCharsets.UTF_8;
+    
     /**
      * The error writer for the octave process. 
      * By default, this is just {@link System#err}. <!-- TBD: clarify encoding -->
      * The according setter method is {@link #setErrorWriter(Writer)}. 
      */
-    private Writer errWriter = new OutputStreamWriter(System.err, 
-						      OctaveUtils.getUTF8());
+    private Writer errWriter = new OutputStreamWriter(System.err);
 
     /**
      * The file containing the octave program or is <code>null</code>. 
@@ -185,9 +195,10 @@ public final class OctaveEngineFactory {
 	System.arraycopy(this.argsArray, 0, cmdArray, 1, this.argsArray.length);
 
         return new OctaveEngine(this, 
-				this.numThreadsReuse,
+		                this.numThreadsReuse,
 				this.octaveInputLog, 
 				this.errWriter,
+				this.charset,
 				cmdArray,
 				this.environment,
 				this.workingDir);
@@ -280,6 +291,28 @@ public final class OctaveEngineFactory {
         this.argsArray = Arrays.copyOf(argsArray, argsArray.length);
         return this;
     }
+    
+    /**
+     * Sets the encoding of input, output and error stream 
+     * of the 'octave process'. 
+     * The appropriate value for octave seems to be {@link StandardCharsets#UTF_8} 
+     * so this method may be used rarely.  
+     * 
+     * @param charset
+     *    the new charset. 
+     * @return
+     *   this octave engine factory after modification. 
+     * @throws NullPointerException
+     *    if <code>charset</code> is <code>null</code>. 
+     */
+    public OctaveEngineFactory setCharset(Charset charset) {
+ 	if (charset == null) {
+ 	    throw new NullPointerException("Found null character set. ");
+ 	}
+ 	this.charset = charset;
+ 	return this;
+     }
+
 
     /**
      * Setter method for {@link #environment}. 

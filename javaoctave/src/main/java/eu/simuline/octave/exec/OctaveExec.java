@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-
+import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -63,16 +63,18 @@ public final class OctaveExec {
     /**
      * The octave process created in the constructor 
      * with given command, arguments, environment and working directory. 
+     * This is initialized in {@link #OctaveExec(int, Writer, Writer, String[], String[], File)} 
+     * and used in {@link #close()} and {@link #destroy()} only. 
      */
     private final Process process;
 
     /**
-     * 
+     * The output writer for {@link #process} derived from {@link Process#getOutputStream()}. 
      */
     private final Writer processWriter;
 
     /**
-     * The input reader for {@link #process}. 
+     * The input reader for {@link #process} derived from {@link Process#getInputStream()}. 
      * This is used by {@link #evalRW(WriteFunctor, ReadFunctor)} 
      * and used to close via {@link #close()}. 
      */
@@ -111,28 +113,33 @@ public final class OctaveExec {
      *    This writer will capture all
      *    that is written from the octave process on stderr,
      *    if null the data will not be captured. 
+     * @param charset
+     *    the charset used for communication with the octave process. 
      * @param cmdArray
      *    The array consisting of command and arguments: 
      *    The 0th entry is either the path to the octave program,
-     *    or the command found by looking at the builtin variable "paths" 
+     *    or the command found by looking at the built-in variable "paths" 
      *    reconstructing the path. 
      *    starting with the 1th entry, 
      *    may follow the array of arguments to start the octave program with. 
      *    CAUTION: allowed values depend on the octave version. 
      * @param environment
-     *    The environment for the octave process, 
+     *    Either the environment for the octave process, 
      *    i.e. the set of values of environment variables 
-     *    if null the process will inherit the environment
-     *    for the virtual machine. 
-     *    If not null, each entry has the form <code>name=value</code>. 
+     *    with each entry of the form <code>name=value</code> 
+     *    or null to make {@link #process}, 
+     *    the process created, inherit the environment of the current process. 
      * @param workingDir
-     *    This will be the working dir for the octave process,
-     *    if null the process will inherit the working dir
+     *    Either the working directory for the octave process, or <code>null</code> to make {@link #process}, 
+     *    the process created, inherit the working directory
      *    of the current process.
+     * @throws OctaveIOException
+     *    If execution
      */
     public OctaveExec(final int numThreadsReuse,
 		      final Writer stdinLog, 
 		      final Writer stderrLog, 
+		      final Charset charset, // TBD: ensure that various charsets fit. 
 		      final String[] cmdArray,
 		      final String[] environment, // always invoked with null 
 		      final File workingDir) {
@@ -142,6 +149,14 @@ public final class OctaveExec {
 	    : Executors.newFixedThreadPool(numThreadsReuse, threadFactory);
 
 	try {
+	    // exec may throw 
+	    // - SecurityException TBC
+	    // - UnsupportedOperationException TBC
+	    // - IOException (handled by catch)
+	    // - NullPointerException if cmdArray is null 
+	    //   or so is one of its components, 
+	    // - IndexOutOfBoundsException if cmdArray is empty
+	    // The latter two are excluded. 
             this.process = Runtime.getRuntime().exec(cmdArray, 
 						     environment, 
 						     workingDir);
@@ -150,18 +165,15 @@ public final class OctaveExec {
         }
         // Connect stderr
         this.errorStreamThread = ReaderWriterPipeThread
-	    .instantiate(new InputStreamReader(this.process.getErrorStream(), 
-					       OctaveUtils.getUTF8()),
+	    .instantiate(new InputStreamReader(this.process.getErrorStream(), charset),
 			 stderrLog);
 
         // Connect stdout
         this.processReader = new BufferedReader
-	    (new InputStreamReader(this.process.getInputStream(), 
-				   OctaveUtils.getUTF8()));
+	    (new InputStreamReader(this.process.getInputStream(), charset));
 
         // Connect stdin
-	Writer pw = new OutputStreamWriter(this.process.getOutputStream(),
-					   OctaveUtils.getUTF8());
+	Writer pw = new OutputStreamWriter(this.process.getOutputStream(), charset);
 	// all written to processWriter will go to pw and, 
 	// if not null to stdinLog
 	this.processWriter = (stdinLog == null)
@@ -173,12 +185,12 @@ public final class OctaveExec {
 
     private String generateSpacer() {
         return "-=+X+=- Octave.java spacer -=+X+=- " + 
-	    random.nextLong() + " -=+X+=-";
+	    this.random.nextLong() + " -=+X+=-";
     }
 
     /**
-     * Passes <code>input</code> to octave 
-     * and get back <code>output</code>. 
+     * Passes <code>input</code> to octave, get back <code>output</code> 
+     * and throws according exceptions if reading or writing went wrong. 
      *
      * @param input
      *    a write functor which represents the script 
@@ -192,6 +204,7 @@ public final class OctaveExec {
     // OctaveIO#checkIfVarExists(String) and in 
     // OctaveEngine#unsafeEval(String) OctaveEngine#unsafeEval(Reader) and 
     // OctaveEngine#getVersion() only 
+    // TBD: document which exceptions can be thrown in detail 
     public void evalRW(final WriteFunctor input, final ReadFunctor output) {
         final String spacer = generateSpacer();
         final Future<Void> writerFuture = 
@@ -259,7 +272,7 @@ public final class OctaveExec {
 
     /**
      * Used by {@link #getFromFuture(Future)} 
-     * to reinstantiate an {@link OctaveException} 
+     * to re-instantiate an {@link OctaveException} 
      * if this occurs as the cause of an {@link ExecutionException}. 
      */
     private OctaveException reInstException(OctaveException exc) {
@@ -273,7 +286,7 @@ public final class OctaveExec {
 		// may throw 
 		// IllegalArgumentException, 
 		// ReflectiveOperationException: 
-		// - IllegalAccessException: construtor inaccessible 
+		// - IllegalAccessException: constructor inaccessible 
 		// - InstantiationException: Exception class is abstract 
 		// - InvocationTargetException: if the constructor throws an exc
 		// ExceptionInInitializerError
@@ -322,27 +335,36 @@ public final class OctaveExec {
     }
 
     /**
-     * Close the octave process in an orderly fashion.
+     * Close the octave process in an orderly fashion: 
+     * Send command <code>exit</code> and expect a single line in return, 
+     * namely an empty one. 
+     *
+     * @throws OctaveIOException
+     *    if 
      */
     public void close() {
         try {
             // it is not worth it to rewrite this 
-	    // to use eval() and some specialised Functors
+	    // to use eval() and some specialized Functors
+            // the next three commands all may throw IOException 
             this.processWriter.write("exit\n");
             this.processWriter.close();
             final String read1 = this.processReader.readLine();
+            
             // Allow a single blank line, exit in octave 3.2 returns that:
             if (read1 != null && !"".equals(read1)) {
                 throw new OctaveIOException
 		    ("Expected a blank line, read '" + read1 + "'");
             }
-            final String read2 = this.processReader.readLine();
+            final String read2 = this.processReader.readLine();// may throw IOExceptino 
             if (read2 != null) {
                 throw new OctaveIOException
 		    ("Expected reader to be at end of stream, read '" + 
 		     read2 + "'");
             }
+            // may throw IOException 
             this.processReader.close();
+            // may throw IOException 
             this.errorStreamThread.close();
             int exitValue;
             try {
@@ -358,6 +380,8 @@ public final class OctaveExec {
 		     exitValue + "'");
             }
         } catch (final IOException e) {
+            // TBD: correct this: may be also a problem with the writer. 
+            // Reader: may be processReader or error stream. 
             final OctaveIOException octaveException = 
 		new OctaveIOException("reader error", e);
             if (isDestroyed()) {

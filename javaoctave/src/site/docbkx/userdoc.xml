@@ -153,7 +153,8 @@ The latter is the active by default with default value <command>octave</command>
 Together with the command line arguments described below, 
 this defines the invocation of the underying octave engine. 
 In addition, it is possible to define the environment 
-and the working directory, both by default inherited from the invoking process.  
+and the working directory, both by default inherited from the invoking process. 
+Also the encoding of the input, output and error stream of the octave process can be configured. 
 
 The octave process is connected via an input writer 
 and a reader for output and error, respectively. 

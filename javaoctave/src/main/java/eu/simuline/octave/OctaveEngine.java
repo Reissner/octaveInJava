@@ -25,7 +25,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
@@ -64,11 +64,16 @@ public final class OctaveEngine {
 
     private final OctaveIO octaveIO;
 
+    // TBD: it seems that the writer is not needed but the functor. 
+    // maybe reuse that and set this field to the functor 
+    // wrapping the writer instead of the writer. 
+    // This is a way to avoid a null-value. 
     /**
-     * The writer to write to {@link System#out}. 
+     * The writer to write output from evaluation of a script.  
+     * Initially this wraps {@link System#out}. 
+     * This may also be <code>null</code> which indicates a 'do nothing functor'
      */
-    private Writer writer = new OutputStreamWriter(System.out, 
-						   OctaveUtils.getUTF8());
+    private Writer writer;
 
     /**
      * Describe variable <code>random</code> here.
@@ -89,6 +94,8 @@ public final class OctaveEngine {
      *    a writer to log octave's standard output to, if not <code>null</code>. 
      * @param errorWriter
      *     a writer to log octave's error output to ,if not <code>null</code>. 
+     * @param charset
+     *    the charset used for communication with the octave process. 
      * @param cmdArray
      *    an array with 0th entry the command 
      *    and the rest (optional) command line parameters. 
@@ -98,15 +105,19 @@ public final class OctaveEngine {
 		 final int numThreadsReuse,
 		 final Writer octaveInputLog, // may be null 
 		 final Writer errorWriter,// may be null 
+		 final Charset charset,
 		 final String[] cmdArray,
 		 final String[] environment, // may be null 
 		 final File workingDir) {
         this.factory = factory;
 	// assert environment == null;
 
+        this.writer = new OutputStreamWriter(System.out);
+
         this.octaveExec = new OctaveExec(numThreadsReuse,
 					 octaveInputLog, // may be null
 					 errorWriter,
+					 charset,
 					 cmdArray,
 					 environment,
 					 workingDir);
@@ -284,9 +295,11 @@ public final class OctaveEngine {
      * Set the writer that the scripts output will be written to.
      *
      * This method is usually placed in ScriptContext.
+     * It is used also for tests. 
      *
      * @param writer
-     *            the writer to set
+     *    the writer to set
+     *    This may be null which means that no writer is used. 
      */
     public void setWriter(final Writer writer) {
         this.writer = writer;
@@ -298,7 +311,7 @@ public final class OctaveEngine {
      * This method is usually placed in ScriptContext.
      *
      * @param errorWriter
-     *            the errorWriter to set
+     *    the errorWriter to set
      */
     public void setErrorWriter(final Writer errorWriter) {
         this.octaveExec.setErrorWriter(errorWriter);
@@ -322,7 +335,8 @@ public final class OctaveEngine {
      * Return the version of the octave implementation. 
      * E.g. a string like "3.0.5" or "3.2.3".
      *
-     * @return Version of octave
+     * @return 
+     *    The version of octave as a string. 
      */
     public String getVersion() {
         final StringWriter version = new StringWriter();
