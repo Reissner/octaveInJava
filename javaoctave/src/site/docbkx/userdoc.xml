@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
-          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<!--DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+               "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"-->
 <book id='UserGuide'>
   <title>An Introduction to javaoctave for the User</title>
   <bookinfo>
@@ -32,7 +32,8 @@ allowing to use an octave-engine from within java.
 Historically, there was an <command>octave</command> package 
 which allowed the converse: using java from within <command>octave</command>. 
 In the meantime, i.e. with version at least 4.3.0+, 
-<command>octave</command> offers builtin support for that task. 
+<command>octave</command> this piece of software had been included
+in the base version of octave. 
 In the long run, the maintainer of <productname>javaoctave</productname> 
 intends to include this software into <command>octave</command> either. 
 Then octave can be invoked from within java and vice versa. 
@@ -288,7 +289,7 @@ in package <code>eu.simuline.octave.type</code>.
 We now give a short introduction to each of it. 
 </para>
 
-<table>
+<table id='tab:types'>
 <title>TOT: Table of types</title>
 <tgroup cols='4' align='left'>
 <thead><row>
@@ -526,10 +527,130 @@ We now give a short introduction to each of it.
 <entry>---</entry>
 <entry><xref linkend='typesDrop'/></entry>
 </row>
+<!-- at least with version 5.2.0 -->
+<row>
+<entry>39</entry>
+<entry>user defined function</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>40</entry>
+<entry>dynamically linked function</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>41</entry>
+<entry>function handle</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>42</entry>
+<entry>inline function</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>43</entry>
+<entry>float scalar</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>44</entry>
+<entry>float complex scalar</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>45</entry>
+<entry>float matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>46</entry>
+<entry>float diagonal matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>47</entry>
+<entry>float complex matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>48</entry>
+<entry>float complex diagonal matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>49</entry>
+<entry>permuatation matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>50</entry>
+<entry>null_matrix</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>51</entry>
+<entry>null_string</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>52</entry>
+<entry>null_sq_string</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>53</entry>
+<entry>lazy_index</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>54</entry>
+<entry>onCleanup</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>55</entry>
+<entry>octave_java</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
+<row>
+<entry>56</entry>
+<entry>object</entry>
+<entry>---</entry>
+<entry><xref linkend='typesTBD'/></entry>
+</row>
 </tbody>
 </tgroup>
 <!--caption>Types in Octave and in <code>eu.simuline.octave.type</code></caption-->
 </table>
+
+<para>
+  The octave types listed in <xref linkend='tab:types'/>
+  are given by the octave command <command>typeinfo</command>
+  which returns a one dimensional cell array of strings
+  with indices given in the first row.
+  The second row is the name of the octave class.
+  The third column shows the corresponding java type, if any
+  and the last column gives a reference for further information. 
+</para>
+
 
 <para>
 Since octave is numeric software, 
@@ -556,7 +677,7 @@ corresponding with the octave type <code>bool</code>
 the signed integer types 
 <code>byte</code>, <code>short</code>, <code>int</code> and <code>long</code> 
 corresponding with the octave types <code>int8</code>, <code>int16</code>, 
-<code>int32</code> and <code>int64</code> and 
+<code>int32</code> and <code>int64</code>, respectively, and 
 </listitem>
 <listitem>
 the floating point types <code>float</code> and <code>double</code> 
@@ -564,13 +685,6 @@ corresponding with the octave types <code>float</code> and <code>double</code>,
 respectively. 
 </listitem>
 </itemizedlist>
-
-
-<para>
-The classes in 
-</para>
-
-
 
 <para>
 One difference between java and octave is, 
@@ -581,8 +695,8 @@ Thus the octave types must be declared
 as <code>scalar</code> or <code>matrix</code>. 
 So the complete type is e.g. <code>float scalar</code> 
 or <code>float matrix</code>. 
-Since <code>double</code> is the type which is most frequiently used, 
-<code>double scalar</code> is written as <code>scalar</code> 
+Since <code>double</code> is the type which is most frequently used, 
+<code>double scalar</code> is written as <code>scalar</code> and 
 <code>double matrix</code> is written as <code>matrix</code>. 
 Likewise, <code>bool scalar</code> is written as <code>bool</code>. 
 </para>

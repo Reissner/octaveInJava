@@ -37,6 +37,9 @@
      <!-- TBD: find out how conversion functions 
 	  shall be defined on java objects: 
 	  isa, ismatrix, isstruct, iscell,.... -->
+      <!-- TBD: find out why in docbook documents 
+	   the DOCTYPE had to becommented out.  -->
+     
 
      <release version="0.7.1-snapshot" date='' description=''>
        <action dev="ER" type="add">

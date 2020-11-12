@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
-          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<!--DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+          "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"-->
 <book id='ImplGuide'>
   <title>Implementation of javaoctave</title>
   <bookinfo>
@@ -40,7 +40,7 @@ Currently, there is a single chapter only,
 
 </chapter>
 
-<chapter id="first"><title>Setting and Getting Variables</title>
+<chapter id="getSetVar"><title>Setting and Getting Variables</title>
 Setting and getting variables is done via octave functions 
 <command>load</command> and <command>save</command> 
 which define a textual description of the content of the space of variables. 
@@ -59,7 +59,7 @@ Thu May 31 14:32:19 2018 CEST &lt;ernst@linux-9rd9.suse>
 </para>
 
 <para>
-The following describes the individual variables defined 
+The following lines describe the individual variables defined, 
 usually with a lot of blank lines in between the description of variables 
 but sometimes also without. 
 
@@ -108,16 +108,24 @@ The modifier <computeroutput>global</computeroutput> has no influence.
 </listitem>
 <listitem>
 There are types which cannot be saved, as <code>octave_java</code>. 
+For these in the 3rd line a warning is saved 
+of the form <code>warning: save: unable to save ...</code>.
 </listitem>
 </itemizedlist>
 
 The types are listed by <command>typeinfo()</command>. 
+
+
 According to personal communication with octave developers, 
 this list is open, i.e. there are ways to add types to the builtin ones. 
-We do not take this into account for now. 
+We do not take this into account for now.
 
-Let us focus first on the java primitive types 
-and according octave types. 
+<sect1 id='javaPrim'> <title>Logical and numerical types</title>
+
+Let us focus first on the java primitive types
+which are all logical or numerical
+with the according octave types and then on octaves complex types
+for which there is no generic counterpart in java. 
 
 <itemizedlist>
 <listitem>
@@ -165,6 +173,12 @@ Whereas <code>bool matrix</code> is named regularly,
 <code>bool scalar</code> is just called <code>bool</code>. 
 This may be due to the fact, that booleans normally occur as scalars. 
 </listitem>
+<listitem>
+Since the double type is the prevalent type, 
+it is dropped from naming, i.e. 
+<code>double matrix</code> is just called <code>matrix</code> and 
+<code>double scalar</code> is just called <code>scalar</code>. 
+</listitem>
 </itemizedlist>
 
 <para>
@@ -174,7 +188,7 @@ for which there is no correspondence in java: complex types.
 For each of the two floating point types there is an according complex type 
 and this as the primitive types comes as scalar and as matrix. 
 The according types are thus called 
-<code>complex scalar</code>, <code>complex matrix</code>
+<code>complex scalar</code>, <code>complex matrix</code>,
 <code>float complex scalar</code> and <code>float complex matrix</code>. 
 Note the place where the word <code>complex</code> is inserted. 
 </para>
@@ -329,6 +343,126 @@ which is a sequence of blank followed by the according entry of the matrix.
 This second form only applies 
 to floating point types including the complex ones and 
 to the boolean type but not to the integer types. 
+</sect1>
+<sect1 id="extend"><title>Octave's struct type</title>
+A struct is a container type with named fields.
+
+An example for defining such a struct is the following: 
+<programlisting>
+x.a = 1;
+x.b = [1, 2; 3, 4];
+x.c = "str";
+</programlisting>
+
+The according data structure in java is the <code>Map&lt;String,*&gt;</code>
+with the fieldnames as keys and according values.
+In our implementation of <productname>javaoctave</productname>
+we wrap this into a <code>OctaveStruct</code>.
+
+Saving that yields 
+<literallayout>
+<computeroutput>
+# name: x
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 3
+# name: a
+# type: scalar
+1
+
+
+# name: b
+# type: matrix
+# rows: 2
+# columns: 2
+ 1 2
+ 3 4
+
+
+# name: c
+# type: string
+# elements: 1
+# length: 6
+str
+</computeroutput>
+</literallayout>
+
+<para>
+What is remarkable is,
+that although it is a <emphasis>scalar</emphasis> struct,
+dimensions are given.
+Also remarkable,
+that there seems to be no special form for 2 dimensional matrices
+as for numerical and logical types. 
+
+Then follows a length which is the number of fields.
+The rest is as if the fields were separate variables
+where the field names are the variable names
+and the field values are the variable values. 
+</para>
+
+If there is a scalar struct type, then there is also a matrix struct type:
+<programlisting>
+  x = struct ("field1", {1, "one"}, "field2", {2, "two"}, "field3", 3);
+</programlisting>
+yields a <code>struct matrix</code>
+
+</sect1>
+
+<sect1 id="extend"><title>Octave Types which can/shall not be treated</title>
+
+There are two kinds of reasons why it is not possible or does not make sense 
+to implement. 
+One category is on java side, the other one is on octave side. 
+
+On java side: all the unsigned integer types are not yet in java 
+and thus it is inappropriate to add them. 
+Explicitely named these are the types 
+<code>uint8</code>, <code>uint16</code>, <code>uint32</code> 
+and <code>uint64</code>. 
+Although this is also true for the complex types, 
+we circumvent this because complex types are so important. 
+We plan to add a complex java class or, to be more precise two: 
+one for double and one for float. 
+
+On octave side: 
+There are types which are deprecated and it is not worth implementing. 
+Specifically, thi is <code>inline function</code>. 
+Since the implementation of this software 
+is based on octave's load/save mechanism, 
+types for which this is not implemented, 
+cannot be treated. 
+This is at least the type <code>octave_java</code>. 
+</sect1>
+
+
+<sect1 id="extend"><title>How to extend on further octave types</title>
+
+further types may be added and here we have to describe 
+how to extend this software to treat them. 
+
+First of all save and load must be implemented in octave 
+for these types. 
+This can be easily checked in octave: 
+just define a variable of the according type and then try to load/save. 
+
+
+Then one has to define a java type corresponding with the octave type. 
+This shall be in package 
+<ulink url='./apidocs/eu/simuline/octave/type/package-summary.html'>
+eu.simuline.octave.type</ulink>. 
+In addition one needs according writers and readers 
+to be added in package 
+<ulink url='./apidocs/eu/simuline/octave/io/impl/package-summary.html'>
+eu.simuline.octave.io.impl</ulink>. 
+The types of readers and writers must be registered in 
+<ulink url='../../src/main/resources/META-INF/services/eu.simuline.octave.OctaveDataReader'>OctaveDataReader</ulink> and in 
+<ulink url='../../src/main/resources/META-INF/services/eu.simuline.octave.OctaveDataWriter'>OctaveDataWriter</ulink>. 
+
+
+</sect1>
+
 </chapter>
 
 </book>
