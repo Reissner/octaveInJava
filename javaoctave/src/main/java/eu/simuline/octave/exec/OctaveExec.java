@@ -63,7 +63,8 @@ public final class OctaveExec {
     /**
      * The octave process created in the constructor 
      * with given command, arguments, environment and working directory. 
-     * This is initialized in {@link #OctaveExec(int, Writer, Writer, String[], String[], File)} 
+     * This is initialized 
+     * in {@link #OctaveExec(int, Writer, Writer, Charset, String[], String[], File)} 
      * and used in {@link #close()} and {@link #destroy()} only. 
      */
     private final Process process;
