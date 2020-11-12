@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.imageio.spi.ServiceRegistry;
+import java.util.ServiceLoader;
 
 import eu.simuline.octave.type.OctaveObject;
 
@@ -69,7 +69,7 @@ public abstract class OctaveDataWriter<T extends OctaveObject> {
 	    <Class<? extends OctaveObject>, OctaveDataWriter<?>>();
 	@SuppressWarnings("rawtypes")
 	final Iterator<OctaveDataWriter> sp = 
-	    ServiceRegistry.lookupProviders(OctaveDataWriter.class);
+	    ServiceLoader.load(OctaveDataWriter.class).iterator();
 	OctaveDataWriter<?> odw, odwOrg;
 	while (sp.hasNext()) {
 	    odw = sp.next();

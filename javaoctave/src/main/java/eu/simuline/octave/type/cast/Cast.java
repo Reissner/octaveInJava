@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.imageio.spi.ServiceRegistry;
+import java.util.ServiceLoader;
 
 import eu.simuline.octave.exception.OctaveClassCastException;
 import eu.simuline.octave.exception.OctaveCastServiceException;
@@ -48,8 +48,8 @@ public final class Cast {
         if (casterMap == null) {
             casterMap = new HashMap<ClassPair<?, ?>, Caster<?, ?>>();
             @SuppressWarnings("rawtypes")
-            final Iterator<Caster> sp = ServiceRegistry
-		.lookupProviders(Caster.class);
+            final Iterator<Caster> sp = 
+               ServiceLoader.load(Caster.class).iterator();
 	    while (sp.hasNext()) {
                 register(sp.next());
             }

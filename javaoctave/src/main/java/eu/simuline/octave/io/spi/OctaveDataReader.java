@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.imageio.spi.ServiceRegistry;
+import java.util.ServiceLoader;
 
 import eu.simuline.octave.type.OctaveObject;
 
@@ -63,7 +63,7 @@ public abstract class OctaveDataReader {
         }
 	rEADERS = new HashMap<String, OctaveDataReader>();
 	final Iterator<OctaveDataReader> sp = 
-	    ServiceRegistry.lookupProviders(OctaveDataReader.class);
+	    ServiceLoader.load(OctaveDataReader.class).iterator();
 	OctaveDataReader odr, odrOrg;
 	while (sp.hasNext()) {
 	    odr = sp.next();
@@ -78,6 +78,7 @@ public abstract class OctaveDataReader {
 	}
     }
 
+    // TBD: specify more precisely 
     /**
      * Could be "scalar" or "string" or something else. 
      *
