@@ -15,7 +15,7 @@
  */
 
 /**
- * The exceptions here are still very close tied to the implementation 
+ * The exceptions here are still very closely tied to the implementation 
  * of the JavaOctave package, it would be better if they were more related 
  * to what the use of the Octave object needed.
  * <p>
