@@ -46,10 +46,11 @@ public final class ReaderWriterPipeThread extends Thread {
      * Will create a thread that reads from reader and writes to write 
      * until reader reaches EOF. 
      * Then the thread will close. 
-     * Remember to join() this thread before closeing reader or writer.
+     * Remember to join() this thread before closing reader or writer.
      * 
      * @param reader
      * @param writer
+     *    may be null TBC: does this make sense? 
      * @return Returns the new thread
      */
     public static ReaderWriterPipeThread instantiate(final Reader reader, 
@@ -71,6 +72,12 @@ public final class ReaderWriterPipeThread extends Thread {
         return readerWriterPipeThread;
     }
 
+    /**
+     * 
+     * @param reader
+     * @param writer
+     *    may be null TBC: does this make sense? 
+     */
     private ReaderWriterPipeThread(final Reader reader, final Writer writer) {
         this.reader = reader;
         this.writer = writer;
@@ -81,7 +88,7 @@ public final class ReaderWriterPipeThread extends Thread {
         while (!interrupted()) {
             int len;
             try {
-                len = reader.read(BUF);
+                len = this.reader.read(BUF);
             } catch (final IOException e) {
                 LOG.error("Error when reading from reader", e);
                 throw new OctaveIOException(e);
@@ -91,9 +98,9 @@ public final class ReaderWriterPipeThread extends Thread {
             }
             try {
                 synchronized (this) {
-                    if (writer != null) {
-                        writer.write(BUF, 0, len);
-                        writer.flush();
+                    if (this.writer != null) {
+                	this.writer.write(BUF, 0, len);
+                	this.writer.flush();
                     }
                 }
             } catch (final IOException e) {
@@ -107,6 +114,7 @@ public final class ReaderWriterPipeThread extends Thread {
     /**
      * @param writer
      *    the writer to set
+     *    This may be null TBC 
      */
     public void setWriter(final Writer writer) {
         synchronized (this) {

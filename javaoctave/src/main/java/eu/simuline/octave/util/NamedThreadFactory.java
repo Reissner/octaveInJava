@@ -34,22 +34,24 @@ public final class NamedThreadFactory implements ThreadFactory {
     /**
      * This is initialized with 1 
      * and read and incremented only if a factory object is created. 
+     * It goes into {@link #namePrefix}. 
      */
     private static final AtomicInteger POOL_NUMBER = new AtomicInteger(1);
 
     /**
-     * The thread group either from the security manager 
-     * or from the current thread. 
+     * The thread group from the security manager if it exists 
+     * or else from the current thread. 
+     * It is the group each thread belongs to created by {@link #newThread(Runnable)}. 
      */
     private final ThreadGroup group;
 
     /**
      * The name prefix of the form 
-     * <code>&lt;threadname>-javaoctave-&lt;prefix>-&lt;POOLNUMBER>-</code>, 
-     * where <code>&lt;threadname></code> is the name of the current thread, 
-     * <code>&lt;prefix></code> is the prefix given by a parameter 
+     * <code>&lt;threadname&gt;-javaoctave-&lt;prefix&gt;-&lt;POOLNUMBER&gt;-</code>, 
+     * where <code>&lt;threadname&gt;</code> is the name of the current thread, 
+     * <code>&lt;prefix&gt;</code> is the prefix given by a parameter 
      * of the constructor {@link #NamedThreadFactory(String)} 
-     * and <code>&lt;POOLNUMBER></code> is {@link #POOL_NUMBER} 
+     * and <code>&lt;POOLNUMBER&gt;</code> is {@link #POOL_NUMBER} 
      * depending on the factory object. 
      * The trailing <code>-</code> is there because a new thread 
      * defined by {@link #newThread(Runnable)} obtains a name 
@@ -90,12 +92,17 @@ public final class NamedThreadFactory implements ThreadFactory {
 	    + prefix + "-" + POOL_NUMBER.getAndIncrement() + "-";
     }
 
+    /**
+     * Creates a NamedThreadFactory via {@link #NamedThreadFactory(String)} 
+     * with name given by the simple class name of {@link OctaveExec}. 
+     */
     public NamedThreadFactory() {
 	this(OctaveExec.class.getSimpleName());
     }
 
     /**
      * Returns a new thread with standard priority which is no daemon 
+     * with default priority {@link Thread#NORM_PRIORITY} 
      * from <code>runnable</code> 
      * with name consisting of {@link #namePrefix} and a running number 
      * {@link #threadNumber}. 
@@ -108,6 +115,7 @@ public final class NamedThreadFactory implements ThreadFactory {
 	String name = this.namePrefix + this.threadNumber.getAndIncrement();
         final Thread thread = new Thread(this.group, runnable, name);
         if (thread.isDaemon()) {
+            // is a daemon iff this thread is a daemon 
             thread.setDaemon(false);
         }
 	// Here, thread is no daemon 

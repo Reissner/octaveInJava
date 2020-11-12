@@ -96,10 +96,10 @@ abstract class AbstractPrimitiveMatrixReader
     }
 
     /**
-     * Reads a line NDIMS &lt;num of dims> 
+     * Reads a line {@link #NDIMS num of dims} 
      * followed by a line of dimensions: integers separated by blank 
      * and returns an array with the according entries. 
-     * In particluar the length is &lt;num of dims>. 
+     * In particular the length is {@link #NDIMS num of dims}. 
      */
     private int[] readSizeVectorizedMatrix(BufferedReader reader, 
 					   String ndimsLine) {
@@ -150,7 +150,7 @@ abstract class AbstractPrimitiveMatrixReader
     }
 
     /**
-     * Reads lines NROWS &lt;num of rows> and NCOLUMNS &lt;num of cols>
+     * Reads lines {@link #NROWS num of rows} and {@link #NCOLUMNS num of cols}
      * and returns an array {nrows ncols}. 
      */
     protected int[] readSize2dmatrix(BufferedReader reader, 

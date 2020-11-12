@@ -70,7 +70,7 @@ public final class OctaveCell
     @SuppressWarnings("PMD.AvoidThrowingNullPointerException")
     public void set(OctaveObject value, int... pos) {
         if (value == null) {
-	    // **** I would pressume that one should put [] instead. 
+	    // **** I would presume that one should put [] instead. 
             throw new NullPointerException("Cannot put null into OctaveCell");
         }
         if (DEFAULT_VALUE.equals(value)) {

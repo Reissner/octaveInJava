@@ -22,8 +22,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Will protect a Writer from beeing closed by {@link #close()}, 
- * useful for protecting stdout and stderr from beeing closed. 
+ * Will protect a Writer from being closed by {@link #close()}, 
+ * useful for protecting stdout and stderr from being closed. 
  * Trying to close via {@link #close()} results in loosing connection 
  * whereas {@link #reallyClose()} really closes the writer. 
  * 
