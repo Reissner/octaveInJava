@@ -36,7 +36,7 @@
 
  *   <tr>
  *   <th>1</th>
- *   <th>&lt;unknown type></th>
+ *   <th>"&lt;unknown type&gt;"</th>
  *   <th>---</th>
  *   <th>---</th>
  *   <th>---</th>
@@ -157,17 +157,17 @@
  *   <tr>
  *   <th>16</th>
  *   <th>"int32 scalar"</th>
- *   <th>see 28</th>
+ *   <th>see 24</th>
  *   <th>{@link eu.simuline.octave.io.impl.Int32ScalarReader}</th>
- *   <th>see 28</th>
+ *   <th>see 24</th>
  *   </tr>
 
  *   <tr>
  *   <th>17</th>
  *   <th>"int64 scalar"</th>
- *   <th>---</th>
- *   <th>---</th>
- *   <th>---</th>
+ *   <th>see 25</th>
+ *   <th>{@link eu.simuline.octave.io.impl.Int64ScalarReader}</th>
+ *   <th>see 25</th>
  *   </tr>
 
  *   <tr>
@@ -223,17 +223,17 @@
  *   <tr>
  *   <th>24</th>
  *   <th>"int32 matrix"</th>
- *   <th>---</th>
- *   <th>---</th>
- *   <th>---</th>
+ *   <th>{@link eu.simuline.octave.type.OctaveInt}</th>
+ *   <th>{@link eu.simuline.octave.io.impl.Int32MatrixReader}</th>
+ *   <th>{@link eu.simuline.octave.io.impl.Int32MatrixWriter}</th>
  *   </tr>
 
  *   <tr>
  *   <th>25</th>
  *   <th>"int64 matrix"</th>
- *   <th>---</th>
- *   <th>---</th>
- *   <th>---</th>
+ *   <th>{@link eu.simuline.octave.type.OctaveLong}</th>
+ *   <th>{@link eu.simuline.octave.io.impl.Int64MatrixReader}</th>
+ *   <th>{@link eu.simuline.octave.io.impl.Int64MatrixWriter}</th>
  *   </tr>
 
  *   <tr>
@@ -263,9 +263,9 @@
  *   <tr>
  *   <th>28</th>
  *   <th>"uint32 matrix"</th>
- *   <th>{@link eu.simuline.octave.type.OctaveInt}</th>
- *   <th>{@link eu.simuline.octave.io.impl.Int32MatrixReader}</th>
- *   <th>{@link eu.simuline.octave.io.impl.Int32MatrixWriter}</th>
+ *   <th>---</th>
+ *   <th>---</th>
+ *   <th>---</th>
  *   </tr>
 
  *   <tr>
