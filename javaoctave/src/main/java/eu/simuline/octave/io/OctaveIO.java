@@ -56,10 +56,10 @@ import eu.simuline.octave.type.OctaveObject;
  * <li>
  * {@link #read(BufferedReader)} reads an object 
  * <li>
- * {@link #readWithName(BufferedReader)} yields a singleton map name-->object, 
+ * {@link #readWithName(BufferedReader)} yields a singleton map name--&gt;object, 
  * where name is the name of a variable 
  * <li>
- * {@link #readWithName(String)} yields a singleton map name-->object, 
+ * {@link #readWithName(String)} yields a singleton map name--&gt;object, 
  * as above but reading from a string. 
  * </ul>
  * Part is for writing: 
@@ -88,14 +88,15 @@ public final class OctaveIO {
     }
 
     /**
-     * Sets the map <code>values</code> 
-     * mapping variable names to according values. 
+     * Sets the variables named as keys in <code>name2val</code> 
+     * to objects given by the mapped values. 
      *
-     * @param values
+     * @param name2val
+     *    a mapping from variable names to according objects. 
      */
-    public void set(final Map<String, OctaveObject> values) {
+    public void set(final Map<String, OctaveObject> name2val) {
         final StringWriter outputWriter = new StringWriter();
-	this.octaveExec.evalRW(new DataWriteFunctor(values),
+	this.octaveExec.evalRW(new DataWriteFunctor(name2val),
 			       new WriterReadFunctor(outputWriter));
 	
         final String output = outputWriter.toString();
