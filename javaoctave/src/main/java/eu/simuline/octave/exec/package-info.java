@@ -17,10 +17,13 @@
 /**
  * Classes related with executing octave. 
  * The central class is {@link eu.simuline.octave.exec.OctaveExec} 
- * executing octave. 
- * Class {@link eu.simuline.octave.exec.OctaveExecuteReader} 
- * reads the output of the octave process, 
- * with end of stream given by a "spacer". 
+ * creating (i.e. opening), closing and executing an octave script 
+ * in its main method {@link OctaveExec#evalRW(WriteFunctor, ReadFunctor)}. 
+ * It uses an {@link eu.simuline.octave.exec.OctaveWriterCallable} 
+ * to write a script to octave  
+ * and an {@link eu.simuline.octave.exec.OctaveReaderCallable} 
+ * to read back the output from octave. 
+ * {@link eu.simuline.octave.exec.OctaveExec#evalRW(WriteFunctor, ReadFunctor)}.
  * <p>
  * The basic interfaces are {@link eu.simuline.octave.exec.ReadFunctor} 
  * and {@link eu.simuline.octave.exec.WriteFunctor} 
