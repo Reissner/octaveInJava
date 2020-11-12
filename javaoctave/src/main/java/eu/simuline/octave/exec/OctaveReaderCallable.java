@@ -80,25 +80,16 @@ final class OctaveReaderCallable implements Callable<Void> {
     }
 
     /**
-     * Reader that passes the reading on to the output from the octave process 
-     * until the spacer reached, then it returns EOF. 
+     * Reader that passes the reading on to the output from the octave process, 
+     * i.e. from {@link OctaveReaderCallable#processReader} 
+     * until the spacer {@link OctaveReaderCallable#spacer} reached, then it returns EOF. 
      * When this reader is closed 
      * the underlying reader is slurped up to the spacer. 
      * <p>
      * This is used in {@link OctaveReaderCallable#call()} only. 
      */
     // TBC: maybe thus this shall be an inner class. 
-    final static class OctaveExecuteReader extends Reader {
-
-        /**
-         * The wrapped reader. 
-         */
-        private final BufferedReader octaveReader;
-
-        /**
-         * The string signifying end of stream. 
-         */
-        private final String spacer;
+    final class OctaveExecuteReader extends Reader {
 
         /**
          * The current line read from {@link #octaveReader} 
@@ -106,7 +97,7 @@ final class OctaveReaderCallable implements Callable<Void> {
          * If this buffer were empty, it is <code>null</code> instead, 
          * which is also the initial value. 
          * If this is not the first line, the line read from {@link #octaveReader} 
-         * is preceeded by newline before being passed to {@link #buffer}. 
+         * is preceded by newline before being passed to {@link #buffer}. 
          */
         private StringBuffer buffer = null;
 
@@ -126,23 +117,6 @@ final class OctaveReaderCallable implements Callable<Void> {
          * not really end of {@link #octaveReader}. 
          */
         private boolean eof = false;
-
-        /**
-         * This reader will read from <code>octaveReader</code> 
-         * until a single line equal() <code>spacer</code> is read, 
-         * after that this reader will return eof. 
-         * When this reader is closed it will update the state of octave to NONE. 
-         *
-         * @param octaveReader
-         *    the wrapped reader 
-         * @param spacer
-         *    the line signifying end of stream. 
-         */
-        OctaveExecuteReader(final BufferedReader octaveReader,
-    			final String spacer) {
-            this.octaveReader = octaveReader;
-            this.spacer = spacer;
-        }
 
         /**
          * Reads characters into a portion of an array. 
@@ -173,7 +147,7 @@ final class OctaveReaderCallable implements Callable<Void> {
             }
             if (this.buffer == null) {
                 // may throw IOException 
-                final String line = this.octaveReader.readLine();
+                final String line = OctaveReaderCallable.this.processReader.readLine();
                 if (OctaveReaderCallable.LOG.isTraceEnabled()) {
                     OctaveReaderCallable.LOG.trace("octaveReader.readLine() = " + 
     			  StringUtil.jQuote(line));
@@ -181,7 +155,7 @@ final class OctaveReaderCallable implements Callable<Void> {
                 if (line == null) {
                     throw new IOException("Pipe to octave-process broken");
                 }
-                if (this.spacer.equals(line)) {
+                if (OctaveReaderCallable.this.spacer.equals(line)) {
                     this.eof = true;
                     return -1;
                 }
@@ -218,7 +192,7 @@ final class OctaveReaderCallable implements Callable<Void> {
                 // Do nothing
             }
             // may throw IOException 
-            if (this.octaveReader.ready()) {
+            if (OctaveReaderCallable.this.processReader.ready()) {
                 throw new IOException("octaveReader is ready()");
             }
             OctaveReaderCallable.LOG.debug("Reader closed()");
@@ -244,8 +218,7 @@ final class OctaveReaderCallable implements Callable<Void> {
      */
     @Override
     public Void call() {
-        final Reader reader = new OctaveExecuteReader(this.processReader, 
-						      this.spacer);
+        final Reader reader = new OctaveExecuteReader();
         try {
             this.readFunctor.doReads(reader);
         } catch (final IOException e) {
