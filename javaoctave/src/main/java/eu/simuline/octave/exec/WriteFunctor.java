@@ -23,6 +23,7 @@ import java.io.Writer;
 
 /**
  * Function object that will execute writes to a Writer. 
+ * 
  */
 public interface WriteFunctor {
 

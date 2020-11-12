@@ -84,7 +84,7 @@ public final class OctaveEngine {
     /**
      * Creates an octave engine with the given parameters. 
      * The first one is nowhere used and the others are handed over to 
-     * {@link OctaveExec#OctaveExec(int,Writer,Writer,Charset, String[],String[],File)}. 
+     * {@link OctaveExec#OctaveExec(int,Writer,Writer,Charset,String[],String[],File)}. 
      * 
      * @param factory
      *    the factory used to create this engine. 
