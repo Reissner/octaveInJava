@@ -39,7 +39,20 @@
 	  isa, ismatrix, isstruct, iscell,.... -->
       <!-- TBD: find out why in docbook documents 
 	   the DOCTYPE had to becommented out.  -->
-     
+      <!-- TBD: introduce modules. -->
+
+      <!-- TBD: rework on listVars -->
+      <!-- TBD: rework on octaveVersion -->
+      <!-- TBD: add version of octavejava -->
+      <!-- TBD: added way to get the installed packages. 
+	   maybe with a separate data structure describing a package. -->
+      <!-- TBD: Version objects, maybe cross project -->
+      <!-- TBD: pass octave floating point objects lossless to java. 
+	   Idea is to convert them into long then reassign variable 
+	   pass that long variable to java and then convert back. -->
+
+	   
+
 
      <release version="0.7.1-snapshot" date='' description=''>
        <action dev="ER" type="add">
@@ -57,6 +70,11 @@
        </action>
        <action dev="ER" type="update">
 	 Version of octave. 
+       </action>
+        <action dev="ER" type="update">
+	  Version of java:
+	  Replaced javax.imageio.spi.ServiceRegistry 
+	  by java.util.ServiceLoader
        </action>
        <action dev="ER" type="add">
 	 In OctaveEngineFactory: endowed setter methods
