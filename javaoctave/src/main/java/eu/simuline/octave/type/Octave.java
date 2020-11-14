@@ -44,9 +44,7 @@ public final class Octave {
      */
     // used by user and in tests only 
     public static OctaveDouble scalar(final double d) {
-        final OctaveDouble od = new OctaveDouble(1, 1);
-        od.set(d, 1, 1);
-        return od;
+        return new OctaveDouble(new double[] {d}, 1, 1);
     }
 
     /**
