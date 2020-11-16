@@ -92,7 +92,7 @@ public class TestIoOctaveSparseBoolean {
     @Test public void testReadWrite() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
-        if (octave.getVersion().equals("3.0.5")) {
+        if (octave.getOctaveVersion().equals("3.0.5")) {
             return; // Skip test on octave 3.0.5
         }
 

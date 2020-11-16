@@ -61,7 +61,7 @@ System.out.println("1testWithFunctionInVariable");
         octave.put("t1", Octave.scalar(0));
         octave.put("t2", Octave.scalar(1));
 System.out.println("2testWithFunctionInVariable");
-        if (octave.getVersion().startsWith("3.0.")) {
+        if (octave.getOctaveVersion().startsWith("3.0.")) {
             octave.put("fun", new OctaveString("sqrt(1-t**2)"));
         } else {
             octave.put("fun", new OctaveFunctionHandle("@(x, t) sqrt (1 - t ^ 2)"));

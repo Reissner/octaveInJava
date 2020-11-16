@@ -374,7 +374,33 @@
         <version>${versionTestPlugins}</version>
         <configuration>
 	  <redirectTestOutputToFile>true</redirectTestOutputToFile>
+          <excludes>
+            <exclude>TestVersion.java</exclude>
+          </excludes>
         </configuration>
+      </plugin>
+
+     <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>3.0.0-M5</version>
+        <configuration>
+	  <redirectTestOutputToFile>true</redirectTestOutputToFile>
+          <includes>
+            <include>TestVersion.java</include>
+          </includes>
+          
+                  </configuration>
+                      <executions>
+        <execution>
+            <id>run-tests</id>
+            <phase>integration-test</phase>
+            <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+            </goals>
+        </execution>
+    </executions>
       </plugin>
 
       <!-- javadoc plugin -->
@@ -387,7 +413,7 @@
 	  <execution>
 	    <id>attach-javadocs</id>
 	    <goals>
-	      <goal>jar</goal>
+	      <goal>javadoc</goal><!-- jar -->
 	    </goals>
 	    <configuration>
 	      <sourcepath>
@@ -424,35 +450,57 @@
         <configuration>
           <archive>
 	    <!-- the manifest starts with the following lines: 
-		 Manifest-Version: 1.0
-		 Archiver-Version: Plexus Archiver
-		 Created-By: Apache Maven -->
+		 Manifest-Version: 1.0 -->
             <manifest>
-	      <!-- adds the following lines to MANIFEST.MF (default is false): 
-		   Implementation-Title: ${project.name}
-		   Implementation-Version: ${project.version}
-		   Implementation-Vendor-Id: ${project.groupId}
-		   Implementation-Vendor: ${project.organization.name}
-		   Implementation-URL: ${project.url} -->
+	      <!--addClasspath>false</addClasspath--><!-- (default) -->
+	      <!--addDefaultEntries>true</addDefaultEntries--><!-- (default)-->
+	      <!-- adds 
+		   Created-By: Maven Jar Plugin 3.2.0
+		   Build-Jdk-Spec: ${java.specification.version} -->
 	      <addDefaultImplementationEntries>
 		true
 	      </addDefaultImplementationEntries>
+	      <!-- adds the following lines to MANIFEST.MF (default is false): 
+		   Implementation-Title: ${project.name}
+		   Implementation-Version: ${project.version}
+		   Implementation-Vendor: ${project.organization.name} -->
+	      <addDefaultSpecificationEntries>
+		false
+	      </addDefaultSpecificationEntries>
 	      <!-- adds the following lines to MANIFEST.MF (default is false): 
 		   Specification-Title: ${project.name}
 		   Specification-Version: 
 		   ${project.artifact.selectedVersion.majorVersion}.
 		   ${project.artifact.selectedVersion.minorVersion}
 		   Specification-Vendor: ${project.organization.name} -->
-	      <addDefaultSpecificationEntries>
-		false
-	      </addDefaultSpecificationEntries>
+	      <addBuildEnvironmentEntries>true</addBuildEnvironmentEntries>
+	      <!-- adds the following lines to MANIFEST.MF (default is false): 
+		   Build-Tool: ${maven.build.version}
+		   Build-Jdk: ${java.version} (${java.vendor})
+		   Build-Os:  ${os.name} (${os.version}; (${os.arch}) -->
+              <packageName>eu/simuline/octave/</packageName>
+  	      
             </manifest>
 	    <!-- Add the following key-value pairs <key>value</key> 
 		 as lines 'key: value' to MANIFEST.MF -->
             <manifestEntries>
               <Bundle-License>${project.licenses[0].url}</Bundle-License>
               <Project-Url>${project.url}</Project-Url>
+              <Sealed>true</Sealed>
             </manifestEntries>
+	    <manifestSections>
+	      <manifestSection>
+		<name>eu/simuline/octave/</name>
+		<manifestEntries>
+		<!--Implementation-Title>${project.name}</Implementation-Title-->
+		<Extension-name>eu.simuline.octave</Extension-name>
+		<Specification-Version>
+		  ${project.artifact.selectedVersion.majorVersion}.${project.artifact.selectedVersion.minorVersion}
+		</Specification-Version>
+		<Implementation-Version>${project.version}</Implementation-Version>
+		</manifestEntries>
+	      </manifestSection>
+	    </manifestSections>
           </archive>
         </configuration>
       </plugin>
@@ -468,7 +516,7 @@
       </plugin>
 
       <!-- Deploy sources.jar files -->
-      <plugin>
+      <!--plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>3.2.1</version>
@@ -481,7 +529,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin-->
 
       <plugin>
 	<groupId>org.apache.maven.plugins</groupId>

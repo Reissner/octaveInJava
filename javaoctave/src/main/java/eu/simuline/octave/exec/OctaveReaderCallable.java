@@ -92,11 +92,11 @@ final class OctaveReaderCallable implements Callable<Void> {
     final class OctaveExecuteReader extends Reader {
 
         /**
-         * The current line read from {@link #octaveReader} 
+         * The current line read from {@link OctaveReaderCallable#processReader} 
          * but not yet passed to a char-array by {@link #read(char[], int, int)}. 
          * If this buffer were empty, it is <code>null</code> instead, 
          * which is also the initial value. 
-         * If this is not the first line, the line read from {@link #octaveReader} 
+         * If this is not the first line, the line read from {@link OctaveReaderCallable#processReader} 
          * is preceded by newline before being passed to {@link #buffer}. 
          */
         private StringBuffer buffer = null;
@@ -114,7 +114,7 @@ final class OctaveReaderCallable implements Callable<Void> {
          * Initially, this is false. 
          * It is set to false, by {@link #read(char[], int, int)} 
          * if {@link #buffer} equals {@link #spacer}, 
-         * not really end of {@link #octaveReader}. 
+         * not really end of {@link OctaveReaderCallable#processReader}. 
          */
         private boolean eof = false;
 
@@ -137,7 +137,7 @@ final class OctaveReaderCallable implements Callable<Void> {
          * @throws IOException 
          *    If an I/O error occurs. 
          *    This is true in particular, 
-         *    if null-line has been read from {@link #octaveReader}. 
+         *    if null-line has been read from {@link OctaveReaderCallable#processReader}. 
          */
         @Override
         public int read(final char[] cbuf, final int off, final int len) 

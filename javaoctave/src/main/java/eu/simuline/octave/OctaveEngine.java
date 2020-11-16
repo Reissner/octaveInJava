@@ -25,10 +25,17 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+
 import java.nio.charset.Charset;
+
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 import eu.simuline.octave.exception.OctaveEvalException;
 import eu.simuline.octave.exception.OctaveClassCastException;
@@ -48,7 +55,22 @@ import eu.simuline.octave.type.cast.Cast;
  *
  * This is inspired by the javax.script.ScriptEngine interface.
  */
+/**
+ * @author ernst
+ *
+ */
 public final class OctaveEngine {
+    
+    // TBD: clarify whether these versions are the correct ones. 
+    /**
+     * The set of known versions of octave, i.e. those for which javaoctave shall work. 
+     */
+    private final static Set<String> KNOWN_OCTAVE_VERSIONS = new HashSet<String>
+	    (Arrays.asList("3.0.5", "3.2.3", "3.2.4", "3.6.2", "3.8.2", 
+			   // added by E.R.
+			   "4.3.0+",
+			   "4.4.0", "5.0.0", "5.2.0"));
+
 
     // ER: nowhere used except in method getFactory() 
     // which is in turn nowhere used. 
@@ -330,15 +352,111 @@ public final class OctaveEngine {
     public void destroy() {
         this.octaveExec.destroy();
     }
-
+    
+    
     /**
      * Return the version of the octave implementation. 
+     * E.g. a string like "3.0.5" or "3.2.3".
+     * @return
+     *    the version of the underlying octave program as a string. 
+     * @deprecated
+     *    use {@link #getOctaveVersion()} instead.     
+     */
+    public String getVersion() {
+	return getOctaveVersion();
+    }
+    
+    // TBD: synchronize with according class in maven-latex-plugin 
+    // and extract into separate git repository. 
+    static class ManifestInfo {
+	private final static String META_FOLDER = "META-INF/";
+	   
+
+	private final static String MANIFEST_FILE = "MANIFEST.MF";
+	
+	// TBD: decide whether this is sensible 
+	private final Manifest manifest;
+	
+	/**
+	 * The main attributes of the manifest. 
+	 */
+	private final Attributes mAtts;
+	
+
+	ManifestInfo() throws IllegalStateException {
+	    try {
+		this.manifest = new Manifest
+			(this.getClass().getClassLoader()
+				.getResource(META_FOLDER + MANIFEST_FILE)
+				.openStream());
+	    } catch (IOException e) {
+		throw new IllegalStateException("could not read properties" + e);
+	    }
+	    this.mAtts = this.manifest.getMainAttributes();
+
+	}
+	
+	private String getAttrValue(Object name) {
+	    // is in fact a string always but this is to detect null pointer exceptions 
+	    return (String)this.mAtts.get(name);//.toString();
+	}
+
+	/**
+	 * Returns the version of the implementation. 
+	 * This is the version given by the maven coordinates.
+	 * 
+	 *  @return
+	 */
+	String getImplVersion() {
+	    return getAttrValue(Attributes.Name.IMPLEMENTATION_VERSION);
+	}
+	
+	String getImplVendor() {
+	    return getAttrValue(Attributes.Name.IMPLEMENTATION_VENDOR);
+	}
+
+    } // class ManifestInfo
+    
+    private final static ManifestInfo MANIFEST_INFO = new ManifestInfo();
+
+    // TBD: workaround.
+    // This does not work only in context of junit tests (classloader!)
+    // It does work if run standalone. 
+    /**
+     * Returns the vendor of this octave bridge as a string. 
+     * @return
+     *    The vendor of this octave bridge as a string. 
+     */
+    public String getVendor() {
+	System.out.println("MANIFEST_INFO: "+MANIFEST_INFO);
+	return MANIFEST_INFO.getImplVendor();
+	//return this.getClass().getPackage().getImplementationVendor();
+    }
+
+    // TBD: workaround.
+    // This does not work only in context of junit tests (classloader!)
+    // It does work if run standalone. 
+    /**
+     * Returns the version of this octave bridge as a string. 
+     * @return
+     *    The version of this octave bridge as a string. 
+     * @see #getOctaveVersion()
+     */
+    public String getOctaveInJavaVersion() {
+	//System.out.println("MANIFEST_INFO: "+MANIFEST_INFO);
+	return MANIFEST_INFO.getImplVersion();
+	//return eu.simuline.octave.OctaveEngine.class.getPackage().getImplementationVersion();
+    }
+
+    /**
+     * Return the version of the octave implementation invoked by this bridge. 
      * E.g. a string like "3.0.5" or "3.2.3".
      *
      * @return 
      *    The version of octave as a string. 
+     * @see #getOctaveInJavaVersion()
      */
-    public String getVersion() {
+    public String getOctaveVersion() {
         final StringWriter version = new StringWriter();
 	StringReader reader =
 	    new StringReader("printf(\"%s\", OCTAVE_VERSION());");
@@ -346,4 +464,19 @@ public final class OctaveEngine {
 			       new WriterReadFunctor(version));
         return version.toString();
     }
+
+    /**
+     * Returns whether the version of the current octave installation 
+     * given by {@link #getOctaveVersion()}
+     * is supported by this octavejava bridge. 
+     *
+     * @return
+     *    whether the version of the current octave installation 
+     *    is supported by this octavejava bridge. 
+     * @see #KNOWN_OCTAVE_VERSIONS
+     */
+    public boolean isOctaveVersionAllowed() {
+	return KNOWN_OCTAVE_VERSIONS.contains(getOctaveVersion());
+    }
+
 }

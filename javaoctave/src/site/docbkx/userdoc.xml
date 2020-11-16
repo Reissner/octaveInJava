@@ -255,6 +255,34 @@ The last thing to do within a <productname>javaoctave</productname> session is r
 normally via <code>oe.close()</code> and in exceptional cases via <code>oe.destroy()</code>. 
 </chapter>
 
+
+<chapter id="meta"><title>Meta-Info</title>
+We inserted this section here although it would fit better later
+to avoid that it is ignored.
+Metainfo is not functional but still important.
+The class <code>OctaveEngine</code> provides several methods
+on versions:
+
+<itemizedlist>
+<listitem>
+  <code>getOctaveVersion()</code> returns the version string
+  of the underlying octave. 
+</listitem>
+<listitem>
+  <code>getOctaveInJavaVersion()</code> in contrast,
+  returns the version string for <productname>javaoctave</productname>
+</listitem>
+<listitem>
+  <code>isOctaveVersionAllowed()</code> much more important
+  returns whether those versions fit together. 
+</listitem>
+</itemizedlist>
+
+It seems to be vital to ensure that versions fit together.
+If not, there is a risk that silently something goes wrong. 
+
+</chapter>
+
 <chapter id="getSet"><title>Putting and Getting Values</title>
 
 

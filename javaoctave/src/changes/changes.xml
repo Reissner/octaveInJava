@@ -43,14 +43,20 @@
 
       <!-- TBD: rework on listVars -->
       <!-- TBD: rework on octaveVersion -->
-      <!-- TBD: add version of octavejava -->
+      <!-- TBD: add version of octavejava: 
+     	 missing still are the failsafe tests. 	 -->
       <!-- TBD: added way to get the installed packages. 
 	   maybe with a separate data structure describing a package. -->
       <!-- TBD: Version objects, maybe cross project -->
       <!-- TBD: pass octave floating point objects lossless to java. 
 	   Idea is to convert them into long then reassign variable 
 	   pass that long variable to java and then convert back. -->
-
+      <!-- TBD: ask john eaton on version politics of octave. 
+	   In particular, clarify deviation 
+	   between hg tags and allowed versions in javaoctave. -->
+      <!-- TBD: there are various invocations of getOctaveVersion() 
+	   and one has to ensure that all is still ok 
+	   even though new versions of octave are added. -->
 	   
 
 
@@ -89,6 +95,11 @@
        <action dev="ER" type="add">
 	 In OctaveEngineFactory: added setter method for encoding.
 	 Also made some rework and tiny bugfix. 
+       </action>
+      <action dev="ER" type="add">
+	In OctaveEngine: added methods concerning meta data:
+	getOctaveVersion(), getVendor(), getOctaveInJavaVersion()
+	deprecated getVersion() since no longer clear. 
        </action>
 
      </release>

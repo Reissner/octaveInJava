@@ -15,11 +15,9 @@
  */
 package eu.simuline.octave;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -34,7 +32,7 @@ public class TestVersion {
      */
     @Test public void testVersion() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        octave.getVersion();
+        octave.getOctaveVersion();
     }
 
     /**
@@ -44,14 +42,31 @@ public class TestVersion {
      */
     @Test public void testKnownVersion() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final String version = octave.getVersion();
-        final Set<String> knownVersions = new HashSet<String>
-	    (Arrays.asList("3.0.5", "3.2.3", "3.2.4", "3.6.2", "3.8.2", 
-			   // added by E.R.
-			   "4.3.0+",
-			   "4.4.0", "5.0.0", "5.2.0"));
-        assertTrue("Version '" + version + "' is not known", 
-		   knownVersions.contains(version));
+        assertTrue("Version '" + octave.getOctaveVersion() + "' is not known", 
+        	octave.isOctaveVersionAllowed());
+        assertEquals("Wrong octave version",
+		   "5.2.0",
+		   octave.getOctaveVersion());
+    }
+    
+    // TBD: reactivate 
+    // Currently, this does not work with failsafe plugin 
+    @Test public void testOctaveJavaVersion() {
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        octave.getOctaveInJavaVersion();
+//        assertEquals("wrong version of octavejava", 
+//        	"0.7-SNAPSHOT",
+//        	octave.getOctaveInJavaVersion());
+    }
+    
+    // TBD: reactivate 
+    // Currently, this does not work with failsafe plugin 
+    @Test public void testMeta() {
+        final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+        octave.getVendor();
+//        assertEquals("Wrong vendor", 
+//        	"1.0",
+//        	octave.getVendor());
     }
 
 }
