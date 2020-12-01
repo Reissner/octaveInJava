@@ -459,8 +459,8 @@ public final class OctaveEngine {
      */
     public String getOctaveInJavaVersion() {
 	//System.out.println("MANIFEST_INFO: "+MANIFEST_INFO);
-	return MANIFEST_INFO.getImplVersion();
-	//return eu.simuline.octave.OctaveEngine.class.getPackage().getImplementationVersion();
+	//return MANIFEST_INFO.getImplVersion();
+	return this.getClass().getPackage().getImplementationVersion();
     }
 
     /**
