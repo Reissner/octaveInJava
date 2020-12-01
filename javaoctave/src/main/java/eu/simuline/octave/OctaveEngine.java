@@ -22,8 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.io.Writer;
 
 import java.nio.charset.Charset;
@@ -31,9 +29,12 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.ArrayList;
+
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
@@ -46,6 +47,7 @@ import eu.simuline.octave.exec.ReaderWriteFunctor;
 import eu.simuline.octave.exec.WriteFunctor;
 import eu.simuline.octave.exec.WriterReadFunctor;
 import eu.simuline.octave.io.OctaveIO;
+import eu.simuline.octave.type.OctaveCell;
 import eu.simuline.octave.type.OctaveObject;
 import eu.simuline.octave.type.OctaveString;
 import eu.simuline.octave.type.cast.Cast;
@@ -117,6 +119,14 @@ public final class OctaveEngine {
      *
      */
     private final Random random = new Random();
+
+
+    // TBC: in which version does this occur in listVars? 
+    // seemingly not in 5.2.0. 
+    /**
+     * A variable name not to be listed by {@link OctaveUtils#listVars(OctaveEngine)}. 
+     */
+    public static final String ANS    = "ans";
 
     /**
      * Creates an octave engine with the given parameters. 
@@ -472,12 +482,8 @@ public final class OctaveEngine {
      * @see #getOctaveInJavaVersion()
      */
     public String getOctaveVersion() {
-        final StringWriter version = new StringWriter();
-	StringReader reader =
-	    new StringReader("printf(\"%s\", OCTAVE_VERSION());");
-        this.octaveExec.evalRW(new ReaderWriteFunctor(reader),
-			       new WriterReadFunctor(version));
-        return version.toString();
+	eval("OCTAVE_VERSION();");
+	return get(OctaveString.class, ANS).getString();
     }
 
     /**
@@ -492,6 +498,26 @@ public final class OctaveEngine {
      */
     public boolean isOctaveVersionAllowed() {
 	return KNOWN_OCTAVE_VERSIONS.contains(getOctaveVersion());
+    }
+
+    // This is a little strange: pkg('list') returns a cell array 
+    // but the entries have uniform type. 
+    /**
+     * Returns the list of installed packages. 
+     * 
+     * @return
+     *    the list of installed packages. 
+     */
+    public List<String> getNamesOfPackagesInstalled() {
+	eval("cellfun(@(x) x.name, pkg('list'), 'UniformOutput', false);");
+	OctaveCell cell = get(OctaveCell.class, ANS);
+	// it is known that cell contains strings only. 
+	int len = cell.dataSize();
+	List<String> res = new ArrayList<String>();
+	for (int idx = 0; idx < len; idx++) {
+	    res.add(cell.get(OctaveString.class, 1, idx+1).getString());
+	}
+	return res;
     }
 
 }

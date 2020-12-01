@@ -17,9 +17,12 @@ package eu.simuline.octave;
 
 
 import static org.junit.Assert.assertTrue;
+
+import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Ignore;
+//import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -57,7 +60,7 @@ public class TestVersion {
 //        assertEquals("wrong version of octavejava", 
 //        	"0.7-SNAPSHOT",
 //        	octave.getOctaveInJavaVersion());
-    }
+     }
     
     // TBD: reactivate 
     // Currently, this does not work with failsafe plugin 
@@ -69,4 +72,9 @@ public class TestVersion {
 //        	octave.getVendor());
     }
 
+    @Test public void testPackageInstalled() {
+	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+	Collection<String> names = octave.getNamesOfPackagesInstalled();
+	assertTrue(names.contains("quaternion"));
+    }
 }
