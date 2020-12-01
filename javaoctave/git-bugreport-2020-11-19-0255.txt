@@ -1,0 +1,47 @@
+Thank you for filling out a Git bug report!
+Please answer the following questions to help us understand your issue.
+
+What did you do before the bug happened? (Steps to reproduce your issue)
+i have a workspace with untracked files, else clean. 
+then i did `git describe`. 
+What did you expect to happen? (Expected behavior)
+I exptected to see a label 'dirty' 
+What happened instead? (Actual behavior)
+no label `dirty`
+What's different between what you expected and what actually happened?
+obvious
+Anything else you want to add:
+I know that this is not precisely a bug, 
+Instead it is a feature request. 
+Practically, `git describe` is used to determine a version. 
+For me the sense of 'dirty' is to indicate that this deliverable is not reproducible from the repo. 
+Thus it may not be delivered to a customer. 
+So in this sense, untracked files make a workspace dirty also. 
+
+Without the need of backward compatibility, i would say, dirty is all, 
+which is tracked and modified staged or not, 
+or which is untracked but not ignored. 
+
+To keep backward compatibility, 
+maybe it is a good idea to add a second suffix, maybe 'untracked'. 
+That way it is clear: only if no suffix is present, it can be delivered. 
+
+Please review the rest of the bug report below.
+You can delete any lines you don't wish to share.
+
+
+[System Info]
+git version:
+git version 2.29.2
+cpu: x86_64
+no commit associated with this build
+sizeof-long: 8
+sizeof-size_t: 8
+shell-path: /bin/sh
+uname: Linux 5.9.1-2-default #1 SMP Mon Oct 26 07:02:23 UTC 2020 (435e92d) x86_64
+compiler info: gnuc: 10.2
+libc info: glibc: 2.32
+$SHELL (typically, interactive shell): /bin/bash
+
+
+[Enabled Hooks]
