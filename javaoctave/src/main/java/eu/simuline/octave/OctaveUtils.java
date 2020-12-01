@@ -30,6 +30,7 @@ public final class OctaveUtils {
      *    some octave engine. 
      * @return collection of variables
      * @deprecated
+     * use {@link OctaveEngine#getVarNames()} instead. 
      */
     public static Collection<String> listVars(final OctaveEngine octave) {
 	// Justification: 3.0 are the earliest versions. 
