@@ -513,6 +513,25 @@ public final class OctaveEngine {
 	return KNOWN_OCTAVE_VERSIONS.contains(getOctaveVersion());
     }
 
+    /**
+     * Returns value in variable {@link #ANS} 
+     * which is expected to be a cell array of strings, 
+     * as a collection of strings. 
+     * 
+     * @return
+     *    {@link #ANS} as a collection of strings. 
+     */
+    private Collection<String> getStringCellFromAns() {
+	OctaveCell cell = get(OctaveCell.class, ANS);
+	// it is known that cell contains strings only. 
+	int len = cell.dataSize();
+	Collection<String> collection = new HashSet<String>();
+	for (int idx = 1; idx <= len; idx++) {
+	    collection.add(cell.get(OctaveString.class, 1, idx).getString());
+	}
+	return collection;
+    }
+
     // This is a little strange: pkg('list') returns a cell array 
     // but the entries have uniform type. 
     // TBD: we need more than the mere names. 
@@ -524,15 +543,7 @@ public final class OctaveEngine {
      */
     public Collection<String> getNamesOfPackagesInstalled() {
 	eval("cellfun(@(x) x.name, pkg('list'), 'UniformOutput', false);");
-
-	OctaveCell cell = get(OctaveCell.class, ANS);
-	// it is known that cell contains strings only. 
-	int len = cell.dataSize();
-	Collection<String> collection = new HashSet<String>();
-	for (int idx = 1; idx <= len; idx++) {
-	    collection.add(cell.get(OctaveString.class, 1, idx).getString());
-	}
-	return collection;
+	return getStringCellFromAns();
     }
 
     /**
@@ -551,14 +562,7 @@ public final class OctaveEngine {
 	eval(script);
 	// TBD: clarify: if we use who instead of whos, this can be simplified.  
 	eval("{ans.name}");
-
-	OctaveCell cell = get(OctaveCell.class, ANS);
-	// TBD: this can be unified with OctaveEngine.getNamesOfPackagesInstalled()
-	int len = cell.dataSize();
-	Collection<String> collection = new HashSet<String>();
-	for (int idx = 1; idx <= len; idx++) {
-	    collection.add(cell.get(OctaveString.class, 1, idx).getString());
-	}
+	Collection<String> collection = getStringCellFromAns();
 	collection.removeIf(p -> NARGIN.equals(p));
 	collection.removeIf(p -> ANS.equals(p));
 	// TBD: eliminate magic literal 
@@ -566,6 +570,5 @@ public final class OctaveEngine {
 	collection.removeIf(p -> pattern.matcher(p).matches());
 	return collection;
     }
-
 
 }
