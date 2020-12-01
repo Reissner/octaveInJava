@@ -55,21 +55,36 @@ import eu.simuline.octave.type.cast.Cast;
  *
  * This is inspired by the javax.script.ScriptEngine interface.
  */
-/**
- * @author ernst
- *
- */
 public final class OctaveEngine {
     
     // TBD: clarify whether these versions are the correct ones. 
+    // In the repo for octave, typing `hg tags` I found the following release tags
+    // release-5-2-0, release-5-1-0,
+    // release-4-4-1, release-4-4-0,
+    // release-4-2-2, release-4-2-1, release-4-2-0,
+    // release-4-0-3, release-4-0-2, release-4-0-1, release-4-0-0,
+    // release-3-8-2, release-3-8-1, release-3-8-0,
+    // release-3-6-4, release-3-6-3, release-3-6-2, release-3-6-1, 
+    // release-3-6-0 and release-3.6.0(!),
+    // release-3-4-3, release-3-4-2, release-3-4-1, release-3-4-0,
+    // release-3-2-4,
+    // release-3-0-0
+    // What about the gaps? 
+    // What is prior to 3-0-0?
+    // What is the difference between 3-0-0 and 3.0.0?
+    // Note that the versions "3.0.5", "3.2.3" in javaoctave 
+    // have no counterpart. 
+
+
     /**
      * The set of known versions of octave, i.e. those for which javaoctave shall work. 
      */
     private final static Set<String> KNOWN_OCTAVE_VERSIONS = new HashSet<String>
-	    (Arrays.asList("3.0.5", "3.2.3", "3.2.4", "3.6.2", "3.8.2", 
-			   // added by E.R.
-			   "4.3.0+",
-			   "4.4.0", "5.0.0", "5.2.0"));
+	    (Arrays.asList("3.0.5", "3.2.3", "3.2.4",
+		    "3.6.2", "3.8.2",
+		    // added by E.R.
+		    "4.3.0+",
+		    "4.4.0", "5.0.0", "5.2.0"));
 
 
     // ER: nowhere used except in method getFactory() 
