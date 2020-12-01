@@ -26,9 +26,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * Test getVersion
+ * Test meta info like version (both octave and javaoctave bridge), 
+ * vendor, packages installed. 
  */
-public class TestVersion {
+public class TestMetaInfo {
 
     /**
      * Test getVersion

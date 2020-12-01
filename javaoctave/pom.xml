@@ -393,7 +393,7 @@
 	  <useManifestOnlyJar>false</useManifestOnlyJar>
 	  <redirectTestOutputToFile>true</redirectTestOutputToFile>
 	  <includes>
-	    <include>TestVersion.java</include>
+	    <include>TestMetaInfo.java</include>
 	  </includes>
 	</configuration>
 	<executions>
