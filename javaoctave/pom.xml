@@ -383,27 +383,29 @@
         </configuration>
       </plugin>
 
-     <plugin>
+      <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.0.0-M5</version>
-        <configuration>
+	<artifactId>maven-failsafe-plugin</artifactId>
+	<version>${versionTestPlugins}</version>
+	<configuration>
+	  <!--forkCount>0</forkCount -->
+	  <useSystemClassLoader>true</useSystemClassLoader>
+	  <useManifestOnlyJar>false</useManifestOnlyJar>
 	  <redirectTestOutputToFile>true</redirectTestOutputToFile>
-          <includes>
-            <include>TestVersion.java</include>
-          </includes>
-          
-                  </configuration>
-                      <executions>
-        <execution>
-            <id>run-tests</id>
-            <phase>integration-test</phase>
-            <goals>
-                <goal>integration-test</goal>
-                <goal>verify</goal>
-            </goals>
-        </execution>
-    </executions>
+	  <includes>
+	    <include>TestVersion.java</include>
+	  </includes>
+	</configuration>
+	<executions>
+	  <execution>
+	    <id>run-tests</id>
+	    <phase>integration-test</phase>
+	    <goals>
+	      <goal>integration-test</goal>
+	      <goal>verify</goal>
+	    </goals>
+	  </execution>
+	</executions>
       </plugin>
 
       <!-- javadoc plugin -->
