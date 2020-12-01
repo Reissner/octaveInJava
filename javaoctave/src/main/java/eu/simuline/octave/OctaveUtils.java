@@ -12,19 +12,10 @@ import eu.simuline.octave.type.OctaveString;
  * Small utility functions that can be used with JavaOctave.
  * 
  * Holder class for static functions.
+ * @deprecated
  */
 public final class OctaveUtils {
 
-    // TBC: in which version does this occur? 
-    // seemingly not in 5.2.0. 
-    // Just nargin and that only within functions. 
-    // but in that context also nargout would be needed. 
-    // Note also that it is nargin not __nargin__. 
-    // In particular this variable is not returned by whos. 
-    /**
-     * A variable name not to be listed by {@link #listVars(OctaveEngine)}. 
-     */
-    private static final String NARGIN = "__nargin__";
 
     private OctaveUtils() {
         throw new UnsupportedOperationException("Do not instantiate");
@@ -38,6 +29,7 @@ public final class OctaveUtils {
      * @param octave
      *    some octave engine. 
      * @return collection of variables
+     * @deprecated
      */
     public static Collection<String> listVars(final OctaveEngine octave) {
 	// Justification: 3.0 are the earliest versions. 
@@ -46,7 +38,7 @@ public final class OctaveUtils {
 	octave.eval(script);
 	// TBD: clarify: if we use who instead of whos, this can be simplified.  
 	octave.eval("{ans.name}");
-	OctaveCell cell = octave.get(OctaveCell.class, OctaveEngine.ANS);
+	OctaveCell cell = octave.get(OctaveCell.class, "ans");
 	// TBD: this can be unified with OctaveEngine.getNamesOfPackagesInstalled()
 	int len = cell.dataSize();
 	Collection<String> collection = new HashSet<String>();
@@ -54,8 +46,8 @@ public final class OctaveUtils {
 	for (int idx = 0; idx < len; idx++) {
 	    collection.add(cell.get(OctaveString.class, 1, idx+1).getString());
 	}
-	collection.removeIf(p -> NARGIN.equals(p));
-	collection.removeIf(p -> OctaveEngine.ANS.equals(p));
+	collection.removeIf(p -> "__nargin__".equals(p));
+	collection.removeIf(p -> "ans".equals(p));
 	// TBD: eliminate magic literal 
 	Pattern pattern = Pattern.compile("javaoctave_[0-9a-f]{12}_eval");
 	collection.removeIf(p -> pattern.matcher(p).matches());

@@ -15,9 +15,9 @@
  */
 
 /**
- * This implementation follows the interface in:
- * http://java.sun.com/javase/6/docs/api/javax/script/package-summary.html
- * 
- * It does not implement it as the code has to work on Java 5.0.
+ * Package provides a factory class {@link OctaveEngineFactory} to create an {@link OctaveEngine} 
+ * which represents an octave process. 
+ * The factory is to configure the engine and the engine is to run scripts on octave. 
+ * In addition, variables can be set and get and some meta info is available. 
  */
 package eu.simuline.octave;

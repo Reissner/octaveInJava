@@ -1,7 +1,5 @@
 package eu.simuline.octave;
 
-import org.junit.Ignore;
-import org.junit.Test;
 
 import java.util.Collection;
 
@@ -20,7 +18,7 @@ public class TestOctaveUtils {
      */
     @Test public void testListVarsEmpty() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final Collection<String> collection = OctaveUtils.listVars(octave);
+        final Collection<String> collection = octave.listVars();
         assertEquals(collection.toString(), 0, collection.size());
         octave.close();
     }
@@ -33,12 +31,12 @@ public class TestOctaveUtils {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
         octave.eval("my_var = 42;");
-        final Collection<String> collection1 = OctaveUtils.listVars(octave);
+        final Collection<String> collection1 = octave.listVars();
         assertEquals(collection1.toString(), 1, collection1.size());
 
         octave.eval("1 + 2;");
         octave.eval("my_other_var = 42;");
-        final Collection<String> collection2 = OctaveUtils.listVars(octave);
+        final Collection<String> collection2 = octave.listVars();
         assertEquals(collection2.toString(), 2, collection2.size());
 
         octave.close();
