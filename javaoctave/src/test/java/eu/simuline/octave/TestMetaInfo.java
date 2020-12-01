@@ -82,7 +82,7 @@ public class TestMetaInfo {
      */
     @Test public void testListVarsEmpty() {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
-        final Collection<String> collection = octave.listVars();
+        final Collection<String> collection = octave.getVarNames();
         assertEquals(collection.toString(), 0, collection.size());
         octave.close();
     }
@@ -95,12 +95,12 @@ public class TestMetaInfo {
         final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
         octave.eval("my_var = 42;");
-        final Collection<String> collection1 = octave.listVars();
+        final Collection<String> collection1 = octave.getVarNames();
         assertEquals(collection1.toString(), 1, collection1.size());
 
         octave.eval("1 + 2;");
         octave.eval("my_other_var = 42;");
-        final Collection<String> collection2 = octave.listVars();
+        final Collection<String> collection2 = octave.getVarNames();
         assertEquals(collection2.toString(), 2, collection2.size());
 
         octave.close();

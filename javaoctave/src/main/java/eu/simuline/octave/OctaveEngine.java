@@ -515,47 +515,49 @@ public final class OctaveEngine {
 
     // This is a little strange: pkg('list') returns a cell array 
     // but the entries have uniform type. 
+    // TBD: we need more than the mere names. 
     /**
-     * Returns the list of installed packages. 
+     * Returns a collection of names of installed packages. 
      * 
      * @return
-     *    the list of installed packages. 
+     *    a collection of names of installed packages. 
      */
-    public List<String> getNamesOfPackagesInstalled() {
+    public Collection<String> getNamesOfPackagesInstalled() {
 	eval("cellfun(@(x) x.name, pkg('list'), 'UniformOutput', false);");
+
 	OctaveCell cell = get(OctaveCell.class, ANS);
 	// it is known that cell contains strings only. 
 	int len = cell.dataSize();
-	List<String> res = new ArrayList<String>();
-	for (int idx = 0; idx < len; idx++) {
-	    res.add(cell.get(OctaveString.class, 1, idx+1).getString());
+	Collection<String> collection = new HashSet<String>();
+	for (int idx = 1; idx <= len; idx++) {
+	    collection.add(cell.get(OctaveString.class, 1, idx).getString());
 	}
-	return res;
+	return collection;
     }
 
     /**
      * Returns a collection of variables defined 
-     * excluding variables like {@link #NARGIN} and {@link OctaveEngine#ANS} 
+     * excluding variables like {@link #NARGIN} and {@link#ANS} 
      * but also those that are most likely to be created by this software. TBD: clarification 
      * 
      * @param octave
      *    some octave engine. 
      * @return collection of variables
      */
-    public Collection<String> listVars() {
+    public Collection<String> getVarNames() {
 	// Justification: 3.0 are the earliest versions. 
 	// all later ones don't use '-v' any more 
 	String script = getOctaveVersion().startsWith("3.0.") ? "ans=whos -v()" : "ans=whos()";
 	eval(script);
 	// TBD: clarify: if we use who instead of whos, this can be simplified.  
 	eval("{ans.name}");
+
 	OctaveCell cell = get(OctaveCell.class, ANS);
 	// TBD: this can be unified with OctaveEngine.getNamesOfPackagesInstalled()
 	int len = cell.dataSize();
 	Collection<String> collection = new HashSet<String>();
-	//cell.getSize(i)
-	for (int idx = 0; idx < len; idx++) {
-	    collection.add(cell.get(OctaveString.class, 1, idx+1).getString());
+	for (int idx = 1; idx <= len; idx++) {
+	    collection.add(cell.get(OctaveString.class, 1, idx).getString());
 	}
 	collection.removeIf(p -> NARGIN.equals(p));
 	collection.removeIf(p -> ANS.equals(p));
