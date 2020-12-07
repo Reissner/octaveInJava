@@ -49,6 +49,7 @@ import eu.simuline.octave.exec.ReaderWriteFunctor;
 import eu.simuline.octave.exec.WriteFunctor;
 import eu.simuline.octave.exec.WriterReadFunctor;
 import eu.simuline.octave.io.OctaveIO;
+import eu.simuline.octave.type.OctaveBoolean;
 import eu.simuline.octave.type.OctaveCell;
 import eu.simuline.octave.type.OctaveObject;
 import eu.simuline.octave.type.OctaveString;
@@ -549,17 +550,23 @@ public final class OctaveEngine {
 
     // TBD: complete 
     static class PackageDesc {
-	String name;
-	boolean isLoaded;
+	final String name;
+	final boolean isLoaded;
+	PackageDesc(OctaveStruct pkg) {
+	    this.name     = pkg.get(OctaveString .class, "name").getString();
+	    this.isLoaded = pkg.get(OctaveBoolean.class, "loaded").get(1, 1);
+	}
     } // class PackageDesc 
 
-    public Collection<OctaveStruct> getPackagesInstalled() {
+    public Collection<PackageDesc> getPackagesInstalled() {
 	eval("pkg('list');");
 	OctaveCell cell = get(OctaveCell.class, ANS);
 	int len = cell.dataSize();
-	Collection<OctaveStruct> collection = new HashSet<OctaveStruct>();
+	Collection<PackageDesc> collection = new HashSet<PackageDesc>();
+	PackageDesc pkg;
 	for (int idx = 1; idx <= len; idx++) {
-	    collection.add(cell.get(OctaveStruct.class, 1, idx));
+	    pkg = new PackageDesc(cell.get(OctaveStruct.class, 1, idx));
+	    collection.add(pkg);
 	}
 	return collection;
     }
