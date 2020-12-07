@@ -52,6 +52,7 @@ import eu.simuline.octave.io.OctaveIO;
 import eu.simuline.octave.type.OctaveCell;
 import eu.simuline.octave.type.OctaveObject;
 import eu.simuline.octave.type.OctaveString;
+import eu.simuline.octave.type.OctaveStruct;
 import eu.simuline.octave.type.cast.Cast;
 
 /**
@@ -544,6 +545,23 @@ public final class OctaveEngine {
     public Collection<String> getNamesOfPackagesInstalled() {
 	eval("cellfun(@(x) x.name, pkg('list'), 'UniformOutput', false);");
 	return getStringCellFromAns();
+    }
+
+    // TBD: complete 
+    static class PackageDesc {
+	String name;
+	boolean isLoaded;
+    } // class PackageDesc 
+
+    public Collection<OctaveStruct> getPackagesInstalled() {
+	eval("pkg('list');");
+	OctaveCell cell = get(OctaveCell.class, ANS);
+	int len = cell.dataSize();
+	Collection<OctaveStruct> collection = new HashSet<OctaveStruct>();
+	for (int idx = 1; idx <= len; idx++) {
+	    collection.add(cell.get(OctaveStruct.class, 1, idx));
+	}
+	return collection;
     }
 
     /**
