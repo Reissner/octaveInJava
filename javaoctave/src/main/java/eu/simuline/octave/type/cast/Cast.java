@@ -69,10 +69,16 @@ public final class Cast {
      * Cast and transform the object. 
      * 
      * @param <F>
+     *    the class type of the object <code>from</code> to be cast.
      * @param <T>
+     *    the target class <code>toClass</code> as a type variable.
      * @param toClass
+     *    the class <code>from</code>
      * @param from
-     * @return The transformed object
+     *    the object to be cast or <code>null</code>.
+     * @return
+     *    The object of type <code>toClass</code> which is by casting <code>from</code>
+     *    or <code>null</code> for <code>from == null</code>.
      */
     public static <F extends OctaveObject, 
 		   T extends OctaveObject> T cast(final Class<T> toClass, 
