@@ -29,12 +29,11 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.HashMap;
 import java.util.Set;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -537,11 +536,13 @@ public final class OctaveEngine {
     // This is a little strange: pkg('list') returns a cell array 
     // but the entries have uniform type. 
     // TBD: we need more than the mere names. 
+    // TBC: maybe this shall be reimplemented in terms of getPackagesInstalled()
     /**
      * Returns a collection of names of installed packages. 
      * 
      * @return
      *    a collection of names of installed packages. 
+     * @see #getPackagesInstalled()
      */
     public Collection<String> getNamesOfPackagesInstalled() {
 	eval("cellfun(@(x) x.name, pkg('list'), 'UniformOutput', false);");
@@ -549,26 +550,34 @@ public final class OctaveEngine {
     }
 
     // TBD: complete 
-    static class PackageDesc {
-	final String name;
-	final boolean isLoaded;
+    public static class PackageDesc {
+	public final String name;
+	public final boolean isLoaded;
 	PackageDesc(OctaveStruct pkg) {
 	    this.name     = pkg.get(OctaveString .class, "name").getString();
 	    this.isLoaded = pkg.get(OctaveBoolean.class, "loaded").get(1, 1);
 	}
     } // class PackageDesc 
 
-    public Collection<PackageDesc> getPackagesInstalled() {
-	eval("pkg('list');");
+    /**
+     * Returns a map mapping the names of the installed packages 
+     * to the description of the according package. 
+     * 
+     * @return
+     *    a map from the names to the description of the packages installed. 
+     * @see #getNamesOfPackagesInstalled()
+     */
+    public Map<String, PackageDesc> getPackagesInstalled() {
+	eval(ANS + "=pkg('list');");// TBC: why ans=necessary??? without like pkg list 
 	OctaveCell cell = get(OctaveCell.class, ANS);
 	int len = cell.dataSize();
-	Collection<PackageDesc> collection = new HashSet<PackageDesc>();
+	Map<String, PackageDesc> res = new HashMap<String, PackageDesc>();
 	PackageDesc pkg;
 	for (int idx = 1; idx <= len; idx++) {
 	    pkg = new PackageDesc(cell.get(OctaveStruct.class, 1, idx));
-	    collection.add(pkg);
+	    res.put(pkg.name, pkg);
 	}
-	return collection;
+	return res;
     }
 
     /**
@@ -576,8 +585,6 @@ public final class OctaveEngine {
      * excluding variables like {@link #NARGIN} and {@link#ANS} 
      * but also those that are most likely to be created by this software. TBD: clarification 
      * 
-     * @param octave
-     *    some octave engine. 
      * @return collection of variables
      */
     public Collection<String> getVarNames() {
