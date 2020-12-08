@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
-
+import java.net.URL;
 import java.nio.charset.Charset;
 
 import java.util.Arrays;
@@ -549,13 +549,121 @@ public final class OctaveEngine {
 	return getStringCellFromAns();
     }
 
+//    // TBC: dependency only with name okg possible. 
+//    public static class Dependency {
+//	public final String pkg;
+//	public final String operator;// TBC: maybe enum. 
+//	public final String version;
+//	
+//    } // class Dependency
+
     // TBD: complete 
+    // interesting is package struct
+    // in particular, depends and autoload
+    /**
+     * Representation of a package as returned by the octave command
+     * <code>pkg('list')</code> which returns a cell array
+     * of structs with fields reflected by the fields of this class. 
+     * Thus the constructor has a struct as parameter 
+     * and is the only place to initialize the fields 
+     * which are all public and final.
+     * <p>
+     * Most of the fields are defined by the DESCRIPTION file in the package 
+     * as described in the manual 5.2.0, Section 37.4.1.
+     * There are mandatory fields, 
+     * optional fields and there may be fields in the struct
+     * which are not documented. 
+     * Currently, these are not reflected in this class.
+     */
     public static class PackageDesc {
+	/**
+	 * The name of the package in lower case, 
+	 * no matter how it is written in the DESCRIPTION FILE. 
+	 */
 	public final String name;
+
+	/**
+	 * A version string which typically consists of numbers separated by dots 
+	 * but may also contain +, - and ~. 
+	 * Documentation of function <code>compare_versions</code> 
+	 * shows that the form is more restricted. 
+	 * TBD: bugreport that versions shall be comparable. 
+	 */
+	public final String version;// TBC: add comparator 
+
+	/**
+	 * The date in iso form yyyy-mm-dd.
+	 * TBD: add this to manual: make comparable.  
+	 */
+	public final String date;
+
+	// name and email in form 'Alexander Barth <barth.alexander@gmail.com>'
+	/**
+	 * The name of the original author, 
+	 * convention (TBC) name <email>, 
+	 * if more than one, separated by comma. 
+	 */
+	public final String author;
+//	public final String maintainer;// may be list 
+//	public final String title;
+//	public final String description;
+//	public final String categories;// TBD: optional 
+//	public final String problems;// TBD: optional 
+//	// shall be a list of url's
+//	public final Set<URL> url;// sometimes url2, optional
+//	// TBC: may also take octave into account 
+//	// add also in arithintoctave
+//	public final Set<Dependency> depends;
+//	public final String license;// maybe comma separated, is optional
+//	public final String systemRequirements;
+//	public final String buildrequires;// TBC: similar:suggested, package io
+
+	//These are the additional fields nowhere added 
+	// they come from according entries in the DESCRPTION file 
+	//public final Map<String, String> name2addArg;
+
+	// from here on, these are states of the package 
+	// which are not constant accross lifetime of a package 
+	// and have thus nothing to do with the DESCRIPTION FILE 
+	// TBD: these shall be documented in the manual. 
+//	public final String autoload;// TBC: maybe enum 
+//	public final String dir;
+//	public final String archprefix;
+
+	/**
+	 * Whether the package is loaded. 
+	 * This has nothing to do with the DESCRIPTION file. 
+	 */
 	public final boolean isLoaded;
+
+
+	/**
+	 * Creates a new package description from the given struct. 
+	 * @param pkg
+	 *    a struct representing a package 
+	 *    which has a predefined set of mandatory fields, 
+	 *    a predefined set of optional fields 
+	 *    and which may have also additional fields 
+	 *    going beyond what is documented. 
+	 */
 	PackageDesc(OctaveStruct pkg) {
-	    this.name     = pkg.get(OctaveString .class, "name").getString();
-	    this.isLoaded = pkg.get(OctaveBoolean.class, "loaded").get(1, 1);
+	    this.name     = pkg.get(OctaveString .class, "name"   ).getString();
+	    this.version  = pkg.get(OctaveString .class, "version").getString();
+	    this.date     = pkg.get(OctaveString .class, "date"   ).getString();
+	    this.author   = pkg.get(OctaveString .class, "author" ).getString();
+	    this.isLoaded = pkg.get(OctaveBoolean.class, "loaded" ).get(1, 1);
+	}
+
+	@Override public String toString() {
+	    StringBuilder res = new StringBuilder();
+	    res.append("<package>\n");
+	    res.append("name=    "+this.name+"\n");
+	    res.append("version= "+this.version+"\n");
+	    res.append("date=    "+this.date+"\n");
+	    res.append("author=  "+this.author+"\n");
+	    res.append("isLoaded="+this.isLoaded+"\n");
+	    res.append("</package>\n");
+	    return res.toString();
 	}
     } // class PackageDesc 
 
@@ -568,7 +676,8 @@ public final class OctaveEngine {
      * @see #getNamesOfPackagesInstalled()
      */
     public Map<String, PackageDesc> getPackagesInstalled() {
-	eval(ANS + "=pkg('list');");// TBC: why ans=necessary??? without like pkg list 
+	eval(ANS + "=pkg('list');");
+	// TBC: why ans=necessary??? without like pkg list .. bug? 
 	OctaveCell cell = get(OctaveCell.class, ANS);
 	int len = cell.dataSize();
 	Map<String, PackageDesc> res = new HashMap<String, PackageDesc>();
