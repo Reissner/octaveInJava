@@ -23,7 +23,7 @@ public final class OctaveUtils {
 
     /**
      * Returns a collection of variables defined 
-     * excluding variables like {@link #NARGIN} and {@link OctaveEngine#ANS} 
+     * excluding variables like {@link OctaveEngine#NARGIN} and {@link OctaveEngine#ANS} 
      * but also those that are most likely to be created by this software. TBD: clarification 
      * 
      * @param octave
