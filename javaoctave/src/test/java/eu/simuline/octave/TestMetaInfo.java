@@ -16,12 +16,15 @@
 package eu.simuline.octave;
 
 import java.util.Collection;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 //import org.junit.Ignore;
 import org.junit.Test;
+
+import eu.simuline.octave.OctaveEngine.PackageDesc;
 
 /**
  * Test meta info like version (both octave and javaoctave bridge), 
@@ -75,6 +78,19 @@ public class TestMetaInfo {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 	Collection<String> names = octave.getNamesOfPackagesInstalled();
 	assertTrue(names.contains("quaternion"));
+    }
+
+    @Test public void testPackageLoading() {
+	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+	Map<String, PackageDesc> name2pkg = octave.getPackagesInstalled();
+	assertTrue(name2pkg.keySet().contains("quaternion"));
+	assertTrue(!name2pkg.get("quaternion").isLoaded);
+	octave.eval("pkg('load', 'quaternion')");
+	name2pkg = octave.getPackagesInstalled();
+	assertTrue( name2pkg.get("quaternion").isLoaded);
+	octave.eval("pkg('unload', 'quaternion')");
+	name2pkg = octave.getPackagesInstalled();
+	assertTrue(!name2pkg.get("quaternion").isLoaded);
     }
 
     /**
