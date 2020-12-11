@@ -593,7 +593,9 @@ public final class OctaveEngine {
 
 	/**
 	 * The date in iso form yyyy-mm-dd.
-	 * TBD: add this to manual: make comparable.  
+	 * TBD: add this to manual: make comparable.
+	 * Also: seems reasonable, to allow time also. 
+	 * TBD: entry in manual
 	 */
 	public final String date;
 
