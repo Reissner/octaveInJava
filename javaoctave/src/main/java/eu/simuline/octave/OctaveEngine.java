@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -37,6 +39,7 @@ import java.util.Random;
 
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eu.simuline.octave.exception.OctaveEvalException;
@@ -713,5 +716,40 @@ public final class OctaveEngine {
 	collection.removeIf(p -> pattern.matcher(p).matches());
 	return collection;
     }
+
+    // TBD: make platform independent
+    // TBD: make independent of command used to determine home directory
+    private final static Pattern PATTERN_HOMEDIR =
+	    Pattern.compile("'(.+)' is a function from the file ((/[^/]+)/share/octave/([^/]+)/m/java/(.+).m)");
+
+
+
+    /**
+     * Returns the installation home directory, 
+     * in the manual sometimes called octave-home. 
+     * CAUTION: Initially, this is OCTAVE_HOME, but the latter can be overwritten. 
+     * 
+     * @return
+     *    octave's installation home directory. 
+     */
+    public File getInstHomeDir() {
+	StringReader checkCmd = new StringReader("which javaaddpath");
+        final StringWriter fileResultWr = new StringWriter();
+        this.octaveExec.evalRW(new ReaderWriteFunctor(checkCmd),
+		       new WriterReadFunctor(fileResultWr));
+        final String fileResultStr = fileResultWr.toString();
+
+        // could be sth like: 
+        // 'javaaddpath' is a function from the file [no line break]
+        // /usr/share/octave/5.2.0/m/java/javaaddpath.m
+        // TBD: if to be reused use 
+        //boolean b = Pattern.matches("a*b", "aaaaab");
+
+        Matcher matcher = PATTERN_HOMEDIR.matcher(fileResultStr);
+        boolean found = matcher.find();
+        assert found;
+        return new File(matcher.group(3));
+    }
+
 
 }
