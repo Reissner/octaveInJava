@@ -15,6 +15,7 @@
  */
 package eu.simuline.octave;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
@@ -120,6 +121,22 @@ public class TestMetaInfo {
         assertEquals(collection2.toString(), 2, collection2.size());
 
         octave.close();
+    }
+
+    /**
+     * Tests {@link #getInstHomeDir()}, {@link #getOctaveVersion()} 
+     * and {@link #getMFile(String)} at the same time.
+     */
+    @Test public void testBasedOnWhich() {
+	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+
+	File fileCmp = new File(octave.getInstHomeDir(), "share");
+	fileCmp = new File(fileCmp, "octave");
+	fileCmp = new File(fileCmp, octave.getOctaveVersion());
+	fileCmp = new File(fileCmp, "m");
+	fileCmp = new File(fileCmp, "pkg");
+	fileCmp = new File(fileCmp, "pkg.m");
+	assertEquals(fileCmp, octave.getMFile("pkg"));
     }
 
 }
