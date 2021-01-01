@@ -1,360 +1,357 @@
 <document xmlns="http://maven.apache.org/changes/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
 
-<!-- https://maven.apache.org/plugins/maven-changes-plugin/changes.html -->
-    <!-- action types: 
-	 add: added functionnality to the project.
-	 fix: bug fix for the project.
-	 update: updated some part of the project.
-	 remove: removed some functionnality from the project. -->
-  <properties>
-    <title>javaoctave</title>
-    <author email="reissner@simuline.eu">Ernst Reissner (ER)</author>
-  </properties>
-  <body>
-     <!--release version="1.0-snapshot" 
-	     date="2005-01-01" 
-	     description="First release">
-     <action dev="ER" 
-     due-to=.. due-to-email=.. issue=.. type=.. system=.. date=.. >
-        Added to this project what was extracted from general source tree. 
-      </action>
-        <fixes issue=.. />
-        <dueto name=.. email=.. />
-	</release-->
+	<!-- https://maven.apache.org/plugins/maven-changes-plugin/changes.html -->
+	<!-- action types: add: added functionality to the project. fix: bug fix 
+		for the project. update: updated some part of the project. remove: removed 
+		some functionnality from the project. -->
+	<properties>
+		<title>javaoctave</title>
+		<author email="reissner@simuline.eu">Ernst Reissner (ER)</author>
+	</properties>
+	<body>
+		<!--release version="1.0-snapshot" date="2005-01-01" description="First 
+			release"> <action dev="ER" due-to=.. due-to-email=.. issue=.. type=.. system=.. 
+			date=.. > Added to this project what was extracted from general source tree. 
+			</action> <fixes issue=.. /> <dueto name=.. email=.. /> </release -->
 
-     <!-- TBD: research on .classpath -->
-     <!-- TBD: for now we must keep applicability to older versions of octave 
-	  but in the long run, we must ensure really: 
-	  - try to get older manuals in order to keep javaoctave
-	  - set up tests with various versions of octave. 
-	    see TestVersion.testKnownVersion() 
-	    All the known versions shall be supported. 
-	  applicable to those versions. -->
-     <!-- TBD: find out how attributes shall be defined on java objects: 
-	  isa, ismatrix, isstruct, iscell,.... -->
-     <!-- TBD: find out how conversion functions 
-	  shall be defined on java objects: 
-	  isa, ismatrix, isstruct, iscell,.... -->
-      <!-- TBD: find out why in docbook documents 
-	   the DOCTYPE had to becommented out.  -->
-      <!-- TBD: introduce modules. -->
+		<!-- TBD: research on .classpath -->
+		<!-- TBD: for now we must keep applicability to older versions of octave 
+			but in the long run, we must ensure really: - try to get older manuals in 
+			order to keep javaoctave - set up tests with various versions of octave. 
+			see TestVersion.testKnownVersion() All the known versions shall be supported. 
+			applicable to those versions. -->
+		<!-- TBD: find out how attributes shall be defined on java objects: isa, 
+			ismatrix, isstruct, iscell,.... -->
+		<!-- TBD: find out how conversion functions shall be defined on java objects: 
+			isa, ismatrix, isstruct, iscell,.... -->
+		<!-- TBD: find out why in docbook documents the DOCTYPE had to becommented 
+			out. -->
+		<!-- TBD: introduce modules. -->
 
-      <!-- TBD: rework on listVars -->
-      <!-- TBD: rework on octaveVersion -->
-      <!-- TBD: add version of octavejava: 
-     	 missing still are the failsafe tests. 	 -->
-      <!-- TBD: added way to get the installed packages. 
-	   maybe with a separate data structure describing a package. -->
-      <!-- TBD: Version objects, maybe cross project -->
-      <!-- TBD: pass octave floating point objects lossless to java. 
-	   Idea is to convert them into long then reassign variable 
-	   pass that long variable to java and then convert back. -->
-      <!-- TBD: ask john eaton on version politics of octave. 
-	   In particular, clarify deviation 
-	   between hg tags and allowed versions in javaoctave. -->
-      <!-- TBD: there are various invocations of getOctaveVersion() 
-	   and one has to ensure that all is still ok 
-	   even though new versions of octave are added. -->
-	   
+		<!-- TBD: rework on listVars -->
+		<!-- TBD: rework on octaveVersion -->
+		<!-- TBD: add version of octavejava: missing still are the failsafe tests. -->
+		<!-- TBD: added way to get the installed packages. maybe with a separate 
+			data structure describing a package. -->
+		<!-- TBD: Version objects, maybe cross project -->
+		<!-- TBD: pass octave floating point objects lossless to java. Idea is 
+			to convert them into long then reassign variable pass that long variable 
+			to java and then convert back. -->
+		<!-- TBD: ask john eaton on version politics of octave. In particular, 
+			clarify deviation between hg tags and allowed versions in javaoctave. -->
+		<!-- TBD: there are various invocations of getOctaveVersion() and one has 
+			to ensure that all is still ok even though new versions of octave are added. -->
 
 
-     <release version="0.7.1-snapshot" date='' description=''>
-       <action dev="ER" type="add">
-	 added support for octave type int64 and java type long. 
-       </action>
-       <action dev="ER" type="add">
-	 factory method Octave.bool(boolean). 
-       </action>
-       <action dev="ER" type="fix">
-	 Redesign: eliminated classes Boolean/Double/Int/LongMatrix, 
-	 including them in sole derived classes. 
-       </action>
-       <action dev="ER" type="fix">
-	 Renamed abstract class GenericMatrix-->AbstractObjectMatrix. 
-       </action>
-       <action dev="ER" type="update">
-	 Version of octave. 
-       </action>
-        <action dev="ER" type="update">
-	  Version of java:
-	  Replaced javax.imageio.spi.ServiceRegistry 
-	  by java.util.ServiceLoader
-       </action>
-       <action dev="ER" type="add">
-	 In OctaveEngineFactory: endowed setter methods
-	 with return value of type OctaveEngineFactory
-	 to enable scaling. 
-       </action>
-       <action dev="ER" type="add">
-	 In OctaveEngineFactory: added checks
-	 to ensure that no unwanted null values 
-	 are introduced into the system. 
-       </action>
-       <action dev="ER" type="add">
-	 In OctaveEngineFactory: added setter method for encoding.
-	 Also made some rework and tiny bugfix. 
-       </action>
-      <action dev="ER" type="add">
-	In OctaveEngine: added methods concerning meta data:
-	getOctaveVersion(), getVendor(), getOctaveInJavaVersion()
-	deprecated getVersion() since no longer clear. 
-       </action>
 
-     </release>
+		<release version="0.7.1-snapshot" date='' description=''>
+			<action dev="ER" type="add">
+				added support for octave type int64 and java type long.
+			</action>
+			<action dev="ER" type="add">
+				factory method Octave.bool(boolean).
+			</action>
+			<action dev="ER" type="fix">
+				Redesign: eliminated classes Boolean/Double/Int/LongMatrix,
+				including them in sole derived classes.
+			</action>
+			<action dev="ER" type="fix">
+				Renamed abstract class GenericMatrix-->AbstractObjectMatrix.
+			</action>
+			<action dev="ER" type="update">
+				Version of octave.
+			</action>
+			<action dev="ER" type="update">
+				Version of java:
+				Replaced javax.imageio.spi.ServiceRegistry
+				by java.util.ServiceLoader
+			</action>
+			<action dev="ER" type="add">
+				In OctaveEngineFactory: endowed setter methods
+				with return value of type OctaveEngineFactory
+				to enable scaling.
+			</action>
+			<action dev="ER" type="add">
+				In OctaveEngineFactory: added checks
+				to ensure that no unwanted null values
+				are introduced into the system.
+			</action>
+			<action dev="ER" type="add">
+				In OctaveEngineFactory: added setter method for encoding.
+				Also made some rework and tiny bugfix.
+			</action>
+			<action dev="ER" type="add">
+				In OctaveEngine: added methods concerning meta data:
+				getOctaveVersion(), getVendor(), getOctaveInJavaVersion()
+				deprecated getVersion() since no longer clear.
+			</action>
+			<action dev="ER" type="add">
+				added method OctaveEngine.getPackageInstalled() with structure
+				OctaveEngine.PackageDesc.
+			</action>
+			<action dev="ER" type="add">
+				added method OctaveEngine.getInstHomeDir().
+			</action>
+			<action dev="ER" type="update">
+				deprecated OctaveUtils moving all material to OctaveEngine
+				like listVars()
+			</action>
 
-     <release version="0.7.0" date='2018-07-13' description=''>
-       <action dev="ER" type="fix">
-	 bug in AbstractGenericMatrix.resizeUp with side effect (see below)
-       </action>
-       <action dev="ER" type="fix">
-	 first step to redesign AbstractGenericMatrix: 
-	 eliminated abstract method dataFillInit. 
-       </action>
-       <action dev="ER" type="fix">
-	 Redesign of AbstractPrimitiveMatrixReader and subclasses: 
-	 prelude to simplify adding new subclasses. 
-       </action>
-       <action dev="ER" type="fix">
-	 Redesign of on scalar readers: 
-	 added base class AbstractPrimitiveScalarReader 
-	 and take the old classes as subclasses. 
-	 prelude to simplify adding new scalar readers as subclasses. 
-       </action>
-       <action dev="ER" type="add">
-	 make work for octave 4.4.0 (identifying itself as 5.0.0)
-       </action>
-       <action dev="ER" type="add">
-	 besides user documentation also added rudimentary implementors note 
-	 documenting the save/load-format. 
-       </action>
-       <action dev="ER" type="add">
-	 in BooleanWriter added support for writing scalars.  
-       </action>
-       <action dev="ER" type="fix">
-	 Redesign of AbstractPrimitiveMatrixWriter and subclasses: 
-	 prelude to simplify adding new subclasses. 
-       </action>
-       <action dev="ER" type="fix">
-	 Redesign of Matrix types, except Complex ones: 
-	 prelude to simplify adding new subclasses. 
-       </action>
-       <action dev="ER" type="fix">
-	 in GenericMatrix: take null objects into account 
-	 adding StringUtil.toString(T obj). 
-       </action>
-       <action dev="ER" type="fix">
-	 eliminated cast (T[]). 
-       </action>
+		</release>
 
-     </release>
+		<release version="0.7.0" date='2018-07-13' description=''>
+			<action dev="ER" type="fix">
+				bug in AbstractGenericMatrix.resizeUp with side effect (see below)
+			</action>
+			<action dev="ER" type="fix">
+				first step to redesign AbstractGenericMatrix:
+				eliminated abstract method dataFillInit.
+			</action>
+			<action dev="ER" type="fix">
+				Redesign of AbstractPrimitiveMatrixReader and subclasses:
+				prelude to simplify adding new subclasses.
+			</action>
+			<action dev="ER" type="fix">
+				Redesign of on scalar readers:
+				added base class AbstractPrimitiveScalarReader
+				and take the old classes as subclasses.
+				prelude to simplify adding new scalar readers as subclasses.
+			</action>
+			<action dev="ER" type="add">
+				make work for octave 4.4.0 (identifying itself as 5.0.0)
+			</action>
+			<action dev="ER" type="add">
+				besides user documentation also added rudimentary implementors note
+				documenting the save/load-format.
+			</action>
+			<action dev="ER" type="add">
+				in BooleanWriter added support for writing scalars.
+			</action>
+			<action dev="ER" type="fix">
+				Redesign of AbstractPrimitiveMatrixWriter and subclasses:
+				prelude to simplify adding new subclasses.
+			</action>
+			<action dev="ER" type="fix">
+				Redesign of Matrix types, except Complex ones:
+				prelude to simplify adding new subclasses.
+			</action>
+			<action dev="ER" type="fix">
+				in GenericMatrix: take null objects into account
+				adding StringUtil.toString(T obj).
+			</action>
+			<action dev="ER" type="fix">
+				eliminated cast (T[]).
+			</action>
 
-     <release version="0.6.8" date='' description=''>
-       <action dev="ER" type="add">
-	 Allow interface to java int, i.e. octave int32 types. 
-       </action>
-       <action dev="ER" type="update">
-	 pom: repository, organization, homepage. 
-       </action>
-       <action dev="ER" type="update">
-	 User documentation: avoid bad links. 
-	 Added better links to the relevant jar files. 
-       </action>
-       <action dev="ER" type="fix">
-	 Fix code rule violations of pmd, checksyle and findbugs. 
-       </action>
-       <action dev="ER" type="add">
-	 New parameter to OctaveEngineFactory: numThreadsReuse
-       </action>
-       <action dev="ER" type="add">
-	 New parameter to OctaveEngineFactory: octaveProgramCmd 
-	 and thus renamed octaveProgram-->octaveProgramFile 
-       </action>
-       <action dev="ER" type="update">
-	 renamed AbstractGenericMatrix.getData()-->getDataA() 
-	 and set deprecated. 
-      </action>
-     </release>
+		</release>
 
-     <release version="0.6.7" date='2018-02-18' description=''>
-      <action dev="ER" type="add">
-	 Added this changes file. 
-	 Information imported from changelog manually. 
-      </action>
-      <action dev="ER" type="fix">
-	changed maven coordinates: dk.ange --> eu.simuline.octave 
-	dk.ange no longer supports this. 
-      </action>
-      <action dev="ER" type="fix">
-	moved from svn to git, because interface of github 
-	does not fully play with svn when trying to release. 
-      </action>
-     </release>
+		<release version="0.6.8" date='' description=''>
+			<action dev="ER" type="add">
+				Allow interface to java int, i.e. octave int32 types.
+			</action>
+			<action dev="ER" type="update">
+				pom: repository, organization, homepage.
+			</action>
+			<action dev="ER" type="update">
+				User documentation: avoid bad links.
+				Added better links to the relevant jar files.
+			</action>
+			<action dev="ER" type="fix">
+				Fix code rule violations of pmd, checksyle and findbugs.
+			</action>
+			<action dev="ER" type="add">
+				New parameter to OctaveEngineFactory: numThreadsReuse
+			</action>
+			<action dev="ER" type="add">
+				New parameter to OctaveEngineFactory: octaveProgramCmd
+				and thus renamed octaveProgram-->octaveProgramFile
+			</action>
+			<action dev="ER" type="update">
+				renamed AbstractGenericMatrix.getData()-->getDataA()
+				and set deprecated.
+			</action>
+		</release>
 
-    <release version="0.6.6" date='2018-02-10' description=''>
-      <action dev="ER" type="fix">
-	tried maven release plugin 
-      </action>
-    </release>
+		<release version="0.6.7" date='2018-02-18' description=''>
+			<action dev="ER" type="add">
+				Added this changes file.
+				Information imported from changelog manually.
+			</action>
+			<action dev="ER" type="fix">
+				changed maven coordinates: dk.ange --> eu.simuline.octave
+				dk.ange no longer supports this.
+			</action>
+			<action dev="ER" type="fix">
+				moved from svn to git, because interface of github
+				does not fully play with svn when trying to release.
+			</action>
+		</release>
 
-    <release version="0.6.5" date='2018-02-10' description=''>
-      <action dev="ER" type="update">
-	make work for octave 4.3.0+.
-      </action>
-      <action dev="ER" type="update">
-	updated dependencies, in particular tests 
-      </action>
-      <action dev="ER" type="add">
-	generalized OctaveEngineFactory to support my own java integration. 
-      </action>
-    </release>
+		<release version="0.6.6" date='2018-02-10' description=''>
+			<action dev="ER" type="fix">
+				tried maven release plugin
+			</action>
+		</release>
 
-    <release version="0.6.4" date='2012-10-24' description=''>
-      <action dev="KH" type="update">
-	Update changelog, also for release 0.6.2 and 0.6.3. 
-      </action>
-    </release>
+		<release version="0.6.5" date='2018-02-10' description=''>
+			<action dev="ER" type="update">
+				make work for octave 4.3.0+.
+			</action>
+			<action dev="ER" type="update">
+				updated dependencies, in particular tests
+			</action>
+			<action dev="ER" type="add">
+				generalized OctaveEngineFactory to support my own java integration.
+			</action>
+		</release>
 
-    <release version="0.6.3" date='2012-10-23' description=''>
-      <action dev="KH" type="add">
-	Deploy sources.jar file with Maven.
-      </action>
-    </release>
+		<release version="0.6.4" date='2012-10-24' description=''>
+			<action dev="KH" type="update">
+				Update changelog, also for release 0.6.2 and 0.6.3.
+			</action>
+		</release>
+
+		<release version="0.6.3" date='2012-10-23' description=''>
+			<action dev="KH" type="add">
+				Deploy sources.jar file with Maven.
+			</action>
+		</release>
 
 
-    <release version="0.6.2" date='2012-10-23' description=''>
-      <action dev="KH" type="add">
-	Support reading an integer matrix (uint8)
-      </action>
-      <action dev="KH" type="update">
-	To build use maven and java 6
-      </action>
-      <action dev="KH" type="update">
-	Support Octave 3.6
-	- Handle new extra linefeeds in some of the save formats
-	- Parse 'scalar struct'
-      </action>
-    </release>
+		<release version="0.6.2" date='2012-10-23' description=''>
+			<action dev="KH" type="add">
+				Support reading an integer matrix (uint8)
+			</action>
+			<action dev="KH" type="update">
+				To build use maven and java 6
+			</action>
+			<action dev="KH" type="update">
+				Support Octave 3.6
+				- Handle new extra linefeeds in some of the save formats
+				- Parse 'scalar struct'
+			</action>
+		</release>
 
-    <release version="0.6.1" date='2010-03-10' description=''>
-     <action dev="KH" type="add">
-       Create some skeleton objects that can get and put 
-       sparse booleans and ranges.
-      </action>
-      <action dev="KH" type="add">
-	Create some utility functions 
-	that makes it easy to pull data out of octave.
-      </action>
-      <action dev="KH" type="fix">
-	Fix some bugs in the save format, 
-	a lot of linefeeds were placed in the wrong way.
-      </action>
-    </release>
+		<release version="0.6.1" date='2010-03-10' description=''>
+			<action dev="KH" type="add">
+				Create some skeleton objects that can get and put
+				sparse booleans and ranges.
+			</action>
+			<action dev="KH" type="add">
+				Create some utility functions
+				that makes it easy to pull data out of octave.
+			</action>
+			<action dev="KH" type="fix">
+				Fix some bugs in the save format,
+				a lot of linefeeds were placed in the wrong way.
+			</action>
+		</release>
 
-    <release version="0.6.0" date='2010-01-11' description=''>
-      <action dev="KH" type="fix">
-	Prevent engine from exiting on errors by wrapping input in eval()
-      </action>
-      <action dev="KH" type="add">
-	Handle multi line strings
-      </action>
-      <action dev="KH" type="add">
-	Test exit value from octave in OctaveExec.close()
-      </action>
-    </release>
+		<release version="0.6.0" date='2010-01-11' description=''>
+			<action dev="KH" type="fix">
+				Prevent engine from exiting on errors by wrapping input in eval()
+			</action>
+			<action dev="KH" type="add">
+				Handle multi line strings
+			</action>
+			<action dev="KH" type="add">
+				Test exit value from octave in OctaveExec.close()
+			</action>
+		</release>
 
-    <release version="0.5.1" date='2010-01-08' description=''>
-      <action dev="KH" type="fix">
-	Handle extra line feed from exit() in octave3.2
-      </action>
-      <action dev="KH" type="add">
-	Make data i OctaveComplex more accessible
-     </action>
-      <action dev="KH" type="add">
-	Create OctaveFunctionHandle
-     </action>
-      <action dev="KH" type="add">
-	Test under octave3.0 and octave3.2
-      </action>
-    </release>
+		<release version="0.5.1" date='2010-01-08' description=''>
+			<action dev="KH" type="fix">
+				Handle extra line feed from exit() in octave3.2
+			</action>
+			<action dev="KH" type="add">
+				Make data i OctaveComplex more accessible
+			</action>
+			<action dev="KH" type="add">
+				Create OctaveFunctionHandle
+			</action>
+			<action dev="KH" type="add">
+				Test under octave3.0 and octave3.2
+			</action>
+		</release>
 
-    <release version="0.5.0" date='2009-11-22' description=''>
-      <action dev="KH" type="add">
-	Create OctaveComplex as wrapper type for complex matrices.
-      </action>
-      <action dev="KH" type="add">
-	Create an auto cast functionality in JavaOctave 
-	that is similar to one in C++.  
-	It is used to transform OctaveDouble to OctaveComplex by need.
-      </action>
-      <action dev="KH" type="add">
-	Make OctaveEngine.get(), OctaveCell.get() and OctaveStruct.get() 
-	take Class objects as input 
-	and use the autocast to transform the type if needed.
-      </action>
-      <action dev="KH" type="add">
-	Group the exceptions thrown by JavaOctave 
-	into the ones that will break the octave process, 
-	and the ones that will not. 
-	Make the data reading more robust 
-	such that getting data of an unknown type 
-	will throw an exception that will not break the process.
-      </action>
-      <action dev="KH" type="add">
-	Delete OctaveScalar, use 1x1 OctaveMatrix 
-	and create then using the factory function Octave.scalar().
-      </action>
-      <action dev="KH" type="update">
-	Rename OctaveType to OctaveObject.
-      </action>
-      <action dev="KH" type="update">
-	Rename OctaveMatrix to OctaveDouble.
-      </action>
-      <action dev="KH" type="add">
-	Document how OctaveObject.shallowCopy is used.
-      </action>
-    </release>
+		<release version="0.5.0" date='2009-11-22' description=''>
+			<action dev="KH" type="add">
+				Create OctaveComplex as wrapper type for complex matrices.
+			</action>
+			<action dev="KH" type="add">
+				Create an auto cast functionality in JavaOctave
+				that is similar to one in C++.
+				It is used to transform OctaveDouble to OctaveComplex by need.
+			</action>
+			<action dev="KH" type="add">
+				Make OctaveEngine.get(), OctaveCell.get() and OctaveStruct.get()
+				take Class objects as input
+				and use the autocast to transform the type if needed.
+			</action>
+			<action dev="KH" type="add">
+				Group the exceptions thrown by JavaOctave
+				into the ones that will break the octave process,
+				and the ones that will not.
+				Make the data reading more robust
+				such that getting data of an unknown type
+				will throw an exception that will not break the process.
+			</action>
+			<action dev="KH" type="add">
+				Delete OctaveScalar, use 1x1 OctaveMatrix
+				and create then using the factory function Octave.scalar().
+			</action>
+			<action dev="KH" type="update">
+				Rename OctaveType to OctaveObject.
+			</action>
+			<action dev="KH" type="update">
+				Rename OctaveMatrix to OctaveDouble.
+			</action>
+			<action dev="KH" type="add">
+				Document how OctaveObject.shallowCopy is used.
+			</action>
+		</release>
 
-    <release version="0.4.0" date='2009-10-08' description=''>
-      <action dev="KH" type="update">
-	OctaveNdMatrix is renamed to OctaveMatrix
-      </action>
-      <action dev="KH" type="update">
-	OctaveScalar now behaves more like OctaveMatrix
-      </action>
-      <action dev="KH" type="add">
-	OctaveBoolean added to reflect the logical type in Octave
-      </action>
-      <action dev="KH" type="update">
-	Better build system and unit tests split from the main project
-      </action>
-      <action dev="KH" type="add">
-	Unit test coverage added, we are using Cobertura
-      </action>
-      <action dev="KH" type="update">
-	Switched from git to Mercurial
-      </action>
-      <action dev="KH" type="add">
-	Examples from Wiki is tested in unit tests
-      </action>
-      <action dev="KH" type="update">
-	The many fragmented OctaveMatrix tests 
-	collected into a single test of the type and an other test of io.
-      </action>
-    </release>
+		<release version="0.4.0" date='2009-10-08' description=''>
+			<action dev="KH" type="update">
+				OctaveNdMatrix is renamed to OctaveMatrix
+			</action>
+			<action dev="KH" type="update">
+				OctaveScalar now behaves more like OctaveMatrix
+			</action>
+			<action dev="KH" type="add">
+				OctaveBoolean added to reflect the logical type in Octave
+			</action>
+			<action dev="KH" type="update">
+				Better build system and unit tests split from the main project
+			</action>
+			<action dev="KH" type="add">
+				Unit test coverage added, we are using Cobertura
+			</action>
+			<action dev="KH" type="update">
+				Switched from git to Mercurial
+			</action>
+			<action dev="KH" type="add">
+				Examples from Wiki is tested in unit tests
+			</action>
+			<action dev="KH" type="update">
+				The many fragmented OctaveMatrix tests
+				collected into a single test of the type and an other test of io.
+			</action>
+		</release>
 
-    <release version="0.3.2" date='2009-09-17' description=''>
-      <action dev="KH" type="add">
-	This release reads sq_strings.
-      </action>
-      <action dev="KH" type="update">
-	Project has moved from Launchpad+bzr to Kenai+git.
-      </action>
-      <action dev="KH" type="update">
-	Release has been tagged in the git repo as "release-0.3.2"
-      </action>
-    </release>
+		<release version="0.3.2" date='2009-09-17' description=''>
+			<action dev="KH" type="add">
+				This release reads sq_strings.
+			</action>
+			<action dev="KH" type="update">
+				Project has moved from Launchpad+bzr to Kenai+git.
+			</action>
+			<action dev="KH" type="update">
+				Release has been tagged in the git repo as "release-0.3.2"
+			</action>
+		</release>
 
-  </body>
+	</body>
 </document>
