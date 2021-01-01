@@ -757,13 +757,19 @@ public final class OctaveEngine {
         return new File(matcher.group(2));
     }
 
-    // TBD: make platform independent
     // TBD: make independent of command used to determine home directory
-    private final static Pattern PATTERN_HOMEDIR_IN_CMD =
-	    Pattern.compile("(/.+)/share/octave/([^/]+)/m/java/(.+).m");
+    /**
+     * A pattern of an m-file in package java, valid for unix operating system
+     * defining the installation home directory as returned by {@link #getInstHomeDir()} 
+     * as its group with number one. 
+     * The pattern is made independent of the octave version and of the specific command. 
+     */
+    private final static String PATTERN_HOMEDIR_UNIX =
+	    "(/.+)/share/octave/([^/]+)/m/java/(.+).m";
 
     // TBD: eliminate hard coded command. 
-    /**
+    // TBD: eliminate hard coded file sep unix. 
+   /**
      * Returns the installation home directory, 
      * in the manual sometimes called octave-home. 
      * CAUTION: Initially, this is OCTAVE_HOME, but the latter can be overwritten. 
@@ -773,8 +779,9 @@ public final class OctaveEngine {
      */
     public File getInstHomeDir() {
 	String cmd = "javaaddpath";
-	String file = getMFile(cmd).toString();
-	Matcher matcher = PATTERN_HOMEDIR_IN_CMD.matcher(file);
+	String patternOSindep = PATTERN_HOMEDIR_UNIX.replace("/", getFilesep());
+	Matcher matcher = Pattern.compile(patternOSindep)
+		.matcher(getMFile(cmd).toString());
         boolean found = matcher.find();
         assert found;
         assert matcher.group(2).equals(getOctaveVersion());
