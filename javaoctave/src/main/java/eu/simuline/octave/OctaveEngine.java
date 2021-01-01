@@ -730,31 +730,34 @@ public final class OctaveEngine {
 
     /**
      * The pattern for the answer to the command <code>which &lt;name&gt;</code>
-     * if the name <code>which &lt;name&gt;</code> defines a function given by an m-file. 
+     * if the name <code>which &lt;name&gt;</code> is no variable 
+     * but is tied to a type (maybe then always a function type) and a file. 
      */
     private final static Pattern PATTERN_FILE =
-	    Pattern.compile("'(.+)' is a function from the file (.+)");
+	    Pattern.compile("'(?<name>.+)' is a (?<type>.+) from the file (?<file>.+)");
 
-    // TBD: fail gracefully, if nameFunM is sth not expected. 
+    // TBD: fail gracefully, if nameTypeFileNoVar is sth not expected. 
     /**
-     * Returns the m-file for the given function <code>nameFunM</code>,
-     * provided it is given by an m-file. 
+     * Returns the file tied to the name <code>nameTypeFileNoVar</code>,
+     * provided it is not a variable and is given by given by an m-file. 
+     * This is based on octaves command <code>which</code>.
      * 
-     * @param nameFunM
-     *    the name of a function defined by an m-file. 
+     * @param nameTypeFileNoVar
+     *    the name WHICH IS NOT OF A VARIABLE tied to a type and to a file. 
+     *    TBD: clarify whether the type is then a function type. 
      * @return
-     *    The m-file for the given function <code>nameFunM</code>,
+     *    The m-file for the given function <code>nameTypeFileNoVar</code>,
      *    provided it is given by an m-file. 
      */
-    public File getMFile(String nameFunM) {
-	StringReader checkCmd = new StringReader(String.format("which %s", nameFunM));
+    public File getFileForName(String nameTypeFileNoVar) {
+	StringReader checkCmd = new StringReader(String.format("which %s", nameTypeFileNoVar));
         final StringWriter fileResultWr = new StringWriter();
         this.octaveExec.evalRW(new ReaderWriteFunctor(checkCmd),
         	new WriterReadFunctor(fileResultWr));
         Matcher matcher = PATTERN_FILE.matcher(fileResultWr.toString());
         boolean found = matcher.find();
         assert found;
-        return new File(matcher.group(2));
+        return new File(matcher.group("file"));
     }
 
     /**
@@ -776,7 +779,7 @@ public final class OctaveEngine {
 
     private File getHomeDir(String nameGrp) {
 	Matcher matcher = Pattern.compile(PATTERN_HOMEDIR)
-		.matcher(getMFile(JAVA_FUN).toString());
+		.matcher(getFileForName(JAVA_FUN).toString());
 	boolean found = matcher.find();
 	assert found;
 	assert matcher.group("octVrs").equals(getOctaveVersion());

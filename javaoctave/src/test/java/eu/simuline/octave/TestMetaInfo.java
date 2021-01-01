@@ -130,7 +130,7 @@ public class TestMetaInfo {
 
     /**
      * Tests {@link OctaveEngine#getInstHomeDir()}, {@link OctaveEngine#getOctaveVersion()} 
-     * and {@link OctaveEngine#getMFile(String)} at the same time.
+     * and {@link OctaveEngine#getFileForName(String)} at the same time.
      */
     @Test public void testBasedOnWhich() {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
@@ -141,7 +141,7 @@ public class TestMetaInfo {
 	fileCmp = new File(fileCmp, "m");
 	fileCmp = new File(fileCmp, "pkg");
 	fileCmp = new File(fileCmp, "pkg.m");
-	assertEquals(fileCmp, octave.getMFile("pkg"));
+	assertEquals(fileCmp, octave.getFileForName("pkg"));
     }
 
     /**
@@ -149,7 +149,7 @@ public class TestMetaInfo {
      */
     @Test public void testJavaDir() {
  	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
- 	assertEquals(octave.getJavaHomeDir(), octave.getMFile("javaaddpath").getParentFile());
+ 	assertEquals(octave.getJavaHomeDir(), octave.getFileForName("javaaddpath").getParentFile());
    }
 
 }
