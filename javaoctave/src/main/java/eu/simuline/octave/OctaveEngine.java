@@ -518,6 +518,17 @@ public final class OctaveEngine {
     }
 
     /**
+     * Returns the file separator of this os given by the expression <code>filesep()</code>.
+     * 
+     * @return
+     *    the file-separator for this os.
+     */
+    public String getFilesep() {
+	eval("filesep();");
+	return get(OctaveString.class, ANS).getString();
+    }
+
+    /**
      * Returns value in variable {@link #ANS} 
      * which is expected to be a cell array of strings, 
      * as a collection of strings. 
@@ -761,10 +772,13 @@ public final class OctaveEngine {
      *    octave's installation home directory. 
      */
     public File getInstHomeDir() {
-	String file = getMFile("javaaddpath").toString();
+	String cmd = "javaaddpath";
+	String file = getMFile(cmd).toString();
 	Matcher matcher = PATTERN_HOMEDIR_IN_CMD.matcher(file);
         boolean found = matcher.find();
         assert found;
+        assert matcher.group(2).equals(getOctaveVersion());
+        assert matcher.group(3).equals(cmd);
         return new File(matcher.group(1));
     }
 

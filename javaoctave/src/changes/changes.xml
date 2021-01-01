@@ -94,6 +94,9 @@
 			<action dev="ER" type="add">
 				added method OctaveEngine.getInstHomeDir().
 			</action>
+			<action dev="ER" type="add">
+				added method OctaveEngine.getFilesep().
+			</action>
 			<action dev="ER" type="update">
 				deprecated OctaveUtils moving all material to OctaveEngine
 				like listVars()

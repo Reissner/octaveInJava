@@ -123,6 +123,11 @@ public class TestMetaInfo {
         octave.close();
     }
 
+    @Test public void testOnOS() {
+	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
+	assertEquals(File.separator, octave.getFilesep());
+    }
+
     /**
      * Tests {@link #getInstHomeDir()}, {@link #getOctaveVersion()} 
      * and {@link #getMFile(String)} at the same time.
