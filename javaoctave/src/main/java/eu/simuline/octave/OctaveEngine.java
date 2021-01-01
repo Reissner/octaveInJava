@@ -764,7 +764,6 @@ public final class OctaveEngine {
      */
     private final static String JAVA_FUN = "javaaddpath";
 
-    // TBD: make independent of command used to determine home directory
     /**
      * A pattern of the m-file for command {@link #JAVA_FUN} in package java, 
      * defining the installation home directory as returned by {@link #getInstHomeDir()} 
@@ -772,9 +771,19 @@ public final class OctaveEngine {
      * The pattern is made independent of the octave version and of the specific command. 
      */
     private final static String PATTERN_HOMEDIR = String
-	    .format("((/.+)/share/octave/([^/]+)/m/java/)%s.m", JAVA_FUN)
+	    .format("(?<javaHome>(?<octHome>/.+)/share/octave/(?<octVrs>[^/]+)/m/java/)%s.m", JAVA_FUN)
 	    .replace("/", File.separator);
 
+    private File getHomeDir(String nameGrp) {
+	Matcher matcher = Pattern.compile(PATTERN_HOMEDIR)
+		.matcher(getMFile(JAVA_FUN).toString());
+	boolean found = matcher.find();
+	assert found;
+	assert matcher.group("octVrs").equals(getOctaveVersion());
+	return new File(matcher.group(nameGrp));
+    }
+
+    // TBD: suggestion: replace OCTAVE_HOME by octaveHome() 
     /**
      * Returns the installation home directory, 
      * in the manual sometimes called octave-home. 
@@ -784,13 +793,22 @@ public final class OctaveEngine {
      *    octave's installation home directory. 
      */
     public File getInstHomeDir() {
-	Matcher matcher = Pattern.compile(PATTERN_HOMEDIR)
-		.matcher(getMFile(JAVA_FUN).toString());
-	boolean found = matcher.find();
-	assert found;
-	assert matcher.group(3).equals(getOctaveVersion());
-	return new File(matcher.group(2));
-    }
+ 	return this.getHomeDir("octHome");
+     }
 
+    // TBD: suggestion: replace OCTAVE_JAVA_DIR by octaveJavaDir() 
+    /**
+     * Returns the java home directory, which contains the m files of the java interface
+     * like {@link #JAVA_FUN} but is also a search directory for files 
+     * <code>javaclasspath.txt</code> (deprecated <code>classpath.txt</code>) 
+     * but also the configuration file <code>java.opt</code>. 
+     * CAUTION: Initially, this is OCTAVE_JAVA_DIR, but the latter can be overwritten. 
+     * 
+     * @return
+     *    octave's java home directory. 
+     */
+    public File getJavaHomeDir() {
+ 	return this.getHomeDir("javaHome");
+     }
 
 }
