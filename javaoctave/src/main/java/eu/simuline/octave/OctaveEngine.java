@@ -717,13 +717,41 @@ public final class OctaveEngine {
 	return collection;
     }
 
+    /**
+     * The pattern for the answer to the command <code>which &lt;name&gt;</code>
+     * if the name <code>which &lt;name&gt;</code> defines a function given by an m-file. 
+     */
+    private final static Pattern PATTERN_FILE =
+	    Pattern.compile("'(.+)' is a function from the file (.+)");
+
+    // TBD: fail gracefully, if nameFunM is sth not expected. 
+    /**
+     * Returns the m-file for the given function <code>nameFunM</code>,
+     * provided it is given by an m-file. 
+     * 
+     * @param nameFunM
+     *    the name of a function defined by an m-file. 
+     * @return
+     *    The m-file for the given function <code>nameFunM</code>,
+     *    provided it is given by an m-file. 
+     */
+    public File getMFile(String nameFunM) {
+	StringReader checkCmd = new StringReader(String.format("which %s", nameFunM));
+        final StringWriter fileResultWr = new StringWriter();
+        this.octaveExec.evalRW(new ReaderWriteFunctor(checkCmd),
+        	new WriterReadFunctor(fileResultWr));
+        Matcher matcher = PATTERN_FILE.matcher(fileResultWr.toString());
+        boolean found = matcher.find();
+        assert found;
+        return new File(matcher.group(2));
+    }
+
     // TBD: make platform independent
     // TBD: make independent of command used to determine home directory
-    private final static Pattern PATTERN_HOMEDIR =
-	    Pattern.compile("'(.+)' is a function from the file ((/[^/]+)/share/octave/([^/]+)/m/java/(.+).m)");
+    private final static Pattern PATTERN_HOMEDIR_IN_CMD =
+	    Pattern.compile("(/[^/]+)/share/octave/([^/]+)/m/java/(.+).m");
 
-
-
+    // TBD: eliminate hard coded command. 
     /**
      * Returns the installation home directory, 
      * in the manual sometimes called octave-home. 
@@ -733,22 +761,11 @@ public final class OctaveEngine {
      *    octave's installation home directory. 
      */
     public File getInstHomeDir() {
-	StringReader checkCmd = new StringReader("which javaaddpath");
-        final StringWriter fileResultWr = new StringWriter();
-        this.octaveExec.evalRW(new ReaderWriteFunctor(checkCmd),
-		       new WriterReadFunctor(fileResultWr));
-        final String fileResultStr = fileResultWr.toString();
-
-        // could be sth like: 
-        // 'javaaddpath' is a function from the file [no line break]
-        // /usr/share/octave/5.2.0/m/java/javaaddpath.m
-        // TBD: if to be reused use 
-        //boolean b = Pattern.matches("a*b", "aaaaab");
-
-        Matcher matcher = PATTERN_HOMEDIR.matcher(fileResultStr);
+	String file = getMFile("javaaddpath").toString();
+	Matcher matcher = PATTERN_HOMEDIR_IN_CMD.matcher(file);
         boolean found = matcher.find();
         assert found;
-        return new File(matcher.group(3));
+        return new File(matcher.group(1));
     }
 
 
