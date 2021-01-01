@@ -757,19 +757,25 @@ public final class OctaveEngine {
         return new File(matcher.group(2));
     }
 
+    /**
+     * A command in the package 'java'. 
+     * This is used to determine both the installation home directory and the java home directory, 
+     * which is the location of the m-file for {@link #JAVA_FUN}.
+     */
+    private final static String JAVA_FUN = "javaaddpath";
+
     // TBD: make independent of command used to determine home directory
     /**
-     * A pattern of an m-file in package java, valid for unix operating system
+     * A pattern of the m-file for command {@link #JAVA_FUN} in package java, 
      * defining the installation home directory as returned by {@link #getInstHomeDir()} 
-     * as its group with number one. 
+     * as its group with number two and the java home directory as its group number one. 
      * The pattern is made independent of the octave version and of the specific command. 
      */
-    private final static String PATTERN_HOMEDIR_UNIX =
-	    "(/.+)/share/octave/([^/]+)/m/java/(.+).m";
+    private final static String PATTERN_HOMEDIR = String
+	    .format("((/.+)/share/octave/([^/]+)/m/java/)%s.m", JAVA_FUN)
+	    .replace("/", File.separator);
 
-    // TBD: eliminate hard coded command. 
-    // TBD: eliminate hard coded file sep unix. 
-   /**
+    /**
      * Returns the installation home directory, 
      * in the manual sometimes called octave-home. 
      * CAUTION: Initially, this is OCTAVE_HOME, but the latter can be overwritten. 
@@ -778,15 +784,12 @@ public final class OctaveEngine {
      *    octave's installation home directory. 
      */
     public File getInstHomeDir() {
-	String cmd = "javaaddpath";
-	String patternOSindep = PATTERN_HOMEDIR_UNIX.replace("/", getFilesep());
-	Matcher matcher = Pattern.compile(patternOSindep)
-		.matcher(getMFile(cmd).toString());
-        boolean found = matcher.find();
-        assert found;
-        assert matcher.group(2).equals(getOctaveVersion());
-        assert matcher.group(3).equals(cmd);
-        return new File(matcher.group(1));
+	Matcher matcher = Pattern.compile(PATTERN_HOMEDIR)
+		.matcher(getMFile(JAVA_FUN).toString());
+	boolean found = matcher.find();
+	assert found;
+	assert matcher.group(3).equals(getOctaveVersion());
+	return new File(matcher.group(2));
     }
 
 
