@@ -760,7 +760,7 @@ public final class OctaveEngine {
     // TBD: make platform independent
     // TBD: make independent of command used to determine home directory
     private final static Pattern PATTERN_HOMEDIR_IN_CMD =
-	    Pattern.compile("(/[^/]+)/share/octave/([^/]+)/m/java/(.+).m");
+	    Pattern.compile("(/.+)/share/octave/([^/]+)/m/java/(.+).m");
 
     // TBD: eliminate hard coded command. 
     /**
