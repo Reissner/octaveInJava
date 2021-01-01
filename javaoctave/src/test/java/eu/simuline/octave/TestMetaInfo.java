@@ -135,13 +135,27 @@ public class TestMetaInfo {
     @Test public void testBasedOnWhich() {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
+ 	String name = "pkg";
+ 	OctaveEngine.NameDesc desc = octave.getDescForName(name);
+ 	assertEquals(name, desc.name);
+	assertEquals("function", desc.type);
+
 	File fileCmp = new File(octave.getInstHomeDir(), "share");
 	fileCmp = new File(fileCmp, "octave");
 	fileCmp = new File(fileCmp, octave.getOctaveVersion());
 	fileCmp = new File(fileCmp, "m");
 	fileCmp = new File(fileCmp, "pkg");
 	fileCmp = new File(fileCmp, "pkg.m");
-	assertEquals(fileCmp, octave.getFileForName("pkg"));
+	assertEquals(fileCmp, desc.file);
+
+	name = "cos";
+ 	desc = octave.getDescForName(name);
+ 	assertEquals(name, desc.name);
+	assertEquals("built-in function", desc.type);
+
+	fileCmp = new File("libinterp", "corefcn");
+	fileCmp = new File(fileCmp, "mappers.cc");
+	assertEquals(fileCmp, desc.file);
     }
 
     /**
@@ -149,7 +163,11 @@ public class TestMetaInfo {
      */
     @Test public void testJavaDir() {
  	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
- 	assertEquals(octave.getJavaHomeDir(), octave.getFileForName("javaaddpath").getParentFile());
+ 	String name = "javaaddpath";
+ 	OctaveEngine.NameDesc desc = octave.getDescForName(name);
+ 	assertEquals(name, desc.name);
+ 	assertEquals("function", desc.type);
+ 	assertEquals(octave.getJavaHomeDir(), desc.file.getParentFile());
    }
 
 }
