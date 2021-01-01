@@ -371,17 +371,18 @@
 
  
       <!-- configuration for tests -->
-      <plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${versionTestPlugins}</version>
-        <configuration>
-	  <redirectTestOutputToFile>true</redirectTestOutputToFile>
-          <excludes>
-            <exclude>TestVersion.java</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-surefire-plugin</artifactId>
+		<version>${versionTestPlugins}</version>
+		<configuration>
+			<redirectTestOutputToFile>true</redirectTestOutputToFile>
+			<trimStackTrace>false</trimStackTrace>
+			<excludes>
+				<exclude>TestVersion.java</exclude>
+			</excludes>
+		</configuration>
+	</plugin>
 
       <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
@@ -392,6 +393,7 @@
 	  <useSystemClassLoader>true</useSystemClassLoader>
 	  <useManifestOnlyJar>false</useManifestOnlyJar>
 	  <redirectTestOutputToFile>true</redirectTestOutputToFile>
+	  <trimStackTrace>false</trimStackTrace>
 	  <includes>
 	    <include>TestMetaInfo.java</include>
 	  </includes>

@@ -739,21 +739,33 @@ public final class OctaveEngine {
 	 */
 	public final String name;
 
+	/**
+	 * Whether {@link #name} refers to a variable. 
+	 * If this is true, both, {@link #type} and {@link #file} are null.  
+	 */
+	public final boolean isVar;
+
 	// TBD: clarify whether this is true. 
+	// TBD: avoid null
 	/**
 	 * The type of the object tied to {@link #name}.
+	 * Currently, 
+	 * none, i.e. <code>null</code> is tied only iff the name represents a variable. 
 	 * If the name is tied to a file, this seems to be a function type. 
 	 * Seemingly, "function" represents the type "user-defined function". 
 	 */
 	public final String type;
 
 	// TBD: clarify
+	// TBD: avoid null
 	/**
 	 * The file of the object tied to {@link #name}.
+	 * Currently, 
+	 * none, i.e. <code>null</code> is tied only iff the name represents a variable. 
 	 * For built-in functions this seems to be something rooted in "libinterp" 
 	 * but without leading file separator if returned by which. 
 	 * This distinction is dropped here. 
-	 * Thus for builtin functions, this 'file' does not exist. 
+	 * Thus for built-in functions, this 'file' does not exist. 
 	 */
 	public final File file;
 
@@ -761,8 +773,14 @@ public final class OctaveEngine {
 	    boolean found = matcher.find();
 	    assert found;
 	    this.name = matcher.group("name");
-	    this.type = matcher.group("type");
-	    this.file = new File(matcher.group("file"));
+	    this.isVar = matcher.group("var") != null;
+	    if (this.isVar) {
+		this.type = null;
+		this.file = null;
+	    } else {
+		this.type = matcher.group("type");
+		this.file = new File(matcher.group("file"));
+	    }
 	}
 
 	@Override
@@ -778,28 +796,31 @@ public final class OctaveEngine {
      * but is tied to a type (maybe then always a function type) and a file. 
      */
     private final static Pattern PATTERN_NAME_TYPE_FILE =
-	    Pattern.compile("'(?<name>.+)' is a (?<type>.+) from the file (?<file>.+)");
+	    Pattern.compile("'(?<name>.+)' is " +
+                            "a ((?<var>variable)|(?<type>.+) from the file (?<file>.+))");
 
     // TBD: fail gracefully, if nameTypeFileNoVar is sth not expected. 
     /**
-     * Returns the description tied to the name <code>nameTypeFileNoVar</code>,
+     * Returns the description tied to the name <code>nameVarOrTypeFile</code>
+     * provided it is either a variable or 
      * provided it is not a variable and is has a type and is tied to a file. 
      * This method is based on octaves command <code>which</code>.
      * 
-     * @param nameTypeFileNoVar
-     *    the name WHICH IS NOT OF A VARIABLE tied to a type and to a file. 
+     * @param nameVarOrTypeFile
+     *    the name which is either a variable or it is tied to both a type and to a file. 
      *    TBD: clarify whether the type is then a function type. 
      * @return
      *    The description for the given name <code>nameTypeFileNoVar</code>,
      *    provided satisfies the above conditions. 
+     *    Iff it is a variable, {@link NameDesc#isVar} is set. 
+     *    Else both, {@link NameDesc#type} and {@link NameDesc#file} are set. 
      */
-    public NameDesc getDescForName(String nameTypeFileNoVar) {
-	StringReader checkCmd = new StringReader(String.format("which %s", nameTypeFileNoVar));
+    public NameDesc getDescForName(String nameVarOrTypeFile) {
+	StringReader checkCmd = new StringReader(String.format("which %s", nameVarOrTypeFile));
         final StringWriter fileResultWr = new StringWriter();
         this.octaveExec.evalRW(new ReaderWriteFunctor(checkCmd),
         	new WriterReadFunctor(fileResultWr));
-        Matcher matcher = PATTERN_NAME_TYPE_FILE.matcher(fileResultWr.toString());
-        return new NameDesc(matcher);
+        return new NameDesc(PATTERN_NAME_TYPE_FILE.matcher(fileResultWr.toString()));
     }
 
     /**

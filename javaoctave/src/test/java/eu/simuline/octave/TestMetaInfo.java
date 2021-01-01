@@ -21,11 +21,13 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 //import org.junit.Ignore;
 import org.junit.Test;
 
 import eu.simuline.octave.OctaveEngine.PackageDesc;
+import eu.simuline.octave.type.Octave;
 
 /**
  * Test meta info like version (both octave and javaoctave bridge), 
@@ -137,6 +139,7 @@ public class TestMetaInfo {
 
  	String name = "pkg";
  	OctaveEngine.NameDesc desc = octave.getDescForName(name);
+ 	assertTrue(!desc.isVar);
  	assertEquals(name, desc.name);
 	assertEquals("function", desc.type);
 
@@ -150,12 +153,21 @@ public class TestMetaInfo {
 
 	name = "cos";
  	desc = octave.getDescForName(name);
+ 	assertTrue(!desc.isVar);
  	assertEquals(name, desc.name);
 	assertEquals("built-in function", desc.type);
 
 	fileCmp = new File("libinterp", "corefcn");
 	fileCmp = new File(fileCmp, "mappers.cc");
 	assertEquals(fileCmp, desc.file);
+
+	name = "someVar";
+	octave.put(name, Octave.scalar(1));
+ 	desc = octave.getDescForName(name);
+ 	assertTrue(desc.isVar);
+ 	assertEquals(name, desc.name);
+ 	assertNull(desc.type);
+ 	assertNull(desc.file);
     }
 
     /**
