@@ -137,37 +137,66 @@ public class TestMetaInfo {
     @Test public void testBasedOnWhich() {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 
- 	String name = "pkg";
- 	OctaveEngine.NameDesc desc = octave.getDescForName(name);
- 	assertTrue(!desc.isVar);
+	// name of a variable 
+	String name = "someVar";
+	octave.put(name, Octave.scalar(1));
+	OctaveEngine.NameDesc desc = octave.getDescForName(name);
+ 	assertTrue(desc.isVar);
  	assertEquals(name, desc.name);
-	assertEquals("function", desc.type);
+ 	assertNull(desc.type);
+ 	assertNull(desc.file);
 
-	File fileCmp = new File(octave.getInstHomeDir(), "share");
-	fileCmp = new File(fileCmp, "octave");
-	fileCmp = new File(fileCmp, octave.getOctaveVersion());
-	fileCmp = new File(fileCmp, "m");
-	fileCmp = new File(fileCmp, "pkg");
-	fileCmp = new File(fileCmp, "pkg.m");
-	assertEquals(fileCmp, desc.file);
+ 	// TBD: add cases: no variable and no file 
+ 	// distinguish, sole a type or even not that 
 
+	// name not of a variable, and type and c-file  	
 	name = "cos";
  	desc = octave.getDescForName(name);
  	assertTrue(!desc.isVar);
  	assertEquals(name, desc.name);
 	assertEquals("built-in function", desc.type);
 
-	fileCmp = new File("libinterp", "corefcn");
+	File fileCmp = new File("libinterp", "corefcn");
 	fileCmp = new File(fileCmp, "mappers.cc");
 	assertEquals(fileCmp, desc.file);
 
-	name = "someVar";
-	octave.put(name, Octave.scalar(1));
+	// name not of a variable, and type and m-file  	
+ 	name = "pkg";
  	desc = octave.getDescForName(name);
- 	assertTrue(desc.isVar);
+ 	assertTrue(!desc.isVar);
  	assertEquals(name, desc.name);
- 	assertNull(desc.type);
- 	assertNull(desc.file);
+	assertEquals("function", desc.type);
+
+	fileCmp = new File(octave.getInstHomeDir(), "share");
+	fileCmp = new File(fileCmp, "octave");
+	fileCmp = new File(fileCmp, octave.getOctaveVersion());
+	fileCmp = new File(fileCmp, "m");
+	fileCmp = new File(fileCmp, "pkg");
+	fileCmp = new File(fileCmp, "pkg.m");
+	assertEquals(fileCmp, desc.file);
+	assertTrue(desc.file.exists());
+
+
+	// name not of a variable, no type but existing and m-file  	
+ 	name = octave.getDescForName("pkg").file.toString();
+ 	desc = octave.getDescForName(name);
+ 	assertTrue(!desc.isVar);
+ 	assertEquals(name, desc.name);
+	assertNull(desc.type);
+	assertEquals(new File(name), desc.file);
+	assertTrue(desc.file.exists());
+	assertTrue(desc.file.isFile());
+
+	// name not of a variable, no type but existing file 
+	name = octave.getDescForName("pkg").file.getParent();
+	desc = octave.getDescForName(name);
+ 	assertTrue(!desc.isVar);
+ 	assertEquals(name, desc.name);
+	assertNull(desc.type);
+	assertEquals(new File(name), desc.file);
+	assertTrue(desc.file.exists());
+	assertTrue(desc.file.isDirectory());
+
     }
 
     /**

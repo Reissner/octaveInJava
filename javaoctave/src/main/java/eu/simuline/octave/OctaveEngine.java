@@ -777,10 +777,19 @@ public final class OctaveEngine {
 	    if (this.isVar) {
 		this.type = null;
 		this.file = null;
-	    } else {
-		this.type = matcher.group("type");
-		this.file = new File(matcher.group("file"));
+		return;
 	    }
+	    // This is what is implemented at the moment. 
+	    // TBD: insert case where no file is attached. 
+	    assert matcher.group("tfile") != null ^ matcher.group("sfile") != null;
+	    if (matcher.group("sfile") != null) {
+		this.file = new File(matcher.group("sfile"));
+		this.type = null;
+		assert this.file.exists();
+		return;
+	    }
+	    this.type = matcher.group("type");
+	    this.file = new File(matcher.group("tfile"));
 	}
 
 	@Override
@@ -797,23 +806,36 @@ public final class OctaveEngine {
      */
     private final static Pattern PATTERN_NAME_TYPE_FILE =
 	    Pattern.compile("'(?<name>.+)' is " +
-                            "a ((?<var>variable)|(?<type>.+) from the file (?<file>.+))");
+                            "(a ((?<var>variable)|(?<type>.+) from the file (?<tfile>.+))" +
+		            "|the (file|directory) (?<sfile>.+))");
 
     // TBD: fail gracefully, if nameTypeFileNoVar is sth not expected. 
+    // TBD: clarify, what it could be if not a variable and no file is tied to it. 
+    // Consult also which.m 
+    // IN this case still to be distinguished if a type is attached. 
+    //
     /**
      * Returns the description tied to the name <code>nameVarOrTypeFile</code>
-     * provided it is either a variable or 
-     * provided it is not a variable and is has a type and is tied to a file. 
+     * provided it is either a variable or else is a file attached.
+     * CAUTION: The cases where it is not a variable name and no file attached,
+     * is not yet implemented.
+     * If it is no variable, then it is either a sole existing file/directory attached
+     * without type or it is a or it is a type attached and in addition a file.
+     * TBD: clarify: seemingly, in the latter case it is a function type. 
      * This method is based on octaves command <code>which</code>.
      * 
      * @param nameVarOrTypeFile
-     *    the name which is either a variable or it is tied to both a type and to a file. 
-     *    TBD: clarify whether the type is then a function type. 
+     *    the name which is either a variable or it is tied to an existing file, 
+     *    or to both a type and to a file. 
+     *    TBD: clarify whether in the latter case, the type is then a function type. 
      * @return
      *    The description for the given name <code>nameTypeFileNoVar</code>,
-     *    provided satisfies the above conditions. 
-     *    Iff it is a variable, {@link NameDesc#isVar} is set. 
-     *    Else both, {@link NameDesc#type} and {@link NameDesc#file} are set. 
+     *    provided satisfies the above conditions.
+     *    Iff it is a variable, {@link NameDesc#isVar} is set.
+     *    Else, for the cases implemented, both,
+     *    at least {@link NameDesc#file} is set.
+     *    If {@link NameDesc#type} is not set, the file exists,
+     *    and if the type exists, then the file is attached to the object of that type.
      */
     public NameDesc getDescForName(String nameVarOrTypeFile) {
 	StringReader checkCmd = new StringReader(String.format("which %s", nameVarOrTypeFile));
