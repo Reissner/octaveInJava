@@ -22,6 +22,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 
 //import org.junit.Ignore;
 import org.junit.Test;
@@ -176,6 +177,24 @@ public class TestMetaInfo {
 	fileCmp = new File(fileCmp, "pkg.m");
 	assertEquals(fileCmp, desc.file);
 	assertTrue(desc.file.exists());
+
+
+	PackageDesc pkgDesc = octave.getPackagesInstalled().get("quaternion");
+	assertNotNull(pkgDesc);
+	assertTrue(!pkgDesc.isLoaded);
+	octave.eval("pkg('load', 'quaternion')");
+	assertTrue(octave.getPackagesInstalled().get("quaternion").isLoaded);
+	name = "@quaternion/abs";
+ 	desc = octave.getDescForName(name);
+ 	assertEquals(NameDesc.Category.TypedDefInFile, desc.category);
+ 	assertEquals(name, desc.name);
+	assertEquals("function", desc.type);
+	fileCmp = new File(pkgDesc.dir, "java-arithmetics");
+	fileCmp = new File(fileCmp, "@pn");
+	fileCmp = new File(fileCmp, "cos.m");
+	assertTrue(desc.file.exists());
+	octave.eval("pkg('unload', 'quaternion')");
+	assertTrue(!octave.getPackagesInstalled().get("quaternion").isLoaded);
 
 
 	// name not of a variable, no type but existing and m-file  	

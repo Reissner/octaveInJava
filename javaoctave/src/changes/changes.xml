@@ -98,6 +98,8 @@
 			<action dev="ER" type="add">
 				In OctaveEngine: added method getDescForName(String).
 				Test cases missing.
+				TBD: bug report: sth like @pn/cos must be mentioned in the manual.
+				consult also http://matlab.izmiran.ru/help/techdoc/ref/which.html
 			</action>
 			<action dev="ER" type="update">
 				deprecated OctaveUtils moving all material to OctaveEngine

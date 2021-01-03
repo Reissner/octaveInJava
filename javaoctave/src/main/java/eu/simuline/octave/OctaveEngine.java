@@ -863,10 +863,10 @@ public final class OctaveEngine {
 		return;
 	    }
 
-    	    assert matcher.group("sfile") != null;
-    	    this.category = Category.FileEx;
-    	    this.file = new File(matcher.group("sfile"));
-    	    assert this.file.exists();
+   	    assert matcher.group("sfile") != null;
+   	    this.category = Category.FileEx;
+   	    this.file = new File(matcher.group("sfile"));
+   	    assert this.file.exists();
 	}
 
 	@Override
@@ -876,7 +876,7 @@ public final class OctaveEngine {
 	}
     } // class NameDesc 
 
-    // TBD: if octave is extended: pn/cos: then the trick with file separator fails for *nix/linux
+
     /**
      * The pattern for the answer to the command <code>which &lt;name&gt;</code>
      * which is implemented by {@link #getDescForName()}. 
