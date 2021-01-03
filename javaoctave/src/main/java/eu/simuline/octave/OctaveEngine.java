@@ -729,11 +729,34 @@ public final class OctaveEngine {
     }
 
     /**
-     * Describes the meaning of a name, provided this is not tied to a variable 
-     * but to both a file and a type. 
-     *
+     * Describes the meaning of a name, provided this is tied to a variable 
+     * or tied to a file. 
+     * The name is replicated in {@link #name} 
+     * and the category is given in {@link #category}. 
+     * If it is a {@link Category#Variable}, 
+     * of course no file is attached and also no type. 
+     * TBD: change that. 
+     * The type can be found out using <code>typeinfo(name)</code>
+     * <p>
+     * If it is no variable, 
+     * then the case that it is not tied to a file is not taken into account. 
+     * <p>
+     * If the name points to an existing file, the category is {@link Category#FileEx}, 
+     * no matter whether a directory or a proper file. 
+     * <p>
+     * If the name points to an object with a type 
+     * defined by a file (seemingly function types only), 
+     * then the category is {@link Category#TypeDefInFile}. 
      */
     public static class NameDesc {
+
+	public enum Category {
+	    Variable,
+	    FileEx,
+	    TypeDefInFile;//,
+	    //Unknown;
+	} // enum Category
+
 	/**
 	 * The name which is described by this {@link NameDesc}.
 	 */
@@ -743,7 +766,7 @@ public final class OctaveEngine {
 	 * Whether {@link #name} refers to a variable. 
 	 * If this is true, both, {@link #type} and {@link #file} are null.  
 	 */
-	public final boolean isVar;
+	public final Category category;
 
 	// TBD: clarify whether this is true. 
 	// TBD: avoid null
@@ -773,8 +796,8 @@ public final class OctaveEngine {
 	    boolean found = matcher.find();
 	    assert found;
 	    this.name = matcher.group("name");
-	    this.isVar = matcher.group("var") != null;
-	    if (this.isVar) {
+	    if (matcher.group("var") != null) {
+		this.category = Category.Variable;
 		this.type = null;
 		this.file = null;
 		return;
@@ -783,18 +806,21 @@ public final class OctaveEngine {
 	    // TBD: insert case where no file is attached. 
 	    assert matcher.group("tfile") != null ^ matcher.group("sfile") != null;
 	    if (matcher.group("sfile") != null) {
+		this.category = Category.FileEx;
 		this.file = new File(matcher.group("sfile"));
 		this.type = null;
 		assert this.file.exists();
 		return;
 	    }
+	    this.category = Category.TypeDefInFile;
 	    this.type = matcher.group("type");
 	    this.file = new File(matcher.group("tfile"));
 	}
 
 	@Override
 	public String toString() {
-	    return "NameDesc [name=" + name + ", type=" + type + ", file=" + file + "]";
+	    return "NameDesc [name=" + name + ", category=" + category +
+		    ", type=" + type + ", file=" + file + "]";
 	}
     } // class NameDesc 
 

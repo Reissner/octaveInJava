@@ -98,6 +98,8 @@
 			<action dev="ER" type="add">
 				In OctaveEngine: added method getDescForName(String)
 				related with names. NOT YET COMPLETE.
+				Type `which which` to see the source code
+				and fill in the gaps based on that.
 			</action>
 			<action dev="ER" type="update">
 				deprecated OctaveUtils moving all material to OctaveEngine

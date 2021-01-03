@@ -27,6 +27,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 import eu.simuline.octave.OctaveEngine.PackageDesc;
+import eu.simuline.octave.OctaveEngine.NameDesc;
 import eu.simuline.octave.type.Octave;
 
 /**
@@ -141,7 +142,7 @@ public class TestMetaInfo {
 	String name = "someVar";
 	octave.put(name, Octave.scalar(1));
 	OctaveEngine.NameDesc desc = octave.getDescForName(name);
- 	assertTrue(desc.isVar);
+ 	assertEquals(NameDesc.Category.Variable, desc.category);
  	assertEquals(name, desc.name);
  	assertNull(desc.type);
  	assertNull(desc.file);
@@ -152,7 +153,7 @@ public class TestMetaInfo {
 	// name not of a variable, and type and c-file  	
 	name = "cos";
  	desc = octave.getDescForName(name);
- 	assertTrue(!desc.isVar);
+ 	assertEquals(NameDesc.Category.TypeDefInFile, desc.category);
  	assertEquals(name, desc.name);
 	assertEquals("built-in function", desc.type);
 
@@ -163,7 +164,7 @@ public class TestMetaInfo {
 	// name not of a variable, and type and m-file  	
  	name = "pkg";
  	desc = octave.getDescForName(name);
- 	assertTrue(!desc.isVar);
+ 	assertEquals(NameDesc.Category.TypeDefInFile, desc.category);
  	assertEquals(name, desc.name);
 	assertEquals("function", desc.type);
 
@@ -180,7 +181,7 @@ public class TestMetaInfo {
 	// name not of a variable, no type but existing and m-file  	
  	name = octave.getDescForName("pkg").file.toString();
  	desc = octave.getDescForName(name);
- 	assertTrue(!desc.isVar);
+ 	assertEquals(NameDesc.Category.FileEx, desc.category);
  	assertEquals(name, desc.name);
 	assertNull(desc.type);
 	assertEquals(new File(name), desc.file);
@@ -190,7 +191,7 @@ public class TestMetaInfo {
 	// name not of a variable, no type but existing file 
 	name = octave.getDescForName("pkg").file.getParent();
 	desc = octave.getDescForName(name);
- 	assertTrue(!desc.isVar);
+ 	assertEquals(NameDesc.Category.FileEx, desc.category);
  	assertEquals(name, desc.name);
 	assertNull(desc.type);
 	assertEquals(new File(name), desc.file);
