@@ -733,11 +733,9 @@ public final class OctaveEngine {
     }
 
     /**
-     * Describes the meaning of a name, provided this is tied to a variable 
-     * or tied to a file. 
+     * Describes the meaning of a name, if any. That name is replicated in {@link #name}. 
      * The category is given in {@link #category}. 
-     * If it is not {@link Category#Unknown}, the name is replicated in {@link #name}; 
-     * else it is <code>null</code>.
+     * If it is {@link Category#Unknown}, both {@link #type} and {@link #file} are <code>null</code>.
      * From now on assume it is not unknown.
      * <p>
      * If {@link #name} is a {@link Category#Variable}, 
@@ -792,22 +790,19 @@ public final class OctaveEngine {
 	} // enum Category
 
 	/**
-	 * The category of the name described by this object. 
-	 * Iff this is not {@link Category#Unknown}, that name is replicated in {@link #name}.
-	 */
-	public final Category category;
-
-	// TBD: avoid null
-	/**
 	 * The name which is described by this {@link NameDesc}.
-	 * This is null iff {@link #category} is {@link Category#Unknown}.
 	 */
 	public final String name;
 
+	/**
+	 * The category of the {@link #name} described by this object. 
+	 */
+	public final Category category;
+
 
 	// TBD: avoid null
 	/**
-	 * The type of the object tied to {@link #name}. TBD: take into account may be null
+	 * The type of the object tied to {@link #name}.
 	 * This may be null, depending on {@link #category}.
 	 * Seemingly, "function" represents the type "user-defined function". 
 	 * Seemingly, else this is a type as returned by 'typeinfo'.
@@ -817,7 +812,7 @@ public final class OctaveEngine {
 	// TBD: clarify
 	// TBD: avoid null
 	/**
-	 * The file of the object tied to {@link #name}. TBD: take into account may be null
+	 * The file of the object tied to {@link #name}.
 	 * This may be null, depending on {@link #category}.
 	 * If this is a function defined by an m-file, this is the location of that m-file. 
 	 * Then the type is 'function', meaning 'user defined function'.
@@ -828,13 +823,13 @@ public final class OctaveEngine {
 	 */
 	public final File file;
 
-	NameDesc(Matcher matcher) {
+	NameDesc(Matcher matcher, String name) {
 	    boolean found = matcher.find();
 	    if (!found) {
 		throw new IllegalStateException("Output of command 'which' does not fit expectation.");
 	    }
-	    this.name = matcher.group("name");
-	    if (this.name == null) {
+	    this.name = name;
+	    if (matcher.group("name") == null) {
 		assert     matcher.group("type")  == null
 			&& matcher.group("var")   == null
 			&& matcher.group("sfile") == null
@@ -844,6 +839,8 @@ public final class OctaveEngine {
 		this.file = null;
 		return;
 	    }
+	    assert matcher.group("name").equals(name);
+
 	    if (matcher.group("var") != null) {
 		assert     matcher.group("type")  == null
 			&& matcher.group("sfile") == null
@@ -903,7 +900,7 @@ public final class OctaveEngine {
         final StringWriter fileResultWr = new StringWriter();
         this.octaveExec.evalRW(new ReaderWriteFunctor(checkCmd),
         	new WriterReadFunctor(fileResultWr));
-        return new NameDesc(PATTERN_NAME_TYPE_FILE.matcher(fileResultWr.toString()));
+        return new NameDesc(PATTERN_NAME_TYPE_FILE.matcher(fileResultWr.toString()), name);
     }
 
     /**
