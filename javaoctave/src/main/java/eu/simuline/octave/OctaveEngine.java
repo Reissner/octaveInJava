@@ -881,7 +881,7 @@ public final class OctaveEngine {
 	    Pattern.compile(String.format("(^'(?<name>.+)' is " +
                             // presupposes that type is not 'variable' and contains no file separator
                             "(a ((?<var>variable)|(?<type>[^%s]+)( from the file (?<tfile>.+))?)" +
-		            "|the (file|directory) (?<sfile>.+))$)|", File.separator));
+		            "|the (file|directory) (?<sfile>.+))$)|^$", File.separator));
 
     /**
      * Returns the description tied to the name <code>name</code>
