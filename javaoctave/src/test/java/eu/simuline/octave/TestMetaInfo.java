@@ -37,6 +37,8 @@ import eu.simuline.octave.type.Octave;
  */
 public class TestMetaInfo {
 
+    private final static String PKG_QUATERNION = "quaternion";
+
     /**
      * Test getVersion
      */
@@ -82,20 +84,20 @@ public class TestMetaInfo {
     @Test public void testPackageInstalled() {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 	Collection<String> names = octave.getNamesOfPackagesInstalled();
-	assertTrue(names.contains("quaternion"));
+	assertTrue(names.contains(PKG_QUATERNION));
     }
 
     @Test public void testPackageLoading() {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 	Map<String, PackageDesc> name2pkg = octave.getPackagesInstalled();
-	assertTrue(name2pkg.keySet().contains("quaternion"));
-	assertTrue(!name2pkg.get("quaternion").isLoaded);
-	octave.eval("pkg('load', 'quaternion')");
+	assertTrue(name2pkg.keySet().contains(PKG_QUATERNION));
+	assertTrue(!name2pkg.get(PKG_QUATERNION).isLoaded);
+	octave.eval(String.format("pkg('load', '%s')", PKG_QUATERNION));
 	name2pkg = octave.getPackagesInstalled();
-	assertTrue( name2pkg.get("quaternion").isLoaded);
-	octave.eval("pkg('unload', 'quaternion')");
+	assertTrue( name2pkg.get(PKG_QUATERNION).isLoaded);
+	octave.eval(String.format("pkg('unload', '%s')", PKG_QUATERNION));
 	name2pkg = octave.getPackagesInstalled();
-	assertTrue(!name2pkg.get("quaternion").isLoaded);
+	assertTrue(!name2pkg.get(PKG_QUATERNION).isLoaded);
     }
 
     /**
@@ -178,23 +180,28 @@ public class TestMetaInfo {
 	assertEquals(fileCmp, desc.file);
 	assertTrue(desc.file.exists());
 
-
-	PackageDesc pkgDesc = octave.getPackagesInstalled().get("quaternion");
+	// name not of a variable, and type and m-file in package, loaded and not loaded
+	PackageDesc pkgDesc = octave.getPackagesInstalled().get(PKG_QUATERNION);
 	assertNotNull(pkgDesc);
 	assertTrue(!pkgDesc.isLoaded);
-	octave.eval("pkg('load', 'quaternion')");
-	assertTrue(octave.getPackagesInstalled().get("quaternion").isLoaded);
-	name = "@quaternion/abs";
+	octave.eval(String.format("pkg('load', '%s')", PKG_QUATERNION));
+	assertTrue(octave.getPackagesInstalled().get(PKG_QUATERNION).isLoaded);
+	name = String.format("@%s/abs", PKG_QUATERNION);
  	desc = octave.getDescForName(name);
  	assertEquals(NameDesc.Category.TypedDefInFile, desc.category);
  	assertEquals(name, desc.name);
 	assertEquals("function", desc.type);
-	fileCmp = new File(pkgDesc.dir, "java-arithmetics");
-	fileCmp = new File(fileCmp, "@pn");
-	fileCmp = new File(fileCmp, "cos.m");
+	fileCmp = new File(pkgDesc.dir, "@"+PKG_QUATERNION);
+	fileCmp = new File(fileCmp, "abs.m");
+ 	assertEquals(fileCmp, desc.file);
 	assertTrue(desc.file.exists());
-	octave.eval("pkg('unload', 'quaternion')");
-	assertTrue(!octave.getPackagesInstalled().get("quaternion").isLoaded);
+	octave.eval(String.format("pkg('unload', '%s')", PKG_QUATERNION));
+	assertTrue(!octave.getPackagesInstalled().get(PKG_QUATERNION).isLoaded);
+ 	desc = octave.getDescForName(name);
+ 	assertEquals(NameDesc.Category.Unknown, desc.category);
+	assertNull(desc.name);
+	assertNull(desc.type);
+	assertNull(desc.file);
 
 
 	// name not of a variable, no type but existing and m-file  	
