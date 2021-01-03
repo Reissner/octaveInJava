@@ -147,13 +147,13 @@ public class TestMetaInfo {
  	assertNull(desc.type);
  	assertNull(desc.file);
 
- 	// TBD: add cases: no variable and no file 
- 	// distinguish, sole a type or even not that 
+ 	// TBD: add cases: no variable and no file but type
+ 	// Problem: i dont know in which case this occurs. 
 
 	// name not of a variable, and type and c-file  	
 	name = "cos";
  	desc = octave.getDescForName(name);
- 	assertEquals(NameDesc.Category.TypeDefInFile, desc.category);
+ 	assertEquals(NameDesc.Category.TypedDefInFile, desc.category);
  	assertEquals(name, desc.name);
 	assertEquals("built-in function", desc.type);
 
@@ -164,7 +164,7 @@ public class TestMetaInfo {
 	// name not of a variable, and type and m-file  	
  	name = "pkg";
  	desc = octave.getDescForName(name);
- 	assertEquals(NameDesc.Category.TypeDefInFile, desc.category);
+ 	assertEquals(NameDesc.Category.TypedDefInFile, desc.category);
  	assertEquals(name, desc.name);
 	assertEquals("function", desc.type);
 
@@ -197,7 +197,14 @@ public class TestMetaInfo {
 	assertEquals(new File(name), desc.file);
 	assertTrue(desc.file.exists());
 	assertTrue(desc.file.isDirectory());
-
+	
+	// unknown name 
+	name = "foo";
+	desc = octave.getDescForName(name);
+ 	assertEquals(NameDesc.Category.Unknown, desc.category);
+ 	assertNull(desc.name);
+	assertNull(desc.type);
+	assertNull(desc.file);
     }
 
     /**

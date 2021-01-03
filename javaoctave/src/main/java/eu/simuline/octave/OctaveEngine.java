@@ -731,97 +731,138 @@ public final class OctaveEngine {
     /**
      * Describes the meaning of a name, provided this is tied to a variable 
      * or tied to a file. 
-     * The name is replicated in {@link #name} 
-     * and the category is given in {@link #category}. 
-     * If it is a {@link Category#Variable}, 
+     * The category is given in {@link #category}. 
+     * If it is not {@link Category#Unknown}, the name is replicated in {@link #name}; 
+     * else it is <code>null</code>.
+     * From now on assume it is not unknown.
+     * <p>
+     * If {@link #name} is a {@link Category#Variable}, 
      * of course no file is attached and also no type. 
      * TBD: change that. 
-     * The type can be found out using <code>typeinfo(name)</code>
+     * The type can be found out using <code>typeinfo(name)</code>. 
+     * From now on assume {@link #name} is not a variable. 
      * <p>
-     * If it is no variable, 
-     * then the case that it is not tied to a file is not taken into account. 
-     * <p>
-     * If the name points to an existing file, the category is {@link Category#FileEx}, 
-     * no matter whether a directory or a proper file. 
+     * If {@link #name} points to an existing file {@link #file}, the category is {@link Category#FileEx}, 
+     * no matter whether a directory or a proper file and {@link #type} is <code>null</code>. 
      * <p>
      * If the name points to an object with a type 
      * defined by a file (seemingly function types only), 
-     * then the category is {@link Category#TypeDefInFile}. 
+     * then the category is {@link Category#TypedDefInFile}. 
+     * Then of course, {@link #type} determines the type and {@link #file} the file, 
+     * both not <code>null</code>. 
+     * CAUTION: {@link #file} may not exist (for built-in functions). 
+     * <p>
+     * There is a last case {@link #name} has a type {@link #type} but is not defined by a file. 
+     * TBD: clarify when this occurs. 
+     * In that case the category is {@link Category#TypedWithoutFile}. 
      */
     public static class NameDesc {
 
 	public enum Category {
 	    Variable,
-	    FileEx,
-	    TypeDefInFile;//,
-	    //Unknown;
+	    FileEx {
+		boolean hasFile() {
+		    return true;
+		}
+	    },
+	    TypedWithoutFile {
+		boolean isTyped() {
+		    return true;
+		}
+	    },
+	    TypedDefInFile {
+		boolean isTyped() {
+		    return true;
+		}
+		boolean hasFile() {
+		    return true;
+		}
+	    },
+	    Unknown;
+	    boolean isTyped() {
+		return false;
+	    }
+	    boolean hasFile() {
+		return false;
+	    }
 	} // enum Category
 
 	/**
-	 * The name which is described by this {@link NameDesc}.
-	 */
-	public final String name;
-
-	/**
-	 * Whether {@link #name} refers to a variable. 
-	 * If this is true, both, {@link #type} and {@link #file} are null.  
+	 * The category of the name described by this object. 
+	 * Iff this is not {@link Category#Unknown}, that name is replicated in {@link #name}.
 	 */
 	public final Category category;
 
-	// TBD: clarify whether this is true. 
 	// TBD: avoid null
 	/**
-	 * The type of the object tied to {@link #name}.
-	 * Currently, 
-	 * none, i.e. <code>null</code> is tied only iff the name represents a variable. 
-	 * If the name is tied to a file, this seems to be a function type. 
+	 * The name which is described by this {@link NameDesc}.
+	 * This is null iff {@link #category} is {@link Category#Unknown}.
+	 */
+	public final String name;
+
+
+	// TBD: avoid null
+	/**
+	 * The type of the object tied to {@link #name}. TBD: take into account may be null
+	 * This may be null, depending on {@link #category}.
 	 * Seemingly, "function" represents the type "user-defined function". 
+	 * Seemingly, else this is a type as returned by 'typeinfo'.
 	 */
 	public final String type;
 
 	// TBD: clarify
 	// TBD: avoid null
 	/**
-	 * The file of the object tied to {@link #name}.
-	 * Currently, 
-	 * none, i.e. <code>null</code> is tied only iff the name represents a variable. 
+	 * The file of the object tied to {@link #name}. TBD: take into account may be null
+	 * This may be null, depending on {@link #category}.
+	 * If this is a function defined by an m-file, this is the location of that m-file. 
+	 * Then the type is 'function', meaning 'user defined function'.
 	 * For built-in functions this seems to be something rooted in "libinterp" 
 	 * but without leading file separator if returned by which. 
-	 * This distinction is dropped here. 
 	 * Thus for built-in functions, this 'file' does not exist. 
+	 * Nevertheless, these functions seem to be all defined in liboctinterp.so (linux). 
 	 */
 	public final File file;
 
 	NameDesc(Matcher matcher) {
 	    boolean found = matcher.find();
-	    assert found;
+	    if (!found) {
+		throw new IllegalStateException("Output of command 'which' does not fit expectation.");
+	    }
 	    this.name = matcher.group("name");
+	    if (this.name == null) {
+		assert     matcher.group("type")  == null
+			&& matcher.group("var")   == null
+			&& matcher.group("sfile") == null
+		        && matcher.group("tfile") == null;
+		this.category = Category.Unknown;
+		this.type = null;
+		this.file = null;
+		return;
+	    }
 	    if (matcher.group("var") != null) {
+		assert     matcher.group("type")  == null
+			&& matcher.group("sfile") == null
+		        && matcher.group("tfile") == null;
 		this.category = Category.Variable;
 		this.type = null;
 		this.file = null;
 		return;
 	    }
 
-	    if (matcher.group("type") != null) {
-		this.type = matcher.group("type");
-		// TBD: remove this assertion. Here a case is missing. 
-		assert matcher.group("tfile") != null : "type is '"+matcher.group("type")+"'";
-		this.category = Category.TypeDefInFile;
+	    this.type = matcher.group("type");
+	    if (this.type != null) {
+		assert matcher.group("sfile") == null;
 		this.file = new File(matcher.group("tfile"));
+		this.category = this.file != null
+			? Category.TypedDefInFile : Category.TypedWithoutFile;
 		return;
 	    }
 
-	    // TBD: remove this assertion. Here, a case is missing.
-	    assert matcher.group("sfile") != null;
-	    if (matcher.group("sfile") != null) {
-		this.category = Category.FileEx;
-		this.file = new File(matcher.group("sfile"));
-		this.type = null;
-		assert this.file.exists();
-		return;
-	    }
-	    throw new IllegalStateException("Deficiency in implementation.");
+    	    assert matcher.group("sfile") != null;
+    	    this.category = Category.FileEx;
+    	    this.file = new File(matcher.group("sfile"));
+    	    assert this.file.exists();
 	}
 
 	@Override
@@ -831,48 +872,30 @@ public final class OctaveEngine {
 	}
     } // class NameDesc 
 
+    // TBD: if octave is extended: pn/cos: then the trick with file separator fails for *nix/linux
     /**
      * The pattern for the answer to the command <code>which &lt;name&gt;</code>
-     * which is implemented by {@link #getDescForName()} TBD: still partially, generalize
-     * if the name <code>which &lt;name&gt;</code> is no variable 
-     * but is tied to a type (maybe then always a function type) and a file. 
+     * which is implemented by {@link #getDescForName()}. 
      */
     private final static Pattern PATTERN_NAME_TYPE_FILE =
-	    Pattern.compile(String.format("^'(?<name>.+)' is " +
+	    Pattern.compile(String.format("(^'(?<name>.+)' is " +
                             // presupposes that type is not 'variable' and contains no file separator
                             "(a ((?<var>variable)|(?<type>[^%s]+)( from the file (?<tfile>.+))?)" +
-		            "|the (file|directory) (?<sfile>.+))$", File.separator));
+		            "|the (file|directory) (?<sfile>.+))$)|", File.separator));
 
-    // TBD: fail gracefully, if nameTypeFileNoVar is sth not expected. 
-    // TBD: clarify, what it could be if not a variable and no file is tied to it. 
-    // Consult also which.m 
-    // IN this case still to be distinguished if a type is attached. 
-    //
     /**
-     * Returns the description tied to the name <code>nameVarOrTypeFile</code>
-     * provided it is either a variable or else is a file attached.
-     * CAUTION: The cases where it is not a variable name and no file attached,
-     * is not yet implemented.
-     * If it is no variable, then it is either a sole existing file/directory attached
-     * without type or it is a or it is a type attached and in addition a file.
-     * TBD: clarify: seemingly, in the latter case it is a function type. 
-     * This method is based on octaves command <code>which</code>.
+     * Returns the description tied to the name <code>name</code>
+     * in a way, the command 'which' does in octave.
      * 
-     * @param nameVarOrTypeFile
-     *    the name which is either a variable or it is tied to an existing file, 
-     *    or to both a type and to a file. 
-     *    TBD: clarify whether in the latter case, the type is then a function type. 
+     * @param name
+     *    the name which may, e.g. be a variable or a file or a function or even nothing known.  
      * @return
-     *    The description for the given name <code>nameTypeFileNoVar</code>,
-     *    provided satisfies the above conditions.
-     *    Iff it is a variable, {@link NameDesc#isVar} is set.
-     *    Else, for the cases implemented, both,
-     *    at least {@link NameDesc#file} is set.
-     *    If {@link NameDesc#type} is not set, the file exists,
-     *    and if the type exists, then the file is attached to the object of that type.
+     *    The description for the given name <code>name</code>,
+     *    indicating its category in {@link NameDesc#category}
+     *    and providing many interesting pieces of information.
      */
-    public NameDesc getDescForName(String nameVarOrTypeFile) {
-	StringReader checkCmd = new StringReader(String.format("which %s", nameVarOrTypeFile));
+    public NameDesc getDescForName(String name) {
+	StringReader checkCmd = new StringReader(String.format("which %s", name));
         final StringWriter fileResultWr = new StringWriter();
         this.octaveExec.evalRW(new ReaderWriteFunctor(checkCmd),
         	new WriterReadFunctor(fileResultWr));
