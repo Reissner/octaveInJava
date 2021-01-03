@@ -643,8 +643,8 @@ public final class OctaveEngine {
 	// and have thus nothing to do with the DESCRIPTION FILE 
 	// TBD: these shall be documented in the manual. 
 //	public final String autoload;// TBC: maybe enum 
-//	public final String dir;
-//	public final String archprefix;
+	public final File dir;
+	public final File archprefix;
 
 	/**
 	 * Whether the package is loaded. 
@@ -663,21 +663,25 @@ public final class OctaveEngine {
 	 *    going beyond what is documented. 
 	 */
 	PackageDesc(OctaveStruct pkg) {
-	    this.name     = pkg.get(OctaveString .class, "name"   ).getString();
-	    this.version  = pkg.get(OctaveString .class, "version").getString();
-	    this.date     = pkg.get(OctaveString .class, "date"   ).getString();
-	    this.author   = pkg.get(OctaveString .class, "author" ).getString();
-	    this.isLoaded = pkg.get(OctaveBoolean.class, "loaded" ).get(1, 1);
+	    this.name       = pkg.get(OctaveString .class, "name"   ).getString();
+	    this.version    = pkg.get(OctaveString .class, "version").getString();
+	    this.date       = pkg.get(OctaveString .class, "date"   ).getString();
+	    this.author     = pkg.get(OctaveString .class, "author" ).getString();
+	    this.dir        = new File(pkg.get(OctaveString.class, "dir"       ).getString());
+	    this.archprefix = new File(pkg.get(OctaveString.class, "archprefix").getString());
+	    this.isLoaded   = pkg.get(OctaveBoolean.class, "loaded" ).get(1, 1);
 	}
 
 	@Override public String toString() {
 	    StringBuilder res = new StringBuilder();
 	    res.append("<package>\n");
-	    res.append("name=    "+this.name+"\n");
-	    res.append("version= "+this.version+"\n");
-	    res.append("date=    "+this.date+"\n");
-	    res.append("author=  "+this.author+"\n");
-	    res.append("isLoaded="+this.isLoaded+"\n");
+	    res.append("name=      "+this.name+"\n");
+	    res.append("version=   "+this.version+"\n");
+	    res.append("date=      "+this.date+"\n");
+	    res.append("author=    "+this.author+"\n");
+	    res.append("dir=       "+this.dir+"\n");
+	    res.append("archprefix="+this.archprefix+"\n");
+	    res.append("isLoaded=  "+this.isLoaded+"\n");
 	    res.append("</package>\n");
 	    return res.toString();
 	}
