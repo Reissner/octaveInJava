@@ -802,9 +802,18 @@ public final class OctaveEngine {
 		this.file = null;
 		return;
 	    }
-	    // This is what is implemented at the moment. 
-	    // TBD: insert case where no file is attached. 
-	    assert matcher.group("tfile") != null ^ matcher.group("sfile") != null;
+
+	    if (matcher.group("type") != null) {
+		this.type = matcher.group("type");
+		// TBD: remove this assertion. Here a case is missing. 
+		assert matcher.group("tfile") != null : "type is '"+matcher.group("type")+"'";
+		this.category = Category.TypeDefInFile;
+		this.file = new File(matcher.group("tfile"));
+		return;
+	    }
+
+	    // TBD: remove this assertion. Here, a case is missing.
+	    assert matcher.group("sfile") != null;
 	    if (matcher.group("sfile") != null) {
 		this.category = Category.FileEx;
 		this.file = new File(matcher.group("sfile"));
@@ -812,9 +821,7 @@ public final class OctaveEngine {
 		assert this.file.exists();
 		return;
 	    }
-	    this.category = Category.TypeDefInFile;
-	    this.type = matcher.group("type");
-	    this.file = new File(matcher.group("tfile"));
+	    throw new IllegalStateException("Deficiency in implementation.");
 	}
 
 	@Override
@@ -831,9 +838,10 @@ public final class OctaveEngine {
      * but is tied to a type (maybe then always a function type) and a file. 
      */
     private final static Pattern PATTERN_NAME_TYPE_FILE =
-	    Pattern.compile("'(?<name>.+)' is " +
-                            "(a ((?<var>variable)|(?<type>.+) from the file (?<tfile>.+))" +
-		            "|the (file|directory) (?<sfile>.+))");
+	    Pattern.compile(String.format("^'(?<name>.+)' is " +
+                            // presupposes that type is not 'variable' and contains no file separator
+                            "(a ((?<var>variable)|(?<type>[^%s]+)( from the file (?<tfile>.+))?)" +
+		            "|the (file|directory) (?<sfile>.+))$", File.separator));
 
     // TBD: fail gracefully, if nameTypeFileNoVar is sth not expected. 
     // TBD: clarify, what it could be if not a variable and no file is tied to it. 
