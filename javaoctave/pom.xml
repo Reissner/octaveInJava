@@ -80,9 +80,9 @@
     <!-- Silence: [WARNING] Using platform encoding (UTF-8 actually) 
 	 to copy filtered resources, i.e. build is platform dependent! -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.pmd.rulesetfiles>
+    <!--maven.pmd.rulesetfiles>
       ${basedir}/config/myPmdRuleset.xml
-    </maven.pmd.rulesetfiles>
+    </maven.pmd.rulesetfiles-->
 
     <project.scm.id>github</project.scm.id>
 
@@ -132,6 +132,13 @@
       <artifactId>TestHelpers</artifactId>
       <version>1.0</version>
       <!--scope>test</scope-->
+    </dependency>
+
+    <dependency><!-- TBD: clarify: for spotbugs: necessary? -->
+      <groupId>eu.simuline</groupId>
+      <artifactId>qMngmnt</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <!--scope>provided</scope-->
     </dependency>
 
     <!--dependency>
@@ -228,14 +235,21 @@
             <artifactId>pmd-java</artifactId>
             <version>${versionPmd}</version>
           </dependency>
-        </dependencies>
+          <dependency>
+	    <groupId>eu.simuline</groupId>
+	    <artifactId>qMngmnt</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+          </dependency>
+       </dependencies>
 
         <configuration>
           <linkXref>true</linkXref><!-- default -->
           <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
           <minimumTokens>100</minimumTokens><!-- for cpd -->
           <rulesets>
-	    <ruleset>${maven.pmd.rulesetfiles}</ruleset>
+	    <!-- refers to the dependency qMngmnt -->
+	    <ruleset>eu/simuline/qMngmnt/pmd/myPmdRuleset.xml</ruleset>
+	    <!--ruleset>${maven.pmd.rulesetfiles}</ruleset-->
           </rulesets>
 	  <skipEmptyReport>false</skipEmptyReport>
         </configuration>
@@ -371,18 +385,18 @@
 
  
       <!-- configuration for tests -->
-	<plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-surefire-plugin</artifactId>
-		<version>${versionTestPlugins}</version>
-		<configuration>
-			<redirectTestOutputToFile>true</redirectTestOutputToFile>
-			<trimStackTrace>false</trimStackTrace>
-			<excludes>
-				<exclude>TestVersion.java</exclude>
-			</excludes>
-		</configuration>
-	</plugin>
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-surefire-plugin</artifactId>
+	<version>${versionTestPlugins}</version>
+	<configuration>
+	  <redirectTestOutputToFile>true</redirectTestOutputToFile>
+	  <trimStackTrace>false</trimStackTrace>
+	  <excludes>
+	    <exclude>TestVersion.java</exclude>
+	  </excludes>
+	</configuration>
+      </plugin>
 
       <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
