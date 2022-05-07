@@ -62,35 +62,7 @@
       </properties>
     </developer>
   </developers>
-  <!-- mailingLists></mailingLists-->
 
-  <properties>
-    <!-- to keep dependencies up to date: 
-    mvn versions:display-plugin-updates
-    mvn versions:display-dependency-updates -->
-   <versionMvn>3.6.3</versionMvn>
-
-
-    <versionPmd>6.29.0</versionPmd><!-- with mvn plugin 3.8 -->
-    <versionPmdMvnPlugin>3.13.0</versionPmdMvnPlugin><!-- works with pmd ??? -->
-
-    <versionTestPlugins>3.0.0-M5</versionTestPlugins>
-
-
-    <!-- Silence: [WARNING] Using platform encoding (UTF-8 actually) 
-	 to copy filtered resources, i.e. build is platform dependent! -->
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!--maven.pmd.rulesetfiles>
-      ${basedir}/config/myPmdRuleset.xml
-    </maven.pmd.rulesetfiles-->
-
-    <project.scm.id>github</project.scm.id>
-
-
-    <urlSnapshotDir>
-      https://oss.sonatype.org/content/repositories/snapshots/
-    </urlSnapshotDir>
-  </properties>
 
   <!-- source repositories: at the moment not needed. -->
   <repositories>
@@ -103,6 +75,100 @@
   </repositories>
 
 
+  <distributionManagement><!-- For authentication see ~/.m2/settings.xml -->
+    <site>
+      <id>publicSiteAtSimuline</id>
+      <!--url>file:///home/ernst/Software/RepositoryTarget/Site</url-->
+      <url>ftp://www.simuline.eu/public_html/JavaOctave</url>
+      <!--url>http://www.simuline.eu/public_html/JavaOctave</url-->
+    </site>
+
+    <!--repository>
+      <id>fileRepository</id>
+      <url>ftp://www.simuline.eu/public_ftp/RepositoryTarget</url>
+     </repository-->
+
+    <snapshotRepository>
+      <id>fileRepositorySona</id>
+      <url>${urlSnapshotDir}</url>
+      <!-- the rest yields Return code is: 400, ReasonPhrase: Bad Request. -->
+      <!--url>https://oss.sonatype.org/service/local/staging/deploy/maven2/
+	  </url-->
+      <!--url>https://oss.sonatype.org/content/repositories/releases/</url-->
+      <!--url>https://oss.sonatype.org/content/groups/public/</url-->
+    </snapshotRepository>
+
+    <repository>
+      <id>fileRepositorySona</id>
+      <!--url>https://oss.sonatype.org/content/repositories/snapshots/</url-->
+      <!-- the rest yields Return code is: 400, ReasonPhrase: Bad Request. -->
+      <url>
+	https://oss.sonatype.org/service/local/staging/deploy/maven2/
+      </url>
+      <!--url>https://oss.sonatype.org/content/repositories/releases/</url-->
+      <!--url>https://oss.sonatype.org/content/groups/public/</url-->
+    </repository>
+
+    <!--repository>
+      <id>maven-repository.javaoctave.kenai.com</id>
+      <name>JavaOctave Maven Repository</name>
+      <url>svn:https://kenai.com/svn/javaoctave~maven-repository/maven2</url>
+    </repository-->
+  </distributionManagement>
+
+
+  <!-- Environment Settings -->
+  <scm>
+    <connection>
+          scm:git:https://github.com/Reissner/octaveInJava.git/
+    </connection>
+    <!--connection>
+          scm:hg:https://hg.kenai.com/hg/javaoctave~source-code-repository
+        </connection-->
+    <developerConnection>
+          scm:git:https://github.com/Reissner/octaveInJava.git/
+    </developerConnection>
+    <!--developerConnection>
+        scm:hg:ssh://kim_i9.dk@hg.kenai.com/javaoctave~source-code-repository
+        </developerConnection-->
+    <tag>release-0.6.7</tag>
+    <url>https://github.com/Reissner/octaveInJava/</url>
+    <!--url>https://hg.kenai.com/hg/javaoctave~source-code-repository</url-->
+  </scm>
+
+  <!-- mailingLists></mailingLists-->
+
+   <!--issueManagement>
+    <system>Github Issues</system>
+    <url>https://github.com/akquinet/maven-latex-plugin/issues</url>
+  </issueManagement-->
+
+
+  <properties>
+    <!-- to keep dependencies up to date: 
+    mvn versions:display-plugin-updates
+    mvn versions:display-dependency-updates -->
+    <versionMvn>3.6.3</versionMvn>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+
+    <versionPmd>6.29.0</versionPmd><!-- with mvn plugin 3.8 -->
+    <versionPmdMvnPlugin>3.13.0</versionPmdMvnPlugin><!-- works with pmd ??? -->
+
+    <versionTestPlugins>3.0.0-M5</versionTestPlugins>
+    <versionQMngMnt>0.0.3</versionQMngMnt>
+
+     <!--maven.pmd.rulesetfiles>
+      ${basedir}/config/myPmdRuleset.xml
+    </maven.pmd.rulesetfiles-->
+
+    <project.scm.id>github</project.scm.id>
+
+
+    <urlSnapshotDir>
+      https://oss.sonatype.org/content/repositories/snapshots/
+    </urlSnapshotDir>
+  </properties>
 
 
   <dependencies>
@@ -137,7 +203,7 @@
     <dependency><!-- TBD: clarify: for spotbugs: necessary? -->
       <groupId>eu.simuline</groupId>
       <artifactId>qMngmnt</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${versionQMngMnt}</version>
       <!--scope>provided</scope-->
     </dependency>
 
@@ -168,6 +234,32 @@
 
   <!-- Build Settings -->
   <build>
+
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+         <artifactId>wagon-ftp</artifactId>
+         <version>2.10</version>
+      </extension>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+         <artifactId>wagon-file</artifactId>
+         <version>2.10</version>
+      </extension>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-http</artifactId>
+        <version>3.3.2</version>
+      </extension>
+
+      <!-- Deploy via git -->
+      <!--extension>
+        <groupId>org.jvnet.wagon-git</groupId>
+        <artifactId>wagon-git</artifactId>
+        <version>1.9</version>
+      </extension-->
+    </extensions>
+
 
     <pluginManagement>
       <plugins>
@@ -238,7 +330,7 @@
           <dependency>
 	    <groupId>eu.simuline</groupId>
 	    <artifactId>qMngmnt</artifactId>
-	    <version>0.0.1-SNAPSHOT</version>
+	    <version>${versionQMngMnt}</version>
           </dependency>
        </dependencies>
 
@@ -254,22 +346,12 @@
 	  <skipEmptyReport>false</skipEmptyReport>
         </configuration>
       </plugin>
-
-
- 
       </plugins>
     </pluginManagement>
 
 
 
     <plugins>
-
-      <!-- plugin to keep versions up to date -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-        <version>2.8.1</version>
-      </plugin>
 
       <!-- at the moment just to enforce maven version 
 	   **** seems to be buggy and to make also update of plugins unsafe -->
@@ -305,6 +387,23 @@
         <version>3.2.0</version>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+        <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <!-- Configure tag name for mvn release:prepare -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>3.0.0-M5</version>
+      </plugin>
+
+
       <!-- configuration for clean plugin -->
       <plugin>
 	<artifactId>maven-clean-plugin</artifactId>
@@ -314,14 +413,6 @@
 	</configuration>
       </plugin>
 
-	<plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-resources-plugin</artifactId>
-		<version>3.2.0</version>
-		<configuration>
-		<encoding>UTF-8</encoding>
-		</configuration>
-	</plugin>
 
 
       <!-- This plugin will set properties values 
@@ -352,15 +443,6 @@
 	</configuration>
       </plugin>
 
-     <!-- configuration for site -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.9.1</version>
-        <configuration>
-          <locales>en</locales>
-        </configuration>
-      </plugin>
 
       <!-- docbook plugin -->
       <plugin>
@@ -420,44 +502,6 @@
 	      <goal>integration-test</goal>
 	      <goal>verify</goal>
 	    </goals>
-	  </execution>
-	</executions>
-      </plugin>
-
-      <!-- javadoc plugin -->
-      <!-- synchronize with reporting -->
-      <plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-javadoc-plugin</artifactId>
-	<version>3.2.0</version>
-	<executions>
-	  <execution>
-	    <id>attach-javadocs</id>
-	    <goals>
-	      <goal>javadoc</goal><!-- jar -->
-	    </goals>
-	    <configuration>
-	      <sourcepath>
-		${project.basedir}/src/main/java:${project.basedir}/src/test/java
-	      </sourcepath>
-	  <tags>
-	    <tag>
-	      <name>To.Do</name>
-	      <!-- todo tag for all places -->
-	      <placement>a</placement>
-	      <head>what is to be done in the present code fragment. </head>
-	    </tag>
-	  </tags>
-	  <breakiterator>true</breakiterator>
-
-	  <links>
-	    <!--link>file:///usr/share/javadoc/java-1.8.0-openjdk/api/</link-->
-	    <link>http://junit.sourceforge.net/javadoc</link>
-	  </links>
-	      <show>private</show>
-<!-- -Xdoclint:reference  -->
-	      <additionalparam>-Xdoclint:html -Xdoclint:reference --allow-script-in-comments</additionalparam>
-	    </configuration>
 	  </execution>
 	</executions>
       </plugin>
@@ -526,15 +570,6 @@
         </configuration>
       </plugin>
 
-      <!-- Configure tag name for mvn release:prepare -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>3.0.0-M1</version>
-        <configuration>
-          <tagNameFormat>release-@{project.version}</tagNameFormat>
-        </configuration>
-      </plugin>
 
       <!-- Deploy sources.jar files -->
       <!--plugin>
@@ -579,6 +614,42 @@
 	<version>3.0.0-M1</version>
       </plugin>
 
+           <!-- javadoc plugin -->
+      <!-- synchronize with reporting -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>javadoc</goal><!-- jar -->
+            </goals>
+            <configuration>
+              <sourcepath>
+          ${project.basedir}/src/main/java:${project.basedir}/src/test/java
+              </sourcepath>
+          <tags>
+            <tag>
+              <name>To.Do</name>
+              <!-- todo tag for all places -->
+              <placement>a</placement>
+              <head>what is to be done in the present code fragment. </head>
+            </tag>
+          </tags>
+          <breakiterator>true</breakiterator>
+          <links>
+            <!--link>file:///usr/share/javadoc/java-1.8.0-openjdk/api/</link-->
+            <link>http://junit.sourceforge.net/javadoc</link>
+          </links>
+              <show>private</show>
+      <!-- -Xdoclint:reference  -->
+              <additionalparam>-Xdoclint:html -Xdoclint:reference --allow-script-in-comments</additionalparam>
+            </configuration>
+          </execution>
+        </executions>
+            </plugin>
 
     <!--plugin>
       <groupId>org.sonatype.plugins</groupId>
@@ -593,26 +664,16 @@
     </plugin-->
 
 
+    <!-- configuration for site -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.9.1</version>
+        <configuration>
+          <locales>en</locales>
+        </configuration>
+      </plugin>
     </plugins>
-
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-         <artifactId>wagon-ftp</artifactId>
-         <version>2.10</version>
-      </extension>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-         <artifactId>wagon-file</artifactId>
-         <version>2.10</version>
-      </extension>
-      <!-- Deploy via svn -->
-      <!--extension>
-        <groupId>org.jvnet.wagon-git</groupId>
-        <artifactId>wagon-git</artifactId>
-        <version>1.9</version>
-      </extension-->
-    </extensions>
   </build>
 
   <reporting>
@@ -759,6 +820,28 @@
       </plugin>
 
 
+ <!-- offers also command line analysis:
+      mvn versions:display-plugin-updates
+      mvn versions:display-dependency-updates
+      mvn versions:display-property-updates
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <!-- TBD: uniform version -->
+        <version>2.9.0</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependency-updates-report</report>
+              <report>plugin-updates-report</report>
+              <report>property-updates-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    
+
       <!-- changes plugin: src/changes/changes.xml -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -773,70 +856,7 @@
         </reportSets>
       </plugin>
 
-
     </plugins>
   </reporting>
-
-
-
-  <!-- Environment Settings -->
-  <scm>
-    <connection>
-      scm:git:https://github.com/Reissner/octaveInJava.git/
-    </connection>
-    <!--connection>
-      scm:hg:https://hg.kenai.com/hg/javaoctave~source-code-repository
-    </connection-->
-    <developerConnection>
-      scm:git:https://github.com/Reissner/octaveInJava.git/
-    </developerConnection>
-    <!--developerConnection>
-    scm:hg:ssh://kim_i9.dk@hg.kenai.com/javaoctave~source-code-repository
-    </developerConnection-->
-    <tag>release-0.6.7</tag>
-    <url>https://github.com/Reissner/octaveInJava/</url>
-    <!--url>https://hg.kenai.com/hg/javaoctave~source-code-repository</url-->
-  </scm>
-
-  <distributionManagement><!-- For authentication see ~/.m2/settings.xml -->
-    <site>
-      <id>fileSite</id>
-      <!--url>file:///home/ernst/Software/RepositoryTarget/Site</url-->
-      <url>ftp://www.simuline.eu/public_html/JavaOctave</url>
-      <!--url>http://www.simuline.eu/public_html/JavaOctave</url-->
-    </site>
-
-    <!--repository>
-      <id>fileRepository</id>
-      <url>ftp://www.simuline.eu/public_ftp/RepositoryTarget</url>
-     </repository-->
-
-    <snapshotRepository>
-      <id>fileRepositorySona</id>
-      <url>${urlSnapshotDir}</url>
-      <!-- the rest yields Return code is: 400, ReasonPhrase: Bad Request. -->
-      <!--url>https://oss.sonatype.org/service/local/staging/deploy/maven2/
-	  </url-->
-      <!--url>https://oss.sonatype.org/content/repositories/releases/</url-->
-      <!--url>https://oss.sonatype.org/content/groups/public/</url-->
-    </snapshotRepository>
-
-    <repository>
-      <id>fileRepositorySona</id>
-      <!--url>https://oss.sonatype.org/content/repositories/snapshots/</url-->
-      <!-- the rest yields Return code is: 400, ReasonPhrase: Bad Request. -->
-      <url>
-	https://oss.sonatype.org/service/local/staging/deploy/maven2/
-      </url>
-      <!--url>https://oss.sonatype.org/content/repositories/releases/</url-->
-      <!--url>https://oss.sonatype.org/content/groups/public/</url-->
-    </repository>
-
-    <!--repository>
-      <id>maven-repository.javaoctave.kenai.com</id>
-      <name>JavaOctave Maven Repository</name>
-      <url>svn:https://kenai.com/svn/javaoctave~maven-repository/maven2</url>
-    </repository-->
-  </distributionManagement>
 
 </project>
