@@ -138,7 +138,7 @@ public class TestMetaInfo {
 
     /**
      * Tests {@link OctaveEngine#getInstHomeDir()}, {@link OctaveEngine#getOctaveVersion()} 
-     * and {@link OctaveEngine#getFileForName(String)} at the same time.
+     * and {@link OctaveEngine#getDescForName(String)} at the same time.
      */
     @Test public void testBasedOnWhich() {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();

@@ -142,7 +142,7 @@ public final class OctaveEngine {
     // Note also that it is nargin not __nargin__. 
     // In particular this variable is not returned by whos. 
     /**
-     * A variable name not to be listed by {@link #listVars(OctaveEngine)}. 
+     * A variable name not to be listed by {@link OctaveUtils#listVars(OctaveEngine)}. 
      */
     private static final String NARGIN = "__nargin__";
 
@@ -877,7 +877,7 @@ public final class OctaveEngine {
 
     /**
      * The pattern for the answer to the command <code>which &lt;name&gt;</code>
-     * which is implemented by {@link #getDescForName()}. 
+     * which is implemented by {@link #getDescForName(String)}. 
      */
     private final static Pattern PATTERN_NAME_TYPE_FILE =
 	    Pattern.compile(String.format("(^'(?<name>.+)' is " +
