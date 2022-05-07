@@ -67,7 +67,7 @@
   <!-- source repositories: at the moment not needed. -->
   <repositories>
     <repository>
-      <id>localRepository</id>
+      <id>publicRepoAtSimuline</id>
       <!--url>file:///home/ernst/Software/RepositoryLocal/maven2/</url-->
       <!-- in intermediate step to come for testhelpers only -->
       <url>https://www.simuline.eu/RepositoryMaven</url>
@@ -116,24 +116,15 @@
     </repository-->
   </distributionManagement>
 
-
-  <!-- Environment Settings -->
   <scm>
     <connection>
-          scm:git:https://github.com/Reissner/octaveInJava.git/
+      scm:git:https://github.com/Reissner/octaveInJava.git/
     </connection>
-    <!--connection>
-          scm:hg:https://hg.kenai.com/hg/javaoctave~source-code-repository
-        </connection-->
     <developerConnection>
-          scm:git:https://github.com/Reissner/octaveInJava.git/
+      scm:git:https://github.com/Reissner/octaveInJava.git/
     </developerConnection>
-    <!--developerConnection>
-        scm:hg:ssh://kim_i9.dk@hg.kenai.com/javaoctave~source-code-repository
-        </developerConnection-->
-    <tag>release-0.6.7</tag>
     <url>https://github.com/Reissner/octaveInJava/</url>
-    <!--url>https://hg.kenai.com/hg/javaoctave~source-code-repository</url-->
+    <tag>HEAD</tag>
   </scm>
 
   <!-- mailingLists></mailingLists-->
@@ -162,7 +153,7 @@
       ${basedir}/config/myPmdRuleset.xml
     </maven.pmd.rulesetfiles-->
 
-    <project.scm.id>github</project.scm.id>
+    <!--project.scm.id>github</project.scm.id-->
 
 
     <urlSnapshotDir>
