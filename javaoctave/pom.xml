@@ -8,7 +8,7 @@
   <!-- The Basics -->
   <groupId>eu.simuline.octave</groupId><!-- dk.ange -->
   <artifactId>javaoctave</artifactId>
-  <version>0.7.1</version>
+  <version>0.7.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
 
@@ -131,7 +131,7 @@
     <!--developerConnection>
         scm:hg:ssh://kim_i9.dk@hg.kenai.com/javaoctave~source-code-repository
         </developerConnection-->
-    <tag>javaoctave-0.7.1</tag>
+    <tag>release-0.6.7</tag>
     <url>https://github.com/Reissner/octaveInJava/</url>
     <!--url>https://hg.kenai.com/hg/javaoctave~source-code-repository</url-->
   </scm>
