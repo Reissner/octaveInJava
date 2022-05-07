@@ -46,7 +46,7 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
      * The data, vectorized.
      */
     @SuppressWarnings("checkstyle:visibilitymodifier")
-     protected L dataL;//final 
+    protected L dataL;//final 
 
     /**
      * Constructor that creates new blank matrix. 
@@ -332,6 +332,16 @@ public abstract class AbstractGenericMatrix<D, L extends List<?>>
 	
 	assert this.dataL.size() == product(this.size);
 	return this.dataL.equals(other.dataL);
+    }
+
+    public String toString() {
+	StringBuilder res = new StringBuilder();
+	res.append("<Matrix size='");
+	res.append(Arrays.toString(this.size));
+	res.append("'>\n");
+	res.append(this.dataL);
+	res.append("</Matrix>\n");
+	return res.toString();
     }
 
     // to implement OctaveObject 
