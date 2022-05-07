@@ -92,7 +92,8 @@ public final class OctaveEngine {
 		    "3.6.2", "3.8.2",
 		    // added by E.R.
 		    "4.3.0+",
-		    "4.4.0", "5.0.0", "5.2.0"));
+		    "4.4.0", "5.0.0", "5.2.0", 
+		    "6.1.0", "6.2.0"));
 
 
     // ER: nowhere used except in method getFactory() 
