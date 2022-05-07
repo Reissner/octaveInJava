@@ -43,10 +43,34 @@
 			clarify deviation between hg tags and allowed versions in javaoctave. -->
 		<!-- TBD: there are various invocations of getOctaveVersion() and one has 
 			to ensure that all is still ok even though new versions of octave are added. -->
+		<!-- TBD: change load and save of variables: no longer text format but maybe v5 or v7 or v7.3. 
+		     There is literature in src/site/exteral. 
+		     The format must be readable faster than the current, textual one. 
+		     The format must be lossless with floating point numbers. 
+		     It would be nice if the format is new. 
+		     It is advantageous if it is readable by both matlab and octave. 
+		     It is advantageous if it is an open format or even there is already an implementation. 
+		     Seemingly there is a format hdf5 on which mat-file formats of newer versions are based. 
+		     This one seems open but not simple. 
+		     There seem to be implementations in python scipy and java. 
+		     https://www.loc.gov/preservation/digital/formats/fdd/fdd000440.shtml
+		     https://pythonhosted.org/hdf5storage/information.html
+		     https://github.com/jamesmudd/jhdf : hdf5 pure java
+		     https://support.hdfgroup.org/products/java/JNI3/jhi5/index.html
+		     matlab: save('myFile.mat','A','B','-v7.3','-nocompression')
+		     octave: https://octave.org/doc/v4.0.3/Simple-File-I_002fO.html
+		     read/write in julia: https://juliahub.com/ui/Packages/MAT/3FHIv/0.10.2
+		     https://github.com/JuliaIO/MAT.jl
+		     
+		     This is very important as it seems to condense mat-file format to hdf5. 
+		     A problem: matlab seems not to have save and load from standard IO. 
+		     
+		     https://de.mathworks.com/help/matlab/matlab_external/execute-matlab-functions-from-java.html
+		     https://de.mathworks.com/help/matlab/matlab-engine-api-for-java.html
+		-->
 
 
-
-		<release version="0.7.1-snapshot" date='' description=''>
+		<release version="0.7.1" date='2022-05-07' description='Support for installation of octave packages. '>
 			<action dev="ER" type="add">
 				added support for octave type int64 and java type long.
 			</action>
