@@ -37,7 +37,9 @@ import eu.simuline.octave.type.Octave;
  */
 public class TestMetaInfo {
 
-    private final static String PKG_QUATERNION = "quaternion";
+    //private final static String PKG_QUATERNION = "quaternion";
+    private final static String PKG_INTERVAL = "interval";
+    private final static String CLS_INTERVAL = "infsup";
 
     /**
      * Test getVersion
@@ -57,8 +59,8 @@ public class TestMetaInfo {
         assertTrue("Version '" + octave.getOctaveVersion() + "' is not known", 
         	octave.isOctaveVersionAllowed());
         assertEquals("Wrong octave version",
-		   "5.2.0",
-		   octave.getOctaveVersion());
+        	"6.2.0",
+        	octave.getOctaveVersion());
     }
     
     // TBD: reactivate 
@@ -84,20 +86,20 @@ public class TestMetaInfo {
     @Test public void testPackageInstalled() {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 	Collection<String> names = octave.getNamesOfPackagesInstalled();
-	assertTrue(names.contains(PKG_QUATERNION));
+	assertTrue(names.contains(PKG_INTERVAL));
     }
 
     @Test public void testPackageLoading() {
 	final OctaveEngine octave = new OctaveEngineFactory().getScriptEngine();
 	Map<String, PackageDesc> name2pkg = octave.getPackagesInstalled();
-	assertTrue(name2pkg.keySet().contains(PKG_QUATERNION));
-	assertTrue(!name2pkg.get(PKG_QUATERNION).isLoaded);
-	octave.eval(String.format("pkg('load', '%s')", PKG_QUATERNION));
+	assertTrue(name2pkg.keySet().contains(PKG_INTERVAL));
+	assertTrue(!name2pkg.get(PKG_INTERVAL).isLoaded);
+	octave.eval(String.format("pkg('load', '%s')", PKG_INTERVAL));
 	name2pkg = octave.getPackagesInstalled();
-	assertTrue( name2pkg.get(PKG_QUATERNION).isLoaded);
-	octave.eval(String.format("pkg('unload', '%s')", PKG_QUATERNION));
+	assertTrue( name2pkg.get(PKG_INTERVAL).isLoaded);
+	octave.eval(String.format("pkg('unload', '%s')", PKG_INTERVAL));
 	name2pkg = octave.getPackagesInstalled();
-	assertTrue(!name2pkg.get(PKG_QUATERNION).isLoaded);
+	assertTrue(!name2pkg.get(PKG_INTERVAL).isLoaded);
     }
 
     /**
@@ -181,25 +183,25 @@ public class TestMetaInfo {
 	assertTrue(desc.file.exists());
 
 	// name not of a variable, and type and m-file in package, loaded and not loaded
-	PackageDesc pkgDesc = octave.getPackagesInstalled().get(PKG_QUATERNION);
+	PackageDesc pkgDesc = octave.getPackagesInstalled().get(PKG_INTERVAL);
 	assertNotNull(pkgDesc);
 	assertTrue(!pkgDesc.isLoaded);
-	octave.eval(String.format("pkg('load', '%s')", PKG_QUATERNION));
-	assertTrue(octave.getPackagesInstalled().get(PKG_QUATERNION).isLoaded);
-	name = String.format("@%s/abs", PKG_QUATERNION);
+	octave.eval(String.format("pkg('load', '%s')", PKG_INTERVAL));
+	assertTrue(octave.getPackagesInstalled().get(PKG_INTERVAL).isLoaded);
+	name = String.format("@%s/abs", CLS_INTERVAL);
  	desc = octave.getDescForName(name);
  	assertEquals(NameDesc.Category.TypedDefInFile, desc.category);
  	assertEquals(name, desc.name);
 	assertEquals("function", desc.type);
-	fileCmp = new File(pkgDesc.dir, "@"+PKG_QUATERNION);
+	fileCmp = new File(pkgDesc.dir, "@"+CLS_INTERVAL);
 	fileCmp = new File(fileCmp, "abs.m");
  	assertEquals(fileCmp, desc.file);
 	assertTrue(desc.file.exists());
-	octave.eval(String.format("pkg('unload', '%s')", PKG_QUATERNION));
-	assertTrue(!octave.getPackagesInstalled().get(PKG_QUATERNION).isLoaded);
+	octave.eval(String.format("pkg('unload', '%s')", PKG_INTERVAL));
+	assertTrue(!octave.getPackagesInstalled().get(PKG_INTERVAL).isLoaded);
  	desc = octave.getDescForName(name);
  	assertEquals(NameDesc.Category.Unknown, desc.category);
-	assertNull(desc.name);
+	assertEquals(name, desc.name);
 	assertNull(desc.type);
 	assertNull(desc.file);
 
@@ -228,7 +230,7 @@ public class TestMetaInfo {
 	name = "foo";
 	desc = octave.getDescForName(name);
  	assertEquals(NameDesc.Category.Unknown, desc.category);
- 	assertNull(desc.name);
+ 	assertEquals(name, desc.name);
 	assertNull(desc.type);
 	assertNull(desc.file);
     }
