@@ -88,9 +88,15 @@
       <url>ftp://www.simuline.eu/public_ftp/RepositoryTarget</url>
      </repository-->
 
+     <!-- 
+      https://oss.sonatype.org.content/repositories/releases: accessible, no entry for simuline
+      https://oss.sonatype.org.content/repositories/snapshots: not accessible
+
+     -->
+
     <snapshotRepository>
       <id>fileRepositorySona</id>
-      <url>${urlSnapshotDir}</url>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
       <!-- the rest yields Return code is: 400, ReasonPhrase: Bad Request. -->
       <!--url>https://oss.sonatype.org/service/local/staging/deploy/maven2/
 	  </url-->
@@ -156,9 +162,6 @@
     <!--project.scm.id>github</project.scm.id-->
 
 
-    <urlSnapshotDir>
-      https://oss.sonatype.org/content/repositories/snapshots/
-    </urlSnapshotDir>
   </properties>
 
 
