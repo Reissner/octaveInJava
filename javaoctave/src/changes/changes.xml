@@ -36,9 +36,6 @@
 		<!-- TBD: added way to get the installed packages. maybe with a separate 
 			data structure describing a package. -->
 		<!-- TBD: Version objects, maybe cross project -->
-		<!-- TBD: pass octave floating point objects lossless to java. Idea is 
-			to convert them into long then reassign variable pass that long variable 
-			to java and then convert back. -->
 		<!-- TBD: ask john eaton on version politics of octave. In particular, 
 			clarify deviation between hg tags and allowed versions in javaoctave. -->
 		<!-- TBD: there are various invocations of getOctaveVersion() and one has 
@@ -111,6 +108,97 @@ https://github.com/kevemueller/hdf5io
 
 Seemingly, hdf5 is structured data and I wonder whether it is possible to store l2r also 
 -->
+
+		<!-- TBD: pass octave floating point objects lossless to java. 
+			Currently, conversion of octave objects to java 
+			are done saving them but not as a text file but on stdout. 
+			Java side is then reading the stream. 
+			This is extremely slow, in particular because of text format 
+			and, also because of decimal textformat, with loss of precision for floating types. 
+
+			The new implementation shall be faster and lossless. 
+			Moreover, conversion done in java integration within octave 
+			shall be uniform with octave integration within java provided by this package. 
+
+			The new implementation shall take take complex numbers into account. 
+			There are several ideas for converting floating point numbers:  
+			- to convert them into long then reassign variable pass that long variable 
+			  to java and then convert back. 
+			- using matlab file format instead of text format. 
+			  Better even hdf5 but there are some technical difficulties. 
+			- to use RMI (Remote method invocation). 
+				Note that there is a separate item on RMI, 
+				but although the two items are related, 
+				there is freedom which one is to be done first. 
+				Personal taste: 
+				general RMI supervising when a command started and finished, first, 
+				because this sets up some general infrastructure like the object `bridge` 
+				value conversion can build uppon. 
+				There is a `bridge` object in java with a field `javaObj of type Object`. 
+				- OctaveEngine.get(String varname) invokes on octave side 
+				  `bridge.javaObj = varname;`. 
+					Maybe this goes wrong for double and that like. 
+					Then one has to invoke `bridge.numDouble = varname;` on octave side, 
+					where `numDouble` has type `double`. 
+					But if so, octave side must invoke `bridge.set(varName)` 
+					which, on java side, does not only set the correct field in bridge, 
+					but also notifies, maybe using reflection, 
+					which field is actually set. 
+					The getter function finally returns the value in the according field 
+					as if invoking `return bridge.numDouble;` or that like. 
+					At the moment, scalars and arrays are treated uniformly, 
+					so for scalars 
+					one has to invoke `bridge.arrDouble = [varname]` for a scalar. 
+					Here `arrDouble` has type `double[]`. 
+					Of course here, the format goes into. 
+					Important would be a hint in the octave manual 
+					that javaArray('[D',1) creates a 2dim array of doubles 
+					and accordingly `[F` a 2 dim array of floats. 
+					Maybe one shall rewrite the internals using Arrays.newInstance. 
+					Well, primitive types cannot be loaded seemingly by Class.forName. 
+					Either write a wrapper yourself or use apache commons (overkill) 
+					org.apache.commons.lang3.ClassUtils
+					maybe nice to extend javaArray(xx, ...) 
+					to allow xx to be a string or a class object. 
+					In the latter case direct invocation, else Class.forName
+					Well, maybe also specialized: javaIntArray(1,2,3) or that like. 
+					This is easily implemented. 
+				- OctaveEngine.put(String varName, OctaveObject obj) 
+					on java side hands over the object or the informative part in it 
+					to `bridge`. 
+					For a double scalar maybe into `bridge.numDouble` 
+					or as entry in `bridge.arrDouble`. 
+					On octave side the above method invokes `varName = bridge.arrDouble[1]`. 
+		-->
+		<!-- TBD: use RMI to implement all features. 
+			The motivation behind is speedup and uniformity of java integration within octave 
+			and the converse provided by this software. 
+			This allows also better conversions, think of `double` types and related. 
+			One of the problems to be solved passing a command is 
+			to pass the command without locking the thread 
+			and then waking up the thread when the command finished. 
+			Currently this is done by silently passing a second command producing some output 
+			and then guarding this output. 
+			If it comes, the command is assumed completed. 
+			This is not really secure because the original command may produce exactly this output. 
+			And it is slow. 
+			The new idea is, to pass a different second command: 
+			namely setting a finished flag in a java object. 
+			To be more precise, the proper result is enclosed 
+			between setting and resetting an `occupied` flag within a java object `bridge`. 
+			The `bridge` object is in the JVM running internally within octave. 
+			The outside JVM communicates with the internal one through RMI. 
+
+			In this backlog there is another item explaining how this technique can be used 
+			to pass values from and to the JVM. 
+			The implementation strategy of RMI is quite different: 
+			It seems appropriate to add the start/end indication implemented with RMI 
+			to the existing indication. 
+			Then test that the two coincide, then to remove the old one. 
+
+		-->
+
+
 
 
 
