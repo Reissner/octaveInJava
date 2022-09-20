@@ -68,6 +68,51 @@
 		     https://de.mathworks.com/help/matlab/matlab_external/execute-matlab-functions-from-java.html
 		     https://de.mathworks.com/help/matlab/matlab-engine-api-for-java.html
 		-->
+		<!-- ressources concerning hdf5 and its integration in java 
+			https://sissource.ethz.ch/sispub/jhdf5
+
+
+
+brinn@ethz.ch
+
+<!- - https://mvnrepository.com/artifact/cisd/jhdf5 - ->
+<dependency>
+    <groupId>cisd</groupId>
+    <artifactId>jhdf5</artifactId>
+    <version>14.12.5</version>
+</dependency>
+
+Hi All,
+
+I am using the JHDF5 from ch.systemsx.cisd.hdf5 for hfd5 loading and writing in java. Does anyone know the developers? I was looking for a github page where to post issues, but I could not find one…
+
+Reason I am asking is because I got an error message related to handling large files and I would like to ask the developers what I could do about it…
+
+
+Exception in thread "pool-2-thread-3" java.lang.IllegalArgumentException: Length is too large (12081328732)
+	at ch.systemsx.cisd.base.mdarray.MDAbstractArray.getLength(MDAbstractArray.java:414)
+	at ch.systemsx.cisd.base.mdarray.MDAbstractArray.getLength(MDAbstractArray.java:388)
+	at ch.systemsx.cisd.hdf5.HDF5BaseReader.tryGetSpaceParameters(HDF5BaseReader.java:616)
+	at ch.systemsx.cisd.hdf5.HDF5BaseReader.getSpaceParameters(HDF5BaseReader.java:567)
+	at ch.systemsx.cisd.hdf5.HDF5UnsignedShortReader$10.call(HDF5UnsignedShortReader.java:567)
+	at ch.systemsx.cisd.hdf5.HDF5UnsignedShortReader$10.call(HDF5UnsignedShortReader.java:1)
+	at ch.systemsx.cisd.hdf5.cleanup.CleanUpCallable.call(CleanUpCallable.java:40)
+	at ch.systemsx.cisd.hdf5.HDF5UnsignedShortReader.readMDArrayBlockWithOffset(HDF5UnsignedShortReader.java:591)
+
+
+<!- - https://mvnrepository.com/artifact/cisd/jhdf5 - ->
+<dependency>
+    <groupId>cisd</groupId>
+    <artifactId>jhdf5</artifactId>
+    <version>14.12.5</version>
+</dependency>
+
+https://github.com/kevemueller/hdf5io
+
+Seemingly, hdf5 is structured data and I wonder whether it is possible to store l2r also 
+-->
+
+
 
 
 		<release version="0.7.1" date='2022-05-07' description='Support for installation of octave packages. '>
