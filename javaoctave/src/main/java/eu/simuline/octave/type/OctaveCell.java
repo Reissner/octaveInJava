@@ -25,7 +25,6 @@ import eu.simuline.octave.type.matrix.AbstractObjectMatrix;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
-import java.util.List;
 
 /**
  * Nd cells. 

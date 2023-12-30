@@ -39,7 +39,6 @@ import eu.simuline.octave.util.NamedThreadFactory;
 import eu.simuline.octave.util.NoCloseWriter;
 import eu.simuline.octave.util.ReaderWriterPipeThread;
 import eu.simuline.octave.util.TeeWriter;
-import eu.simuline.octave.OctaveUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

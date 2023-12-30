@@ -19,9 +19,6 @@ import eu.simuline.octave.util.StringUtil;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
-import java.util.List;
-import java.util.Objects;
-
 /**
  * General matrix with Object values 
  * which serves also as base class for 
