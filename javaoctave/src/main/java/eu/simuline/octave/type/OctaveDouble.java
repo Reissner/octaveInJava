@@ -36,6 +36,7 @@ public final class OctaveDouble
     // Reader and Writer
     public OctaveDouble(final int... size) {
         super(size);
+        //assert false: "Provoke exception in productive code";
     }
 
     /**
@@ -126,6 +127,7 @@ public final class OctaveDouble
     // api-docs inherited from OctaveObject
     @Override
     public OctaveDouble shallowCopy() {
+        //assert false: "Provoke exception in productive code";
         return new OctaveDouble(this);
     }
 

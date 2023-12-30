@@ -44,6 +44,7 @@ public final class Octave {
      */
     // used by user and in tests only 
     public static OctaveDouble scalar(final double d) {
+        //assert false: "Provoke exception in productive code";
         return new OctaveDouble(new double[] {d}, 1, 1);
     }
 
