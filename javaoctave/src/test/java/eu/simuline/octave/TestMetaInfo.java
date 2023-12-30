@@ -59,7 +59,7 @@ public class TestMetaInfo {
         assertTrue("Version '" + octave.getOctaveVersion() + "' is not known", 
         	octave.isOctaveVersionAllowed());
         assertEquals("Wrong octave version",
-        	"6.2.0",
+        	"8.4.0",
         	octave.getOctaveVersion());
     }
     
