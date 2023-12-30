@@ -170,6 +170,8 @@ public class TestOctaveDouble {
      * that does not change when the original is changed.
      */
     @Test public void testShallowCopy() {
+        //assert false: "Provoke exception in test code";
+
         final OctaveDouble a = new OctaveDouble(1, 1);
         a.set(22, 1, 1);
         final OctaveDouble b = a.shallowCopy();
